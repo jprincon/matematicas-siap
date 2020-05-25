@@ -1,0 +1,33 @@
+<table class="table table-hover">
+    <thead class="table-success text-white">
+        <tr>
+            <th>No</th>
+            <th>Autor</th>
+            <th>Título</th>
+            <th>Tamaño</th>
+            <th>Tipo</th>
+            <th>Evaluación</th>
+            <th>Descargar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let resumen of resumenes; let id = index">
+            <td>{{ id + 1 }}</td>
+            <td>{{ resumen.nombreAutor}}</td>
+            <td>{{ resumen.titulo}}</td>
+            <td>{{ resumen.resumen.length}}</td>
+            <td>{{ resumen.tipo}}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" (click)="evaluarResumen(resumen)">{{ resumen.evaluado}}</button>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-success" (click)="descargar(resumen)">Descargar</button>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger" (click)="eliminar(resumen)">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

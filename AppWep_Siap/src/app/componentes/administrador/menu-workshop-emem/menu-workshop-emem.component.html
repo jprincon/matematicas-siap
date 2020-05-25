@@ -1,0 +1,59 @@
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="card card-shadow">
+            <div class="card-header bg-success">
+                <h3 class="card-title text-white text-center">Participantes</h3>
+            </div>
+
+            <div class="card-body puntero-manito" (click)="verMenu('participantes-emem')">
+                <p class="text-justify">Despliega la lista de participantes al evento Workshop EMEM 2019</p>
+
+                <img src="assets/Iconos/Participantes.svg" alt="" class="card-img-bottom">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-shadow">
+            <div class="card-header bg-success">
+                <h3 class="card-title text-white text-center">Resumenes</h3>
+            </div>
+
+            <div class="card-body puntero-manito" (click)="verMenu('resumenes-emem')">
+                <p class="text-justify">Muestra los resumenes del evento Workshop EMEM</p>
+
+                <img src="assets/Iconos/Resumenes.svg" alt="" class="card-img-bottom">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-shadow">
+            <div class="card-header bg-success">
+                <h3 class="card-title text-white text-center">Listas</h3>
+            </div>
+
+            <div class="card-body puntero-manito" (click)="descargarListas()">
+                <p class="text-justify">Descargar las listas de los talleres</p>
+
+                <img src="assets/Iconos/Resumenes.svg" alt="" class="card-img-bottom">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card card-shadow">
+            <div class="card-header bg-success">
+                <h3 class="card-title text-white text-center">Listas</h3>
+            </div>
+
+            <div class="card-body puntero-manito" (click)="descargarCertificadosUnificados()">
+                <p class="text-justify">Descargar la lista de ceritificados unificados</p>
+
+                <img src="assets/Iconos/Resumenes.svg" alt="" class="card-img-bottom">
+            </div>
+        </div>
+    </div>
+
+</div>

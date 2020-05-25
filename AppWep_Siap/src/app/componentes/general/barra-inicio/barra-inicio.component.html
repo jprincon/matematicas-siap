@@ -1,0 +1,53 @@
+<div class="row">
+
+    <div class="col-md-6 text-center">
+        <div class="m-3">
+            <img src="assets/Iconos/Descargar.svg" style="width: 96px;" alt="Nombre de la Imagen">
+            <h6>Nombre del menú en el cual nos encontramos</h6>
+        </div>
+    </div>
+
+    <div class="col-md-4 text-center">
+        <div class="m-3">
+            <h1>Sistema de Información </h1>
+        </div>
+    </div>
+
+    <div class="col-md-2 text-center">
+        <div class="m-3">
+            <img src="assets/Iconos/logo-uq.png" alt="Logo-UQ" style="width: 96px;">
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="#">
+        <h1 class="display-4">SIAP</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" routerLinkActive="active" *ngIf="verMenu">
+                <a class="nav-link puntero-manito" [routerLink]="['investigacion']">Investigación</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link puntero-manito" [routerLink]="['extension']">Extensión</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="verMenu">
+                <a class="nav-link puntero-manito" [routerLink]="['evaluacion']">Evaluación</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="verMenu">
+                <a class="nav-link puntero-manito" [routerLink]="['docentes']">Docentes</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="verMenu">
+                <a class="nav-link puntero-manito" [routerLink]="['estudiantes']">Estudiantes</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="verAdministrador">
+                <a class="nav-link puntero-manito" [routerLink]="['administrador']">Administrador</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<hr>

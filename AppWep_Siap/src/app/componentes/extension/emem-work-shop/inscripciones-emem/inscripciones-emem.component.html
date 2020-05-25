@@ -1,0 +1,134 @@
+<div style="margin-bottom: 100px; margin-top: 30px">
+
+    <div class="alert alert-success" role="alert">
+        <h3>Información Importante</h3>
+        <p class="text-justify">Si ya se encuentra registrado en el evento y necesita subir el resumen de su cursillo o poster, por favor inicie sesión con su documento y contraseña</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item puntero-manito">
+                    <a class="nav-link" [ngClass]="{'active': pest1}" (click)="pest1 = true; pest2 = false" style="font-weight: bold">Inscripciones</a>
+                </li>
+                <li class="nav-item puntero-manito">
+                    <a class="nav-link" [ngClass]="{'active': pest2}" (click)="pest1 = false; pest2=true">Iniciar Sesión</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body" *ngIf="pest1">
+            <form>
+                <div class="form-group">
+                    <label style="font-weight: bold">Documento de Identidad</label>
+                    <input type="email" class="form-control" placeholder="Documento de Identificación" (keyup)="validarDatos()" [(ngModel)]="usuario.cedula" name="cedula">
+                    <div class="alert alert-danger m-1" *ngIf="!documentoValido">Escriba un documento válido</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Correo Institucional</label>
+                    <input type="email" class="form-control" placeholder="Correo Institucional" (keyup)="validarDatos()" [(ngModel)]="usuario.correo" name="correo">
+                    <div class="alert alert-danger m-1" *ngIf="!correoValido">Escriba un correo institucional válido</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold" aria-describedby="nombreAyuda">Nombre (El cual usted desea que aparezca en el certificado)</label>
+                    <input type="text" class="form-control" placeholder="Ingrese su nombre" (keyup)="validarDatos()" [(ngModel)]="usuario.nombre" name="nombre">
+                    <div id="nombreAyuda" class="alert alert-danger m-1" *ngIf="!nombreValido">El nombre debe contener mas de 6 caractéres</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Afiliación</label>
+                    <select class="custom-select" [(ngModel)]="usuario.afiliacion" name="afiliación" (change)="validarDatos()">
+                      <option selected>Seleccione su afiliación</option>
+                      <option value="Estudiante">Estudiante</option>
+                      <option value="Docente">Docente</option>
+                      <option value="Graduado">Graduado</option>
+                    </select>
+                    <div class="alert alert-danger m-1" *ngIf="!afilValido">Especifique su afiliación al Programa de Licenciatura en Matemáticas</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Lugar donde trabaja</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el nombre del lugar donde trabaja" (keyup)="validarDatos()" [(ngModel)]="usuario.lugarTrabajo" name="lugarTrabajo">
+                    <div class="alert alert-danger m-1 puntero-manito" *ngIf="!lugarTrabajoValido" (click)="sinTrabajo()">Si no esta trabajando actualmente haga clic AQUI</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Tipo de participación</label>
+                    <select class="custom-select" [(ngModel)]="usuario.tipoParticipacion" name="tipoParticipancion" (change)="validarDatos()">
+                      <option selected>Seleccione un tipo de participación</option>
+                      <option value="Tallerista">Tallerista</option>
+                      <option value="Ponente-Poster">Ponente-Poster</option>
+                      <option value="Participante">Participante</option>
+                    </select>
+                    <div class="alert alert-danger m-1" *ngIf="!tipoPartValido">Debe seleccionar un tipo de participación</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Contraseña</label>
+                    <input type="password" class="form-control" placeholder="Contraseña" (keyup)="validarDatos()" [(ngModel)]="usuario.contra" name="contra">
+                    <div class="alert alert-danger m-1" *ngIf="!contraValida">La contraseña debe tener al menos 8 caracteres</div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Reescriba la contraseña</label>
+                    <input type="password" class="form-control" placeholder="Contraseña" (keyup)="validarDatos()" [(ngModel)]="verificacion" name="verificacion">
+                    <div class="alert alert-danger m-1" *ngIf="!constrasIguales">La contraseñas deben coincidir</div>
+                </div>
+
+                <button type="submit" class="btn btn-success float-right" [disabled]="!puedeInscribirse" (click)="inscribirse()">Inscribirse</button>
+            </form>
+        </div>
+
+        <div class="card-body" *ngIf="pest2">
+            <form *ngIf="!inicioSesion">
+                <h3 class="text-center">Iniciar Sesión</h3>
+                <hr>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Documento de Identidad</label>
+                    <input type="email" class="form-control" placeholder="Documento de Identificación" [(ngModel)]="usuarioInicio.cedula" name="cedula">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold">Contraseña</label>
+                    <input type="password" class="form-control" placeholder="Contraseña" [(ngModel)]="usuarioInicio.contra" name="contra">
+                </div>
+
+                <button class="float-right btn btn-warning" (click)="iniciarSesion()">Iniciar Sesión</button>
+            </form>
+
+            <div *ngIf="inicioSesion">
+                <h3 class="text-center">Usuario Activo en este Navegador</h3>
+                <hr>
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Cédula</th>
+                            <td>{{ usuarioNavegador.cedula }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ usuarioNavegador.nombre }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Correo</th>
+                            <td class="text-info">{{ usuarioNavegador.correo }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="float-right btn btn-warning m-2" (click)="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+
+            <br>
+            <br>
+            <div class="alert alert-success">
+                Si no se ha inscrito, lo invitamos a hacerlo <button (click)="pest1 = true; pest2 = false" class="btn btn-success">Inscribirse</button>
+            </div>
+        </div>
+    </div>
+
+</div>

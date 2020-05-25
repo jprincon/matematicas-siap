@@ -1,0 +1,101 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* COLORES */
+
+.bg-azul-1 {
+    background-color: #487AAF !important;
+}
+
+.bg-azul-2 {
+    background-color: #C1D4E5;
+}
+
+.bg-naranja-1 {
+    background-color: #FFCC00;
+}
+
+.text-azul-1 {
+    color: #2E3A6A;
+}
+
+.bg-azul-oscuro {
+    background: #1572BF !important;
+}
+
+.bg-azul-claro {
+    background: #138BEA !important;
+}
+
+.bg-azul-opaco {
+    background: #AFC7D8 !important;
+}
+
+.bg-azul-blanco {
+    background: #4BE1FF !important;
+}
+
+.bg-naranja {
+    background: #EF8017 !important;
+}
+
+.bg-rojo {
+    background: #F03B5E !important;
+}
+
+.bg-gris-1 {
+    background: #E9E9E9 !important;
+}
+
+.bg-gris-2 {
+    background: #48433D !important;
+}
+
+
+/* EFECTOS */
+
+.card-shadow {
+    box-shadow: 4px 4px 10px #666;
+}
+
+
+/* ELEMENTOS */
+
+footer {
+    bottom: 0px;
+    position: fixed;
+    width: 100%;
+}
+
+.puntero-manito {
+    cursor: pointer;
+}
+
+
+/* Animaciones */
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fast {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}

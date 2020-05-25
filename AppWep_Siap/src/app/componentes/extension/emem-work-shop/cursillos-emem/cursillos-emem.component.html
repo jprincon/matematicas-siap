@@ -1,0 +1,29 @@
+<div style="margin-bottom: 60px; margin-top: 20px">
+
+    <div class="alert alert-warning" role="alert" *ngIf="cursillos.length === 0">
+        <h3>No hay talleres disponibles</h3>
+        <hr>
+        <p class="text-justify">Aun no hay talleres registrados y aprobados por el comité Científico del Evento"</p>
+    </div>
+
+    <div class="alert alert-warning" *ngIf="inscripcion.inscrito === 'si'">
+        <h3>Inscripción</h3>
+        <hr>
+
+        <p class="text-justify">{{ inscripcion.respuesta}}</p>
+
+        <button class="btn btn-danger" (click)="cancelarInscripcion()" [disabled]="inscribirseTalleres === 'no'">Cancelar Inscripción</button>
+    </div>
+
+
+    <div class="card card-shadow m-3" *ngFor="let cursillo of cursillos; let id = index">
+        <h3 class="card-header bg-success text-white">Taller {{ id + 1 }}: Línea de {{ cursillo.linea }}</h3>
+        <div class="card-body">
+            <h5 class="card-title">{{ cursillo.titulo | capitalizado}}</h5>
+            <h6 class="text-primary">{{ cursillo.subtitulo }}</h6>
+            <p class="card-text text-justify">{{ cursillo.resumen | reducirTexto:300 }}</p>
+            <button class="btn btn-success" (click)="verCursillo(cursillo)">Ver Más ...</button>
+        </div>
+    </div>
+
+</div>

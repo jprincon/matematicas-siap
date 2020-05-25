@@ -1,0 +1,8 @@
+<h3 [ngClass]="{'text-danger': tipo === 'error', 'text-info':tipo==='info', 'text-warning': tipo === 'warning'}">{{ titulo | capitalizado}}</h3>
+<hr>
+
+<p class="text-justify" style="font-size: 24px">{{ mensaje }}</p>
+
+<hr>
+
+<button class="btn float-right" [ngClass]="{'btn-danger': tipo === 'error', 'btn-info':tipo==='info', 'btn-warning': tipo === 'warning'}" (click)="cerrar()">Entendido</button>

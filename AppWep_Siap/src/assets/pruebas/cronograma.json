@@ -1,0 +1,86 @@
+[{
+        "fecha": "Martes 5 de Noviembre",
+        "eventos": [{
+                "horaInicio": "4:00 pm",
+                "horaFin": "5:30 pm",
+                "titulo": "Inscripciones al evento",
+                "lugar": "Laboratorio Mads - Facultad de Ciencias de la Educación (F1) segundo piso"
+            },
+            {
+                "horaInicio": "6:00 pm",
+                "horaFin": "6:30 pm",
+                "titulo": "Inauguración del evento",
+                "lugar": "Auditorio Euclides Jaramillo Arango"
+            },
+            {
+                "horaInicio": "6:30 pm",
+                "horaFin": "7:20 pm",
+                "titulo": "Conferencia Central",
+                "lugar": "Auditorio Euclides Jaramillo Arango"
+            },
+            {
+                "horaInicio": "7:30 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "Refrigerio",
+                "lugar": "Facultad de Ciencias de la Educación (F1) - Programa de Licenciatura en Matemáticas - Tercer Piso"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:30 pm",
+                "titulo": "Talleres primera sesión",
+                "lugar": "Facultad de Ciencias de la Educación (F1)"
+            }
+        ]
+    },
+
+    {
+        "fecha": "Miércoles 6 de Noviembre",
+        "eventos": [{
+                "horaInicio": "6:00 pm",
+                "horaFin": "7:30 pm",
+                "titulo": "Muestra pedagógica y Posters",
+                "lugar": "Facultad de Ciencias de la Educación (F1)"
+            },
+            {
+                "horaInicio": "7:30 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "Refrigerio",
+                "lugar": "Facultad de Ciencias de la Educación (F1) - Programa de Licenciatura en Matemáticas - Tercer Piso"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:30 pm",
+                "titulo": "Talleres segunda sesión",
+                "lugar": "Facultad de Ciencias de la Educación (F1)"
+            }
+        ]
+    },
+    {
+        "fecha": "Jueves 7 de Noviembre",
+        "eventos": [{
+                "horaInicio": "6:00 pm",
+                "horaFin": "7:00 pm",
+                "titulo": "Ponencia: Configuración de las prácticas evaluativas de los profesores de matemáticas en instituciones universitarias colombianas",
+                "lugar": "Auditorio Euclides Jaramillo Arango"
+            },
+            {
+                "horaInicio": "7:00 pm",
+                "horaFin": "7:30 pm",
+                "titulo": "Exaltación a estudiantes, profesores y graduados de la Licenciatura en Matemáticas de la Universidad del Quindío.",
+                "lugar": "Auditorio Euclides Jaramillo Arango"
+            },
+            {
+                "horaInicio": "7:30 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "Refrigerio",
+                "lugar": "Auditorio Euclides Jaramillo"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:00 pm",
+                "titulo": "Acto cultural. Clausura del evento.",
+                "lugar": "Auditorio Euclides Jaramillo Arango"
+            }
+        ]
+    }
+]

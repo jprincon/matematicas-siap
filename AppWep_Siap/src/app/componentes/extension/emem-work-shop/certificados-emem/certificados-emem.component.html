@@ -1,0 +1,41 @@
+<div style="margin-bottom: 120px; margin-top: 30px">
+
+    <div class="alert alert-warning">
+        <h3>Nota</h3>
+        <hr>
+
+        <p class="text-justify">Si al momento de inscribirse al evento, digitó mal su documento, debe dirigirse al programa de Licenciatura en Matemáticas para solicitar el cambio de documento en la base de datos</p>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label style="font-weight: bold">Documento de Identidad</label>
+            <input type="text" class="form-control" placeholder="Ingrese su documento de Identificación" [(ngModel)]="documento" name="documento">
+            <small id="emailHelp" class="form-text text-muted">Corresponde al documento con el cual se inscribió al evento</small>
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold">Escriba su Nombre (Este será el que aparezca en los Certificados)</label>
+            <input type="text" class="form-control" placeholder="Ingrese su nombre" [(ngModel)]="nombre" name="nombre">
+            <small id="emailHelp" class="form-text text-muted">Corresponde al documento con el cual se inscribió al evento</small>
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold">Correo</label>
+            <input type="text" class="form-control" placeholder="Correo" [(ngModel)]="correo" name="correo">
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold">Año de participación</label>
+            <select class="custom-select" [(ngModel)]="fecha" name="fecha">
+              <option selected>Seleccione un año...</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn btn-success float-right" style="margin-top: 10px" (click)="buscarCertificado()">Buscar Certificado</button>
+
+    </form>
+
+</div>

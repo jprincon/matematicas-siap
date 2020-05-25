@@ -1,0 +1,22 @@
+<div style="margin-bottom: 60px">
+
+    <div class="card card-shadow" *ngFor="let dia of cronograma" style="margin: 30px">
+        <div class="card-header bg-gris-1">
+            <h3 class="text-center">{{ dia.fecha }}</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="media" *ngFor="let evento of dia.eventos">
+                <div class="bg-azul-oscuro text-white" style="width: 128px; padding: 10px">
+                    <h3>{{ evento.horaInicio }}</h3>
+                    <h3>{{ evento.horaFin }}</h3>
+                </div>
+                <div class="media-body" style="margin: 20px">
+                    <h5 class="mt-0">{{ evento.titulo }}</h5>
+                    <p><b>Lugar:</b> {{ evento.lugar | uppercase }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

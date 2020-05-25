@@ -1,0 +1,59 @@
+<div class="row" style="margin-top: 30px">
+
+    <div class="col-md-4">
+        <div class="alert alert-info" role="alert">
+            <h3>Plantilla del Poster</h3>
+            <hr> Para descargar la plantilla del poster haga clic en descargar
+
+            <a class="btn btn-info" href="http://201.185.240.142/downloads/PosterEMEM2019.rar">Descargar Plantilla</a>
+        </div>
+
+        <div class="alert alert-success" role="alert">
+            <h3>Apreciado participante ...</h3>
+            <hr>
+
+            <p class="text-justify">Actualmente cuenta usted con ({{ cantidadResumenes }}) resúmenes en la lista</p>
+            <p class="text-justify">Sus datos de sesión son los siguientes:</p>
+
+            <p><b>Cédula: </b>{{ usuario.cedula }}</p>
+            <p><b>Nombre: </b>{{ usuario.nombre }}</p>
+            <p><b>Correo: </b>{{ usuario.correo }}</p>
+            <p><b>Tipo de Participación: </b>{{ usuario.tipoParticipacion }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        <button class="btn btn-warning m-3 float-right" *ngIf="puedeCrearResumen" [disabled]="permite === 'no'" (click)="crearResumen()">Crear Resumen</button>
+
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>No</th>
+                    <th>Título</th>
+                    <th>Estado</th>
+                    <th>Ver</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let resumen of resumenes; let id = index">
+                    <th>{{ id + 1 }}</th>
+                    <td>{{ resumen.titulo }}</td>
+                    <td>{{ resumen.evaluado }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" (click)="ver(resumen)">Ver</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" (click)="editar(resumen)" [disabled]="resumen.evaluado === 'Aceptado'">Editar</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="eliminar(resumen)" [disabled]="resumen.evaluado === 'Aceptado'">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

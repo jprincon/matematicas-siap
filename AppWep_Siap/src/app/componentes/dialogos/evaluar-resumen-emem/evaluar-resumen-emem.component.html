@@ -1,0 +1,37 @@
+<h3>Evaluación de Resumenes</h3>
+<hr>
+
+<form>
+    <div class="form-group">
+        <label style="font-weight: bold">Asunto</label>
+        <input type="text" class="form-control" [(ngModel)]="correo.asunto" name="asunto" placeholder="Ingrese el asunto del correo">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Destinatario</label>
+        <input type="text" class="form-control" [(ngModel)]="correo.correo" name="correo" placeholder="Ingrese el correo del destinatario">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Mensaje</label>
+        <textarea type="text" class="form-control" [(ngModel)]="correo.mensaje" name="mensaje" placeholder="Ingrese el mensaje para el participante"></textarea>
+    </div>
+
+    <hr>
+
+    <h4>Calificación</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-success m-2 btn-block" (click)="evaluacion('Aceptado')" style="height: 60px;">Aceptado</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-warning m-2 btn-block" (click)="evaluacion('Aceptado con Modificaciones')" style="height: 60px;">Aceptado con Modificaciones</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-danger m-2 btn-block" (click)="evaluacion('En Revisión')" style="height: 60px;">Recibido para Revisión</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-danger m-2 btn-block" (click)="evaluacion('Rechazado')" style="height: 60px;">Rechazado</button>
+        </div>
+    </div>
+</form>

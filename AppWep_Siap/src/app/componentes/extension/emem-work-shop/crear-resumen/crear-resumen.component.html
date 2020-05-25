@@ -1,0 +1,245 @@
+<div class="m-3" style="margin-bottom: 120px; padding-bottom: 60px">
+    <form class="form-group">
+        <div class="form-group">
+            <label style="font-weight: bold">Título</label>
+            <input class="form-control" [(ngModel)]="resumen.titulo" name="titulo" placeholder="Especifíque el título del taller o poster">
+            <small class="text-danger" *ngIf="resumen.titulo.length === 0">Por favor especifíque un título</small>
+        </div>
+
+        <label style="font-weight: bold">Autores</label>
+        <div class="card bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-hover m-3 table-responsive">
+                        <thead class="table-success">
+                            <tr>
+                                <th>No</th>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let autor of autores; let id = index">
+                                <td>{{ id + 1 }}</td>
+                                <td>{{ autor.cedula }}</td>
+                                <td>{{ autor.nombre }}</td>
+                                <td>{{ autor.correo }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" (click)="editarAutor(autor)">Editar</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="eliminarAutor(autor)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="m-3">
+                        <h3>Agregar Autor</h3>
+                        <hr>
+                        <div class="form-group">
+                            <label style="font-weight: bold">Cédula o Documento</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" [(ngModel)]="autor.cedula" name="cedula" placeholder="Cédula del Autor">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" (click)="buscarAutor()">Buscar Autor</button>
+                                </div>
+                            </div>
+                            <small class="text-danger" *ngIf="autor.cedula.length === 0">El número de documento es requerido.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: bold">Nombre</label>
+                            <input class="form-control" [(ngModel)]="autor.nombre" name="nombre" placeholder="Nombre del Autor">
+                            <small class="text-danger" *ngIf="autor.nombre.length === 0">El nombre completo es requerido</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: bold">Correo</label>
+                            <input class="form-control" [(ngModel)]="autor.correo" name="correo" placeholder="Correo electrónico">
+                            <small class="text-danger" *ngIf="autor.correo.length === 0">El correo es requerido</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-weight: bold">Institución</label>
+                            <input class="form-control" [(ngModel)]="autor.institucion" name="institucion" placeholder="Institución">
+                            <small class="text-danger" *ngIf="autor.institucion.length === 0">La Institución es requerida</small>
+                        </div>
+
+                        <button class="m-3 btn btn-primary float-left" (click)="agregarAutor()">{{ accionAutor }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <label style="font-weight: bold">Palabras Clave</label>
+        <div class="card bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-hover m-3">
+                        <thead class="table-success">
+                            <tr>
+                                <th>No</th>
+                                <th>Palabra Clave</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let palabra of palabrasClave; let id = index">
+                                <td>{{ id + 1 }}</td>
+                                <td>{{ palabra.palabra }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" (click)="editarPalabra(palabra)">Editar</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="eliminarPalabra(palabra)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="m-3">
+                        <h3>Agregar Palabra Clave</h3>
+                        <hr>
+                        <div class="form-group">
+                            <label style="font-weight: bold">Palabra clave</label>
+                            <input class="form-control" [(ngModel)]="palabraClave.palabra" name="palabra" placeholder="Ingrese la palabra clave">
+                            <small class="text-danger" *ngIf="palabraClave.palabra.length === 0">El campo no puede quedar vacio</small>
+                        </div>
+
+                        <button class="m-3 btn btn-primary float-left" (click)="agregarPalabra()">{{ accionPalabra }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <label style="font-weight: bold">Tipo</label>
+            <select class="custom-select" [(ngModel)]="resumen.tipo" name="tipo">
+              <option select>Seleccione el tipo de resumen</option>
+              <option value="Taller">Taller</option>
+              <option value="Poster">Póster</option>
+              <option value="Stand">Stand (Muestra pedagógica)</option>
+            </select>
+            <small class="text-danger" *ngIf="resumen.tipo.length === 0">Debe seleccionar un tipo de resumen</small>
+        </div>
+
+        <div class="form-group">
+            <label style="font-weight: bold">Línea</label>
+            <select class="custom-select" [(ngModel)]="resumen.linea" name="linea">
+              <option select>Seleccione una linea</option>
+              <option value="Educación Matemática">Educación Matemática</option>
+              <option value="Estadística">Estadística</option>
+              <option value="Matemática Aplicada">Matemática Aplicada</option>
+            </select>
+            <small class="text-danger" *ngIf="resumen.linea.length === 0">Es necesario determinar una línea</small>
+        </div>
+
+        <div class="form-group">
+            <div class="alert alert-success">
+                <h5>Nota Importante</h5>
+                <hr>
+                <p class="text-justify">Si su resumen contiene formulas, matrices, sistemas o ecuaciones puede pegar aquí código LaTeX</p>
+            </div>
+            <label style="font-weight: bold" [ngClass]="{'text-danger': resumen.resumen.length > 7500, 'text-black': !(resumen.resumen.length > 7500)}">Contenido ({{ resumen.resumen.length }}/4500 Caractéres)</label>
+            <textarea rows="12" class="form-control" [(ngModel)]="resumen.resumen" name="resumen" placeholder="Contenido"></textarea>
+            <small class="text-danger" *ngIf="!(resumen.resumen.length > 7500)">La cantidad máxima de caractéres es de 4500</small>
+        </div>
+
+        <div class="form-group" *ngIf="resumen.tipo === 'Taller'">
+            <label style="font-weight: bold" [ngClass]="{'text-danger': resumen.objetivo.length > 250, 'text-black': !(resumen.objetivo.length > 250)}">Objetivo ({{ resumen.objetivo.length }}/250 Caractéres)</label>
+            <textarea rows="3" class="form-control" [(ngModel)]="resumen.objetivo" name="objetivo" placeholder="Objetivo del taller"></textarea>
+            <small class="text-danger" *ngIf="resumen.objetivo.length === 0">Por favor especifíque el objetivo del Taller</small>
+        </div>
+
+        <div class="form-group" *ngIf="resumen.tipo === 'Taller'">
+            <label style="font-weight: bold">Capacidad (Cuántas personas se admiten en su taller)</label>
+            <input class="form-control" [(ngModel)]="resumen.capacidad" name="capacidad" placeholder="Cantidad de participantes">
+            <small class="text-danger" *ngIf="resumen.capacidad.length === 0">Especifíque la cantidad de personas que se pueden registrar en el taller</small>
+        </div>
+
+        <div class="form-group" *ngIf="resumen.tipo === 'Taller'">
+            <label style="font-weight: bold" [ngClass]="{'text-danger': resumen.objetivo.length > 250, 'text-black': !(resumen.objetivo.length > 250)}">Materiales (¿Necesita algún tipo de material para el taller?) ({{ resumen.materiales.length }}/250 Caractéres)</label>
+            <textarea rows="3" class="form-control" [(ngModel)]="resumen.materiales" name="materiales" placeholder="Materiales del taller"></textarea>
+            <small class="text-danger" *ngIf="resumen.objetivo.length === 0">Por favor especifíque los materiales</small>
+        </div>
+
+        <div class="form-group" *ngIf="resumen.tipo === 'Taller'">
+            <label style="font-weight: bold" [ngClass]="{'text-danger': resumen.prerequisito.length > 250, 'text-black': !(resumen.prerequisito.length > 250)}">Prerequisitos (¿Los participantes deben contar con algun concepto previo?) ({{ resumen.prerequisito.length }}/250 Caractéres)</label>
+            <textarea rows="3" class="form-control" [(ngModel)]="resumen.prerequisito" name="prerequisito" placeholder="Prerequisitos para el taller"></textarea>
+            <small class="text-danger" *ngIf="resumen.prerequisito.length === 0">Si el taller no tiene prerequisitos, escriba (Ninguno)</small>
+        </div>
+
+        <div class="form-group" *ngIf="resumen.tipo === 'Taller'">
+            <label style="font-weight: bold">¿Requiere de una sala de computadores?</label>
+            <select class="custom-select" [(ngModel)]="resumen.requiereSala" name="requiereSala">
+              <option select>Seleccione una opción</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+            <small class="text-danger" *ngIf="resumen.requiereSala.length === 0">Es necesario si necesita sala o no</small>
+        </div>
+
+        <label style="font-weight: bold">Bibliografía (En Normas APA)</label>
+        <div class="card bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table table-hover m-3">
+                        <thead class="table-success">
+                            <tr>
+                                <th>No</th>
+                                <th>Referencia</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let referencia of referencias; let id = index">
+                                <td>{{ id + 1 }}</td>
+                                <td>{{ referencia.bibliografia }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm" (click)="editarReferencia(referencia)">Editar</button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="eliminarReferencia(referencia)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="m-3">
+                        <h3>Agregar Referencia</h3>
+                        <hr>
+                        <div class="form-group">
+                            <label style="font-weight: bold">Referencia</label>
+                            <input class="form-control" [(ngModel)]="referencia.bibliografia" name="bibliografia" placeholder="Referencia">
+                            <small class="text-danger" *ngIf="referencia.bibliografia.length === 0">Debe ingresar una referencia</small>
+                        </div>
+
+                        <button class="m-3 btn btn-primary float-left" (click)="agregarReferencia()">{{ accionReferencia }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-success float-right m-3" (click)="guardarResumen()">Guardar Resumen</button>
+
+    </form>
+</div>

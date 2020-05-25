@@ -1,0 +1,29 @@
+<form>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Cédula</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.cedula" name="cedula" (keyup)="validarDatos()" placeholder="Ingrese la cédula del usuario">
+        <small class="text-danger" role="alert" *ngIf="!cedulaValida">Ingrese un número de cédula valido</small>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.nombre" name="nombre" (keyup)="validarDatos()" placeholder="Ingrese el nombre del usuario">
+        <small class="text-danger" role="alert" *ngIf="!nombreValido">La extensión del nombre debe ser mas de seis caracteres</small>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Correo</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.correo" name="correo" (keyup)="validarDatos()" placeholder="Ingrese el correo del usuario">
+        <small class="text-danger" role="alert" *ngIf="!correoValido">Ingrese un correo valido</small>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold">Contraseña</label>
+        <input type="text" class="form-control" [(ngModel)]="usuario.contra" name="contra" (keyup)="validarDatos()" placeholder="Ingrese una contraseña para el usuario">
+        <small class="text-danger" role="alert" *ngIf="!contraValida">La extensión de la contraseña debe ser mas de ocho caracteres</small>
+    </div>
+
+    <button class="btn btn-warning" (click)="crearUsuario()" [disabled]="!puedeGuardar">Guardar datos del Ususario</button>
+
+</form>

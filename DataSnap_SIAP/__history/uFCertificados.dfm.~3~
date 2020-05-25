@@ -1,0 +1,68 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 802
+  ClientWidth = 1256
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 19
+  object paginaControl: TPageControl
+    Left = 0
+    Top = 0
+    Width = 1256
+    Height = 802
+    ActivePage = TabParticipante
+    Align = alClient
+    TabOrder = 0
+    object TabParticipante: TTabSheet
+      Caption = 'Certiciado de Participante'
+      ExplicitTop = 24
+      ExplicitHeight = 774
+      object ScrollBox1: TScrollBox
+        Left = 0
+        Top = 0
+        Width = 1248
+        Height = 768
+        VertScrollBar.Position = 28
+        Align = alClient
+        BorderStyle = bsNone
+        TabOrder = 0
+        object Participante: TPRPage
+          Left = 10
+          Top = -18
+          Width = 1024
+          Height = 786
+          MarginTop = 32
+          MarginLeft = 32
+          MarginRight = 32
+          MarginBottom = 32
+          object pn1: TPRLayoutPanel
+            Left = 33
+            Top = 33
+            Width = 958
+            Height = 720
+            Align = alClient
+            ExplicitLeft = 424
+            ExplicitTop = 224
+            ExplicitWidth = 217
+            ExplicitHeight = 137
+            object img1: TPRImage
+              Left = 0
+              Top = 0
+              Width = 959
+              Height = 720
+              SharedImage = True
+            end
+          end
+        end
+      end
+    end
+  end
+end

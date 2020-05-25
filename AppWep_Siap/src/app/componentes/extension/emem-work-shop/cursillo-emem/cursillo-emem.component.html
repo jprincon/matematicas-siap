@@ -1,0 +1,111 @@
+<div class="m-3" style="margin-bottom: 150px;">
+    <h3 class="text-center">{{ taller.titulo | capitalizado}}</h3>
+    <h4 class="text-center">{{ taller.subtitulo}}</h4>
+    <hr>
+
+    <h4>Talleristas</h4>
+    <table class="table table-hover">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th>No</th>
+                <th>Nombre del Tallerista</th>
+                <th>Institución</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let autor of autores; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ autor.nombre }}</td>
+                <td>{{ autor.institucion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="list-group list-group-flush" style="margin-bottom: 40px;">
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/capacidad.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Capacidad</h5>
+                    <p class="text-justify">{{ taller.capacidad }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/salon.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Lugar del Taller</h5>
+                    <p class="text-justify">{{ taller.salon }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/grupo.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Línea</h5>
+                    <p class="text-justify">{{ taller.linea }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/objetivo.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Objetivo</h5>
+                    <p class="text-justify">{{ taller.objetivo }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/resumen.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Resumen</h5>
+                    <p class="text-justify">{{ taller.resumen }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/materiales.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Materiales</h5>
+                    <p class="text-justify">{{ taller.materiales }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/prerequisito.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Prerequesitos</h5>
+                    <p class="text-justify">{{ taller.prerequisito }}</p>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item-action list-group-item">
+            <div class="media">
+                <img src="assets/Imagenes/inscripcion.svg" class="align-self-start mr-3" alt="..." style="width: 72px;">
+                <div class="media-body">
+                    <h5 class="mt-0">Inscripciones</h5>
+                    <hr>
+                    <h1>{{ estadisticas.cupo }} Cupos de {{ estadisticas.capacidad }}</h1>
+                    <p class="text-justify">Para inscribirse al taller haga clic en el botón</p>
+                    <button class="btn btn-success" (click)="inscribirse()" [disabled]="inscribirseTalleres === 'no'">Inscribirse</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+</div>

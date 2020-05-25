@@ -1,0 +1,61 @@
+object FResumenes: TFResumenes
+  Left = 0
+  Top = 0
+  Caption = 'Exportar Resumenes'
+  ClientHeight = 799
+  ClientWidth = 826
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 19
+  object seResumen: TSynEdit
+    Left = 0
+    Top = 0
+    Width = 826
+    Height = 772
+    Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Courier New'
+    Font.Style = []
+    TabOrder = 0
+    CodeFolding.GutterShapeSize = 11
+    CodeFolding.CollapsedLineColor = clGrayText
+    CodeFolding.FolderBarLinesColor = clGrayText
+    CodeFolding.IndentGuidesColor = clGray
+    CodeFolding.IndentGuides = True
+    CodeFolding.ShowCollapsedLine = False
+    CodeFolding.ShowHintMark = True
+    UseCodeFolding = False
+    Gutter.Font.Charset = DEFAULT_CHARSET
+    Gutter.Font.Color = clWindowText
+    Gutter.Font.Height = -11
+    Gutter.Font.Name = 'Courier New'
+    Gutter.Font.Style = []
+    Lines.Strings = (
+      'seResumen')
+    FontSmoothing = fsmNone
+    ExplicitLeft = 128
+    ExplicitTop = 152
+    ExplicitWidth = 257
+    ExplicitHeight = 289
+  end
+  object edRuta: TEdit
+    Left = 0
+    Top = 772
+    Width = 826
+    Height = 27
+    Align = alBottom
+    TabOrder = 1
+    Text = 'C:\xampp\htdocs\downloads\resumenes-emem'
+    ExplicitLeft = 248
+    ExplicitTop = 440
+    ExplicitWidth = 73
+  end
+end

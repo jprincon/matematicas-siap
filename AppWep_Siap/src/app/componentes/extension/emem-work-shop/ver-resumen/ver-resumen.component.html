@@ -1,0 +1,28 @@
+<div class="m-3" style="margin-bottom: 100px; padding-bottom: 50px">
+    <h1 class="text-center">{{ resumen.titulo | uppercase}}</h1>
+    <h3 class="text-center">Tipo de Participación: {{ resumen.tipo }}</h3>
+    <h5 class="text-center">Línea: {{ resumen.linea }}</h5>
+
+    <br>
+
+    <h6 class="text-center" *ngFor="let autor of autores"> {{ autor.nombre }}, {{ autor.correo }} </h6>
+
+    <br>
+
+    <h5>Palabras Clave</h5>
+
+    <ul>
+        <li *ngFor="let palabra of palabrasClave">{{ palabra.palabra }}</li>
+    </ul>
+
+    <p class="text-justify">{{ resumen.resumen }}</p>
+
+    <br>
+
+    <h3>Referencias</h3>
+
+    <ul>
+        <li *ngFor="let referencia of referencias">{{ referencia.bibliografia }}</li>
+    </ul>
+
+</div>

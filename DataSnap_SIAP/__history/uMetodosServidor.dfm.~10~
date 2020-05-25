@@ -1,0 +1,40 @@
+object Matematicas: TMatematicas
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 492
+  Width = 632
+  object Conexion: TFDConnection
+    Params.Strings = (
+      'Database=matematicas'
+      'User_Name=postgres'
+      'Password=postgres'
+      'CharacterSet=UTF8'
+      'DriverID=PG')
+    FetchOptions.AssignedValues = [evRowsetSize]
+    FetchOptions.RowsetSize = 1000000
+    LoginPrompt = False
+    Left = 40
+    Top = 32
+  end
+  object Query: TFDQuery
+    Connection = Conexion
+    Left = 272
+    Top = 112
+  end
+  object DireccionLibreria: TFDPhysPgDriverLink
+    DriverID = 'PG'
+    VendorLib = 'libpq.dll'
+    Left = 440
+    Top = 248
+  end
+  object Query2: TFDQuery
+    Connection = Conexion
+    Left = 400
+    Top = 80
+  end
+  object Query3: TFDQuery
+    Connection = Conexion
+    Left = 272
+    Top = 288
+  end
+end

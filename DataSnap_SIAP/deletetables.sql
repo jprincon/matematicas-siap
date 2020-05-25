@@ -1,0 +1,10 @@
+﻿drop table if exists saem_rol,
+saem_usuario,
+saem_aplicacion,
+saem_usuario_aplicacion,
+saem_grupo,
+saem_usuario_grupo,
+saem_materia,
+saem_usuario_materia,
+saem_curso,
+saem_usuario_curso

@@ -1,0 +1,8 @@
+<h3 class="text-success">{{ titulo }}</h3>
+<hr>
+
+<form class="form-group">
+    <label>{{ mensaje }}</label>
+    <input type="text" class="form-control" [(ngModel)]="valor" name="valor" placeholder="">
+    <button class="btn btn-success float-right m-3" (click)="guardar()">Guardar</button>
+</form>

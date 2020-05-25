@@ -1,0 +1,48 @@
+<div class="row m-3">
+    <div class="col-md-3">
+        <div class="card card-shadow puntero-manito" (click)="descargarLista()">
+            <div class="card-header bg-success text-center text-white">
+                <h4 class="card-title">Descargar</h4>
+            </div>
+
+            <img src="assets/Iconos/Descargar.svg" class="center mx-auto" style="width: 40%; margin: 10px;">
+
+            <div class="card-body">
+                <p class="text-justify">Descarga la lista de participantes</p>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<table class="table table-hover">
+
+    <thead class="table-success">
+        <tr>
+            <th>No</th>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Ver</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let participante of participantes; let id = index">
+            <td>{{ id + 1 }}</td>
+            <td>{{ participante.cedula }}</td>
+            <td>{{ participante.nombre }}</td>
+            <td>
+                <button class="btn btn-sm btn-success" (click)="ver(participante)">Ver</button>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-warning" (click)="editar(participante)">Editar</button>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-danger" (click)="eliminar(participante)">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

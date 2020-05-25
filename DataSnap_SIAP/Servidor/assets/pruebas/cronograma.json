@@ -1,0 +1,113 @@
+[{
+        "fecha": "15 de Octubre",
+        "eventos": [{
+                "horaInicio": "6:15 pm",
+                "horaFin": "7:15 pm",
+                "titulo": "Conferencia Inaugural: Diana Lucia Villamil",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:15 pm",
+                "horaFin": "7:45 pm",
+                "titulo": "PREMIO POLYA AL DOCENTE DESTACADO DEL PROGRAMA Y EXHALTACIÓN A LOS MEJORES ESTUDIANTES",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:45 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "REFRIGERIO",
+                "lugar": "PROGRAMA DE LICENCIATURA EN MATEMÁTICAS"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:45 pm",
+                "titulo": "PÓSTERS",
+                "lugar": "PASILLO TERCER PISO FACULTAD DE EDUCACIÓN"
+            }
+        ]
+    },
+    {
+        "fecha": "15 de Octubre",
+        "eventos": [{
+                "horaInicio": "6:15 pm",
+                "horaFin": "7:15 pm",
+                "titulo": "Conferencia Inaugural: Diana Lucia Villamil",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:15 pm",
+                "horaFin": "7:45 pm",
+                "titulo": "PREMIO POLYA AL DOCENTE DESTACADO DEL PROGRAMA Y EXHALTACIÓN A LOS MEJORES ESTUDIANTES",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:45 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "REFRIGERIO",
+                "lugar": "PROGRAMA DE LICENCIATURA EN MATEMÁTICAS"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:45 pm",
+                "titulo": "PÓSTERS",
+                "lugar": "PASILLO TERCER PISO FACULTAD DE EDUCACIÓN"
+            }
+        ]
+    },
+    {
+        "fecha": "15 de Octubre",
+        "eventos": [{
+                "horaInicio": "6:15 pm",
+                "horaFin": "7:15 pm",
+                "titulo": "Conferencia Inaugural: Diana Lucia Villamil",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:15 pm",
+                "horaFin": "7:45 pm",
+                "titulo": "PREMIO POLYA AL DOCENTE DESTACADO DEL PROGRAMA Y EXHALTACIÓN A LOS MEJORES ESTUDIANTES",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:45 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "REFRIGERIO",
+                "lugar": "PROGRAMA DE LICENCIATURA EN MATEMÁTICAS"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:45 pm",
+                "titulo": "PÓSTERS",
+                "lugar": "PASILLO TERCER PISO FACULTAD DE EDUCACIÓN"
+            }
+        ]
+    },
+    {
+        "fecha": "15 de Octubre",
+        "eventos": [{
+                "horaInicio": "6:15 pm",
+                "horaFin": "7:15 pm",
+                "titulo": "Conferencia Inaugural: Diana Lucia Villamil",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:15 pm",
+                "horaFin": "7:45 pm",
+                "titulo": "PREMIO POLYA AL DOCENTE DESTACADO DEL PROGRAMA Y EXHALTACIÓN A LOS MEJORES ESTUDIANTES",
+                "lugar": "AUDITORIO EUCLIDES JARAMILLO"
+            },
+            {
+                "horaInicio": "7:45 pm",
+                "horaFin": "8:00 pm",
+                "titulo": "REFRIGERIO",
+                "lugar": "PROGRAMA DE LICENCIATURA EN MATEMÁTICAS"
+            },
+            {
+                "horaInicio": "8:00 pm",
+                "horaFin": "9:45 pm",
+                "titulo": "PÓSTERS",
+                "lugar": "PASILLO TERCER PISO FACULTAD DE EDUCACIÓN"
+            }
+        ]
+    }
+]
