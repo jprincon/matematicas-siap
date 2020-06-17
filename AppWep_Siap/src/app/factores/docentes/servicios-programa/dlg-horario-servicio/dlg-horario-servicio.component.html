@@ -1,0 +1,43 @@
+<h1>Crear/Editar un HorarioServicio</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Horario Servicio ...</h3>
+    <h4 class="text-danger">Intento {{ contIntentos }} de 3</h4>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Horario Servicio ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarHorarioServicio()">
+    <div class="form-group">
+        <label style="font-weight: bold;">Día</label>
+        <select class="custom-select" required [(ngModel)]="horarioservicio.dia" name="dia">
+          <option *ngFor="let dia of dias" [value]="dia">{{dia | capitalizado}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Hora de Inicio</label>
+        <select class="custom-select" required [(ngModel)]="horarioservicio.inicio" name="inicio">
+          <option *ngFor="let hora of horas" [value]="hora">{{hora}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Hora de Fin</label>
+        <select class="custom-select" required [(ngModel)]="horarioservicio.fin" name="fin">
+          <option *ngFor="let hora of horas" [value]="hora">{{hora}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Id Servicio Programa</label>
+        <input type="text" required class="form-control" disabled [(ngModel)]="horarioservicio.idservicioprograma" name="idservicioprograma">
+    </div>
+
+    <button class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

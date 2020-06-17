@@ -1,0 +1,21 @@
+<h1>Crear/Editar un Facultad</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Facultad ...</h3>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Facultad ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo">
+    <div class="form-group">
+        <label style="font-weight: bold;">Facultad</label>
+        <input type="text" class="form-control" [(ngModel)]="facultad.facultad" name="facultad">
+    </div>
+
+    <button (click)="guardarFacultad()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

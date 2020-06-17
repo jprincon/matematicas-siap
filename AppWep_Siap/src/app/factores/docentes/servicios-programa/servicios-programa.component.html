@@ -1,0 +1,84 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Servicios Programas ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <div class="row">
+        <!-- %%%%%%% Filtras Búsqueda por Periodo %%%%%%% -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="font-weight-bold">Periodo</label>
+                <select [(ngModel)]="periodo" name="periodo" required class="custom-select" (change)="leerServiciosPrograma()">
+                  <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- %%%%%%% Filtrar Búsqueda por Columna %%%%%%% -->
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="font-weight-bold">Ordenar Por</label>
+                <select [(ngModel)]="ordenarPor" name="ordenarPor" required class="custom-select" (change)="leerServiciosPrograma()">
+                  <option [value]="ordenar" *ngFor="let ordenar of aOrdenarPor" >{{ordenar | capitalizado}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-outline-success float-right" (click)="agregarServicioPrograma()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Servicio</button>
+
+    <table class="table table-hover puntero-manito">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Asignatura</th>
+                <th>Programa</th>
+                <th>Horas</th>
+                <th>Semanas</th>
+                <th>Aulas</th>
+                <th>Horario</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let servicioprograma of ServiciosPrograma; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ servicioprograma.asignatura | capitalizado }}</td>
+                <td>{{ servicioprograma.programa | capitalizado }}</td>
+                <td>{{ servicioprograma.horas }}</td>
+                <td>{{ servicioprograma.semanas }}</td>
+                <td>{{ servicioprograma.aulas | capitalizado }}</td>
+                <td>
+                    <table class="table">
+                        <tbody>
+                            <tr *ngFor="let horario of servicioprograma.horarios">
+                                <td style="width: 100px;">{{ horario.dia | capitalizado }} de</td>
+                                <td style="width: 90px;">{{ horario.inicio }}</td>
+                                <td style="width: 10px;">a</td>
+                                <td style="width: 100px;">{{ horario.fin }}</td>
+                                <td style="width: 100px;">({{ horario.total }} Horas)</td>
+                                <td style="width: 60px;">
+                                    <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarHorarioServicio(horario)">
+                                </td>
+                                <td style="width: 60px;">
+                                    <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarHorarioServicio(horario)">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+                </td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarServicioPrograma(servicioprograma)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarServicioPrograma(servicioprograma)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

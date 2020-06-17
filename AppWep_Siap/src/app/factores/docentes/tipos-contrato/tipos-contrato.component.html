@@ -1,0 +1,35 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Tipos Contrato ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <button class="btn btn-outline-success float-right" (click)="agregarTipoContrato()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar TipoContrato</button>
+
+    <table class="table table-hover puntero-manito">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Nombre</th>
+                <th>Horas</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let tipocontrato of TiposContrato; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ tipocontrato.contrato | capitalizado}}</td>
+                <td>{{ tipocontrato.horas }}</td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTipoContrato(tipocontrato)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTipoContrato(tipocontrato)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

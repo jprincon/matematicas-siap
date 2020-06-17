@@ -1,0 +1,37 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Errores ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <table class="table table-hover puntero-manito">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Hora</th>
+                <th>Fecha</th>
+                <th>Procedimiento</th>
+                <th>Mensaje</th>
+                <th>Eliminar</th>
+                <th>Eliminar por Mensaje</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let error of Errores; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ error.hora }}</td>
+                <td>{{ error.fecha }}</td>
+                <td>{{ error.procedimiento }}</td>
+                <td>{{ error.mensaje }}</td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarError(error)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarErrorPorMensaje(error)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

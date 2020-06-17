@@ -1,0 +1,90 @@
+<h1>Servicios</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo AgendasServicio ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <div>
+        <table class="table table-hover puntero-manito">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Asignatura</th>
+                    <th>Programa</th>
+                    <th>Horas</th>
+                    <th>Observación</th>
+                    <th>Horario</th>
+                    <th>Seleccionar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="input-group mb-3">
+                            <input class="form-control" type="text" (keyup)="buscarAsignatura()" [(ngModel)]="terminoAsignatura" name="terminoAsignatura">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="borrarBusquedaAsignatura()"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group mb-3">
+                            <input class="form-control" type="text" (keyup)="buscarPrograma()" [(ngModel)]="terminoPrograma" name="terminoPrograma">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" (click)="borrarBusquedaPrograma()"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td>
+                        <select [(ngModel)]="verServicios" name="verServicios" class="custom-select" (change)="mostrarServicios()">
+                          <option value="">Disponibilidad ...</option>
+                          <option value="Todas">Todas</option>
+                          <option value="Libres">Solamente Libres</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr *ngFor="let servicioprograma of bServiciosPrograma; let id = index">
+                    <td>{{ id + 1 }}</td>
+                    <td>{{ servicioprograma.asignatura | capitalizado }}</td>
+                    <td>{{ servicioprograma.programa | capitalizado }}</td>
+                    <td>{{ servicioprograma.horas }}</td>
+                    <td class="text-danger font-weight-bold">{{ servicioprograma.observacion | capitalizado }}</td>
+                    <td>
+                        <table class="table">
+                            <tbody>
+                                <tr *ngFor="let horario of servicioprograma.horarios">
+                                    <td style="width: 100px;">{{ horario.dia | capitalizado }} de</td>
+                                    <td style="width: 90px;">{{ horario.inicio }}</td>
+                                    <td style="width: 10px;">a</td>
+                                    <td style="width: 100px;">{{ horario.fin }}</td>
+                                    <td style="width: 100px;">({{ horario.total }} Horas)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-success" (click)="seleccionar(servicioprograma)"><img class="icono32w" src="assets/Iconos/Aceptar.png"> Seleccionar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="bServiciosPrograma.length === 0" class="alert alert-warning" role="alert">
+            <h3>No hay Servicios</h3>
+            <hr>
+
+            <p style="font-size: 18px;">No hay servicios registrados para el periodo seleccionado</p>
+        </div>
+    </div>
+
+</div>

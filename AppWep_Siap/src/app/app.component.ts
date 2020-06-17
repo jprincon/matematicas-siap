@@ -3,6 +3,8 @@ import { GeneralService } from './services/general.service';
 import { TransferService } from './services/transfer.service';
 import { Router } from '@angular/router';
 import { Concurrencia } from './interfaces/interfaces.interfaces';
+import { LS_USUARIO, LS_CLAVE } from './config/config';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-root',
@@ -10,45 +12,37 @@ import { Concurrencia } from './interfaces/interfaces.interfaces';
 })
 export class AppComponent {
 
-  constructor(private servicio: GeneralService,
+  constructor(private genService: GeneralService,
               private router: Router,
               private transfer: TransferService) {
 
-    /* const inicio = localStorage.getItem('inicio');
-    if (inicio === 'sistema-abierto') {
-      this.transfer.enviarPermisoNavegar(true);
-    } else {
-      router.navigate(['inicio']);
-    } */
-
-    // Temporal: Mientas se construye toda la aplicación de matemáticas
-    this.transfer.enviarPermisoNavegar(true);
-
-    servicio.getContador('visitas').subscribe((rVisitas: Concurrencia) => {
-
-      // console.log(rVisitas);
-      const visitas = rVisitas;
-      let contador = (Number)(rVisitas.contador);
-      contador++;
-      visitas.contador = contador.toString();
-      console.log(visitas);
-      const datos = JSON.stringify(visitas);
-      transfer.enviarVisitas(contador);
-
-      const cedula = localStorage.getItem('cedula');
-      if ((cedula !== undefined) && (cedula !== null)) {
-        if (cedula.toString() !== '1098308059') {
-            this.registrarVisita(datos);
-        }
-      } else {
-        this.registrarVisita(datos);
-      }
-    });
+    this.inicioSesionAutomatico();
   }
 
-  registrarVisita(datos: string) {
-    this.servicio.putContador(datos).subscribe((rVisita: any) => {
-      console.log(rVisita);
+  inicioSesionAutomatico() {
+    if (!localStorage.getItem(LS_USUARIO)) {
+      this.genService.navegar(['inicio']);
+      return;
+    }
+
+    if (!localStorage.getItem(LS_CLAVE)) {
+      this.genService.navegar(['inicio']);
+      return;
+    }
+
+    const usuario = localStorage.getItem(LS_USUARIO).toString();
+    this.genService.getUsuario(usuario).subscribe((rUsuario: any) => {
+
+      const clave = rUsuario.nombre + rUsuario.correo + rUsuario.contra;
+      const claveMd5 = new Md5().appendStr(clave).end().toString();
+
+      if (claveMd5 === localStorage.getItem(LS_CLAVE).toString()) {
+        console.log('Restauro Rutas');
+
+        this.genService.restaurarRutas();
+      } else {
+        this.genService.navegar(['inicio']);
+      }
     });
   }
 }

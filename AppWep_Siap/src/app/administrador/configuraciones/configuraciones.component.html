@@ -1,0 +1,30 @@
+<div class="card card-shadow">
+    <div class="card-body">
+        <div class="form-group">
+            <label class="font-weight-bold">Nombre del Director</label>
+            <input class="form-control" type="text" name="nombredirector" [(ngModel)]="configuracion.nombredirector">
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Nombre del Decano</label>
+            <input class="form-control" type="text" name="nombredecano" [(ngModel)]="configuracion.nombredecano">
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Semanas del Semestre</label>
+            <input class="form-control" type="text" name="semanassemestre" [(ngModel)]="configuracion.semanassemestre">
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Horas Cátedra</label>
+            <input class="form-control" type="text" name="horascatedra" [(ngModel)]="configuracion.horascatedra">
+        </div>
+
+        <div class="form-group">
+            <label class="font-weight-bold">Horas Contrato</label>
+            <input class="form-control" type="text" name="horascontrato" [(ngModel)]="configuracion.horascontrato">
+        </div>
+
+        <button class="btn btn-outline-success" (click)="guardarConfiguracion()"><img class="icono32h" src="assets/Iconos/Guardar.png"> Guardar</button>
+    </div>
+</div>

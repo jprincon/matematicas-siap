@@ -1,0 +1,58 @@
+<h1>Crear/Editar un Servicio</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Servicio Programa ...</h3>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Servicio Programa ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarServicioPrograma()">
+    <div class="form-group">
+        <label style="font-weight: bold;">Periodo</label>
+        <select [(ngModel)]="servicioprograma.periodo" name="periodo" required class="custom-select">
+          <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Asignatura</label>
+        <input type="text" required class="form-control" [(ngModel)]="servicioprograma.asignatura" name="asignatura">
+    </div>
+
+
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Programa</label>
+
+        <div class="input-group">
+            <select [(ngModel)]="servicioprograma.idprograma" name="idprograma" required class="custom-select">
+            <option *ngFor="let programa of programas" [value]="programa.idprograma">{{programa.programa | capitalizado}}</option>
+          </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-success" type="button" (click)="agregarPrograma()"><img src="assets/Iconos/Agregar.png" style="height: 22px;"> Crear Programa</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Horas</label>
+        <input type="number" required class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Aulas</label>
+        <input type="text" required class="form-control" [(ngModel)]="servicioprograma.aulas" name="aulas">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Semanas</label>
+        <input type="number" required class="form-control" [(ngModel)]="servicioprograma.semanas" name="semanas">
+    </div>
+
+    <button class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

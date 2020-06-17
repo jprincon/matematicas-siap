@@ -1,0 +1,140 @@
+<div class="m-3">
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label class="font-weight-bold">Periodo</label>
+                <input class="form-control" type="text" [(ngModel)]="periodo" name="periodo">
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label class="font-weight-bold">Tipo de Contrato</label>
+                <select class="custom-select" [(ngModel)]="tipoContrato" name="tipoContrato" (change)="leerDocentes()">
+                  <option *ngFor="let contrato of contratos" [value]="contrato.idtipocontrato">{{contrato.contrato | capitalizado}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card-shadow card">
+                <div class="card-body">
+                    <h3 class="text-success">{{ docenteSeleccionado.nombre | capitalizado }} <img class="icono32h puntero-manito" src="assets/Iconos/Editar2.png" (click)="editarDocente(docenteSeleccionado)"></h3>
+                    <hr>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="text-center">Formato de Concertación de Agenda Docente</h4>
+                            <hr>
+
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th style="width: 15%;">Nombre</th>
+                                        <td style="width: 35%;">{{ docenteSeleccionado.nombre | capitalizado }}</td>
+                                        <th style="width: 15%;">Número de Contrato</th>
+                                        <td style="width: 35%;">
+                                            <input type="text" class="form-control">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Cédula</th>
+                                        <td>{{ docenteSeleccionado.documento | number }}</td>
+                                        <th>Teléfono</th>
+                                        <td>{{ docenteSeleccionado.telefono }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Categoría</th>
+                                        <td>{{ docenteSeleccionado.categoria }}</td>
+                                        <th>Correo</th>
+                                        <td>{{ docenteSeleccionado.correo }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <hr>
+
+                            <!-- %%%%%%% Tabla para  mostrar servicios %%%%%%% -->
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Asignatura</th>
+                                        <th>Programa</th>
+                                        <th>I/H</th>
+                                        <th>I/S</th>
+                                        <th>Horario</th>
+                                        <th>Aulas</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let agenda of AgendasServicio">
+                                        <td>{{ agenda.asignatura | capitalizado }}</td>
+                                        <td>{{ agenda.programa | capitalizado }}</td>
+                                        <td>{{ agenda.horas | capitalizado }}</td>
+                                        <td>{{ agenda.horassemestre }}</td>
+                                        <td>
+                                            <ul>
+                                                <li *ngFor="let horario of agenda.horarios">{{ horario.dia | capitalizado }} de {{ horario.inicio }} a {{ horario.fin }}</li>
+                                            </ul>
+                                        </td>
+                                        <td>{{ agenda.aulas | capitalizado }}</td>
+                                        <td>
+                                            <img src="assets/Iconos/Eliminar.png" class="icono32w" (click)="eliminarAgendaServicio(agenda)">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <th>Total Docencia Directa</th>
+                                        <th>{{ docenciaDirecta }}</th>
+                                        <td>{{ horasTotales }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>Horas Dispobibles</td>
+                                        <td></td>
+                                        <td>{{ horasRestantes }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <button class="btn btn-outline-success mt-3" (click)="agregarServicio()"><img src="assets/Iconos/Agregar.png" class="icono32w"> Agregar Servicio</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-shadow">
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label class="font-weight-bold">Buscar por Nombre</label>
+                        <input class="form-control" type="text" [(ngModel)]="termino" name="termino" (keyup)="buscarDocente()">
+                    </div>
+
+                    <div class="list-group list-group-flush">
+                        <a class="list-group-item list-group-item-action puntero-manito" *ngFor="let docente of bDocentes" (click)="seleccionarDocente(docente)">
+                            <img [src]="docente.foto | noImagen" class="icono32w" style="border-radius: 100%;"> {{ docente.nombre | capitalizado }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

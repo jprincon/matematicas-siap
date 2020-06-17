@@ -1,0 +1,27 @@
+<div class="row m-3">
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header bg-success text-white text-center">
+                <h3>Menú Administrador</h3>
+            </div>
+
+            <div class="list-group list-group-flush" *ngFor="let menu of menuAdmin">
+                <button class="list-group-item list-group-item-action" (click)="abrirMenu(menu.ruta)">{{ menu.nombre }}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9" style="margin-bottom: 30px">
+        <div class="card card-shadow">
+            <div class="card-header bg-success text-white text-center">
+                <h3>{{ tituloVentana | uppercase}}</h3>
+            </div>
+
+            <div class="card-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+
+</div>

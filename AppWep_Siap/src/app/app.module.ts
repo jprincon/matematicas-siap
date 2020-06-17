@@ -3,73 +3,147 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
+// %%%%%%% Material Angular %%%%%%%
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
 
-
-import { AppComponent } from './app.component';
-import { BarraInicioComponent } from './componentes/general/barra-inicio/barra-inicio.component';
-import { PiePaginaComponent } from './componentes/general/pie-pagina/pie-pagina.component';
-import { BannerComponent } from './componentes/general/banner/banner.component';
-import { InicioComponent } from './componentes/inicio/inicio.component';
+// %%%%%%% Routing Module %%%%%%%
 import { routingModule } from './app.routes';
-import { AdministradorComponent } from './componentes/administrador/administrador/administrador.component';
-import { AdminInicioComponent } from './componentes/administrador/admin-inicio/admin-inicio.component';
-import { AdminUsuarioComponent } from './componentes/administrador/admin-usuario/admin-usuario.component';
-import { AdminEditarusuarioComponent } from './componentes/administrador/admin-editarusuario/admin-editarusuario.component';
-import { MenuPrincipalComponent } from './componentes/menu-principal/menu-principal.component';
-import { MensajeComponent } from './componentes/dialogos/mensaje/mensaje.component';
+
+// %%%%%%% Pipes %%%%%%%
 import { CapitalizadoPipe } from './pipes/capitalizado.pipe';
-import { InvestigacionComponent } from './componentes/investigacion/investigacion.component';
-import { ExtensionComponent } from './componentes/extension/extension.component';
-import { DocentesComponent } from './componentes/docentes/docentes.component';
-import { EstudiantesComponent } from './componentes/estudiantes/estudiantes.component';
-import { EvaluacionComponent } from './componentes/evaluacion/evaluacion.component';
-import { EmemWorkShopComponent } from './componentes/extension/emem-work-shop/emem-work-shop.component';
-import { PaginaInicioComponent } from './componentes/extension/emem-work-shop/pagina-inicio/pagina-inicio.component';
-import { InscripcionesEmemComponent } from './componentes/extension/emem-work-shop/inscripciones-emem/inscripciones-emem.component';
-import { CronogramaEmemComponent } from './componentes/extension/emem-work-shop/cronograma-emem/cronograma-emem.component';
-import { CursillosEmemComponent } from './componentes/extension/emem-work-shop/cursillos-emem/cursillos-emem.component';
-import { PostersEmemComponent } from './componentes/extension/emem-work-shop/posters-emem/posters-emem.component';
-import { CertificadosEmemComponent } from './componentes/extension/emem-work-shop/certificados-emem/certificados-emem.component';
-import { CursilloEmemComponent } from './componentes/extension/emem-work-shop/cursillo-emem/cursillo-emem.component';
-import { ConfirmacionComponent } from './componentes/dialogos/confirmacion/confirmacion.component';
-import { ResumenesComponent } from './componentes/extension/emem-work-shop/resumenes/resumenes.component';
-import { CrearResumenComponent } from './componentes/extension/emem-work-shop/crear-resumen/crear-resumen.component';
-import { UnValorComponent } from './componentes/dialogos/un-valor/un-valor.component';
-import { VerResumenComponent } from './componentes/extension/emem-work-shop/ver-resumen/ver-resumen.component';
-import { ResumenesEmemComponent } from './componentes/administrador/resumenes-emem/resumenes-emem.component';
-import { MenuWorkshopEmemComponent } from './componentes/administrador/menu-workshop-emem/menu-workshop-emem.component';
-import { ParticpantesEmemComponent } from './componentes/administrador/menu-workshop-emem/particpantes-emem/particpantes-emem.component';
-import { EsperaComponent } from './componentes/dialogos/espera/espera.component';
-import { MostrarParticipanteComponent } from './componentes/dialogos/mostrar-participante/mostrar-participante.component';
-import { PruebasComponent } from './componentes/administrador/pruebas/pruebas.component';
-import { EvaluarResumenEmemComponent } from './componentes/dialogos/evaluar-resumen-emem/evaluar-resumen-emem.component';
-import { SnackBarComponent } from './componentes/dialogos/snack-bar/snack-bar.component';
 import { ReducirTextoPipe } from './pipes/reducir-texto.pipe';
-import { ListaPostersComponent } from './componentes/administrador/menu-workshop-emem/lista-posters/lista-posters.component';
-import { ManualDesarrolloComponent } from './componentes/manual-desarrollo/manual-desarrollo.component';
+
+// %%%%%%% Dialogos %%%%%%%
+import { ConfirmacionComponent } from './dialogos/confirmacion/confirmacion.component';
+import { MensajeComponent } from './dialogos/mensaje/mensaje.component';
+import { UnValorComponent } from './dialogos/un-valor/un-valor.component';
+import { SnackBarComponent } from './dialogos/snack-bar/snack-bar.component';
+import { EsperaComponent } from './dialogos/espera/espera.component';
+import { MostrarParticipanteComponent } from './dialogos/mostrar-participante/mostrar-participante.component';
+import { EvaluarResumenEmemComponent } from './dialogos/evaluar-resumen-emem/evaluar-resumen-emem.component';
+
+// %%%%%%% Componentes Generales %%%%%%%
+import { AppComponent } from './app.component';
+import { MenuComponent } from './general/menu/menu.component';
+import { InicioComponent } from './general/inicio/inicio.component';
+import { PiePaginaComponent } from './general/pie-pagina/pie-pagina.component';
+import { NoPaginaComponent } from './general/no-pagina/no-pagina.component';
+
+// %%%%%%% Componentes de Admnistrador %%%%%%%
+import { AdministradorComponent } from './administrador/administrador/administrador.component';
+import { AdminInicioComponent } from './administrador/admin-inicio/admin-inicio.component';
+import { AdminUsuarioComponent } from './administrador/admin-usuario/admin-usuario.component';
+import { AdminEditarusuarioComponent } from './administrador/admin-editarusuario/admin-editarusuario.component';
+import { ResumenesEmemComponent } from './administrador/resumenes-emem/resumenes-emem.component';
+import { PruebasComponent } from './administrador/pruebas/pruebas.component';
+import { MenuWorkshopEmemComponent } from './administrador/menu-workshop-emem/menu-workshop-emem.component';
+import { ParticpantesEmemComponent } from './administrador/menu-workshop-emem/particpantes-emem/particpantes-emem.component';
+import { ListaPostersComponent } from './administrador/menu-workshop-emem/lista-posters/lista-posters.component';
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+FACTORES
+Importación de los componentes de los factores
+=========================================================================================================================*/
+import { FactoresComponent } from './factores/factores.component';
+
+// %%%%%%% Factor de Internacinoalización %%%%%%%
+import { FintConveniosComponent } from './factores/internacionalizacion/fint-convenios/fint-convenios.component';
+
+// %%%%%%% Factor de Extensión %%%%%%%
+import { ExtensionComponent } from './factores/extension/extension.component';
+import { EmemWorkShopComponent } from './factores/extension/emem-work-shop/emem-work-shop.component';
+import { InscripcionesEmemComponent } from './factores/extension/emem-work-shop/inscripciones-emem/inscripciones-emem.component';
+import { CertificadosEmemComponent } from './factores/extension/emem-work-shop/certificados-emem/certificados-emem.component';
+import { CursilloEmemComponent } from './factores/extension/emem-work-shop/cursillo-emem/cursillo-emem.component';
+import { PostersEmemComponent } from './factores/extension/emem-work-shop/posters-emem/posters-emem.component';
+import { ResumenesComponent } from './factores/extension/emem-work-shop/resumenes/resumenes.component';
+import { VerResumenComponent } from './factores/extension/emem-work-shop/ver-resumen/ver-resumen.component';
+import { CrearResumenComponent } from './factores/extension/emem-work-shop/crear-resumen/crear-resumen.component';
+import { CronogramaEmemComponent } from './factores/extension/emem-work-shop/cronograma-emem/cronograma-emem.component';
+import { PaginaInicioComponent } from './factores/extension/emem-work-shop/pagina-inicio/pagina-inicio.component';
+import { CursillosEmemComponent } from './factores/extension/emem-work-shop/cursillos-emem/cursillos-emem.component';
+
+// %%%%%%% Factor de Docentes %%%%%%%
+import { FactorDocentesComponent } from './factores/docentes/factor-docentes.component';
+
+// %%%%%%% Factor de Estudiantes %%%%%%%
+import { EstudiantesComponent } from './factores/estudiantes/estudiantes.component';
+
+// %%%%%%% Factor de Procesos Académicos %%%%%%%
+
+// %%%%%%% Factor de Investigación %%%%%%%
+import { InvestigacionComponent } from './factores/investigacion/investigacion.component';
+
+// %%%%%%% Manual de la Aplicación %%%%%%%
+import { ManualDesarrolloComponent } from './general/manual-desarrollo/manual-desarrollo.component';
+import { InternacionalizacionComponent } from './factores/internacionalizacion/internacionalizacion.component';
+import { ProcesosAcademicosComponent } from './factores/procesos_academicos/procesos-academicos.component';
+import { TituloMenuComponent } from './general/titulo-menu/titulo-menu.component';
+import { TiposContratoComponent } from './factores/docentes/tipos-contrato/tipos-contrato.component';
+import { DlgTipoContratoComponent } from './factores/docentes/tipos-contrato/dlg-tipo-contrato/dlg-tipo-contrato.component';
+import { ActualizacionesComponent } from './general/actualizaciones/actualizaciones.component';
+import { CategoriasDocentesComponent } from './factores/docentes/categorias-docentes/categorias-docentes.component';
+import { DlgCategoriaDocenteComponent } from './factores/docentes/categorias-docentes/dlg-categoria-docente/dlg-categoria-docente.component';
+import { DocentesComponent } from './factores/docentes/docentes/docentes.component';
+import { DlgDocenteComponent } from './factores/docentes/docentes/dlg-docente/dlg-docente.component';
+import { NoImagenPipe } from './pipes/no-imagen.pipe';
+import { DocenteComponent } from './factores/docentes/docente/docente.component';
+import { ErroresComponent } from './general/errores/errores.component';
+import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
+import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
+import { DlgFacultadComponent } from './factores/docentes/facultades/dlg-facultad/dlg-facultad.component';
+import { ProgramasComponent } from './factores/docentes/programas/programas.component';
+import { DlgProgramaComponent } from './factores/docentes/programas/dlg-programa/dlg-programa.component';
+import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
+import { DlgServicioProgramaComponent } from './factores/docentes/servicios-programa/dlg-servicio-programa/dlg-servicio-programa.component';
+import { DlgHorarioServicioComponent } from './factores/docentes/servicios-programa/dlg-horario-servicio/dlg-horario-servicio.component';
+import { DlgAgendaServicioComponent } from './factores/docentes/agendas/dlg-agenda-servicio/dlg-agenda-servicio.component';
+import { ConfiguracionesComponent } from './administrador/configuraciones/configuraciones.component';
+
+
 
 @NgModule({
   declarations: [
+
+    // %%%%%%% Pipes %%%%%%%
+    CapitalizadoPipe,
+    ReducirTextoPipe,
+
+    // %%%%%%% Dialogos %%%%%%%
+    ConfirmacionComponent,
+    MensajeComponent,
+    UnValorComponent,
+    SnackBarComponent,
+    EsperaComponent,
+
+    // %%%%%%% Componentes Generales %%%%%%%
     AppComponent,
-    BarraInicioComponent,
-    PiePaginaComponent,
-    BannerComponent,
+    MenuComponent,
     InicioComponent,
+    PiePaginaComponent,
+    NoPaginaComponent,
+
+    // %%%%%%% Componentes de Administrador %%%%%%%
     AdministradorComponent,
     AdminInicioComponent,
     AdminUsuarioComponent,
     AdminEditarusuarioComponent,
-    MenuPrincipalComponent,
-    MensajeComponent,
-    CapitalizadoPipe,
-    InvestigacionComponent,
+
+    /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       Factores
+       Componentes de Factores
+    =========================================================================================================================*/
+    FactoresComponent,
+
+    // %%%%%%% Factor de Internacionalización %%%%%%%
+    FintConveniosComponent,
+
+    // %%%%%%% Factor de Extensión %%%%%%%
     ExtensionComponent,
-    DocentesComponent,
-    EstudiantesComponent,
-    EvaluacionComponent,
     EmemWorkShopComponent,
     PaginaInicioComponent,
     InscripcionesEmemComponent,
@@ -78,22 +152,79 @@ import { ManualDesarrolloComponent } from './componentes/manual-desarrollo/manua
     PostersEmemComponent,
     CertificadosEmemComponent,
     CursilloEmemComponent,
-    ConfirmacionComponent,
     ResumenesComponent,
     CrearResumenComponent,
-    UnValorComponent,
     VerResumenComponent,
     ResumenesEmemComponent,
     MenuWorkshopEmemComponent,
     ParticpantesEmemComponent,
-    EsperaComponent,
     MostrarParticipanteComponent,
-    PruebasComponent,
     EvaluarResumenEmemComponent,
-    SnackBarComponent,
-    ReducirTextoPipe,
     ListaPostersComponent,
-    ManualDesarrolloComponent
+
+    // %%%%%%% Factor de Docentes %%%%%%%
+    FactorDocentesComponent,
+
+    // %%%%%%% Factor de Estudiantes %%%%%%%
+    EstudiantesComponent,
+
+    // %%%%%%% Factor de Investigación %%%%%%%
+    InvestigacionComponent,
+
+
+    // %%%%%%% Manual de la Aplicación %%%%%%%
+    ManualDesarrolloComponent,
+
+    // %%%%%%% Componentes de Pruebas %%%%%%%
+    PruebasComponent,
+
+    InternacionalizacionComponent,
+
+    ProcesosAcademicosComponent,
+
+    TituloMenuComponent,
+
+    TiposContratoComponent,
+
+    DlgTipoContratoComponent,
+
+    ActualizacionesComponent,
+
+    CategoriasDocentesComponent,
+
+    DlgCategoriaDocenteComponent,
+
+    DocentesComponent,
+
+    DlgDocenteComponent,
+
+    NoImagenPipe,
+
+    DocenteComponent,
+
+    ErroresComponent,
+
+    AgendasComponent,
+
+    FacultadesComponent,
+
+    DlgFacultadComponent,
+
+    ProgramasComponent,
+
+    DlgProgramaComponent,
+
+    ServiciosProgramaComponent,
+
+    DlgServicioProgramaComponent,
+
+    DlgHorarioServicioComponent,
+
+    DlgAgendaServicioComponent,
+
+    ConfiguracionesComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -102,7 +233,9 @@ import { ManualDesarrolloComponent } from './componentes/manual-desarrollo/manua
     HttpClientModule,
     FormsModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule,
+    MatExpansionModule
   ],
   providers: [],
   entryComponents: [
@@ -112,7 +245,15 @@ import { ManualDesarrolloComponent } from './componentes/manual-desarrollo/manua
     EsperaComponent,
     MostrarParticipanteComponent,
     EvaluarResumenEmemComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    DlgTipoContratoComponent,
+    DlgCategoriaDocenteComponent,
+    DlgDocenteComponent,
+    DlgFacultadComponent,
+    DlgProgramaComponent,
+    DlgServicioProgramaComponent,
+    DlgHorarioServicioComponent,
+    DlgAgendaServicioComponent
   ],
   bootstrap: [AppComponent]
 })

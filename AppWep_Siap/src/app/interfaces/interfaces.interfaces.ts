@@ -117,4 +117,92 @@ export interface Poster {
   autores?: AutorResumen[];
 }
 
+export interface TipoContrato {
+  idtipocontrato?: string;
+  contrato?: string;
+  horas?: string;
+}
 
+export interface CategoriaDocente {
+  idcategoriadocente?: string;
+  categoria?: string;
+}
+
+export interface Docente {
+  iddocente?: string;
+  nombre?: string;
+  telefono?: string;
+  correo?: string;
+  idcategoriadocente?: string;
+  idtipocontrato?: string;
+  foto?: string;
+  categoria?: string;
+  contrato?: string;
+  documento?: string;
+}
+
+export interface Error {
+  iderror?: string;
+  hora?: string;
+  fecha?: string;
+  procedimiento?: string;
+  mensaje?: string;
+}
+
+export interface Facultad {
+  idfacultad?: string;
+  facultad?: string;
+}
+
+export interface Programa {
+  idprograma?: string;
+  programa?: string;
+  idfacultad?: string;
+  facultad?: string;
+}
+
+export interface ServicioPrograma {
+  idservicioprograma?: string;
+  asignatura?: string;
+  idprograma?: string;
+  horas?: number;
+  aulas?: string;
+  observacion?: string;
+  periodo?: string;
+  programa?: string;
+  horarios?: HorarioServicio[];
+  semanas?: number;
+  horassemestre?: string;
+}
+
+export interface HorarioServicio {
+  idhorarioservicio?: string;
+  dia?: string;
+  inicio?: string;
+  fin?: string;
+  total?: string;
+  idservicioprograma?: string;
+}
+
+export interface AgendaServicio {
+  idagendaservicio?: string;
+  iddocente?: string;
+  idservicioprograma?: string;
+  periodo?: string;
+  asignatura?: string;
+  aulas?: string;
+  horarios?: HorarioServicio[];
+  horas?: string;
+  idprograma?: string;
+  programa?: string;
+  horassemestre?: string;
+}
+
+export interface Configuracion {
+  idconfiguracion?: string;
+  nombredirector?: string;
+  nombredecano?: string;
+  semanassemestre?: string;
+  horascontrato?: string;
+  horascatedra?: string;
+}

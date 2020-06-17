@@ -1,0 +1,53 @@
+<h1>Crear/Editar un Docente</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Perfil de Docente ...</h3>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Docente ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarDocente()">
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Documento de Identidad</label>
+        <input type="number" class="form-control" required [(ngModel)]="docente.documento" name="iddocente">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Nombre</label>
+        <input type="text" class="form-control" required [(ngModel)]="docente.nombre" name="nombre">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Teléfono</label>
+        <input type="text" class="form-control" [(ngModel)]="docente.telefono" name="telefono">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Correo</label>
+        <input type="text" class="form-control" [(ngModel)]="docente.correo" name="correo">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Categoría Docente</label>
+        <select class="custom-select" required [(ngModel)]="docente.idcategoriadocente" name="idcategoriadocente">
+                  <option [value]="''">Seleccione una categoría docente ...</option>
+                  <option [value]="categoria.idcategoriadocente" *ngFor="let categoria of Categorias" >{{ categoria.categoria | capitalizado }}</option>
+                </select>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Tipo Contrato</label>
+        <select class="custom-select" required [(ngModel)]="docente.idtipocontrato" name="idtipocontrato">
+                  <option [value]="''">Seleccione un tipo de contrato ...</option>
+                  <option [value]="tipo.idtipocontrato" *ngFor="let tipo of TiposContrato" >{{ tipo.contrato | capitalizado }}</option>
+                </select>
+    </div>
+
+    <button type="submit" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

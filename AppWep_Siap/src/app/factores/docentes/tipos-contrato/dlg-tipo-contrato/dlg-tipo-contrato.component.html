@@ -1,0 +1,28 @@
+<h1>Crear/Editar un TipoContrato</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Tipo Contrato ...</h3>
+    <h4 class="text-danger">Intento {{ contIntentos }} de 3</h4>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Tipo Contrato ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo">
+    <div class="form-group">
+        <label style="font-weight: bold;">Nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="tipocontrato.contrato" name="nombre">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Horas</label>
+        <input type="text" class="form-control" [(ngModel)]="tipocontrato.horas" name="horas">
+    </div>
+
+
+    <button (click)="guardarTipoContrato()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

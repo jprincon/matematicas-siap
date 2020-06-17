@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { LS_ULTIMA_RUTA } from '../config/config';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,12 +36,52 @@ export class GeneralService {
   private URL_DESCARGAR_RESUMEN = 'descargarResumenEmem';
   private URL_AUTOR_POR_CEDULA = 'autorPorCedula';
   private URL_RESUMEN_POR_TIPO = 'resumenPorTipo';
+  private URL_TIPOCONTRATO = 'TipoContrato';
+  private URL_TIPOSCONTRATO = 'TiposContrato';
+  private URL_CATEGORIADOCENTE = 'CategoriaDocente';
+  private URL_CATEGORIASDOCENTE = 'CategoriasDocente';
+  private URL_DOCENTE = 'Docente';
+  private URL_FOTO_DOCENTE = 'FotoDocente';
+  private URL_DOCENTES = 'Docentes';
+  private URL_DOCENTES_POR_CONTRATO = 'DocentesPorContrato';
+  private URL_ERROR = 'Error';
+  private URL_ERROR_POR_MENSAJE = 'ErrorPorMensaje';
+  private URL_ERRORES = 'Errores';
+  private URL_FACULTAD = 'Facultad';
+  private URL_FACULTADES = 'Facultades';
+  private URL_PROGRAMA = 'Programa';
+  private URL_PROGRAMAS = 'Programas';
+  private URL_SERVICIOPROGRAMA = 'ServicioPrograma';
+  private URL_SERVICIOSPROGRAMA = 'ServiciosPrograma';
+  private URL_SERVICIOSPROGRAMADOCENTE = 'ServiciosProgramaDocente';
+  private URL_HORARIOSERVICIO = 'HorarioServicio';
+  private URL_HORARIOSSERVICIO = 'HorariosServicio';
+  private URL_AGENDASERVICIO = 'AgendaServicio';
+  private URL_AGENDASSERVICIO = 'AgendasServicio';
+  private URL_CONFIGURACION = 'Configuracion';
+  private URL_CONFIGURACIONES = 'Configuraciones';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
+
     this.postToken().subscribe((respuesta: any) => {
       this.token = respuesta.token;
       // console.log(respuesta);
     });
+  }
+
+  navegar(rutas: string[]) {
+    this.router.navigate(rutas);
+
+    localStorage.setItem(LS_ULTIMA_RUTA, JSON.stringify(rutas));
+  }
+
+  restaurarRutas() {
+    if (localStorage.getItem(LS_ULTIMA_RUTA)) {
+      this.router.navigate(JSON.parse(localStorage.getItem(LS_ULTIMA_RUTA).toString()));
+    } else {
+      this.router.navigate(['menu-principal']);
+    }
   }
 
   dataSnap_Token() {
@@ -534,5 +577,402 @@ export class GeneralService {
 
   getNoticias() {
     return this.http.get('assets/pruebas/noticias.json');
+  }
+
+  // %%%%%%% Tipos de Contrato %%%%%%%
+
+  postTipoContrato(datos: string) {
+    const url = this.dataSnap_Path(this.URL_TIPOCONTRATO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getTiposContrato() {
+    const url = this.dataSnap_Path(this.URL_TIPOSCONTRATO);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getTipoContrato(id: string) {
+    const url = this.dataSnap_Path(this.URL_TIPOCONTRATO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putTipoContrato(datos: string) {
+    const url = this.dataSnap_Path(this.URL_TIPOCONTRATO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteTipoContrato(id: string) {
+    const url = this.dataSnap_Path(this.URL_TIPOCONTRATO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* CategoriaDocente %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postCategoriaDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_CATEGORIADOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getCategoriasDocente() {
+    const url = this.dataSnap_Path(this.URL_CATEGORIASDOCENTE);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getCategoriaDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_CATEGORIADOCENTE) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putCategoriaDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_CATEGORIADOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteCategoriaDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_CATEGORIADOCENTE) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Docente %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getDocentes(ordenarPor: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTES) + this.parametro(ordenarPor);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getDocentesPorContrato(IdContrato: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTES_POR_CONTRATO) + this.parametro(IdContrato);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTE) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  putFotoDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FOTO_DOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_DOCENTE) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Error %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postError(datos: string) {
+    const url = this.dataSnap_Path(this.URL_ERROR) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getErrores() {
+    const url = this.dataSnap_Path(this.URL_ERRORES);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getError(id: string) {
+    const url = this.dataSnap_Path(this.URL_ERROR) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putError(datos: string) {
+    const url = this.dataSnap_Path(this.URL_ERROR) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteError(id: string) {
+    const url = this.dataSnap_Path(this.URL_ERROR) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  deleteErrorPorMensaje(msg: string) {
+    const url = this.dataSnap_Path(this.URL_ERROR_POR_MENSAJE) + this.parametro(this.token) + this.parametro(msg);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Facultad %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postFacultad(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FACULTAD) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getFacultades() {
+    const url = this.dataSnap_Path(this.URL_FACULTADES);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getFacultad(id: string) {
+    const url = this.dataSnap_Path(this.URL_FACULTAD) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putFacultad(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FACULTAD) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteFacultad(id: string) {
+    const url = this.dataSnap_Path(this.URL_FACULTAD) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Programa %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postPrograma(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PROGRAMA) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getProgramas() {
+    const url = this.dataSnap_Path(this.URL_PROGRAMAS);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getPrograma(id: string) {
+    const url = this.dataSnap_Path(this.URL_PROGRAMA) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putPrograma(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PROGRAMA) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deletePrograma(id: string) {
+    const url = this.dataSnap_Path(this.URL_PROGRAMA) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* ServicioPrograma %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postServicioPrograma(datos: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOPROGRAMA) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getServiciosPrograma(ordenarPor: string, periodo: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOSPROGRAMA) + this.parametro(ordenarPor) + this.parametro(periodo);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getServiciosProgramaDocente(IdDocente: string, periodo: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOSPROGRAMADOCENTE) + this.parametro(IdDocente) + this.parametro(periodo);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getServicioPrograma(id: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOPROGRAMA) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putServicioPrograma(datos: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOPROGRAMA) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteServicioPrograma(id: string) {
+    const url = this.dataSnap_Path(this.URL_SERVICIOPROGRAMA) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* HorarioServicio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postHorarioServicio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_HORARIOSERVICIO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getHorariosServicio() {
+    const url = this.dataSnap_Path(this.URL_HORARIOSSERVICIO);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getHorarioServicio(id: string) {
+    const url = this.dataSnap_Path(this.URL_HORARIOSERVICIO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putHorarioServicio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_HORARIOSERVICIO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteHorarioServicio(id: string) {
+    const url = this.dataSnap_Path(this.URL_HORARIOSERVICIO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* AgendaServicio %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postAgendaServicio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getAgendasServicio(IdDocente: string, Periodo: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASSERVICIO) + this.parametro(IdDocente) + this.parametro(Periodo);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getAgendaServicio(id: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putAgendaServicio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteAgendaServicio(id: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Configuracion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postConfiguracion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_CONFIGURACION) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getConfiguraciones() {
+    const url = this.dataSnap_Path(this.URL_CONFIGURACIONES);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getConfiguracion(id: string) {
+    const url = this.dataSnap_Path(this.URL_CONFIGURACION) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putConfiguracion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_CONFIGURACION) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteConfiguracion(id: string) {
+    const url = this.dataSnap_Path(this.URL_CONFIGURACION) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
   }
 }

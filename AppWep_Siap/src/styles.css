@@ -99,3 +99,114 @@ footer {
 .fadeIn {
     animation-name: fadeIn;
 }
+
+
+/* Scrollbar styles */
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    border: 1px solid #EAF5EF;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #EAF5EF;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #009736;
+}
+
+.font-menu-factor {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.icono32w {
+    width: 32px;
+}
+
+.icono32h {
+    height: 32px;
+}
+
+
+/* Animación del menu */
+
+
+/* Animación de Botones */
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url(https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf) format('truetype');
+}
+
+.container {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 20px;
+}
+
+.div-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-img .img {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    transform: scale(1);
+    -ms-transform: scale(1);
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    -o-transform: scale(1);
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+}
+
+.div-img .text {
+    font-family: 'Open Sans';
+    padding-top: 5px;
+    display: block;
+    text-align: center;
+    width: 100%;
+    transform: translate(0px);
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    opacity: 0;
+    transition: transfom opacity 1.5s;
+}
+
+.div-img:hover .img {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    -o-transform: scale(0.8);
+}
+
+.div-img:hover .text {
+    transform: translate(0px, -20px);
+    opacity: 1;
+}

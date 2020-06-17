@@ -7,8 +7,6 @@ import { Usuario } from '../interfaces/interfaces.interfaces';
 })
 export class TransferService {
 
-  private bsUsuario = new BehaviorSubject<Usuario>({});
-  public obtenerUsuario = this.bsUsuario.asObservable();
 
   private bsNavegar = new BehaviorSubject<boolean>(false);
   public obtenerPermisoNavegar = this.bsNavegar.asObservable();
@@ -31,18 +29,30 @@ export class TransferService {
   private bsMessageSnakBar = new BehaviorSubject<string>('');
   public getMessageSnakBar = this.bsMessageSnakBar.asObservable();
 
+  // %%%%%%% Retificación de lo que realmente se usa %%%%%%%
+  private bsUsuario = new BehaviorSubject<Usuario>({});
+  public obtenerUsuario = this.bsUsuario.asObservable();
+
+  private bsTitulo = new BehaviorSubject<string>('');
+  public obtenerTitulo = this.bsTitulo.asObservable();
+
   constructor() { }
 
+  enviarUsuario(usuario: Usuario) {
+    this.bsUsuario.next(usuario);
+  }
+
+  enviarTituloAplicacion(titulo: string) {
+    this.bsTitulo.next(titulo);
+  }
+
+  // %%%%%%% Por Revisar %%%%%%%
   sendMessageSnakBar(message: string) {
     this.bsMessageSnakBar.next(message);
   }
 
   enviarPermisoAdminstrador(permiso: boolean) {
     this.bsAdministrador.next(permiso);
-  }
-
-  enviarUsuario(usuario: Usuario) {
-    this.bsUsuario.next(usuario);
   }
 
   enviarPermisoNavegar(permiso: boolean) {

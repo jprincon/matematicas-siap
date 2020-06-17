@@ -1,0 +1,33 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Facultades ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <button class="btn btn-outline-success float-right" (click)="agregarFacultad()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Facultad</button>
+
+    <table class="table table-hover puntero-manito">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Facultad</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let facultad of Facultades; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ facultad.facultad }}</td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarFacultad(facultad)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarFacultad(facultad)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

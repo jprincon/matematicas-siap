@@ -1,0 +1,159 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" [routerLink]="['inicio']">
+        <h1 class="puntero-manito text-white">SIAP</h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto" routerLinkActive>
+
+            <!-- %%%%%%% PROCESOS ACADÉMICOS %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="procesosAcademicos" role="button">Procesos Académicos</a>
+
+                <mat-menu #procesosAcademicos="matMenu">
+                    <button mat-menu-item>Trabajos de Grado</button>
+                    <button mat-menu-item>Plan de Mejoramiento</button>
+                    <button mat-menu-item [matMenuTriggerFor]="actualizacionDocumentos">Actualización de Documentos</button>
+                    <button mat-menu-item>Coordinación de Prática Docente</button>
+                    <button mat-menu-item>Virtualización</button>
+                </mat-menu>
+
+                <mat-menu #actualizacionDocumentos="matMenu">
+                    <button mat-menu-item>Documento Maestro</button>
+                    <button mat-menu-item>PEP</button>
+                    <button mat-menu-item>Alta Calidad</button>
+                    <button mat-menu-item>Registro Calificado</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% ESTUDIANTES %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="estudiantes" role="button">Estudiantes</a>
+
+                <mat-menu #estudiantes="matMenu">
+                    <button mat-menu-item>Pruebas Saber PRO</button>
+                    <button mat-menu-item [matMenuTriggerFor]="comiteApoyo">Comité de Apoyo Estudiantil</button>
+                    <button mat-menu-item>Propuesta de Evaluación por Núcleos</button>
+                </mat-menu>
+
+                <mat-menu #comiteApoyo="matMenu">
+                    <button mat-menu-item>Estudiantes con Dificultades Especiales</button>
+                    <button mat-menu-item>Acuerdo 005 y 006</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% DOCENTES %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="docentes" role="button">Docentes</a>
+
+                <mat-menu #docentes="matMenu">
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_TIPO_CONTRATO])">Tipo de Contrato</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_CATEGORIA_DOCENTE])">Categorías de Docente</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_DOCENTES])">Lista de Docentes</button>
+                    <button mat-menu-item [matMenuTriggerFor]="agendas">Agendas</button>
+                </mat-menu>
+
+                <mat-menu #agendas="matMenu">
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_AGENDAS])">Agendas</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_SERVICIOSPROGRAMA])">Servicios de Programas</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_PROGRAMAS])">Programas</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_FACULTADES])">Facultades</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% INTERNACIONALIZACIÓN %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="internacionalizacion" role="button">Internacionalización</a>
+
+                <mat-menu #internacionalizacion="matMenu">
+                    <button mat-menu-item>Red CLEMA</button>
+                    <button mat-menu-item>Capacitaciones para Convocatorias Externas</button>
+                    <button mat-menu-item>Proyectos de Doble Titulación</button>
+                    <button mat-menu-item>Participación en Eventos Científicos</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% INVESTIGACIÓN %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="investigacion" role="button">Investigación</a>
+
+                <mat-menu #investigacion="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="representanteCIFE">Representante ante el CIFE</button>
+                    <button mat-menu-item [matMenuTriggerFor]="representanteInvestigacion">Representante de Investigaciones</button>
+                </mat-menu>
+
+                <mat-menu #representanteCIFE="matMenu">
+                    <button mat-menu-item>Revisión de Proyectos de Investigación</button>
+                    <button mat-menu-item>Semillero de Investigación de la Facultad</button>
+                </mat-menu>
+
+                <mat-menu #representanteInvestigacion="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="gruposInvestigacion">Grupos de Investigación</button>
+                </mat-menu>
+
+                <mat-menu #gruposInvestigacion="matMenu">
+                    <button mat-menu-item *ngFor="let grupo of Grupos">{{ grupo.nombre }}</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% EXTENSIÓN Y GESTIÓN DEL GRADUADO %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="extension" role="button">Extensión y Gestión del Graduado</a>
+
+                <mat-menu #extension="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="mads">MADS - Laboratorio de Matemáticas Aplicadas y Desarrollo de Software</button>
+                    <button mat-menu-item>Coordinación de Comunicaciones del Programa</button>
+                    <button mat-menu-item>Proyecto: Laboratorio de Didáctica de las Matemáticas</button>
+                    <button mat-menu-item [matMenuTriggerFor]="proyectosPrograma">Proyectos de Extensión del Programa</button>
+                </mat-menu>
+
+                <mat-menu #mads="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="formacionVida">Formación para la Vida</button>
+                </mat-menu>
+
+                <mat-menu #formacionVida="matMenu">
+                    <button mat-menu-item>Diplomado en Estadística</button>
+                    <button mat-menu-item>Curso de Animación de Personajes</button>
+                    <button mat-menu-item>Diplomado de Actualización para Profesorse Universitarios</button>
+                </mat-menu>
+
+                <mat-menu #proyectosPrograma="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="inclusion">Inclusión</button>
+                    <button mat-menu-item [matMenuTriggerFor]="eventos">Eventos</button>
+                </mat-menu>
+
+                <mat-menu #inclusion="matMenu">
+                    <button mat-menu-item>Plan Padrino</button>
+                    <button mat-menu-item>Olimpiadas de Matemáticas</button>
+                    <button mat-menu-item>Club de Matemáticas</button>
+                </mat-menu>
+
+                <mat-menu #eventos="matMenu">
+                    <button mat-menu-item>Workshop EMEM - Worshop en Educación Matemática, Estadística y Matemáticas</button>
+                    <button mat-menu-item>Encuentro Bianual de Graduados</button>
+                    <button mat-menu-item>SILM - Seminario de la Licenciatura en Matemáticas</button>
+                </mat-menu>
+            </li>
+
+            <!-- %%%%%%% Acerca de ... %%%%%%% -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="acerca" role="button">Acerca de ...</a>
+
+                <mat-menu #acerca="matMenu">
+                    <button mat-menu-item>¿Qué es SIAP?</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_ACTUALIZACIONES])">Actualizaciones</button>
+                    <button mat-menu-item>Manual de Ayuda</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_ERRORES])">Gestión de Errores</button>
+                </mat-menu>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link puntero-manito" (click)="verMenu([_RUTA_ADMINISTRAR])">Administrar</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
