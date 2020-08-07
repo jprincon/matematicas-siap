@@ -20,7 +20,7 @@
         <tbody>
             <tr *ngFor="let facultad of Facultades; let id = index">
                 <td>{{ id + 1 }}</td>
-                <td>{{ facultad.facultad }}</td>
+                <td>{{ facultad.facultad | capitalizado }}</td>
                 <td>
                     <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarFacultad(facultad)">
                 </td>

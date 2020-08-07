@@ -18,7 +18,8 @@ export class DlgHorarioServicioComponent implements OnInit {
     dia: '',
     inicio: '',
     fin: '',
-    idservicioprograma: ''
+    idservicioprograma: '',
+    salon: ''
   };
 
   accion: string;

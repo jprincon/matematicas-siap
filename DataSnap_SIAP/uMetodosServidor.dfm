@@ -5,12 +5,13 @@ object Matematicas: TMatematicas
   Width = 632
   object Conexion: TFDConnection
     Params.Strings = (
-      'Database=matematicas'
+      'Database=siap'
       'User_Name=postgres'
       'Password=postgres'
       'CharacterSet=UTF8'
       'DriverID=PG')
-    FetchOptions.AssignedValues = [evRowsetSize]
+    FetchOptions.AssignedValues = [evMode, evRowsetSize]
+    FetchOptions.Mode = fmAll
     FetchOptions.RowsetSize = 1000000
     LoginPrompt = False
     Left = 40
@@ -18,24 +19,24 @@ object Matematicas: TMatematicas
   end
   object Query: TFDQuery
     Connection = Conexion
-    Left = 144
-    Top = 32
+    Left = 32
+    Top = 120
   end
   object DireccionLibreria: TFDPhysPgDriverLink
     DriverID = 'PG'
     VendorLib = 'libpq.dll'
-    Left = 456
+    Left = 408
     Top = 32
   end
   object Query2: TFDQuery
     Connection = Conexion
-    Left = 200
-    Top = 32
+    Left = 32
+    Top = 176
   end
   object Query3: TFDQuery
     Connection = Conexion
-    Left = 256
-    Top = 32
+    Left = 32
+    Top = 240
   end
   object SMTP: TIdSMTP
     IOHandler = SSL
@@ -45,8 +46,8 @@ object Matematicas: TMatematicas
     SASLMechanisms = <>
     UseTLS = utUseExplicitTLS
     Username = 'workshop.emem@gmail.com'
-    Left = 200
-    Top = 240
+    Left = 552
+    Top = 248
   end
   object SSL: TIdSSLIOHandlerSocketOpenSSL
     Destination = 'smtp.gmail.com:587'
@@ -57,8 +58,8 @@ object Matematicas: TMatematicas
     SSLOptions.Mode = sslmUnassigned
     SSLOptions.VerifyMode = []
     SSLOptions.VerifyDepth = 0
-    Left = 336
-    Top = 240
+    Left = 552
+    Top = 192
   end
   object DATA: TIdMessage
     AttachmentEncoding = 'UUE'
@@ -71,7 +72,7 @@ object Matematicas: TMatematicas
     Recipients = <>
     ReplyTo = <>
     ConvertPreamble = True
-    Left = 464
-    Top = 200
+    Left = 552
+    Top = 136
   end
 end

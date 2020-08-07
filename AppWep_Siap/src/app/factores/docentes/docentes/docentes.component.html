@@ -5,6 +5,8 @@
 
 <div class="m-3" *ngIf="!leyendo">
 
+    <h3 class="float-left">{{ resultados }}</h3>
+
     <div class="dropdown">
         <button class="btn btn-outline-info dropdown-toggle float-right m-1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img src="assets/Iconos/Ordenar.png" class="icono32h"> Ordenar Lista por
@@ -26,12 +28,12 @@
             <tr>
                 <th>No</th>
                 <th>Documento de Identificación</th>
+                <th>Foto</th>
                 <th>Nombre</th>
                 <th>Teléfono</th>
                 <th>Correo</th>
                 <th>Categoría</th>
                 <th>Tipo Contrato</th>
-                <th>Foto</th>
                 <th>Ver</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
@@ -39,13 +41,41 @@
         </thead>
 
         <tbody>
-            <tr *ngFor="let docente of Docentes; let id = index">
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control" [(ngModel)]="documento" name="documento" (keyup)="buscarPorDocumento()">
+                </td>
+                <td></td>
+                <td>
+                    <input class="form-control" [(ngModel)]="termino" name="termino" (keyup)="buscarPorNombre()">
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="categoriaDocente" name="categoriaDocente" (change)="buscarPorCategoria()">
+                      <option value="Todas">Todas</option>
+                      <option [value]="categoria.categoria" *ngFor="let categoria of Categorias">{{categoria.categoria | capitalizado}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select" [(ngModel)]="tipoContrato" name="tipoContrato" (change)="buscarPorTipoContrato()">
+                      <option value="Todos">Todos</option>
+                      <option [value]="contrato.contrato" *ngFor="let contrato of tiposContrato">{{contrato.contrato | capitalizado}}</option>
+                    </select>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr *ngFor="let docente of bDocentes; let id = index" [ngClass]="{'text-danger': docente.activo === 'no', 'text-dark': docente.activo === 'si'}">
                 <td>{{ id + 1 }}</td>
                 <td>{{ docente.documento | number }}</td>
                 <td>
                     <img [src]="docente.foto | noImagen" [alt]="docente.nombre" style="width: 96px; border-radius: 100%;">
                 </td>
-                <td>{{ docente.nombre | capitalizado }}</td>
+                <td class="font-weight-bold">{{ docente.nombre | capitalizado }}</td>
                 <td>{{ docente.telefono }}</td>
                 <td>{{ docente.correo }}</td>
                 <td>{{ docente.categoria | capitalizado }}</td>

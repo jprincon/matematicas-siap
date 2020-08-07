@@ -1278,7 +1278,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Top = 146
     Width = 1008
     Height = 556
-    ActivePage = TabConfiguracion
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
     object TabSalida: TTabSheet
@@ -1392,7 +1392,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
         BevelOuter = bvNone
         BorderStyle = bsNone
         TabOrder = 0
-        ExplicitTop = -2
         object GroupBox1: TGroupBox
           AlignWithMargins = True
           Left = 3
@@ -1408,7 +1407,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 0
-          ExplicitTop = 3
           object Label4: TLabel
             AlignWithMargins = True
             Left = 5
@@ -1459,7 +1457,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 1
-          ExplicitTop = 87
           object Label5: TLabel
             AlignWithMargins = True
             Left = 5
@@ -1511,7 +1508,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 2
-          ExplicitTop = 171
           object Label6: TLabel
             AlignWithMargins = True
             Left = 5
@@ -1563,8 +1559,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
           Font.Style = [fsBold]
           ParentFont = False
           TabOrder = 3
-          ExplicitLeft = 6
-          ExplicitTop = 11
           object Label7: TLabel
             AlignWithMargins = True
             Left = 5
@@ -1602,6 +1596,44 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
         end
       end
     end
+    object TabSheet1: TTabSheet
+      Caption = 'Scripts SQL'
+      ImageIndex = 2
+      object seSQL: TSynEdit
+        Left = 0
+        Top = 0
+        Width = 1000
+        Height = 522
+        Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Courier New'
+        Font.Style = []
+        TabOrder = 0
+        CodeFolding.GutterShapeSize = 11
+        CodeFolding.CollapsedLineColor = clGrayText
+        CodeFolding.FolderBarLinesColor = clGrayText
+        CodeFolding.IndentGuidesColor = clGray
+        CodeFolding.IndentGuides = True
+        CodeFolding.ShowCollapsedLine = False
+        CodeFolding.ShowHintMark = True
+        UseCodeFolding = False
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -11
+        Gutter.Font.Name = 'Courier New'
+        Gutter.Font.Style = []
+        Highlighter = SynSQLSyn1
+        Lines.Strings = (
+          '')
+        FontSmoothing = fsmNone
+        ExplicitLeft = 360
+        ExplicitTop = 128
+        ExplicitWidth = 201
+        ExplicitHeight = 137
+      end
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
@@ -1614,7 +1646,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Left = 808
     Top = 64
     Bitmap = {
-      494C010104000800700020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101040008007C0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000004000000001002000000000000080
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2716,5 +2748,12 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
       Caption = 'Ver Servidor'
       OnClick = VerServidor1Click
     end
+  end
+  object SynSQLSyn1: TSynSQLSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
+    Left = 892
+    Top = 488
   end
 end

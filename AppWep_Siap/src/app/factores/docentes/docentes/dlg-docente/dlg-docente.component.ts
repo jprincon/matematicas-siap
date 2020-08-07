@@ -21,7 +21,8 @@ export class DlgDocenteComponent implements OnInit {
     correo: '',
     idcategoriadocente: '',
     idtipocontrato: '',
-    foto: ''
+    foto: '',
+    activo: 'si'
   };
 
   accion: string;

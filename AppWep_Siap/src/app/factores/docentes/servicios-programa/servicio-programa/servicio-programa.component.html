@@ -1,0 +1,105 @@
+<div class="m-3">
+    <h1>Crear/Editar un Servicio</h1>
+    <hr>
+
+    <div class="text-center" style="margin: 20px;" *ngIf="guardando">
+        <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+        <h3>Guardando Servicio Programa ...</h3>
+    </div>
+
+    <div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+        <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+        <h3>Leyendo Servicio Programa ...</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarServicioPrograma()">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Periodo</label>
+                    <select [(ngModel)]="servicioprograma.periodo" name="periodo" required class="custom-select">
+            <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
+          </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Asignatura</label>
+                    <input type="text" required class="form-control" [(ngModel)]="servicioprograma.asignatura" name="asignatura">
+                </div>
+
+
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Programa</label>
+
+                    <div class="input-group">
+                        <select [(ngModel)]="servicioprograma.idprograma" name="idprograma" required class="custom-select">
+              <option *ngFor="let programa of programas" [value]="programa.idprograma">{{programa.programa | capitalizado}}</option>
+            </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button" (click)="agregarPrograma()"><img src="assets/Iconos/Agregar.png" style="height: 22px;"> Crear Programa</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Horas</label>
+                    <input type="number" required disabled class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Grupo</label>
+                    <input type="text" style="text-transform:uppercase;" required class="form-control" [(ngModel)]="servicioprograma.grupo" name="grupo">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Jornada</label>
+
+                    <div class="input-group">
+                        <select [(ngModel)]="servicioprograma.jornada" name="jornada" required class="custom-select">
+                          <option value="diurna">Diurna</option>
+                          <option value="noturna">Noturna</option>
+                          <option value="distancia">Distancia</option>
+                          <option value="virtual">Virtual</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold;">Semanas</label>
+                    <input type="number" required class="form-control" [(ngModel)]="servicioprograma.semanas" name="semanas">
+                </div>
+
+                <button class="btn btn-outline-success float-right m-3" (click)="guardarServicioPrograma(false)"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+                <button class="btn btn-outline-success float-right m-3" (click)="guardarServicioPrograma(true)"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar y Regresar</button>
+            </form>
+        </div>
+
+        <div class="col-md-5">
+            <h3>Horarios</h3>
+            <hr>
+
+            <table class="table table-striped table-hover">
+                <tbody>
+                    <tr *ngFor="let horario of HorariosServicio">
+                        <td style="width: 100px;">{{ horario.dia | capitalizado }} de</td>
+                        <td style="width: 90px;">{{ horario.inicio }}</td>
+                        <td style="width: 10px;">a</td>
+                        <td style="width: 100px;">{{ horario.fin }}</td>
+                        <td style="width: 100px;">({{ horario.total }} Horas)</td>
+                        <td>{{ horario.salon | uppercase }}</td>
+                        <td style="width: 60px;">
+                            <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarHorarioServicio(horario)">
+                        </td>
+                        <td style="width: 60px;">
+                            <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarHorarioServicio(horario)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+        </div>
+    </div>
+
+</div>

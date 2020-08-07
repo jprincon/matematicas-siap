@@ -59,6 +59,7 @@
                 <mat-menu #agendas="matMenu">
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_AGENDAS])">Agendas</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_SERVICIOSPROGRAMA])">Servicios de Programas</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_FUNCIONESDOCENTE])">Funciones</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_PROGRAMAS])">Programas</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_FACULTADES])">Facultades</button>
                 </mat-menu>
@@ -145,6 +146,7 @@
                 <mat-menu #acerca="matMenu">
                     <button mat-menu-item>¿Qué es SIAP?</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_ACTUALIZACIONES])">Actualizaciones</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_TAREAS_PENDIENTES])">Tareas Pendientes</button>
                     <button mat-menu-item>Manual de Ayuda</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_ERRORES])">Gestión de Errores</button>
                 </mat-menu>

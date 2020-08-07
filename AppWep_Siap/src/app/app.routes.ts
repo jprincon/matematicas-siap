@@ -43,10 +43,13 @@ import { DocenteComponent } from './factores/docentes/docente/docente.component'
 import { ErroresComponent } from './general/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 
-import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA } from './config/config';
+import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE } from './config/config';
 import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
 import { ProgramasComponent } from './factores/docentes/programas/programas.component';
 import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
+import { ServicioProgramaComponent } from './factores/docentes/servicios-programa/servicio-programa/servicio-programa.component';
+import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
+import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
 
 const routes: Routes = [
 
@@ -86,7 +89,9 @@ const routes: Routes = [
       {path: RUTA_FACULTADES, component: FacultadesComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_PROGRAMAS, component: ProgramasComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_SERVICIOSPROGRAMA, component: ServiciosProgramaComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_SERVICIOPROGRAMA + '/:id', component: ServicioProgramaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_AGENDAS, component: AgendasComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_FUNCIONESDOCENTE, component: FuncionesDocenteComponent, canActivate: [RutaNavegarService]},
       {path: '**', pathMatch: 'full', redirectTo: RUTA_DOCENTES}
     ]
   },
@@ -109,7 +114,8 @@ const routes: Routes = [
   },
 
   // %%%%%%% Acerca de ... %%%%%%%
-  {path: 'actualizaciones', component: ActualizacionesComponent},
+  {path: RUTA_ACTUALIZACIONES, component: ActualizacionesComponent},
+  {path: RUTA_TAREAS_PENDIENTES, component: TareasPendientesComponent, canActivate: [RutaNavegarService]},
   {path: RUTA_ERRORES, component: ErroresComponent, canActivate: [RutaNavegarService]},
 
   // %%%%%%% Ruta de Página no encontrada %%%%%%%

@@ -139,6 +139,7 @@ export interface Docente {
   categoria?: string;
   contrato?: string;
   documento?: string;
+  activo?: string;
 }
 
 export interface Error {
@@ -173,6 +174,8 @@ export interface ServicioPrograma {
   horarios?: HorarioServicio[];
   semanas?: number;
   horassemestre?: string;
+  jornada?: string;
+  grupo?: string;
 }
 
 export interface HorarioServicio {
@@ -181,6 +184,7 @@ export interface HorarioServicio {
   inicio?: string;
   fin?: string;
   total?: string;
+  salon?: string;
   idservicioprograma?: string;
 }
 
@@ -205,4 +209,23 @@ export interface Configuracion {
   semanassemestre?: string;
   horascontrato?: string;
   horascatedra?: string;
+}
+
+export interface FuncionDocente {
+  idfunciondocente?: string;
+  funcion?: string;
+  actividades?: ActividadDocente[];
+}
+
+export interface ActividadDocente {
+  idactividaddocente?: string;
+  actividad?: string;
+  idfunciondocente?: string;
+  subactividades: SubactividadDocente[];
+}
+
+export interface SubactividadDocente {
+  idsubactividaddocente?: string;
+  subactividad?: string;
+  idactividaddocente?: string;
 }

@@ -10,6 +10,10 @@
 
 <form *ngIf="!guardando && !leyendo">
 
+    <!-- %%%%%%% Datos Básicos del Docente %%%%%%% -->
+    <h3>Datos Básicos</h3>
+    <hr>
+
     <div class="row">
 
         <div class="col-md-3">
@@ -29,7 +33,7 @@
             </div>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-9">
             <div class="form-group">
                 <label style="font-weight: bold;">Documento de Identidad</label>
                 <input type="text" class="form-control" [(ngModel)]="docente.documento" name="iddocente">
@@ -66,12 +70,30 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label style="font-weight: bold;">Tipo Contrato</label>
+                <select class="custom-select" [(ngModel)]="docente.idtipocontrato" name="idtipocontrato">
+                <option [value]="''">Seleccione un tipo de contrato ...</option>
+                <option [value]="tipo.idtipocontrato" *ngFor="let tipo of TiposContrato" >{{ tipo.contrato | capitalizado }}</option>
+              </select>
+            </div>
+
             <button (click)="guardarDocente()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
         </div>
-
-        <div class="col-md-4"></div>
-
-
     </div>
+
+    <!-- %%%%%%% Histórico de Agendas %%%%%%% -->
+    <h3>Histórico de Agendas</h3>
+    <hr>
+
+    <!-- %%%%%%% Grupo de Investigación %%%%%%% -->
+    <h3>Grupo de Investigación</h3>
+    <hr>
+
+    <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+    <h3>Trabajos de Grado</h3>
+    <hr>
+
+
 
 </form>

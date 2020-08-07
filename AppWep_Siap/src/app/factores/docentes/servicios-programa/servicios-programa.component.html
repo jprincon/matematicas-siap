@@ -7,7 +7,7 @@
 
     <div class="row">
         <!-- %%%%%%% Filtras Búsqueda por Periodo %%%%%%% -->
-        <div class="col-md-3">
+        <div class="col">
             <div class="form-group">
                 <label class="font-weight-bold">Periodo</label>
                 <select [(ngModel)]="periodo" name="periodo" required class="custom-select" (change)="leerServiciosPrograma()">
@@ -17,7 +17,7 @@
         </div>
 
         <!-- %%%%%%% Filtrar Búsqueda por Columna %%%%%%% -->
-        <div class="col-md-3">
+        <div class="col">
             <div class="form-group">
                 <label class="font-weight-bold">Ordenar Por</label>
                 <select [(ngModel)]="ordenarPor" name="ordenarPor" required class="custom-select" (change)="leerServiciosPrograma()">
@@ -25,33 +25,54 @@
                 </select>
             </div>
         </div>
-    </div>
-    <button class="btn btn-outline-success float-right" (click)="agregarServicioPrograma()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Servicio</button>
 
-    <table class="table table-hover puntero-manito">
+        <div class="col">
+            <mat-slide-toggle [checked]="editar" (change)="editar = !editar">Editar</mat-slide-toggle>
+        </div>
+    </div>
+    <button *ngIf="editar" class="btn btn-outline-success float-right" (click)="agregarServicioPrograma()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Servicio</button>
+
+    <table class="table table-hover puntero-manito table-striped">
         <thead class="table-dark">
             <tr>
                 <th>No</th>
                 <th>Asignatura</th>
+                <th>Grupo</th>
+                <th>Jornada</th>
                 <th>Programa</th>
                 <th>Horas</th>
                 <th>Semanas</th>
-                <th>Aulas</th>
                 <th>Horario</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th *ngIf="editar">Ver</th>
+                <th *ngIf="editar">Editar</th>
+                <th *ngIf="editar">Eliminar</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr *ngFor="let servicioprograma of ServiciosPrograma; let id = index">
+            <tr>
+                <td></td>
+                <td><input (keyup)="buscarAsignatura()" type="text" class="form-control" [(ngModel)]="terminoAsignatura" name="terminoAsignatura"></td>
+                <td></td>
+                <td></td>
+                <td><input (keyup)="buscarPrograma()" type="text" class="form-control" [(ngModel)]="terminoPrograma" name="terminoPrograma"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td *ngIf="editar"></td>
+                <td *ngIf="editar"></td>
+                <td *ngIf="editar"></td>
+            </tr>
+
+            <tr *ngFor="let servicioprograma of bServiciosPrograma; let id = index">
                 <td>{{ id + 1 }}</td>
-                <td>{{ servicioprograma.asignatura | capitalizado }}</td>
+                <td class="font-weight-bold">{{ servicioprograma.asignatura | capitalizado }}</td>
+                <td>{{ servicioprograma.grupo | uppercase }}</td>
+                <td>{{ servicioprograma.jornada | capitalizado }}</td>
                 <td>{{ servicioprograma.programa | capitalizado }}</td>
                 <td>{{ servicioprograma.horas }}</td>
                 <td>{{ servicioprograma.semanas }}</td>
-                <td>{{ servicioprograma.aulas | capitalizado }}</td>
-                <td>
+                <td style="width: 700px;">
                     <table class="table">
                         <tbody>
                             <tr *ngFor="let horario of servicioprograma.horarios">
@@ -60,25 +81,33 @@
                                 <td style="width: 10px;">a</td>
                                 <td style="width: 100px;">{{ horario.fin }}</td>
                                 <td style="width: 100px;">({{ horario.total }} Horas)</td>
-                                <td style="width: 60px;">
+                                <td>{{ horario.salon | uppercase }}</td>
+                                <td style="width: 60px;" *ngIf="editar">
                                     <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarHorarioServicio(horario)">
                                 </td>
-                                <td style="width: 60px;">
+                                <td style="width: 60px;" *ngIf="editar">
                                     <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarHorarioServicio(horario)">
                                 </td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <button class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+                    <button *ngIf="editar" class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
                 </td>
-                <td>
+                <td *ngIf="editar">
+                    <img src="assets/Iconos/Ver.png" style="height: 32px;" (click)="verServicioPrograma(servicioprograma)">
+                </td>
+                <td *ngIf="editar">
                     <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarServicioPrograma(servicioprograma)">
                 </td>
-                <td>
+                <td *ngIf="editar">
                     <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarServicioPrograma(servicioprograma)">
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <div class="alert alert-warning" role="alert" *ngIf="ServiciosPrograma.length === 0">
+        <p style="font-size: 16px;">No hay servicios registrados para este periodo</p>
+    </div>
 </div>

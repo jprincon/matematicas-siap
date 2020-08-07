@@ -21,7 +21,9 @@ export class DlgServicioProgramaComponent implements OnInit {
     horas: 0,
     aulas: '',
     periodo: '',
-    semanas: 17
+    semanas: 17,
+    jornada: 'diurna',
+    grupo: ''
   };
 
   periodos: string[] = [];
@@ -85,7 +87,7 @@ export class DlgServicioProgramaComponent implements OnInit {
       const datos = JSON.stringify(this.servicioprograma);
       this.genService.postServicioPrograma(datos).subscribe((rRespuesta: any) => {
         console.log(rRespuesta);
-        return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
+        return this.dialogRef.close(this.servicioprograma.idservicioprograma);
       });
     } else {
       const datos = JSON.stringify(this.servicioprograma);

@@ -20,6 +20,9 @@ import { DlgProgramaComponent } from '../factores/docentes/programas/dlg-program
 import { DlgServicioProgramaComponent } from '../factores/docentes/servicios-programa/dlg-servicio-programa/dlg-servicio-programa.component';
 import { DlgHorarioServicioComponent } from '../factores/docentes/servicios-programa/dlg-horario-servicio/dlg-horario-servicio.component';
 import { DlgAgendaServicioComponent } from '../factores/docentes/agendas/dlg-agenda-servicio/dlg-agenda-servicio.component';
+import { DlgFuncionDocenteComponent } from '../factores/docentes/funciones-docente/dlg-funcion-docente/dlg-funcion-docente.component';
+import { DlgActividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
+import { DlgSubactividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
 
 @Injectable({
   providedIn: 'root'
@@ -168,6 +171,33 @@ export class DialogosService {
     const dialogRef = this.dialog.open(DlgAgendaServicioComponent, {
       width: '90%', height: '90%',
       data: {iddocente, periodo}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgFuncionDocente(accion: string, idfunciondocente: string) {
+    const dialogRef = this.dialog.open(DlgFuncionDocenteComponent, {
+      width: '60%',
+      data: {accion, idfunciondocente}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgActividadDocente(accion: string, idactividaddocente: string, idfunciondocente: string) {
+    const dialogRef = this.dialog.open(DlgActividadDocenteComponent, {
+      width: '60%',
+      data: {accion, idactividaddocente, idfunciondocente}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgSubactividadDocente(accion: string, idsubactividaddocente: string, idactividaddocente: string) {
+    const dialogRef = this.dialog.open(DlgSubactividadDocenteComponent, {
+      width: '60%',
+      data: {accion, idsubactividaddocente, idactividaddocente}
     });
 
     return dialogRef.afterClosed();

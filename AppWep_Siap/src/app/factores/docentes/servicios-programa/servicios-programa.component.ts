@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServicioPrograma, HorarioServicio } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { TransferService } from '../../../services/transfer.service';
+import { RUTA_SERVICIOPROGRAMA, RUTA_FACTOR_DOCENTES } from '../../../config/config';
 
 @Component({
   selector: 'app-servicios-programa',
@@ -11,15 +12,20 @@ import { TransferService } from '../../../services/transfer.service';
 })
 export class ServiciosProgramaComponent implements OnInit {
 
+  bServiciosPrograma: ServicioPrograma[] = [];
   ServiciosPrograma: ServicioPrograma[] = [];
   leyendo = false;
-  contIntentos = 1;
 
   periodos: string[] = [];
 
   periodo = '';
   ordenarPor = 'programa';
-  aOrdenarPor: string[] = ['programa', 'asignatura', 'horas', 'aulas'];
+  aOrdenarPor: string[] = ['programa', 'asignatura', 'horas', 'jornada'];
+
+  terminoAsignatura = '';
+  terminoPrograma = '';
+
+  editar = true;
 
   constructor(private genService: GeneralService,
               private dlgService: DialogosService,
@@ -43,21 +49,54 @@ export class ServiciosProgramaComponent implements OnInit {
     this.leerServiciosPrograma();
   }
 
+  buscarAsignatura() {
+    this.bServiciosPrograma = [];
+    const termino = this.terminoAsignatura.toLowerCase();
+
+    for (const servicio of this.ServiciosPrograma) {
+      const asignatura = servicio.asignatura.toLowerCase();
+
+      if (asignatura.indexOf(termino) >= 0) {
+        this.bServiciosPrograma.push(servicio);
+      }
+    }
+  }
+
+  buscarPrograma() {
+    this.bServiciosPrograma = [];
+    const termino = this.terminoPrograma.toLowerCase();
+
+    for (const servicio of this.ServiciosPrograma) {
+      const programa = servicio.programa.toLowerCase();
+
+      if (programa.indexOf(termino) >= 0) {
+        this.bServiciosPrograma.push(servicio);
+      }
+    }
+  }
+
   leerServiciosPrograma() {
 
     this.leyendo = true;
 
     this.genService.getServiciosPrograma(this.ordenarPor, this.periodo).subscribe((rServiciosPrograma: any) => {
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
-      console.log(rServiciosPrograma);
+      this.bServiciosPrograma = this.ServiciosPrograma;
       this.leyendo = false;
     });
   }
 
+  verServicioPrograma(servicioprograma: ServicioPrograma) {
+    this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, servicioprograma.idservicioprograma]);
+  }
+
   agregarServicioPrograma() {
-    this.dlgService.DlgServicioPrograma('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
-      this.leerServiciosPrograma();
+    this.dlgService.DlgServicioPrograma('Crear', '').subscribe((rIdSercicioPrograma: string) => {
+      console.log(rIdSercicioPrograma);
+
+      if (rIdSercicioPrograma !== undefined) {
+        this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, rIdSercicioPrograma]);
+      }
     });
   }
 

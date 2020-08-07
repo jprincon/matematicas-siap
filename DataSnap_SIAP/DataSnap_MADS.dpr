@@ -6,9 +6,9 @@ uses
   Vcl.Forms,
   Web.WebReq,
   IdHTTPWebBrokerBridge,
-  uFDataSnapMatematicas in 'uFDataSnapMatematicas.pas' {FDataSnapMatematicas},
-  uMetodosServidor in 'uMetodosServidor.pas' {Matematicas: TDataModule},
-  uModuloWeb in 'uModuloWeb.pas' {ModuloWeb: TWebModule},
+  uFDataSnapMatematicas in 'uFDataSnapMatematicas.pas' {FDataSnapMatematicas} ,
+  uMetodosServidor in 'uMetodosServidor.pas' {Matematicas: TDataModule} ,
+  uModuloWeb in 'uModuloWeb.pas' {ModuloWeb: TWebModule} ,
   uTConcurrencia in 'uTConcurrencia.pas',
   uTPropiedadesTabla in 'uTPropiedadesTabla.pas' {$R *.res},
   uTUsuario in 'uTUsuario.pas',
@@ -17,8 +17,10 @@ uses
   uTPalabraClave in 'uTPalabraClave.pas',
   uTAutoresResumen in 'uTAutoresResumen.pas',
   uTReferenciaResumen in 'uTReferenciaResumen.pas',
-  uFResumenes in 'uFResumenes.pas' {FResumenes},
-  uFCertificados in 'uFCertificados.pas' {FCertificados};
+  uFResumenes in 'uFResumenes.pas' {FResumenes} ,
+  uFCertificados in 'uFCertificados.pas' {FCertificados} ,
+  Utilidades
+    in '..\..\..\..\Dropbox\MIS_PROYECTOS\7000_Librerias\Utilidades\Utilidades.pas';
 
 {$R *.res}
 

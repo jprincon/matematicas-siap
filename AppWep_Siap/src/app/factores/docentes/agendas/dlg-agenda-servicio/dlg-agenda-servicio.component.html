@@ -73,7 +73,10 @@
                         </table>
                     </td>
                     <td>
-                        <button class="btn btn-outline-success" (click)="seleccionar(servicioprograma)"><img class="icono32w" src="assets/Iconos/Aceptar.png"> Seleccionar</button>
+                        <div *ngIf="servicioprograma.observacion !== 'El Horario se Cruza'">
+                            <button class="btn btn-outline-success" *ngIf="!(servicioprograma.observacion.length > 0)" (click)="seleccionar(servicioprograma)"><img class="icono32w" src="assets/Iconos/Aceptar.png"> Seleccionar</button>
+                            <button class="btn btn-outline-danger" *ngIf="servicioprograma.observacion.length > 0" (click)="desasociar(servicioprograma)"><img class="icono32w" src="assets/Iconos/Cancelar.png"> Desasociar</button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

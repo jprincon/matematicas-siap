@@ -51,6 +51,13 @@ export class DlgAgendaServicioComponent implements OnInit {
     }
   }
 
+  desasociar(servicioPrograma: ServicioPrograma) {
+    this.genService.deleteDesasociarAgendaServicio(servicioPrograma.idservicioprograma).subscribe((rRespuesta: any) => {
+      console.log(rRespuesta);
+      this.leerServiciosPrograma();
+    });
+  }
+
   leerServiciosPrograma() {
 
     this.leyendo = true;

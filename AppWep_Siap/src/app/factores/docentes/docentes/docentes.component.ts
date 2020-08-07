@@ -5,6 +5,7 @@ import { Docente } from 'src/app/interfaces/interfaces.interfaces';
 import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTE } from '../../../config/config';
 import { Utilidades } from '../../../utilidades/utilidades.class';
 import { TransferService } from '../../../services/transfer.service';
+import { TipoContrato, CategoriaDocente } from '../../../interfaces/interfaces.interfaces';
 
 @Component({
   selector: 'app-docentes',
@@ -14,10 +15,20 @@ import { TransferService } from '../../../services/transfer.service';
 export class DocentesComponent implements OnInit {
 
   Docentes: Docente[] = [];
+  bDocentes: Docente[] = [];
   leyendo = false;
   contIntentos = 1;
 
+  tiposContrato: TipoContrato[] = [];
+  Categorias: CategoriaDocente[] = [];
+
   ordenarPor = 'nombre';
+  termino = '';
+  tipoContrato = 'Todos';
+  categoriaDocente = 'Todas';
+  documento = '';
+
+  resultados = '';
 
   constructor(private genService: GeneralService,
               private dlgService: DialogosService,
@@ -26,11 +37,86 @@ export class DocentesComponent implements OnInit {
   ngOnInit() {
     this.transfer.enviarTituloAplicacion('Docentes');
     this.leerDocentes();
+    this.leerTiposContrato();
+    this.leerCategorias();
+  }
+
+  contarResultados() {
+    this.resultados = this.bDocentes.length.toString() + ' Resultados';
   }
 
   cambiarTipoOrden(tipo: string) {
     this.ordenarPor = tipo;
     this.leerDocentes();
+  }
+
+  leerTiposContrato() {
+    this.genService.getTiposContrato().subscribe((rTiposContrato: any) => {
+      this.tiposContrato = rTiposContrato.TiposContratos;
+      console.log(rTiposContrato);
+    });
+  }
+
+  leerCategorias() {
+    this.genService.getCategoriasDocente().subscribe((rCategorias: any) => {
+      this.Categorias = rCategorias.CategoriasDocentes;
+      console.log(rCategorias);
+    });
+  }
+
+  buscarPorTipoContrato() {
+    if (this.tipoContrato !== 'Todos') {
+      this.bDocentes = [];
+      for (const docente of this.Docentes) {
+        if (docente.contrato.toLowerCase().indexOf(this.tipoContrato.toLowerCase()) >= 0) {
+          this.bDocentes.push(docente);
+        }
+      }
+    } else {
+      this.bDocentes = this.Docentes;
+    }
+
+    this.contarResultados();
+  }
+
+  buscarPorCategoria() {
+    if (this.tipoContrato !== 'Todas') {
+      this.bDocentes = [];
+      for (const docente of this.Docentes) {
+        if (docente.categoria.toLowerCase().indexOf(this.categoriaDocente.toLowerCase()) >= 0) {
+          this.bDocentes.push(docente);
+        }
+      }
+    } else {
+      this.bDocentes = this.Docentes;
+    }
+
+    this.contarResultados();
+  }
+
+  buscarPorNombre() {
+    this.bDocentes = [];
+    const termBusq = this.termino.toLowerCase();
+
+    for (const docente of this.Docentes) {
+      if (docente.nombre.toLowerCase().indexOf(termBusq) >= 0) {
+        this.bDocentes.push(docente);
+      }
+    }
+
+    this.contarResultados();
+  }
+
+  buscarPorDocumento() {
+    this.bDocentes = [];
+
+    for (const docente of this.Docentes) {
+      if (docente.documento.toLowerCase().indexOf(this.documento) >= 0) {
+        this.bDocentes.push(docente);
+      }
+    }
+
+    this.contarResultados();
   }
 
   leerDocentes() {
@@ -39,7 +125,9 @@ export class DocentesComponent implements OnInit {
 
     this.genService.getDocentes(this.ordenarPor).subscribe((rDocentes: any) => {
       this.Docentes = rDocentes.Docentes;
+      this.bDocentes = this.Docentes;
       console.log(rDocentes);
+      this.contarResultados();
       this.leyendo = false;
     });
   }

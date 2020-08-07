@@ -1,4 +1,9 @@
-<div class="m-3">
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Agendas ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
 
     <div class="row">
         <div class="col">
@@ -16,6 +21,7 @@
                 </select>
             </div>
         </div>
+
     </div>
 
     <div class="row">

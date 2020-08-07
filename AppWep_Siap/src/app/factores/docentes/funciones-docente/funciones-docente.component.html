@@ -1,0 +1,111 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Funciones Docente ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <mat-slide-toggle [checked]="editar" (change)="editar = !editar">Editar</mat-slide-toggle>
+
+    <div style="height: 20px;"></div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-shadow">
+                <div class="card-header text-white bg-dark">
+                    <h3 class="card-title">Funciones</h3>
+                </div>
+
+                <button *ngIf="editar" class="btn btn-outline-success float-right" (click)="agregarFuncionDocente()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Función</button>
+
+                <table class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let funcion of FuncionesDocente">
+                            <td class="puntero-manito" (click)="verActividadesFuncion(funcion)">{{ funcion.funcion | capitalizado }}</td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarFuncionDocente(funcion)">
+                            </td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarFuncionDocente(funcion)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- %%%%%%% Lista de Actividades %%%%%%% -->
+        <div class="col-md-4">
+            <div class="card card-shadow">
+                <div class="card-header text-white bg-dark">
+                    <h3 class="card-title">Actividades</h3>
+                </div>
+
+                <button *ngIf="editar" class="btn btn-outline-success" (click)="agregarActividadDocente()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Actividad</button>
+
+                <table class="table puntero-manito">
+                    <tbody>
+                        <tr *ngFor="let actividad of ActividadesDocente">
+                            <td (click)="verSubActividades(actividad)">{{ actividad.actividad | capitalizado }}</td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarActividadDocente(actividad)">
+                            </td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarActividadDocente(actividad)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-shadow">
+                <div class="card-header text-white bg-dark">
+                    <h3 class="card-title">Subactividades</h3>
+                </div>
+
+                <button *ngIf="editar" [disabled]="!(IdActividadDocente.length > 0)" class="btn btn-outline-success" (click)="agregarSubactividadDocente()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Subactividad</button>
+
+                <table class="table puntero-manito">
+                    <tbody>
+                        <tr *ngFor="let subactividad of SubactividadesDocente">
+                            <td>{{ subactividad.subactividad | capitalizado }}</td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarActividadDocente(actividad)">
+                            </td>
+                            <td style="width: 60px;" *ngIf="editar">
+                                <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarActividadDocente(actividad)">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 30px;"></div>
+
+    <h2>Mapa de Actividades</h2>
+    <hr>
+
+    <ul>
+        <li *ngFor="let funcion of FuncionesDocente">
+            {{ funcion.funcion | capitalizado }}
+
+            <ul>
+                <li *ngFor="let actividad of funcion.actividades">
+                    {{ actividad.actividad | capitalizado }}
+
+                    <ul>
+                        <li *ngFor="let subactividad of actividad.subactividades">
+                            {{ subactividad.subactividad }}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+</div>

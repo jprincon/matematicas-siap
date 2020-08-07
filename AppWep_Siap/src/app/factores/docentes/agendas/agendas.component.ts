@@ -59,8 +59,6 @@ export class AgendasComponent implements OnInit {
 
   leerAgendasServicio() {
 
-    this.leyendo = true;
-
     this.genService.getAgendasServicio(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rAgendasServicio: any) => {
       this.AgendasServicio = rAgendasServicio.AgendasServicios;
       console.log(rAgendasServicio);
@@ -92,14 +90,17 @@ export class AgendasComponent implements OnInit {
 
           this.leerAgendasServicio();
         });
+      } else {
+        this.leerAgendasServicio();
       }
     });
   }
 
   leerContratos() {
+    this.leyendo = true;
+
     this.genService.getTiposContrato().subscribe((rContratos: any) => {
       this.contratos = rContratos.TiposContratos;
-
       this.tipoContrato = this.contratos[0].idtipocontrato;
       this.leerDocentes();
     });

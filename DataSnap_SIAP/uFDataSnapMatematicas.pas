@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp, Vcl.ComCtrls,
   Vcl.ExtCtrls, Vcl.Buttons, System.ImageList, Vcl.ImgList, IdBaseComponent,
-  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Menus;
+  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Menus, SynEdit,
+  SynEditHighlighter, SynHighlighterSQL;
 
 type
   TFDataSnapMatematicas = class(TForm)
@@ -69,6 +70,9 @@ type
     GroupBox4: TGroupBox;
     Label7: TLabel;
     cbTalleres: TCheckBox;
+    TabSheet1: TTabSheet;
+    seSQL: TSynEdit;
+    SynSQLSyn1: TSynSQLSyn;
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
     procedure iniciarServidor(Sender: TObject);
@@ -91,6 +95,7 @@ type
   public
     tokenServidor: string;
 
+    procedure escribirSQL(sql: string);
     procedure escribirMensaje(Msg: string; tipo: string);
     function obtenerToken: string;
     function permiteCrearResumen: Boolean;
@@ -186,6 +191,12 @@ begin
   end;
 end;
 
+procedure TFDataSnapMatematicas.escribirSQL(sql: string);
+begin
+  seSQL.Lines.Add(sql);
+  seSQL.Lines.Add('');
+end;
+
 procedure TFDataSnapMatematicas.FormCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
@@ -240,6 +251,8 @@ begin
   generarNuevoToken;
 
   TrayIcon1.Visible := True;
+
+  WindowState := wsMaximized;
 end;
 
 procedure TFDataSnapMatematicas.FormResize(Sender: TObject);

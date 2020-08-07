@@ -9,6 +9,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 // %%%%%%% Routing Module %%%%%%%
 import { routingModule } from './app.routes';
@@ -103,6 +104,12 @@ import { DlgServicioProgramaComponent } from './factores/docentes/servicios-prog
 import { DlgHorarioServicioComponent } from './factores/docentes/servicios-programa/dlg-horario-servicio/dlg-horario-servicio.component';
 import { DlgAgendaServicioComponent } from './factores/docentes/agendas/dlg-agenda-servicio/dlg-agenda-servicio.component';
 import { ConfiguracionesComponent } from './administrador/configuraciones/configuraciones.component';
+import { ServicioProgramaComponent } from './factores/docentes/servicios-programa/servicio-programa/servicio-programa.component';
+import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
+import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
+import { DlgFuncionDocenteComponent } from './factores/docentes/funciones-docente/dlg-funcion-docente/dlg-funcion-docente.component';
+import { DlgActividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
+import { DlgSubactividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
 
 
 
@@ -224,6 +231,18 @@ import { ConfiguracionesComponent } from './administrador/configuraciones/config
 
     ConfiguracionesComponent,
 
+    ServicioProgramaComponent,
+
+    TareasPendientesComponent,
+
+    FuncionesDocenteComponent,
+
+    DlgFuncionDocenteComponent,
+
+    DlgActividadDocenteComponent,
+
+    DlgSubactividadDocenteComponent,
+
 
   ],
   imports: [
@@ -235,7 +254,8 @@ import { ConfiguracionesComponent } from './administrador/configuraciones/config
     MatDialogModule,
     MatSnackBarModule,
     MatMenuModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
   ],
   providers: [],
   entryComponents: [
@@ -253,7 +273,10 @@ import { ConfiguracionesComponent } from './administrador/configuraciones/config
     DlgProgramaComponent,
     DlgServicioProgramaComponent,
     DlgHorarioServicioComponent,
-    DlgAgendaServicioComponent
+    DlgAgendaServicioComponent,
+    DlgFuncionDocenteComponent,
+    DlgActividadDocenteComponent,
+    DlgSubactividadDocenteComponent
   ],
   bootstrap: [AppComponent]
 })
