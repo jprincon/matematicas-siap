@@ -1,0 +1,48 @@
+<h1>ParticipantesEmem</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo ParticipantesEmem ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <button class="btn btn-outline-success float-right" (click)="agregarParticipanteEmem()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Participante</button>
+
+    <table class="table table-hover puntero-manito table-responsive">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Documento</th>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+                <th>Correo</th>
+                <th>Afiliación</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let participanteemem of ParticipantesEmem; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ participanteemem.idparticipante }}</td>
+                <td>{{ participanteemem.primernombre | capitalizado }}</td>
+                <td>{{ participanteemem.segundonombre | capitalizado }}</td>
+                <td>{{ participanteemem.primerapellido | capitalizado }}</td>
+                <td>{{ participanteemem.segundoapellido | capitalizado }}</td>
+                <td>{{ participanteemem.correo }}</td>
+                <td>{{ participanteemem.afiliacion.afiliacion | capitalizado }}</td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarParticipanteEmem(participanteemem)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarParticipanteEmem(participanteemem)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

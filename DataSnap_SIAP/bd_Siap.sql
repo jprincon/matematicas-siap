@@ -193,5 +193,24 @@ create table if not exists siap_subactividades_docentes(
 	idactividaddocente text references siap_actividades_docentes(idactividaddocente)
 );
 
+/* Tablas para el Evento Workshop EMEM*/
+
+create table if not exists emem_afiliaciones(
+	idafiliacion text primary key not null,
+	afiliacion text
+);
+
+/*Tabla para Participante*/
+create table if not exists emem_participantes(
+       idparticipante text primary key not null,
+       primernombre text,
+       segundonombre text,
+       primerapellido text,
+       segundoapellido text,
+       correo text,
+       contra text,
+       idafiliacion text references emem_afiliaciones(idafiliacion)
+);
+
 
 

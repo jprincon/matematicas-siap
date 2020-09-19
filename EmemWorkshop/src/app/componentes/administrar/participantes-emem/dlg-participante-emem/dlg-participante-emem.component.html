@@ -1,0 +1,58 @@
+<h1>Crear/Editar un Participante</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Participante ...</h3>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Participantes ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarParticipanteEmem()">
+    <div class="form-group">
+        <label style="font-weight: bold;">Documento</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.idparticipante" name="idparticipante">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Primer Nombre</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.primernombre" name="primernombre">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Segundo Nombre</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.segundonombre" name="segundonombre">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Primer Apellido</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.primerapellido" name="primerapellido">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Segundo Apellido</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.segundoapellido" name="segundoapellido">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Correo</label>
+        <input type="text" required class="form-control" [(ngModel)]="participanteemem.correo" name="correo">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Contra</label>
+        <input type="password" required class="form-control" [(ngModel)]="participanteemem.contra" name="contra">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Afiliación</label>
+        <select [(ngModel)]="participanteemem.idafiliacion" required name="idafiliacion" class="custom-select">
+          <option *ngFor="let afiliacion of Afiliaciones" [value]="afiliacion.idafiliacion">{{ afiliacion.afiliacion | capitalizado }}</option>
+        </select>
+    </div>
+
+    <button class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

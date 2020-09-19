@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Router } from '@angular/router';
 import { LS_ULTIMA_RUTA } from '../config/config';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,13 @@ export class ServiciosService {
   private token = '';
   private ENCABEZADO_HTTP = 'http://';
   private IP_SERVIDOR = '201.185.240.142';
-  private PUERTO = ':5125';
-  private GENERAL = '/datasnap/rest/tsaem/';
+  private PUERTO = ':1952';
+  private GENERAL = '/datasnap/rest/tmatematicas/';
+
+  private URL_AFILIACION = 'Afiliacion';
+  private URL_AFILIACIONES = 'Afiliaciones';
+  private URL_PARTICIPANTEEMEM = 'ParticipanteEmem';
+  private URL_PARTICIPANTESEMEM = 'ParticipantesEmem';
 
   private URL_TOKEN = 'token';
 
@@ -92,6 +98,80 @@ export class ServiciosService {
     const datos = JSON.stringify(credenciales);
 
     return this.http.post(url, datos, {headers});
+  }
+
+  /* Afiliacion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postAfiliacion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_AFILIACION) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getAfiliaciones() {
+    const url = this.dataSnap_Path(this.URL_AFILIACIONES);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getAfiliacion(id: string) {
+    const url = this.dataSnap_Path(this.URL_AFILIACION) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putAfiliacion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_AFILIACION) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteAfiliacion(id: string) {
+    const url = this.dataSnap_Path(this.URL_AFILIACION) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* ParticipanteEmem %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postParticipanteEmem(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PARTICIPANTEEMEM) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getParticipantesEmem() {
+    const url = this.dataSnap_Path(this.URL_PARTICIPANTESEMEM);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getParticipanteEmem(id: string) {
+    const url = this.dataSnap_Path(this.URL_PARTICIPANTEEMEM) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putParticipanteEmem(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PARTICIPANTEEMEM) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteParticipanteEmem(id: string) {
+    const url = this.dataSnap_Path(this.URL_PARTICIPANTEEMEM) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
   }
 
 }

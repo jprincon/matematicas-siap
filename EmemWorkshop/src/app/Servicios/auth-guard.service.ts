@@ -12,18 +12,11 @@ export class AuthGuardService implements CanActivate {
   path: ActivatedRouteSnapshot[];
   route: ActivatedRouteSnapshot;
 
-  puedeVerRuta = false;
+  puedeVerRuta = true;
 
   constructor(private transfer: TransferenciaService,
               private router: Router) {
-    transfer.obtenerMuestraUsuario.subscribe((rMuestra: boolean) => {
-      // console.log(rMuestra);
-      this.puedeVerRuta = rMuestra;
-    });
 
-    if (!this.puedeVerRuta) {
-      this.router.navigate(['inicio']);
-    }
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {

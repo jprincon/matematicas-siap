@@ -317,6 +317,26 @@ type
     function acceptSubactividadDocente(const token: string;
       const datos: TJSONObject): TJSONObject;
 
+    { Afiliacion }
+    function updateAfiliacion(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function Afiliacion(const ID: string): TJSONObject;
+    function Afiliaciones: TJSONObject;
+    function cancelAfiliacion(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptAfiliacion(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+
+    { ParticipanteEmem }
+    function updateParticipanteEmem(const token: string;
+      const datos: TJSONObject): TJSONObject;
+    function ParticipanteEmem(const ID: string): TJSONObject;
+    function ParticipantesEmem: TJSONObject;
+    function cancelParticipanteEmem(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptParticipanteEmem(const token: string;
+      const datos: TJSONObject): TJSONObject;
+
   end;
 {$METHODINFO OFF}
 
@@ -325,6 +345,474 @@ implementation
 {$R *.dfm}
 
 uses System.StrUtils;
+
+{ Método INSERT - ParticipanteEmem }
+function TMatematicas.updateParticipanteEmem(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idparticipante', 'String');
+      agregarParametro('primernombre', 'String');
+      agregarParametro('segundonombre', 'String');
+      agregarParametro('primerapellido', 'String');
+      agregarParametro('segundoapellido', 'String');
+      agregarParametro('correo', 'String');
+      agregarParametro('contra', 'String');
+      agregarParametro('idafiliacion', 'String');
+
+      INSERT('emem_participantes', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El participante se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateParticipanteEmem',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateParticipanteEmem', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - ParticipanteEmem }
+function TMatematicas.ParticipanteEmem(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('emem_participantes', 'idparticipante', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idparticipante', 'String');
+    agregarParametro('primernombre', 'String');
+    agregarParametro('segundonombre', 'String');
+    agregarParametro('primerapellido', 'String');
+    agregarParametro('segundoapellido', 'String');
+    agregarParametro('correo', 'String');
+    agregarParametro('contra', 'String');
+    agregarParametro('idafiliacion', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getParticipanteEmem',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('ParticipanteEmem', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - ParticipanteEmem }
+function TMatematicas.ParticipantesEmem: TJSONObject;
+var
+  Json, JsonAfiliacion, JsonParticipante: TJSONObject;
+  Query, QAfiliacion: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+  IdAfiliacion: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  QAfiliacion := TFDQuery.create(nil);
+  QAfiliacion.Connection := Conexion;
+
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('ParticipantesEmem', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('emem_participantes', 'primernombre', Query);
+
+    limpiarParametros;
+    agregarParametro('idparticipante', 'String');
+    agregarParametro('primernombre', 'String');
+    agregarParametro('segundonombre', 'String');
+    agregarParametro('primerapellido', 'String');
+    agregarParametro('segundoapellido', 'String');
+    agregarParametro('correo', 'String');
+    agregarParametro('contra', 'String');
+    agregarParametro('idafiliacion', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      JsonParticipante := TJSONObject.create;
+      JsonParticipante := crearJSON(Query);
+
+      // Obtener la afiliación
+      IdAfiliacion := Query.FieldByName('idafiliacion').AsString;
+      QAfiliacion.Close;
+      QAfiliacion.SQL.Text :=
+        'SELECT * FROM emem_afiliaciones WHERE idafiliacion=' + #39 +
+        IdAfiliacion + #39;
+      QAfiliacion.Open;
+
+      JsonAfiliacion := TJSONObject.create;
+      JsonAfiliacion.AddPair('idafiliacion',
+        QAfiliacion.FieldByName('idafiliacion').AsString);
+      JsonAfiliacion.AddPair('afiliacion', QAfiliacion.FieldByName('afiliacion')
+        .AsString);
+
+      JsonParticipante.AddPair('afiliacion', JsonAfiliacion);
+
+      ArrayJson.AddElement(JsonParticipante);
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllParticipanteEmem',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('ParticipantesEmem', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - ParticipanteEmem }
+function TMatematicas.cancelParticipanteEmem(const token, ID: string)
+  : TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('emem_participantes', 'idparticipante', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'El participante se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteParticipanteEmem',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelParticipanteEmem', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - ParticipanteEmem }
+function TMatematicas.acceptParticipanteEmem(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idparticipante', 'String');
+      agregarParametro('primernombre', 'String');
+      agregarParametro('segundonombre', 'String');
+      agregarParametro('primerapellido', 'String');
+      agregarParametro('segundoapellido', 'String');
+      agregarParametro('correo', 'String');
+      agregarParametro('contra', 'String');
+      agregarParametro('idafiliacion', 'String');
+
+      ID := datos.GetValue('idparticipante').Value;
+      UPDATE('emem_participantes', 'idparticipante', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El participante se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptParticipanteEmem',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateParticipanteEmem', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - Afiliacion }
+function TMatematicas.updateAfiliacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idafiliacion', 'String');
+      agregarParametro('afiliacion', 'String');
+
+      INSERT('emem_afiliaciones', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La afiliación se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateAfiliacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateAfiliacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - Afiliacion }
+function TMatematicas.Afiliacion(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('emem_afiliaciones', 'idafiliacion', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idafiliacion', 'String');
+    agregarParametro('afiliacion', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAfiliacion',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Afiliacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - Afiliacion }
+function TMatematicas.Afiliaciones: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('Afiliaciones', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('emem_afiliaciones', 'afiliacion', Query);
+
+    limpiarParametros;
+    agregarParametro('idafiliacion', 'String');
+    agregarParametro('afiliacion', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllAfiliacion',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Afiliaciones', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - Afiliacion }
+function TMatematicas.cancelAfiliacion(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('emem_afiliaciones', 'idafiliacion', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'La afiliación se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteAfiliacion',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelAfiliacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - Afiliacion }
+function TMatematicas.acceptAfiliacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idafiliacion', 'String');
+      agregarParametro('afiliacion', 'String');
+
+      ID := datos.GetValue('idafiliacion').Value;
+      UPDATE('emem_afiliaciones', 'idafiliacion', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La afiliación se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptAfiliacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateAfiliacion', Json.toString);
+  Query.Free;
+end;
 
 { Método INSERT - SubactividadDocente }
 function TMatematicas.updateSubactividadDocente(const token: string;

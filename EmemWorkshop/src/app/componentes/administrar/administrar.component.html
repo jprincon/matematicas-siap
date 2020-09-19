@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-shadow">
+            <div class="list-group list-group-flush">
+                <a class="list-group-item list-group-item-action puntero-manito" *ngFor="let menu of Menus" (click)="verMenu(menu.Ruta)">
+                    <div class="media">
+                        <img [src]="menu.Imagen" class="align-self-start mr-3" style="width: 48px;" [alt]="menu.Nombre">
+                        <div class="media-body">
+                            <h5 class="mt-0">{{ menu.Nombre }}</h5>
+                            <p>{{ menu.Descripcion }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+        <div class="card card-shadow">
+            <div class="card-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
