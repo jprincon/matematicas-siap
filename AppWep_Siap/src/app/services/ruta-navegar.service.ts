@@ -15,7 +15,7 @@ export class RutaNavegarService {
     });
    }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return true;
+  canActivate() {
+    return false;
   }
 }

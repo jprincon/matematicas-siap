@@ -221,7 +221,7 @@ export interface ActividadDocente {
   idactividaddocente?: string;
   actividad?: string;
   idfunciondocente?: string;
-  subactividades: SubactividadDocente[];
+  subactividades?: SubactividadDocente[];
 }
 
 export interface SubactividadDocente {

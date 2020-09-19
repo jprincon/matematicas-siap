@@ -1,0 +1,32 @@
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="assets/Imagenes/logo_emem.jpeg" width="200" height="200" alt="" loading="lazy">
+    </a>
+
+    <form class="form-inline my-2 my-lg-0">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img src="assets/Imagenes/Login.png" style="width: 32px;"> Login</button>
+    </form>
+</nav>
+
+<!-- Barra de Menús -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+    <a class="navbar-brand puntero-manito text-white"><img src="assets/Imagenes/logo_emem.jpeg" style="height: 32px;"> EMEM Workshop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto puntero-manito">
+            <li class="nav-item active" (click)="verMenu('inicio')">
+                <a class="nav-link">Inicio</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu('modalidades')">
+                <a class="nav-link">Modalidades</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu('inscripcion')">
+                <a class="nav-link">Inscripción</a>
+            </li>
+        </ul>
+    </div>
+</nav>

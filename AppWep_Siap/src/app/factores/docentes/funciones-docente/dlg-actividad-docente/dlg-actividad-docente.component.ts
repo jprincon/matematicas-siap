@@ -16,7 +16,8 @@ export class DlgActividadDocenteComponent implements OnInit {
 
   actividaddocente: ActividadDocente = {
     actividad: '',
-    idfunciondocente: ''
+    idfunciondocente: '',
+    subactividades: []
   };
 
   FuncionesDocente: FuncionDocente[] = [];

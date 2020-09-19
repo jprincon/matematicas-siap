@@ -919,8 +919,8 @@ begin
           JsonSubactividad := TJSONObject.create;
           JsonSubactividad.AddPair('idsubactividaddocente',
             Query3.FieldByName('idsubactividaddocente').AsString);
-          JsonSubactividad.AddPair('subactividad', Query3.FieldByName('subactividad')
-            .AsString);
+          JsonSubactividad.AddPair('subactividad',
+            Query3.FieldByName('subactividad').AsString);
           JsonSubactividad.AddPair('idactividaddocente',
             Query3.FieldByName('idactividaddocente').AsString);
 
@@ -4999,7 +4999,10 @@ begin
       finB := FHoras.IndexOf(Query.FieldByName('fin').AsString);
 
       fm := abs(diaA - diaB) = 0;
-      fm := fm and ((iniA - iniB) < abs(finA - iniA));
+      if iniA < iniB then
+        fm := fm and (finB > iniB)
+      else
+        fm := fm and (iniB > finB);
 
       horas := finB - iniB;
 

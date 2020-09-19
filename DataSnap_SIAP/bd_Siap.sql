@@ -1,4 +1,4 @@
-﻿create table if not exists math_visitas(
+create table if not exists math_visitas(
 	id_visita text primary key not null,
 	contador text
 );
@@ -90,7 +90,7 @@ create table if not exists siap_tipo_contrato(
 	idtipocontrato text primary key not null,
 	contrato text
 );
-alter table siap_tipo_contrato add column horas text
+alter table siap_tipo_contrato add column horas text;
 
 create table if not exists siap_categoria_docentes(
 	idcategoriadocente text primary key not null,
@@ -99,7 +99,7 @@ create table if not exists siap_categoria_docentes(
 
 /* Tabla de Docent es */
 -- drop table siap_docentes
-create table if not exists siap_docentes
+create table if not exists siap_docentes (
 	iddocente integer primary key not null,
 	nombre text,
 	correo text,
@@ -108,6 +108,7 @@ create table if not exists siap_docentes
 	idtipocontrato text references siap_tipo_contrato(idtipocontrato)
 ); 
 alter table siap_docentes add column activo text;
+alter table siap_docentes add column documento text;
 
 /* Tabla de Errores: Permite registrar los errores de la aplicación
    y mostrarlos mediante un servicio */
@@ -144,6 +145,7 @@ create table if not exists siap_servicios_programas(
 );
 alter table siap_servicios_programas add column jornada text;
 alter table siap_servicios_programas add column grupo text;
+alter table siap_servicios_programas add column semanas text;
 
 /*Tabla para HorarioServicio*/
 create table if not exists siap_horarios_servicios(
