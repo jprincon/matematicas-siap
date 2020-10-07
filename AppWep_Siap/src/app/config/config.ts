@@ -18,6 +18,9 @@ export const RUTA_SERVICIOSPROGRAMA = 'servicios-programa';
 export const RUTA_SERVICIOPROGRAMA = 'servicio-programa';
 export const RUTA_FUNCIONESDOCENTE = 'funciones-docente';
 
+export const RUTA_FACTOR_EXTENSION = 'extension';
+export const RUTA_EGRESADOS = 'egresados';
+
 export const RUTA_AGENDAS = 'agendas';
 export const RUTA_PROGRAMAS_SERVICIOS = 'servicios-programas';
 

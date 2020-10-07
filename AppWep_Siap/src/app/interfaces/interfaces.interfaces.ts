@@ -229,3 +229,18 @@ export interface SubactividadDocente {
   subactividad?: string;
   idactividaddocente?: string;
 }
+
+export interface Egresado {
+  idegresado?: string;
+  nombre?: string;
+  celular?: string;
+  correo?: string;
+  esegresado?: string;
+  fecha?: string;
+  gradoescolaridad?: string;
+  secretaria?: string;
+  institucion?: string;
+  municipio?: string;
+  cargo?: string;
+  nivellabora?: string;
+}

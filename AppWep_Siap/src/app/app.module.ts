@@ -110,6 +110,8 @@ import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente
 import { DlgFuncionDocenteComponent } from './factores/docentes/funciones-docente/dlg-funcion-docente/dlg-funcion-docente.component';
 import { DlgActividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
 import { DlgSubactividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
+import { EgresadosComponent } from './factores/extension/egresados/egresados.component';
+import { DlgEgresadoComponent } from './factores/extension/egresados/dlg-egresado/dlg-egresado.component';
 
 
 
@@ -243,6 +245,10 @@ import { DlgSubactividadDocenteComponent } from './factores/docentes/funciones-d
 
     DlgSubactividadDocenteComponent,
 
+    EgresadosComponent,
+
+    DlgEgresadoComponent,
+
 
   ],
   imports: [
@@ -276,7 +282,8 @@ import { DlgSubactividadDocenteComponent } from './factores/docentes/funciones-d
     DlgAgendaServicioComponent,
     DlgFuncionDocenteComponent,
     DlgActividadDocenteComponent,
-    DlgSubactividadDocenteComponent
+    DlgSubactividadDocenteComponent,
+    DlgEgresadoComponent
   ],
   bootstrap: [AppComponent]
 })

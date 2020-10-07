@@ -23,6 +23,7 @@ import { DlgAgendaServicioComponent } from '../factores/docentes/agendas/dlg-age
 import { DlgFuncionDocenteComponent } from '../factores/docentes/funciones-docente/dlg-funcion-docente/dlg-funcion-docente.component';
 import { DlgActividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
 import { DlgSubactividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
+import { DlgEgresadoComponent } from '../factores/extension/egresados/dlg-egresado/dlg-egresado.component';
 
 @Injectable({
   providedIn: 'root'
@@ -198,6 +199,15 @@ export class DialogosService {
     const dialogRef = this.dialog.open(DlgSubactividadDocenteComponent, {
       width: '60%',
       data: {accion, idsubactividaddocente, idactividaddocente}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgEgresado(accion: string, idegresado: string) {
+    const dialogRef = this.dialog.open(DlgEgresadoComponent, {
+      width: '60%', height: '80%',
+      data: {accion, idegresado}
     });
 
     return dialogRef.afterClosed();

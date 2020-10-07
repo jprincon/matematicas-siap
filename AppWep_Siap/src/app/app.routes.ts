@@ -43,13 +43,14 @@ import { DocenteComponent } from './factores/docentes/docente/docente.component'
 import { ErroresComponent } from './general/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 
-import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE } from './config/config';
+import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_FACTOR_EXTENSION } from './config/config';
 import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
 import { ProgramasComponent } from './factores/docentes/programas/programas.component';
 import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
 import { ServicioProgramaComponent } from './factores/docentes/servicios-programa/servicio-programa/servicio-programa.component';
 import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
 import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
+import { EgresadosComponent } from './factores/extension/egresados/egresados.component';
 
 const routes: Routes = [
 
@@ -60,12 +61,8 @@ const routes: Routes = [
   // %%%%%%% Rutas Factor Internacionalización %%%%%%%
 
   // %%%%%%% Rutas Factor Extension %%%%%%%
-  {path: 'extension', component: ExtensionComponent, canActivate: [RutaNavegarService]},
-  {
-    path: 'emem-workshop',
-    component: EmemWorkShopComponent,
-    children: RUTAS_EMEMWORKSHOP
-  },
+  {path: RUTA_FACTOR_EXTENSION, component: ExtensionComponent, canActivate: [RutaNavegarService]},
+  {path: RUTA_EGRESADOS, component: EgresadosComponent},
 
   /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      FACTORES
@@ -75,9 +72,6 @@ const routes: Routes = [
 
   // %%%%%%% Rutas Factor Internacionalización %%%%%%%
   {path: 'internacionalizacion', component: InternacionalizacionComponent, canActivate: [RutaNavegarService]},
-
-  // %%%%%%% Rutas Factor Extensión %%%%%%%
-  {path: 'extension', component: ExtensionComponent, canActivate: [RutaNavegarService]},
 
   // %%%%%%% Rutas Factor Docentes %%%%%%%
   {path: RUTA_FACTOR_DOCENTES, component: FactorDocentesComponent, canActivate: [RutaNavegarService],

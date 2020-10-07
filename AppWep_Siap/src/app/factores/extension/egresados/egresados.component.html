@@ -1,0 +1,40 @@
+<h1>Egresados</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Egresados ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <button class="btn btn-outline-success float-right" (click)="agregarEgresado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Egresado</button>
+
+    <table class="table table-hover puntero-manito">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let egresado of Egresados; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ egresado.idegresado }}</td>
+                <td>{{ egresado.nombre | capitalizado }}</td>
+                <td class="text-info  ">{{ egresado.correo }}</td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarEgresado(egresado)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarEgresado(egresado)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

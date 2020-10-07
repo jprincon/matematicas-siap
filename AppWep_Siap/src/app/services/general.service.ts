@@ -67,6 +67,8 @@ export class GeneralService {
   private URL_ACTIVIDADESDOCENTE = 'ActividadesDocente';
   private URL_SUBACTIVIDADDOCENTE = 'SubactividadDocente';
   private URL_SUBACTIVIDADESDOCENTE = 'SubactividadesDocente';
+  private URL_EGRESADO = 'Egresado';
+  private URL_EGRESADOS = 'Egresados';
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -1096,6 +1098,43 @@ export class GeneralService {
 
   deleteSubactividadDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_SUBACTIVIDADDOCENTE) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Egresado %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postEgresado(datos: string) {
+    const url = this.dataSnap_Path(this.URL_EGRESADO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getEgresados() {
+    const url = this.dataSnap_Path(this.URL_EGRESADOS);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getEgresado(id: string) {
+    const url = this.dataSnap_Path(this.URL_EGRESADO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putEgresado(datos: string) {
+    const url = this.dataSnap_Path(this.URL_EGRESADO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteEgresado(id: string) {
+    const url = this.dataSnap_Path(this.URL_EGRESADO) + this.parametro(this.token) + this.parametro(id);
     console.log(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
