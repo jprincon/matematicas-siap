@@ -43,7 +43,7 @@ import { DocenteComponent } from './factores/docentes/docente/docente.component'
 import { ErroresComponent } from './general/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 
-import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_FACTOR_EXTENSION } from './config/config';
+import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_FACTOR_EXTENSION, RUTA_GRUPOSINVESTIGACION, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_TRABAJOSGRADO } from './config/config';
 import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
 import { ProgramasComponent } from './factores/docentes/programas/programas.component';
 import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
@@ -51,6 +51,10 @@ import { ServicioProgramaComponent } from './factores/docentes/servicios-program
 import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
 import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
 import { EgresadosComponent } from './factores/extension/egresados/egresados.component';
+import { GruposInvestigacionComponent } from './factores/investigacion/grupos-investigacion/grupos-investigacion.component';
+import { ModalidadesComponent } from './factores/procesos_academicos/trabajos-grado/modalidades/modalidades.component';
+import { AreasProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/areas-profundizacion.component';
+import { TrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/trabajos-grado.component';
 
 const routes: Routes = [
 
@@ -95,9 +99,13 @@ const routes: Routes = [
 
   // %%%%%%% Rutas Procesos Académicos %%%%%%%
   {path: 'procesos-academicos', component: ProcesosAcademicosComponent, canActivate: [RutaNavegarService]},
+  {path: RUTA_AREASPROFUNDIZACION, component: AreasProfundizacionComponent},
+  {path: RUTA_MODALIDADES, component: ModalidadesComponent},
+  {path: RUTA_TRABAJOSGRADO, component: TrabajosGradoComponent},
 
   // %%%%%%% Rutas Investigación %%%%%%%
   {path: 'investigacion', component: InvestigacionComponent, canActivate: [RutaNavegarService]},
+  {path: RUTA_GRUPOSINVESTIGACION, component: GruposInvestigacionComponent},
 
   // %%%%%%% Rutas de Administración %%%%%%%
   {

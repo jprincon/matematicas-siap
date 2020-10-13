@@ -2,6 +2,7 @@ import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { DialogosService } from '../../../services/dialogos.service';
 import { Egresado } from '../../../interfaces/interfaces.interfaces';
+import { TransferService } from '../../../services/transfer.service';
 
 @Component({
   selector: 'app-egresados',
@@ -15,9 +16,11 @@ export class EgresadosComponent implements OnInit {
   contIntentos = 1;
 
   constructor(private genService: GeneralService,
-              private dlgService: DialogosService) { }
+              private dlgService: DialogosService,
+              private transfer: TransferService) { }
 
   ngOnInit() {
+    this.transfer.enviarTituloAplicacion('Egresados del Programa');
     this.leerEgresados();
   }
 

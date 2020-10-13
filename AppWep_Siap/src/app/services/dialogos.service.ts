@@ -24,6 +24,10 @@ import { DlgFuncionDocenteComponent } from '../factores/docentes/funciones-docen
 import { DlgActividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
 import { DlgSubactividadDocenteComponent } from '../factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
 import { DlgEgresadoComponent } from '../factores/extension/egresados/dlg-egresado/dlg-egresado.component';
+import { DlgGrupoInvestigacionComponent } from '../factores/investigacion/grupos-investigacion/dlg-grupo-investigacion/dlg-grupo-investigacion.component';
+import { DlgModalidadComponent } from '../factores/procesos_academicos/trabajos-grado/modalidades/dlg-modalidad/dlg-modalidad.component';
+import { DlgAreaProfundizacionComponent } from '../factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
+import { DlgTrabajoGradoComponent } from '../factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
 
 @Injectable({
   providedIn: 'root'
@@ -208,6 +212,42 @@ export class DialogosService {
     const dialogRef = this.dialog.open(DlgEgresadoComponent, {
       width: '60%', height: '80%',
       data: {accion, idegresado}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgGrupoInvestigacion(accion: string, idgrupoinvestigacion: string) {
+    const dialogRef = this.dialog.open(DlgGrupoInvestigacionComponent, {
+      width: '60%', height: '80%',
+      data: {accion, idgrupoinvestigacion}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgModalidad(accion: string, idmodalidad: string) {
+    const dialogRef = this.dialog.open(DlgModalidadComponent, {
+      width: '60%',
+      data: {accion, idmodalidad}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgAreaProfundizacion(accion: string, idareaprofundizacion: string) {
+    const dialogRef = this.dialog.open(DlgAreaProfundizacionComponent, {
+      width: '60%',
+      data: {accion, idareaprofundizacion}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgTrabajoGrado(accion: string, idtrabajogrado: string) {
+    const dialogRef = this.dialog.open(DlgTrabajoGradoComponent, {
+      width: '60%', height: '80%',
+      data: {accion, idtrabajogrado}
     });
 
     return dialogRef.afterClosed();

@@ -244,3 +244,40 @@ export interface Egresado {
   cargo?: string;
   nivellabora?: string;
 }
+
+export interface GrupoInvestigacion {
+  idgrupoinvestigacion?: string;
+  nombre?: string;
+  sigla?: string;
+  iddirector?: string;
+  mision?: string;
+  vision?: string;
+}
+
+export interface Modalidad {
+  idmodalidad?: string;
+  nombre?: string;
+}
+
+export interface AreaProfundizacion {
+  idareaprofundizacion?: string;
+  nombre?: string;
+}
+
+export interface TrabajoGrado {
+  idtrabajogrado?: string;
+  titulo?: string;
+  estudiante1?: string;
+  estudiante2?: string;
+  estudiante3?: string;
+  idjurado1?: string;
+  idjurado2?: string;
+  idjurado3?: string;
+  iddirector?: string;
+  idmodalidad?: string;
+  idareaprofundizacion?: string;
+  idgrupoinvestigacion?: string;
+  actapropuesta?: string;
+  fechasustentacion?: string;
+  calificacion?: string;
+}

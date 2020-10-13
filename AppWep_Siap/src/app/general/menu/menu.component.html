@@ -14,11 +14,17 @@
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="procesosAcademicos" role="button">Procesos Académicos</a>
 
                 <mat-menu #procesosAcademicos="matMenu">
-                    <button mat-menu-item>Trabajos de Grado</button>
+                    <button mat-menu-item [matMenuTriggerFor]="trabajosGrado">Trabajos de Grado</button>
                     <button mat-menu-item>Plan de Mejoramiento</button>
                     <button mat-menu-item [matMenuTriggerFor]="actualizacionDocumentos">Actualización de Documentos</button>
                     <button mat-menu-item>Coordinación de Prática Docente</button>
                     <button mat-menu-item>Virtualización</button>
+                </mat-menu>
+
+                <mat-menu #trabajosGrado>
+                    <button mat-menu-item (click)="verMenu([_RUTA_MODALIDADES])">Modalidades</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_AREASPROFUNDIZACION])">Áreas de Profundización</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_TRABAJOSGRADO])">Trabajos de Grado</button>
                 </mat-menu>
 
                 <mat-menu #actualizacionDocumentos="matMenu">
@@ -92,11 +98,7 @@
                 </mat-menu>
 
                 <mat-menu #representanteInvestigacion="matMenu">
-                    <button mat-menu-item [matMenuTriggerFor]="gruposInvestigacion">Grupos de Investigación</button>
-                </mat-menu>
-
-                <mat-menu #gruposInvestigacion="matMenu">
-                    <button mat-menu-item *ngFor="let grupo of Grupos">{{ grupo.nombre }}</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_GRUPOSINVESTIGACION])">Grupos de Investigación</button>
                 </mat-menu>
             </li>
 

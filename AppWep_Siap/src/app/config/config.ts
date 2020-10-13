@@ -17,16 +17,15 @@ export const RUTA_PROGRAMAS = 'programas';
 export const RUTA_SERVICIOSPROGRAMA = 'servicios-programa';
 export const RUTA_SERVICIOPROGRAMA = 'servicio-programa';
 export const RUTA_FUNCIONESDOCENTE = 'funciones-docente';
-
+export const RUTA_MODALIDADES = 'modalidades';
 export const RUTA_FACTOR_EXTENSION = 'extension';
 export const RUTA_EGRESADOS = 'egresados';
-
 export const RUTA_AGENDAS = 'agendas';
 export const RUTA_PROGRAMAS_SERVICIOS = 'servicios-programas';
-
+export const RUTA_GRUPOSINVESTIGACION = 'grupos-investigacion';
 export const RUTA_ACTUALIZACIONES = 'actualizaciones';
 export const RUTA_TAREAS_PENDIENTES = 'tareas-pendientes';
 export const RUTA_ERRORES = 'errores';
-
 export const RUTA_ADMINISTRADOR = 'administrador';
-
+export const RUTA_AREASPROFUNDIZACION = 'areas-profundizacion';
+export const RUTA_TRABAJOSGRADO = 'trabajos-grado';

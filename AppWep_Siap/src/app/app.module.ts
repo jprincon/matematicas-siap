@@ -112,6 +112,14 @@ import { DlgActividadDocenteComponent } from './factores/docentes/funciones-doce
 import { DlgSubactividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-subactividad-docente/dlg-subactividad-docente.component';
 import { EgresadosComponent } from './factores/extension/egresados/egresados.component';
 import { DlgEgresadoComponent } from './factores/extension/egresados/dlg-egresado/dlg-egresado.component';
+import { GruposInvestigacionComponent } from './factores/investigacion/grupos-investigacion/grupos-investigacion.component';
+import { DlgGrupoInvestigacionComponent } from './factores/investigacion/grupos-investigacion/dlg-grupo-investigacion/dlg-grupo-investigacion.component';
+import { ModalidadesComponent } from './factores/procesos_academicos/trabajos-grado/modalidades/modalidades.component';
+import { DlgModalidadComponent } from './factores/procesos_academicos/trabajos-grado/modalidades/dlg-modalidad/dlg-modalidad.component';
+import { AreasProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/areas-profundizacion.component';
+import { DlgAreaProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
+import { TrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/trabajos-grado.component';
+import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
 
 
 
@@ -249,6 +257,22 @@ import { DlgEgresadoComponent } from './factores/extension/egresados/dlg-egresad
 
     DlgEgresadoComponent,
 
+    GruposInvestigacionComponent,
+
+    DlgGrupoInvestigacionComponent,
+
+    ModalidadesComponent,
+
+    DlgModalidadComponent,
+
+    AreasProfundizacionComponent,
+
+    DlgAreaProfundizacionComponent,
+
+    TrabajosGradoComponent,
+
+    DlgTrabajoGradoComponent,
+
 
   ],
   imports: [
@@ -283,7 +307,11 @@ import { DlgEgresadoComponent } from './factores/extension/egresados/dlg-egresad
     DlgFuncionDocenteComponent,
     DlgActividadDocenteComponent,
     DlgSubactividadDocenteComponent,
-    DlgEgresadoComponent
+    DlgEgresadoComponent,
+    DlgGrupoInvestigacionComponent,
+    DlgModalidadComponent,
+    DlgAreaProfundizacionComponent,
+    DlgTrabajoGradoComponent
   ],
   bootstrap: [AppComponent]
 })
