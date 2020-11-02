@@ -57,14 +57,14 @@ export class DocenteComponent implements OnInit {
 
   leerCategorias() {
     this.genService.getCategoriasDocente().subscribe((rCategorias: any) => {
-      console.log(rCategorias);
+
       this.Categorias = rCategorias.CategoriasDocentes;
     });
   }
 
   leerTiposContrato() {
     this.genService.getTiposContrato().subscribe((rTiposContrato: any) => {
-      console.log(rTiposContrato);
+
       this.TiposContrato = rTiposContrato.TiposContratos;
     });
   }
@@ -92,7 +92,7 @@ export class DocenteComponent implements OnInit {
     };
 
     reader.onerror = (error) => {
-      console.log('Error: ', error);
+
     };
 
   }

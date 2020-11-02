@@ -49,23 +49,23 @@ export class AdminEditarusuarioComponent implements OnInit {
   crearUsuario() {
     if (this.accion === 'crear') {
       const contraMD5: string = new Md5().appendStr(this.usuario.contra).end().toString();
-      console.log(contraMD5);
+
       this.usuario.contra = contraMD5;
 
       const datos = JSON.stringify(this.usuario);
       this.servicio.postUsuario(datos).subscribe((rUsuario: any) => {
-        console.log(rUsuario);
+
         this.router.navigate(['administrador', 'usuario']);
       });
     } else {
 
       const contraMD5: string = new Md5().appendStr(this.usuario.contra).end().toString();
-      console.log(contraMD5);
+
       this.usuario.contra = contraMD5;
 
       const datos = JSON.stringify(this.usuario);
       this.servicio.putUsuario(datos).subscribe((rUsuario: any) => {
-        console.log(rUsuario);
+
         this.router.navigate(['administrador', 'usuario']);
       });
     }

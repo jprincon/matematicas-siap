@@ -12,7 +12,7 @@ export class RutaNavegarService {
   constructor(private transfer: TransferService) {
     transfer.obtenerPermisoNavegar.subscribe((rPermiso: boolean) => {
       this.permiso = rPermiso;
-      console.log(rPermiso);
+
     });
    }
 

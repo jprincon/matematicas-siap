@@ -75,7 +75,7 @@ export class ServicioProgramaComponent implements OnInit {
 
   agregarPrograma() {
     this.DlgPrograma('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerProgramas();
     });
   }
@@ -92,7 +92,7 @@ export class ServicioProgramaComponent implements OnInit {
     const datos = JSON.stringify(this.servicioprograma);
 
     this.genService.putServicioPrograma(datos).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.guardando = false;
 
       if (regresar) {
@@ -112,13 +112,12 @@ export class ServicioProgramaComponent implements OnInit {
 
   agregarHorarioServicio(servicio: ServicioPrograma) {
     this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerHorarios();
     });
   }
 
   editarHorarioServicio(horarioservicio: HorarioServicio) {
-    console.log(horarioservicio);
 
     this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma).subscribe((rRespuesta: any) => {
       this.dlgService.mostrarSnackBar('Información', rRespuesta);
@@ -130,7 +129,6 @@ export class ServicioProgramaComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Horario?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteHorarioServicio(horarioservicio.idhorarioservicio).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerHorarios();
         });

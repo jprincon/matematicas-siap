@@ -30,14 +30,14 @@ export class ProgramasComponent implements OnInit {
 
     this.genService.getProgramas().subscribe((rProgramas: any) => {
       this.Programas = rProgramas.Programas;
-      console.log(rProgramas);
+
       this.leyendo = false;
     });
   }
 
   agregarPrograma() {
     this.dlgService.DlgPrograma('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerProgramas();
     });
   }
@@ -59,7 +59,7 @@ export class ProgramasComponent implements OnInit {
 
   borrarPrograma(id: string) {
     this.genService.deletePrograma(id).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
       this.leerProgramas();
     });

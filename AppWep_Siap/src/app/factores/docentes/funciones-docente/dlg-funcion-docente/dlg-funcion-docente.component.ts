@@ -52,17 +52,17 @@ export class DlgFuncionDocenteComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.funciondocente.idfunciondocente = new Utilidades().generarId();
-      console.log(this.funciondocente);
+
       const datos = JSON.stringify(this.funciondocente);
       this.genService.postFuncionDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.funciondocente);
 
       this.genService.putFuncionDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

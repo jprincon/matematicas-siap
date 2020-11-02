@@ -21,14 +21,14 @@ export class ParticpantesEmemComponent implements OnInit {
 
   obtenerParcipantes() {
     this.servicio.getParticipantes().subscribe((rParticipantes: any) => {
-      console.log(rParticipantes);
+
       this.participantes = rParticipantes.participantes;
     });
   }
 
   ver(participante: Usuario) {
     this.dialog.mostrarDatosParticipante(participante).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
     });
   }
 

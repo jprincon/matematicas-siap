@@ -62,17 +62,17 @@ export class DlgProgramaComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.programa.idprograma = new Utilidades().generarId();
-      console.log(this.programa);
+
       const datos = JSON.stringify(this.programa);
       this.genService.postPrograma(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.programa);
 
       this.genService.putPrograma(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

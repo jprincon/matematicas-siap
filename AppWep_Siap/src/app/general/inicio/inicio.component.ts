@@ -30,7 +30,7 @@ export class InicioComponent implements OnInit {
   // %%%%%%% Inciar Sesión %%%%%%%
   ingresar() {
     this.genService.getUsuario(this.usuario.cedula).subscribe((rUsuario: Usuario) => {
-      // console.log(rUsuario);
+
 
       if (rUsuario.nombre) {
         const contraMD5 = new Md5().appendStr(this.usuario.contra).end().toString();

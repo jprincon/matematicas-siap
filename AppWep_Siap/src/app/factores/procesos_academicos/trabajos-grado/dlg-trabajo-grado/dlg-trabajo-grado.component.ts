@@ -65,17 +65,17 @@ export class DlgTrabajoGradoComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.trabajogrado.idtrabajogrado = new Utilidades().generarId();
-      console.log(this.trabajogrado);
+
       const datos = JSON.stringify(this.trabajogrado);
       this.genService.postTrabajoGrado(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.trabajogrado);
 
       this.genService.putTrabajoGrado(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

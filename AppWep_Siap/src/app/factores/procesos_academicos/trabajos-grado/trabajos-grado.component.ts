@@ -29,14 +29,14 @@ export class TrabajosGradoComponent implements OnInit {
 
     this.genService.getTrabajosGrado().subscribe((rTrabajosGrado: any) => {
       this.TrabajosGrado = rTrabajosGrado.TrabajosGrado;
-      console.log(rTrabajosGrado);
+
       this.leyendo = false;
     });
   }
 
   agregarTrabajoGrado() {
     this.dlgService.DlgTrabajoGrado('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerTrabajosGrado();
     });
   }
@@ -52,7 +52,7 @@ export class TrabajosGradoComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este TrabajoGrado?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteTrabajoGrado(trabajogrado.idtrabajogrado).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerTrabajosGrado();
         });

@@ -48,7 +48,7 @@ export class AdminUsuarioComponent implements OnInit {
 
   eliminar(usuario: Usuario){
       this.servicio.deleteUsuario(usuario.cedula).subscribe((rUsuario: any) => {
-        console.log(rUsuario);
+
         this.obtenerUsuarios();
       });
   }

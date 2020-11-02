@@ -52,17 +52,17 @@ export class DlgModalidadComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.modalidad.idmodalidad = new Utilidades().generarId();
-      console.log(this.modalidad);
+
       const datos = JSON.stringify(this.modalidad);
       this.genService.postModalidad(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.modalidad);
 
       this.genService.putModalidad(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

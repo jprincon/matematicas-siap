@@ -30,7 +30,7 @@ export class ErroresComponent implements OnInit {
 
     this.genService.getErrores().subscribe((rErrores: any) => {
       this.Errores = rErrores.Errores;
-      console.log(rErrores);
+
       this.leyendo = false;
     });
   }
@@ -57,7 +57,7 @@ export class ErroresComponent implements OnInit {
 
   borrarError(id: string) {
     this.genService.deleteError(id).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
       this.leerErrores();
     });

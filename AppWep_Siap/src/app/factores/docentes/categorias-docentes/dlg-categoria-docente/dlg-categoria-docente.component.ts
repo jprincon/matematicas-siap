@@ -52,17 +52,17 @@ export class DlgCategoriaDocenteComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.categoriadocente.idcategoriadocente = new Utilidades().generarId();
-      console.log(this.categoriadocente);
+
       const datos = JSON.stringify(this.categoriadocente);
       this.genService.postCategoriaDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.categoriadocente);
 
       this.genService.putCategoriaDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

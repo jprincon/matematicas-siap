@@ -52,17 +52,17 @@ export class DlgFacultadComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.facultad.idfacultad = new Utilidades().generarId();
-      console.log(this.facultad);
+
       const datos = JSON.stringify(this.facultad);
       this.genService.postFacultad(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.facultad);
 
       this.genService.putFacultad(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

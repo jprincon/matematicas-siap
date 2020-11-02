@@ -35,8 +35,6 @@ export class Utilidades {
       mes = mes + 1;
     }
 
-    console.log(dia, mes, anyo);
-
     return `${ dia }/${ mes }/${ anyo }`;
   }
 }

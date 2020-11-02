@@ -54,14 +54,14 @@ export class DlgDocenteComponent implements OnInit {
 
   leerCategorias() {
     this.genService.getCategoriasDocente().subscribe((rCategorias: any) => {
-      console.log(rCategorias);
+
       this.Categorias = rCategorias.CategoriasDocentes;
     });
   }
 
   leerTiposContrato() {
     this.genService.getTiposContrato().subscribe((rTiposContrato: any) => {
-      console.log(rTiposContrato);
+
       this.TiposContrato = rTiposContrato.TiposContratos;
     });
   }
@@ -69,7 +69,7 @@ export class DlgDocenteComponent implements OnInit {
   leerDocente() {
     this.genService.getDocente(this.id).subscribe((rDocente: Docente) => {
       this.docente = rDocente;
-      console.log(rDocente);
+
     });
   }
 
@@ -82,15 +82,15 @@ export class DlgDocenteComponent implements OnInit {
       this.docente.iddocente = this.docente.documento;
       const datos = JSON.stringify(this.docente);
       this.genService.postDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
-      console.log(this.docente);
+
       const datos = JSON.stringify(this.docente);
 
       this.genService.putDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

@@ -51,7 +51,7 @@ export class DlgActividadDocenteComponent implements OnInit {
 
     this.genService.getFuncionesDocente().subscribe((rFuncionesDocente: any) => {
       this.FuncionesDocente = rFuncionesDocente.FuncionesDocentes;
-      console.log(rFuncionesDocente);
+
       this.leyendo = false;
     });
   }
@@ -70,17 +70,17 @@ export class DlgActividadDocenteComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.actividaddocente.idactividaddocente = new Utilidades().generarId();
-      console.log(this.actividaddocente);
+
       const datos = JSON.stringify(this.actividaddocente);
       this.genService.postActividadDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.actividaddocente);
 
       this.genService.putActividadDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

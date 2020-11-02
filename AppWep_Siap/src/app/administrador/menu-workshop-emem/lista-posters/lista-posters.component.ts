@@ -19,7 +19,7 @@ export class ListaPostersComponent implements OnInit {
 
   obtenerListaPosters() {
     this.generalService.getObtenerListaPosters().subscribe((rListaPosters: any) => {
-      console.log(rListaPosters);
+
       this.posters = rListaPosters.Poster;
     });
   }

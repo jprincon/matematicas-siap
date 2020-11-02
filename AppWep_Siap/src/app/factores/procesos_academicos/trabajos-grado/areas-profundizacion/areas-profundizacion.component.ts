@@ -30,14 +30,14 @@ export class AreasProfundizacionComponent implements OnInit {
 
     this.genService.getAreasProfundizacion().subscribe((rAreasProfundizacion: any) => {
       this.AreasProfundizacion = rAreasProfundizacion.AreasProfundizacion;
-      console.log(rAreasProfundizacion);
+
       this.leyendo = false;
     });
   }
 
   agregarAreaProfundizacion() {
     this.dlgService.DlgAreaProfundizacion('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerAreasProfundizacion();
     });
   }
@@ -53,7 +53,7 @@ export class AreasProfundizacionComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Área de Profundización?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteAreaProfundizacion(areaprofundizacion.idareaprofundizacion).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerAreasProfundizacion();
         });

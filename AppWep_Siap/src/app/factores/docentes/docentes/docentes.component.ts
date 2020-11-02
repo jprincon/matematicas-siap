@@ -53,14 +53,14 @@ export class DocentesComponent implements OnInit {
   leerTiposContrato() {
     this.genService.getTiposContrato().subscribe((rTiposContrato: any) => {
       this.tiposContrato = rTiposContrato.TiposContratos;
-      console.log(rTiposContrato);
+
     });
   }
 
   leerCategorias() {
     this.genService.getCategoriasDocente().subscribe((rCategorias: any) => {
       this.Categorias = rCategorias.CategoriasDocentes;
-      console.log(rCategorias);
+
     });
   }
 
@@ -126,7 +126,7 @@ export class DocentesComponent implements OnInit {
     this.genService.getDocentes(this.ordenarPor).subscribe((rDocentes: any) => {
       this.Docentes = rDocentes.Docentes;
       this.bDocentes = this.Docentes;
-      console.log(rDocentes);
+
       this.contarResultados();
       this.leyendo = false;
     });

@@ -31,14 +31,14 @@ export class PeriodosComponent implements OnInit {
 
     this.genService.getPeriodos().subscribe((rPeriodos: any) => {
       this.Periodos = rPeriodos.Periodos;
-      console.log(rPeriodos);
+
       this.leyendo = false;
     });
   }
 
   agregarPeriodo() {
     this.dlgService.DlgPeriodo('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerPeriodos();
     });
   }
@@ -54,7 +54,7 @@ export class PeriodosComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Periodo?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deletePeriodo(periodo.idperiodo).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerPeriodos();
         });

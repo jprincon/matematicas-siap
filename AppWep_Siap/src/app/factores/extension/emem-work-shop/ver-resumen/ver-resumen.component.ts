@@ -25,23 +25,23 @@ export class VerResumenComponent implements OnInit {
 
   obtenerResumen() {
     this.activatedRoute.params.subscribe((rParam: any) => {
-      // console.log(rParam);
+
       this.idResumen = rParam.id;
 
       this.servicio.getResumen(this.idResumen).subscribe((rResumen: Resumen) => {
-        // console.log(rResumen);
+
         this.resumen = rResumen;
 
         this.servicio.getPalabrasClaveResumen(this.idResumen).subscribe((rPalabras: any) => {
-          // console.log(rPalabras);
+
           this.palabrasClave = rPalabras.palabrasClave;
 
           this.servicio.getAutores(this.idResumen).subscribe((rAutores: any) => {
-            // console.log(rAutores);
+
             this.autores = rAutores.autores;
 
             this.servicio.getReferencias(this.idResumen).subscribe((rReferencias: any) => {
-              // console.log(rReferencias);
+
               this.referencias = rReferencias.referencias;
             });
           });

@@ -108,7 +108,7 @@ export class ServiciosProgramaComponent implements OnInit {
     this.leyendo = true;
 
     this.genService.getServiciosPrograma(this.ordenarPor, this.periodo).subscribe((rServiciosPrograma: any) => {
-      console.log(rServiciosPrograma);
+
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
 
       this.filtrarServicios();
@@ -123,7 +123,6 @@ export class ServiciosProgramaComponent implements OnInit {
 
   agregarServicioPrograma() {
     this.dlgService.DlgServicioPrograma('Crear', '').subscribe((rIdSercicioPrograma: string) => {
-      console.log(rIdSercicioPrograma);
 
       if (rIdSercicioPrograma !== undefined) {
         this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, rIdSercicioPrograma]);
@@ -133,7 +132,7 @@ export class ServiciosProgramaComponent implements OnInit {
 
   agregarHorarioServicio(servicio: ServicioPrograma) {
     this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerServiciosPrograma();
     });
   }
@@ -149,7 +148,7 @@ export class ServiciosProgramaComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este ServicioPrograma?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteServicioPrograma(servicioprograma.idservicioprograma).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerServiciosPrograma();
         });
@@ -158,7 +157,6 @@ export class ServiciosProgramaComponent implements OnInit {
   }
 
   editarHorarioServicio(horarioservicio: HorarioServicio) {
-    console.log(horarioservicio);
 
     this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma).subscribe((rRespuesta: any) => {
       this.dlgService.mostrarSnackBar('Información', rRespuesta);
@@ -170,7 +168,7 @@ export class ServiciosProgramaComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Horario?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteHorarioServicio(horarioservicio.idhorarioservicio).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerServiciosPrograma();
         });

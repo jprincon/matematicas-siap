@@ -38,7 +38,6 @@ export class DlgHorarioServicioComponent implements OnInit {
               private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    console.log(this.data);
 
     this.accion = this.data.accion;
     this.id = this.data.idhorarioservicio;
@@ -52,7 +51,7 @@ export class DlgHorarioServicioComponent implements OnInit {
   leerHorarioServicio() {
     this.leyendo = true;
     this.genService.getHorarioServicio(this.id).subscribe((rHorarioServicio: HorarioServicio) => {
-      console.log(rHorarioServicio);
+
       this.horarioservicio = rHorarioServicio;
       this.leyendo = false;
     });
@@ -65,17 +64,17 @@ export class DlgHorarioServicioComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.horarioservicio.idhorarioservicio = new Utilidades().generarId();
-      console.log(this.horarioservicio);
+
       const datos = JSON.stringify(this.horarioservicio);
       this.genService.postHorarioServicio(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.horarioservicio);
 
       this.genService.putHorarioServicio(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

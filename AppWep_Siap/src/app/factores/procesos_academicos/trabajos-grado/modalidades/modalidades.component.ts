@@ -30,14 +30,14 @@ export class ModalidadesComponent implements OnInit {
 
     this.genService.getModalidades().subscribe((rModalidades: any) => {
       this.Modalidades = rModalidades.Modalidades;
-      console.log(rModalidades);
+
       this.leyendo = false;
     });
   }
 
   agregarModalidad() {
     this.dlgService.DlgModalidad('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerModalidades();
     });
   }
@@ -53,7 +53,7 @@ export class ModalidadesComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Modalidad?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteModalidad(modalidad.idmodalidad).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerModalidades();
         });

@@ -59,7 +59,7 @@ export class DlgServicioProgramaComponent implements OnInit {
 
   agregarPrograma() {
     this.DlgPrograma('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerProgramas();
     });
   }
@@ -83,17 +83,17 @@ export class DlgServicioProgramaComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.servicioprograma.idservicioprograma = new Utilidades().generarId();
-      console.log(this.servicioprograma);
+
       const datos = JSON.stringify(this.servicioprograma);
       this.genService.postServicioPrograma(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(this.servicioprograma.idservicioprograma);
       });
     } else {
       const datos = JSON.stringify(this.servicioprograma);
 
       this.genService.putServicioPrograma(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

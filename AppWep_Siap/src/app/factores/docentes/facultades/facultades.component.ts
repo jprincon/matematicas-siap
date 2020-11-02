@@ -27,14 +27,14 @@ export class FacultadesComponent implements OnInit {
 
     this.genService.getFacultades().subscribe((rFacultades: any) => {
       this.Facultades = rFacultades.Facultades;
-      console.log(rFacultades);
+
       this.leyendo = false;
     });
   }
 
   agregarFacultad() {
     this.dlgService.DlgFacultad('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerFacultades();
     });
   }

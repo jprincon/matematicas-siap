@@ -30,14 +30,14 @@ export class GruposInvestigacionComponent implements OnInit {
 
     this.genService.getGruposInvestigacion().subscribe((rGruposInvestigacion: any) => {
       this.GruposInvestigacion = rGruposInvestigacion.GruposInvestigacion;
-      console.log(rGruposInvestigacion);
+
       this.leyendo = false;
     });
   }
 
   agregarGrupoInvestigacion() {
     this.dlgService.DlgGrupoInvestigacion('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerGruposInvestigacion();
     });
   }
@@ -53,7 +53,7 @@ export class GruposInvestigacionComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este GrupoInvestigacion?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteGrupoInvestigacion(grupoinvestigacion.idgrupoinvestigacion).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerGruposInvestigacion();
         });

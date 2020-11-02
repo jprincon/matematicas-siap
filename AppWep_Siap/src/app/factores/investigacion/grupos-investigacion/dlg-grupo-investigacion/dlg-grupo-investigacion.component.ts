@@ -64,17 +64,17 @@ export class DlgGrupoInvestigacionComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.grupoinvestigacion.idgrupoinvestigacion = new Utilidades().generarId();
-      console.log(this.grupoinvestigacion);
+
       const datos = JSON.stringify(this.grupoinvestigacion);
       this.genService.postGrupoInvestigacion(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.grupoinvestigacion);
 
       this.genService.putGrupoInvestigacion(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

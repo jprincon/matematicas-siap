@@ -38,7 +38,7 @@ export class ResumenesComponent implements OnInit {
 
     const cedula = localStorage.getItem('cedula');
     this.servicio.getParticipante(cedula).subscribe((rUsuario: Usuario) => {
-      // console.log(rUsuario);
+
       this.usuario = rUsuario;
       this.puedeCrearResumen = (this.usuario.tipoParticipacion === 'Tallerista') || (this.usuario.tipoParticipacion === 'Ponente-Poster');
     });
@@ -50,7 +50,7 @@ export class ResumenesComponent implements OnInit {
 
   permiteCrearResumenes() {
     this.servicio.getPermiteCrearResumenes().subscribe((rPermite: any) => {
-      console.log(rPermite);
+
       this.permite = rPermite.permite;
     });
   }
@@ -85,12 +85,12 @@ export class ResumenesComponent implements OnInit {
     };
 
     this.dialogo.pedirUnValor('Workshop EMEM', 'Especifique el título del poster o taller').subscribe((rTitulo: string) => {
-      console.log(rTitulo);
+
       resumen.titulo = rTitulo;
       const datos = JSON.stringify(resumen);
-      console.log(datos);
+
       this.servicio.postResumen(datos).subscribe((rResumen: Resumen) => {
-        console.log(rResumen);
+
         this.servicio.getResumenesAutor(cedula).subscribe((rResp: any) => {
           this.router.navigate(['emem-workshop', 'crear-editar-resumen', resumen.idResumen]);
         });
@@ -100,7 +100,7 @@ export class ResumenesComponent implements OnInit {
 
   ver(resumen: Resumen) {
     this.servicio.descargarResumen(resumen.idResumen).subscribe((rRuta: any) => {
-      console.log(rRuta);
+
       this.rutaDescarga = rRuta.ruta;
       this.dialogo.mostrarConfirmacion('El archivo se exporto correctamente').subscribe((rRespuesta: any) => {
         window.open(this.rutaDescarga, '_blank');

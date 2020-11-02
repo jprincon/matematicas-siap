@@ -37,7 +37,7 @@ export class CursillosEmemComponent implements OnInit {
 
   getCursillos() {
     this.generalService.getResumenPorTipo('Taller').subscribe((rResumenes: any) => {
-      console.log(rResumenes);
+
       this.cursillos = rResumenes.resumenes;
     });
   }
@@ -48,14 +48,14 @@ export class CursillosEmemComponent implements OnInit {
 
   permiteInscribirseTalleres(){
     this.generalService.getPermiteInscribirseTalleres().subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.inscribirseTalleres = rRespuesta.permite;
     });
   }
 
   obtenerInscripcion() {
     this.generalService.getObtenerTallerParticipante(this.cedula).subscribe((rInscripcion: any) => {
-      console.log(rInscripcion);
+
       this.inscripcion = rInscripcion;
     });
   }

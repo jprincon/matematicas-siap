@@ -25,7 +25,7 @@ export class PruebasComponent implements OnInit {
     });
 
     this.servicioGeneral.postEnviarCorreo(datos).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
     });
   }
 

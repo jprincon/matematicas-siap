@@ -52,17 +52,17 @@ export class DlgAreaProfundizacionComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.areaprofundizacion.idareaprofundizacion = new Utilidades().generarId();
-      console.log(this.areaprofundizacion);
+
       const datos = JSON.stringify(this.areaprofundizacion);
       this.genService.postAreaProfundizacion(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.areaprofundizacion);
 
       this.genService.putAreaProfundizacion(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

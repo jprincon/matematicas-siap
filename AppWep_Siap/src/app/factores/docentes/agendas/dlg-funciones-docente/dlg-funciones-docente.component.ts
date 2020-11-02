@@ -61,7 +61,7 @@ export class DlgFuncionesDocenteComponent implements OnInit {
   leerFunciones() {
     this.leyendoFunciones = true;
     this.genService.getFuncionesDocente().subscribe((rFunciones: any) => {
-      console.log(rFunciones);
+
       this.Funciones = rFunciones.FuncionesDocentes;
       this.leyendoFunciones = false;
     });
@@ -70,7 +70,7 @@ export class DlgFuncionesDocenteComponent implements OnInit {
   leerActividades() {
     this.leyendoActividades = true;
     this.genService.getActividadesDocente(this.actividadfunciondocente.idfuncion).subscribe((rActividades: any) => {
-      console.log(rActividades);
+
       this.Actividades = rActividades.ActividadesDocentes;
       this.leyendoActividades = false;
     });
@@ -81,7 +81,7 @@ export class DlgFuncionesDocenteComponent implements OnInit {
 
     this.genService.getSubactividadesDocente(this.actividadfunciondocente.idactividad).subscribe((rSubactividades: any) => {
       this.Subactividades = rSubactividades.SubactividadesDocentes;
-      console.log(rSubactividades);
+
       this.leyendoSubactividades = false;
     });
   }
@@ -103,17 +103,17 @@ export class DlgFuncionesDocenteComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.actividadfunciondocente.idactividadprograma = new Utilidades().generarId();
-      console.log(this.actividadfunciondocente);
+
       const datos = JSON.stringify(this.actividadfunciondocente);
       this.genService.postActividadFuncionDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.actividadfunciondocente);
 
       this.genService.putActividadFuncionDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

@@ -70,7 +70,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.transfer.obtenerPermisoNavegar.subscribe((rPermiso: boolean) => {
       this.permisoNavegar = rPermiso;
-      // console.log(rPermiso);
+
     });
   }
 
@@ -79,7 +79,7 @@ export class MenuComponent implements OnInit {
   }
 
   verMenu(rutas: string[]) {
-    // console.log(rutas);
+
     this.genService.navegar(rutas);
   }
 

@@ -113,9 +113,8 @@ export class CrearResumenComponent implements OnInit {
   }
 
   buscarAutor() {
-    console.log(this.autor);
     this.servicio.getAutorPorCedula(this.autor.cedula).subscribe((rAutor: any) => {
-      console.log(rAutor);
+
       this.autor = rAutor;
       if (rAutor.resultado === 'el autor no existe') {
         this.dialogo.mostrarMensaje('El Autor no existe', 'info');
@@ -126,7 +125,6 @@ export class CrearResumenComponent implements OnInit {
   obtenerAutoresResumen() {
     this.servicio.getAutores(this.idResumen).subscribe((rAutores: any) => {
       this.autores = rAutores.autores;
-      console.log(rAutores);
     });
   }
 
@@ -142,7 +140,7 @@ export class CrearResumenComponent implements OnInit {
       this.dialogo.mostrarConfirmacion('¿Esta seguro de eliminar al autor?').subscribe((rRespuesta: boolean) => {
         if (rRespuesta) {
           this.servicio.deleteAutor(autor.cedula, this.idResumen).subscribe((rAutor: any) => {
-            console.log(rAutor);
+
             this.obtenerAutoresResumen();
           });
         }

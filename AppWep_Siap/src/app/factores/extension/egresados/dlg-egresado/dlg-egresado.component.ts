@@ -63,14 +63,14 @@ export class DlgEgresadoComponent implements OnInit {
 
       const datos = JSON.stringify(this.egresado);
       this.genService.postEgresado(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.egresado);
 
       this.genService.putEgresado(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

@@ -51,14 +51,14 @@ export class CursilloEmemComponent implements OnInit {
 
   permiteInscribirseTalleres(){
     this.generalService.getPermiteInscribirseTalleres().subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.inscribirseTalleres = rRespuesta.permite;
     });
   }
 
   getResumen(id: string) {
     this.generalService.getResumen(id).subscribe((rResumen: any) => {
-      console.log(rResumen);
+
       this.taller = rResumen;
 
       this.getAutoresResumen();
@@ -67,7 +67,7 @@ export class CursilloEmemComponent implements OnInit {
 
   getAutoresResumen() {
     this.generalService.getAutores(this.taller.idResumen).subscribe((rAutores: any) => {
-      console.log(rAutores);
+
       this.autores = rAutores.autores;
 
       this.getEstadisticas();
@@ -76,7 +76,7 @@ export class CursilloEmemComponent implements OnInit {
 
   getEstadisticas() {
     this.generalService.getEstadisticas(this.taller.idResumen).subscribe((rEstadisticas: any) => {
-      console.log(rEstadisticas);
+
       this.estadisticas = rEstadisticas;
     });
   }
@@ -90,7 +90,7 @@ export class CursilloEmemComponent implements OnInit {
       });
     } else {
       this.dialogos.mostrarConfirmacion('¿Esta seguro de inscribirse en este cursillo?').subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
 
         if (rRespuesta) {
           const datos = JSON.stringify({
@@ -98,7 +98,7 @@ export class CursilloEmemComponent implements OnInit {
             idResumen: this.taller.idResumen
           });
           this.generalService.postInscribirseTaller(datos).subscribe((rTaller: any) => {
-            console.log(rTaller);
+
             this.dialogos.mostrarMensaje(rTaller.respuesta, 'info');
             this.router.navigate(['emem-workshop', 'cursillos']);
           });

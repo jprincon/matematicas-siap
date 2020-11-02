@@ -30,14 +30,14 @@ export class EgresadosComponent implements OnInit {
 
     this.genService.getEgresados().subscribe((rEgresados: any) => {
       this.Egresados = rEgresados.Egresados;
-      console.log(rEgresados);
+
       this.leyendo = false;
     });
   }
 
   agregarEgresado() {
     this.dlgService.DlgEgresado('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerEgresados();
     });
   }
@@ -53,7 +53,7 @@ export class EgresadosComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Egresado?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteEgresado(egresado.idegresado).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerEgresados();
         });

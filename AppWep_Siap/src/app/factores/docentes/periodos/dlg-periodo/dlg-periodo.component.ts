@@ -52,17 +52,17 @@ export class DlgPeriodoComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.periodo.idperiodo = new Utilidades().generarId();
-      console.log(this.periodo);
+
       const datos = JSON.stringify(this.periodo);
       this.genService.postPeriodo(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.periodo);
 
       this.genService.putPeriodo(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

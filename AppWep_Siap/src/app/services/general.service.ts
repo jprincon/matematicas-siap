@@ -87,7 +87,7 @@ export class GeneralService {
 
     this.postToken().subscribe((respuesta: any) => {
       this.token = respuesta.token;
-      // console.log(respuesta);
+
     });
   }
 
@@ -467,7 +467,7 @@ export class GeneralService {
 
   deleteAutor(cedula: string, idResumen: string) {
     const url = this.dataSnap_AutorResumen() + this.parametro(cedula) + this.parametro(idResumen) + this.parametro(this.token);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -487,7 +487,7 @@ export class GeneralService {
   }
 
   postReferencia(datos: string) {
-    console.log(datos);
+
     const url = this.dataSnap_ReferenciaResumen() + this.parametro(this.token);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -630,7 +630,7 @@ export class GeneralService {
 
   deleteTipoContrato(id: string) {
     const url = this.dataSnap_Path(this.URL_TIPOCONTRATO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -667,7 +667,7 @@ export class GeneralService {
 
   deleteCategoriaDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_CATEGORIADOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -717,7 +717,7 @@ export class GeneralService {
 
   deleteDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_DOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -754,7 +754,7 @@ export class GeneralService {
 
   deleteError(id: string) {
     const url = this.dataSnap_Path(this.URL_ERROR) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -763,7 +763,7 @@ export class GeneralService {
 
   deleteErrorPorMensaje(msg: string) {
     const url = this.dataSnap_Path(this.URL_ERROR_POR_MENSAJE) + this.parametro(this.token) + this.parametro(msg);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -800,7 +800,7 @@ export class GeneralService {
 
   deleteFacultad(id: string) {
     const url = this.dataSnap_Path(this.URL_FACULTAD) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -837,7 +837,7 @@ export class GeneralService {
 
   deletePrograma(id: string) {
     const url = this.dataSnap_Path(this.URL_PROGRAMA) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -879,7 +879,7 @@ export class GeneralService {
 
   deleteServicioPrograma(id: string) {
     const url = this.dataSnap_Path(this.URL_SERVICIOPROGRAMA) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -916,7 +916,7 @@ export class GeneralService {
 
   deleteHorarioServicio(id: string) {
     const url = this.dataSnap_Path(this.URL_HORARIOSERVICIO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -953,7 +953,7 @@ export class GeneralService {
 
   deleteDesasociarAgendaServicio(id: string) {
     const url = this.dataSnap_Path(this.URL_DESASOCIAR_AGENDASSERVICIO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -962,7 +962,7 @@ export class GeneralService {
 
   deleteAgendaServicio(id: string) {
     const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -999,7 +999,7 @@ export class GeneralService {
 
   deleteConfiguracion(id: string) {
     const url = this.dataSnap_Path(this.URL_CONFIGURACION) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1036,7 +1036,7 @@ export class GeneralService {
 
   deleteFuncionDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_FUNCIONDOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1073,7 +1073,7 @@ export class GeneralService {
 
   deleteActividadDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_ACTIVIDADDOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1110,7 +1110,7 @@ export class GeneralService {
 
   deleteSubactividadDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_SUBACTIVIDADDOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1147,7 +1147,7 @@ export class GeneralService {
 
   deleteEgresado(id: string) {
     const url = this.dataSnap_Path(this.URL_EGRESADO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1184,7 +1184,7 @@ export class GeneralService {
 
   deleteGrupoInvestigacion(id: string) {
     const url = this.dataSnap_Path(this.URL_GRUPOINVESTIGACION) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1221,7 +1221,7 @@ export class GeneralService {
 
   deleteModalidad(id: string) {
     const url = this.dataSnap_Path(this.URL_MODALIDAD) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1258,7 +1258,7 @@ export class GeneralService {
 
   deleteAreaProfundizacion(id: string) {
     const url = this.dataSnap_Path(this.URL_AREAPROFUNDIZACION) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1295,7 +1295,7 @@ export class GeneralService {
 
   deleteTrabajoGrado(id: string) {
     const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1332,7 +1332,7 @@ export class GeneralService {
 
   deletePeriodo(id: string) {
     const url = this.dataSnap_Path(this.URL_PERIODO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1369,7 +1369,7 @@ export class GeneralService {
 
   deleteActividadFuncionDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

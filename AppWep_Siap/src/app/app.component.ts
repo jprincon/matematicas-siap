@@ -39,7 +39,7 @@ export class AppComponent {
       const claveMd5 = new Md5().appendStr(clave).end().toString();
 
       if (claveMd5 === localStorage.getItem(LS_CLAVE).toString()) {
-        console.log('Restauro Rutas');
+
 
         this.genService.restaurarRutas();
       } else {

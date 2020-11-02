@@ -27,7 +27,7 @@ export class CategoriasDocentesComponent implements OnInit {
 
     this.genService.getCategoriasDocente().subscribe((rCategoriasDocente: any) => {
       this.CategoriasDocente = rCategoriasDocente.CategoriasDocentes;
-      console.log(rCategoriasDocente);
+
       this.leyendo = false;
     }, error => {
        this.leerCategoriasDocente();
@@ -36,21 +36,21 @@ export class CategoriasDocentesComponent implements OnInit {
 
   agregarCategoriaDocente() {
     this.dlgService.DlgCategoriaDocente('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerCategoriasDocente();
     });
   }
 
   editarCategoriaDocente(categoriadocente: CategoriaDocente) {
     this.dlgService.DlgCategoriaDocente('Editar', categoriadocente.idcategoriadocente).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerCategoriasDocente();
     });
   }
 
   eliminarCategoriaDocente(categoriadocente: CategoriaDocente) {
     this.dlgService.confirmacion('¿Está seguro de eliminar este CategoriaDocente?').subscribe((rConfirmacion: any) => {
-      console.log(rConfirmacion);
+
       if (rConfirmacion) {
         this.borrarCategoriaDocente(categoriadocente.idcategoriadocente);
       }
@@ -59,7 +59,7 @@ export class CategoriasDocentesComponent implements OnInit {
 
   borrarCategoriaDocente(id: string) {
     this.genService.deleteCategoriaDocente(id).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
       this.leerCategoriasDocente();
     });

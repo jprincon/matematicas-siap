@@ -123,9 +123,9 @@ export class InscripcionesEmemComponent implements OnInit {
     const password = new Md5().appendStr(this.usuario.contra).end().toString();
     this.usuario.contra = password;
     const datos = JSON.stringify(this.usuario);
-    console.log(this.usuario);
+
     this.servicio.postParticipante(datos).subscribe((rParticipante: any) => {
-      console.log(rParticipante);
+
       const respuesta: string = rParticipante.respuesta;
 
       if (respuesta.indexOf('llave duplicada') >= 0) {

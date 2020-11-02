@@ -37,9 +37,9 @@ export class EvaluarResumenEmemComponent implements OnInit {
   }
 
   leerDatosResumen() {
-    console.log(this.resumen);
+
     this.servicioGeneral.getParticipante(this.resumen.idAutor).subscribe((rParticipante: Usuario) => {
-      console.log(rParticipante);
+
       this.participante = rParticipante;
       this.correo.correo = this.participante.correo;
       this.correo.asunto = 'Evaluación del Resumen';
@@ -54,11 +54,9 @@ le indicamos que su resumen titulado "${this.resumen.titulo}" en la modalidad de
     const datos = JSON.stringify(this.resumen);
 
     this.servicioGeneral.putResumen(datos).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
 
       const correo = JSON.stringify(this.correo);
       this.servicioGeneral.postEnviarCorreo(correo).subscribe((rCorreo: any) => {
-        console.log(rCorreo);
 
         this.dialogRef.close(rCorreo);
       });

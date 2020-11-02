@@ -26,7 +26,7 @@ export class MenuWorkshopEmemComponent implements OnInit {
 
   descargarListas() {
     this.servicio.getObtenerListaTalleres().subscribe((rListas: any) => {
-      console.log(rListas);
+
       this.dialogos.mostrarConfirmacion('La lista se exportó correctamente. ¿Desea verla?').subscribe((rRespuesta: boolean) => {
         if (rRespuesta) {
           // window.open(rListas.rutaCsv, '_blank');
@@ -38,7 +38,7 @@ export class MenuWorkshopEmemComponent implements OnInit {
 
   descargarCertificadosUnificados() {
     this.servicio.getDescargarCertificadosUnificados('2019').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
     });
   }
 

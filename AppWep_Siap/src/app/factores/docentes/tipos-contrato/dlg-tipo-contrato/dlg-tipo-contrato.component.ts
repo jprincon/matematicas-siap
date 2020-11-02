@@ -51,17 +51,17 @@ export class DlgTipoContratoComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.tipocontrato.idtipocontrato = new Utilidades().generarId();
-      console.log(this.tipocontrato);
+
       const datos = JSON.stringify(this.tipocontrato);
       this.genService.postTipoContrato(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.tipocontrato);
 
       this.genService.putTipoContrato(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

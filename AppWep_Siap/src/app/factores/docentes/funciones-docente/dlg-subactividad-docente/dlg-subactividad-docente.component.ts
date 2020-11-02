@@ -53,17 +53,17 @@ export class DlgSubactividadDocenteComponent implements OnInit {
     if (this.accion === 'Crear') {
 
       this.subactividaddocente.idsubactividaddocente = new Utilidades().generarId();
-      console.log(this.subactividaddocente);
+
       const datos = JSON.stringify(this.subactividaddocente);
       this.genService.postSubactividadDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     } else {
       const datos = JSON.stringify(this.subactividaddocente);
 
       this.genService.putSubactividadDocente(datos).subscribe((rRespuesta: any) => {
-        console.log(rRespuesta);
+
         return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
       });
     }

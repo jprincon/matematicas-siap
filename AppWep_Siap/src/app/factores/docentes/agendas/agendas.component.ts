@@ -58,7 +58,7 @@ export class AgendasComponent implements OnInit {
 
   leerPeriodos() {
     this.genService.getPeriodos().subscribe((rPeriodos: any) => {
-      // console.log(rPeriodos);
+
       this.Periodos = rPeriodos.Periodos;
     });
   }
@@ -74,7 +74,7 @@ export class AgendasComponent implements OnInit {
 
     this.genService.getAgendasServicio(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rAgendasServicio: any) => {
       this.AgendasServicio = rAgendasServicio.AgendasServicios;
-      console.log(rAgendasServicio);
+
       this.leyendo = false;
 
       this.docenciaDirecta = rAgendasServicio.docenciaDirecta;
@@ -85,7 +85,6 @@ export class AgendasComponent implements OnInit {
 
   agregarServicio() {
     this.dlgService.DlgAgendaServicio(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rRespuesta: ServicioPrograma) => {
-      console.log(rRespuesta);
 
       if (rRespuesta !== undefined) {
         // %%%%%%% Guardar el Servicio %%%%%%%
@@ -99,7 +98,7 @@ export class AgendasComponent implements OnInit {
         const datos = JSON.stringify(agendaServicio);
 
         this.genService.postAgendaServicio(datos).subscribe((rRespuesta2: any) => {
-          console.log(rRespuesta2);
+
 
           this.leerAgendasServicio();
         });
@@ -130,16 +129,14 @@ export class AgendasComponent implements OnInit {
 
   agregarFuncion() {
     this.dlgService.DlgFuncionesDocente('Crear', this.docenteSeleccionado.iddocente, '', this.periodo).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
     });
   }
 
   seleccionarDocente(docente: Docente) {
     this.soloCatedraticos = (this.tipoContrato === 'catedrático');
-    console.log(this.soloCatedraticos);
 
     this.docenteSeleccionado = docente;
-    // console.log(this.docenteSeleccionado);
 
     this.leerAgendasServicio();
   }

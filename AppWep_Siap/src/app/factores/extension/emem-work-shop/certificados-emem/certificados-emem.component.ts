@@ -29,11 +29,9 @@ export class CertificadosEmemComponent implements OnInit {
       fecha: this.fecha,
       nombre: this.nombre
     });
-    console.log(datos);
-
 
     this.generalService.getObtenerCertificados(datos).subscribe((rCertificados: any) => {
-      console.log(rCertificados);
+
       this.dialogos.mostrarConfirmacion('El Certificado se exportó correctamente').subscribe((rRespuesta: boolean) => {
         if (rRespuesta) {
             window.open(rCertificados.descarga, '_blank');
