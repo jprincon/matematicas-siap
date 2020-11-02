@@ -9,7 +9,9 @@
         <div class="col">
             <div class="form-group">
                 <label class="font-weight-bold">Periodo</label>
-                <input class="form-control" type="text" [(ngModel)]="periodo" name="periodo">
+                <select [(ngModel)]="periodo" class="custom-select" (change)="leerAgendasServicio()">
+                  <option *ngFor="let periodo of Periodos"  [value]="periodo.periodo">{{periodo.periodo}}</option>
+                </select>
             </div>
         </div>
 
@@ -41,8 +43,8 @@
                                     <tr>
                                         <th style="width: 15%;">Nombre</th>
                                         <td style="width: 35%;">{{ docenteSeleccionado.nombre | capitalizado }}</td>
-                                        <th style="width: 15%;">Número de Contrato</th>
-                                        <td style="width: 35%;">
+                                        <th style="width: 15%;" *ngIf="soloCatedraticos">Número de Contrato</th>
+                                        <td style="width: 35%;" *ngIf="soloCatedraticos">
                                             <input type="text" class="form-control">
                                         </td>
                                     </tr>
@@ -58,7 +60,7 @@
                                         <th>Categoría</th>
                                         <td>{{ docenteSeleccionado.categoria }}</td>
                                         <th>Correo</th>
-                                        <td>{{ docenteSeleccionado.correo }}</td>
+                                        <td class="text-info">{{ docenteSeleccionado.correo }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -91,7 +93,7 @@
                                         </td>
                                         <td>{{ agenda.aulas | capitalizado }}</td>
                                         <td>
-                                            <img src="assets/Iconos/Eliminar.png" class="icono32w" (click)="eliminarAgendaServicio(agenda)">
+                                            <img src="assets/Iconos/Eliminar.png" class="icono32w puntero-manito" (click)="eliminarAgendaServicio(agenda)">
                                         </td>
                                     </tr>
 
@@ -104,7 +106,7 @@
                                         <td></td>
                                     </tr>
 
-                                    <tr>
+                                    <tr *ngIf="soloCatedraticos">
                                         <td></td>
                                         <td>Horas Dispobibles</td>
                                         <td></td>
@@ -115,7 +117,22 @@
                                 </tbody>
                             </table>
 
-                            <button class="btn btn-outline-success mt-3" (click)="agregarServicio()"><img src="assets/Iconos/Agregar.png" class="icono32w"> Agregar Servicio</button>
+                            <button class="btn btn-outline-success mt-3" (click)="agregarServicio()"><img src="assets/Iconos/Agregar.png" class="icono32w"> Asignar Servicio</button>
+
+                            <table class="mt-3 table table-hover" *ngIf="!soloCatedraticos">
+                                <thead>
+                                    <tr>
+                                        <th>Función</th>
+                                        <th>Actividad</th>
+                                        <th>Subactividad</th>
+                                        <th>Actividad Programa</th>
+                                        <th>Horas Semanales</th>
+                                        <th>Horas Semestre</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <button class="btn btn-outline-success mt-3" (click)="agregarFuncion()"><img src="assets/Iconos/Agregar.png" class="icono32w"> Crear Función</button>
                         </div>
                     </div>
 

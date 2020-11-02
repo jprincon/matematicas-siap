@@ -32,6 +32,11 @@ import { ConfirmacionComponent } from './dialogos/confirmacion/confirmacion.comp
 import { AdministrarComponent } from './componentes/administrar/administrar.component';
 import { ParticipantesEmemComponent } from './componentes/administrar/participantes-emem/participantes-emem.component';
 import { DlgParticipanteEmemComponent } from './componentes/administrar/participantes-emem/dlg-participante-emem/dlg-participante-emem.component';
+import { ConcursoComponent } from './componentes/concurso/concurso.component';
+import { PonenciasComponent } from './componentes/ponencias/ponencias.component';
+import { PonenciaConferenciaComponent } from './componentes/ponencias/ponencia-conferencia/ponencia-conferencia.component';
+import { ContactoComponent } from './componentes/contacto/contacto.component';
+import { ProgramacionComponent } from './componentes/programacion/programacion.component';
 
 
 @NgModule({
@@ -52,7 +57,12 @@ import { DlgParticipanteEmemComponent } from './componentes/administrar/particip
     ConfirmacionComponent,
     AdministrarComponent,
     ParticipantesEmemComponent,
-    DlgParticipanteEmemComponent
+    DlgParticipanteEmemComponent,
+    ConcursoComponent,
+    PonenciasComponent,
+    PonenciaConferenciaComponent,
+    ContactoComponent,
+    ProgramacionComponent
   ],
   imports: [
     BrowserModule,

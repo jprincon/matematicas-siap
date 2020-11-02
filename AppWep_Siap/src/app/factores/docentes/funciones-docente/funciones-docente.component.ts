@@ -39,7 +39,7 @@ export class FuncionesDocenteComponent implements OnInit {
 
     this.genService.getFuncionesDocente().subscribe((rFuncionesDocente: any) => {
       this.FuncionesDocente = rFuncionesDocente.FuncionesDocentes;
-      console.log(rFuncionesDocente);
+      // console.log(rFuncionesDocente);
       this.leyendo = false;
 
       this.leerActividadesDocente(this.FuncionesDocente[0].idfunciondocente);
@@ -49,7 +49,7 @@ export class FuncionesDocenteComponent implements OnInit {
   verActividadesFuncion(funcion: FuncionDocente) {
     this.IdFuncionDocente = funcion.idfunciondocente;
     this.genService.getActividadesDocente(funcion.idfunciondocente).subscribe((rActividades: any) => {
-      console.log(rActividades);
+      // console.log(rActividades);
       this.ActividadesDocente = rActividades.ActividadesDocentes;
     });
   }
@@ -62,7 +62,7 @@ export class FuncionesDocenteComponent implements OnInit {
 
   agregarFuncionDocente() {
     this.dlgService.DlgFuncionDocente('Crear', '').subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+      // console.log(rRespuesta);
       this.leerFuncionesDocente();
     });
   }
@@ -78,7 +78,7 @@ export class FuncionesDocenteComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este FuncionDocente?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteFuncionDocente(funciondocente.idfunciondocente).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+          // console.log(rRespuesta);
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerFuncionesDocente();
         });
@@ -96,14 +96,14 @@ export class FuncionesDocenteComponent implements OnInit {
 
     this.genService.getActividadesDocente(IdFuncion).subscribe((rActividadesDocente: any) => {
       this.ActividadesDocente = rActividadesDocente.ActividadesDocentes;
-      console.log(rActividadesDocente);
+      // console.log(rActividadesDocente);
       this.leyendo = false;
     });
   }
 
-  agregarActividadDocente(funcionDocente: FuncionDocente) {
-    this.dlgService.DlgActividadDocente('Crear', '', funcionDocente.idfunciondocente).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+  agregarActividadDocente() {
+    this.dlgService.DlgActividadDocente('Crear', '', this.IdFuncionDocente).subscribe((rRespuesta: any) => {
+      // console.log(rRespuesta);
       this.leerFuncionesDocente();
     });
   }
@@ -119,7 +119,7 @@ export class FuncionesDocenteComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este ActividadDocente?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteActividadDocente(actividaddocente.idactividaddocente).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+          // console.log(rRespuesta);
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerActividadesDocente(this.IdFuncionDocente);
         });
@@ -137,14 +137,14 @@ export class FuncionesDocenteComponent implements OnInit {
 
     this.genService.getSubactividadesDocente(this.IdActividadDocente).subscribe((rSubactividadesDocente: any) => {
       this.SubactividadesDocente = rSubactividadesDocente.SubactividadesDocentes;
-      console.log(rSubactividadesDocente);
+      // console.log(rSubactividadesDocente);
       this.leyendo = false;
     });
   }
 
   agregarSubactividadDocente() {
     this.dlgService.DlgSubactividadDocente('Crear', '', this.IdActividadDocente).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+      // console.log(rRespuesta);
       this.leerSubactividadesDocente();
     });
   }
@@ -160,7 +160,7 @@ export class FuncionesDocenteComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este SubactividadDocente?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteSubactividadDocente(subactividaddocente.idsubactividaddocente).subscribe((rRespuesta: any) => {
-          console.log(rRespuesta);
+          // console.log(rRespuesta);
           this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
           this.leerSubactividadesDocente();
         });

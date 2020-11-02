@@ -30,7 +30,7 @@ export class InicioComponent implements OnInit {
   // %%%%%%% Inciar Sesión %%%%%%%
   ingresar() {
     this.genService.getUsuario(this.usuario.cedula).subscribe((rUsuario: Usuario) => {
-      console.log(rUsuario);
+      // console.log(rUsuario);
 
       if (rUsuario.nombre) {
         const contraMD5 = new Md5().appendStr(this.usuario.contra).end().toString();
@@ -46,9 +46,10 @@ export class InicioComponent implements OnInit {
 
           // %%%%%%% Transferir Información a las Aplicaciones %%%%%%%
           this.transfer.enviarUsuario(rUsuario);
+          this.transfer.enviarPermisoNavegar(true);
           this.transfer.enviarPermisoAdminstrador(true);
 
-          this.dialogo.mostrarMensaje('Bienvenido al sistema de información del programa de licenciatura en matemáticas', 'info');
+          this.dialogo.mostrarMensaje('Bienvenido al Sistema de Información para Autoevaluación del Programa de Licenciatura en Matemáticas', 'info');
           this.genService.navegar(['factores']);
 
         } else {

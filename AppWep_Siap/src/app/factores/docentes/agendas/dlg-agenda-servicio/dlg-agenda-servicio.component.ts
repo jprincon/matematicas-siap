@@ -22,7 +22,7 @@ export class DlgAgendaServicioComponent implements OnInit {
   terminoAsignatura = '';
   terminoPrograma = '';
 
-  verServicios = '';
+  verServicios = 'Libres';
 
   constructor(public dialogRef: MatDialogRef<DlgAgendaServicioComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -64,8 +64,7 @@ export class DlgAgendaServicioComponent implements OnInit {
 
     this.genService.getServiciosProgramaDocente(this.iddocente, this.periodo).subscribe((rServiciosPrograma: any) => {
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
-      this.bServiciosPrograma = this.ServiciosPrograma;
-      console.log(this.ServiciosPrograma);
+      this.mostrarServicios();
       this.leyendo = false;
     });
   }

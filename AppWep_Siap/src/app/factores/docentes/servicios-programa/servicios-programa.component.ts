@@ -20,6 +20,7 @@ export class ServiciosProgramaComponent implements OnInit {
 
   periodo = '';
   ordenarPor = 'programa';
+  verPor = 'Libres';
   aOrdenarPor: string[] = ['programa', 'asignatura', 'horas', 'jornada'];
 
   terminoAsignatura = '';
@@ -40,6 +41,9 @@ export class ServiciosProgramaComponent implements OnInit {
       this.periodo += '2';
     }
 
+    // temporal
+    this.periodo = '20201';
+
     fecha = new Date();
     const year = fecha.getFullYear();
     this.periodos.push(year + '1');
@@ -47,6 +51,30 @@ export class ServiciosProgramaComponent implements OnInit {
 
     this.tranfer.enviarTituloAplicacion('Servicios de Programas');
     this.leerServiciosPrograma();
+  }
+
+  filtrarServicios() {
+    if (this.verPor === 'Todos') {
+      this.bServiciosPrograma = this.ServiciosPrograma;
+    }
+
+    if (this.verPor === 'Libres') {
+      this.bServiciosPrograma = [];
+      for (const servicio of this.ServiciosPrograma) {
+        if (!servicio.docente) {
+          this.bServiciosPrograma.push(servicio);
+        }
+      }
+    }
+
+    if (this.verPor === 'Asignados') {
+      this.bServiciosPrograma = [];
+      for (const servicio of this.ServiciosPrograma) {
+        if (servicio.docente) {
+          this.bServiciosPrograma.push(servicio);
+        }
+      }
+    }
   }
 
   buscarAsignatura() {
@@ -80,8 +108,11 @@ export class ServiciosProgramaComponent implements OnInit {
     this.leyendo = true;
 
     this.genService.getServiciosPrograma(this.ordenarPor, this.periodo).subscribe((rServiciosPrograma: any) => {
+      console.log(rServiciosPrograma);
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
-      this.bServiciosPrograma = this.ServiciosPrograma;
+
+      this.filtrarServicios();
+
       this.leyendo = false;
     });
   }
@@ -145,6 +176,12 @@ export class ServiciosProgramaComponent implements OnInit {
         });
       }
     });
+  }
+
+  limpiarFiltros() {
+    this.bServiciosPrograma = this.ServiciosPrograma;
+    this.terminoAsignatura = '';
+    this.terminoPrograma = '';
   }
 
 }

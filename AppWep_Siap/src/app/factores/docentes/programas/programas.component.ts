@@ -2,6 +2,7 @@ import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { Programa } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
+import { TransferService } from '../../../services/transfer.service';
 
 @Component({
   selector: 'app-programas',
@@ -15,10 +16,12 @@ export class ProgramasComponent implements OnInit {
   contIntentos = 1;
 
   constructor(private genService: GeneralService,
-              private dlgService: DialogosService) { }
+              private dlgService: DialogosService,
+              private transfer: TransferService) { }
 
   ngOnInit() {
     this.leerProgramas();
+    this.transfer.enviarTituloAplicacion('Programas a los que se presta servicios');
   }
 
   leerProgramas() {

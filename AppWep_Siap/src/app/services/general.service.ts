@@ -77,6 +77,10 @@ export class GeneralService {
   private URL_AREASPROFUNDIZACION = 'AreasProfundizacion';
   private URL_TRABAJOGRADO = 'TrabajoGrado';
   private URL_TRABAJOSGRADO = 'TrabajosGrado';
+  private URL_PERIODO = 'Periodo';
+  private URL_PERIODOS = 'Periodos';
+  private URL_ACTIVIDADFUNCIONDOCENTE = 'ActividadFuncionDocente';
+  private URL_ACTIVIDADESFUNCIONESDOCENTE = 'ActividadesFuncionesDocente';
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -1291,6 +1295,80 @@ export class GeneralService {
 
   deleteTrabajoGrado(id: string) {
     const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Periodo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postPeriodo(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PERIODO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getPeriodos() {
+    const url = this.dataSnap_Path(this.URL_PERIODOS);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getPeriodo(id: string) {
+    const url = this.dataSnap_Path(this.URL_PERIODO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putPeriodo(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PERIODO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deletePeriodo(id: string) {
+    const url = this.dataSnap_Path(this.URL_PERIODO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* ActividadFuncionDocente %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postActividadFuncionDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getActividadesFuncionesDocente() {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADESFUNCIONESDOCENTE);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getActividadFuncionDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putActividadFuncionDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteActividadFuncionDocente(id: string) {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(this.token) + this.parametro(id);
     console.log(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

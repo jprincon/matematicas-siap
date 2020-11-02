@@ -120,6 +120,9 @@ import { AreasProfundizacionComponent } from './factores/procesos_academicos/tra
 import { DlgAreaProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
 import { TrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/trabajos-grado.component';
 import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
+import { PeriodosComponent } from './factores/docentes/periodos/periodos.component';
+import { DlgPeriodoComponent } from './factores/docentes/periodos/dlg-periodo/dlg-periodo.component';
+import { DlgFuncionesDocenteComponent } from './factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
 
 
 
@@ -273,6 +276,12 @@ import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajo
 
     DlgTrabajoGradoComponent,
 
+    PeriodosComponent,
+
+    DlgPeriodoComponent,
+
+    DlgFuncionesDocenteComponent,
+
 
   ],
   imports: [
@@ -311,7 +320,9 @@ import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajo
     DlgGrupoInvestigacionComponent,
     DlgModalidadComponent,
     DlgAreaProfundizacionComponent,
-    DlgTrabajoGradoComponent
+    DlgTrabajoGradoComponent,
+    DlgPeriodoComponent,
+    DlgFuncionesDocenteComponent
   ],
   bootstrap: [AppComponent]
 })

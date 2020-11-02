@@ -26,6 +26,18 @@
             </div>
         </div>
 
+        <!-- %%%%%%% Ver por - Servicios libres o asignados %%%%%%% -->
+        <div class="col">
+            <div class="form-group">
+                <label class="font-weight-bold">Ordenar Por</label>
+                <select [(ngModel)]="verPor" name="verPor" required class="custom-select" (change)="filtrarServicios()">
+                <option value="Libres">Servicios Libres</option>
+                <option value="Asignados">Servicios Asignados</option>
+                <option value="Todos">Todos</option>
+              </select>
+            </div>
+        </div>
+
         <div class="col">
             <mat-slide-toggle [checked]="editar" (change)="editar = !editar">Editar</mat-slide-toggle>
         </div>
@@ -59,7 +71,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td *ngIf="editar"></td>
+                <td><img style="width: 32px;" src="assets/Iconos/LimpiarFiltro.png" class="puntero-manito" (click)="limpiarFiltros()"></td>
                 <td *ngIf="editar"></td>
                 <td *ngIf="editar"></td>
             </tr>
@@ -93,6 +105,8 @@
                     </table>
 
                     <button *ngIf="editar" class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+
+                    <p class="text-danger" *ngIf="servicioprograma.docente">Tomado por {{ servicioprograma.docente | capitalizado }}</p>
                 </td>
                 <td *ngIf="editar">
                     <img src="assets/Iconos/Ver.png" style="height: 32px;" (click)="verServicioPrograma(servicioprograma)">

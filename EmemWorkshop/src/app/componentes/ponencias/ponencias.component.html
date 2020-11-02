@@ -1,0 +1,73 @@
+<h2 class="display-4 text-info">Conferencias</h2>
+<hr>
+
+<div class="card card-shadow m-2" *ngFor="let conferencia of Conferencias">
+    <div class="card-header text-white bg-dark">
+        <h3 class="card-title text-center">{{ conferencia.tipo }}</h3>
+    </div>
+
+    <div class="card-body">
+        <h4 class="card-title text-center">{{ conferencia.titulo }}</h4>
+
+        <p>{{ conferencia.conferencista }}</p>
+        <p>{{ conferencia.correo }}</p>
+        <p><b>Biografía</b></p>
+        <ul>
+            <li *ngFor="let item of conferencia.biografia">{{ item.item }}</li>
+        </ul>
+
+        <p><b>Resumen:</b></p>
+        <p class="text-justify">{{ conferencia.resumen }}</p>
+    </div>
+</div>
+
+<div *ngFor="let tipoPonencia of TiposPonencias">
+    <h2 class="display-4 text-info">{{ tipoPonencia.titulo }}</h2>
+    <hr>
+
+    <div class="card card-shadow m-2" *ngFor="let ponencia of tipoPonencia.ponencias">
+
+        <div class="card-body">
+            <h4 class="card-title text-center">{{ ponencia.titulo }}</h4>
+
+            <p>{{ ponencia.conferencista }}</p>
+            <p>{{ ponencia.correo }}</p>
+            <p><b>Biografía</b></p>
+            <ul>
+                <li *ngFor="let item of ponencia.biografia">{{ item.item }}</li>
+            </ul>
+
+            <p><b>Resumen:</b></p>
+            <p class="text-justify">{{ ponencia.resumen }}</p>
+        </div>
+    </div>
+</div>
+
+
+<h2>Información de Contacto:</h2>
+<hr>
+
+<p><b>HERNÁN DARÍO TORO ZAPATA</b></p>
+<p>Director de Licenciatura en Matemáticas </p>
+<p>Email: licenciaturaenmatemáticas@uniquindio.edu.co</p>
+<p></p>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>

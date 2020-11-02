@@ -208,8 +208,8 @@ type
       : TJSONObject;
     function Docente(const ID: string): TJSONObject;
     function Docentes(const OrdenarPor: string): TJSONObject;
-    function obtenerTipoContratoDocente(idDocente: string): string;
     function obtenerHorasDocencia(idDocente: string): integer;
+    function obtenerTipoContrato(idDocente: string): string;
     function DocentesPorContrato(const IdContrato: string): TJSONObject;
     function cancelDocente(const token: string; const ID: string): TJSONObject;
     function acceptDocente(const token: string; const datos: TJSONObject)
@@ -337,6 +337,74 @@ type
     function acceptParticipanteEmem(const token: string;
       const datos: TJSONObject): TJSONObject;
 
+    { Egresado }
+    function updateEgresado(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function Egresado(const ID: string): TJSONObject;
+    function Egresados: TJSONObject;
+    function cancelEgresado(const token: string; const ID: string): TJSONObject;
+    function acceptEgresado(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+
+    { GrupoInvestigacion }
+    function updateGrupoInvestigacion(const token: string;
+      const datos: TJSONObject): TJSONObject;
+    function GrupoInvestigacion(const ID: string): TJSONObject;
+    function GruposInvestigacion: TJSONObject;
+    function cancelGrupoInvestigacion(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptGrupoInvestigacion(const token: string;
+      const datos: TJSONObject): TJSONObject;
+
+    { Modalidad }
+    function updateModalidad(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function Modalidad(const ID: string): TJSONObject;
+    function Modalidades: TJSONObject;
+    function cancelModalidad(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptModalidad(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+
+    { AreaProfundizacion }
+    function updateAreaProfundizacion(const token: string;
+      const datos: TJSONObject): TJSONObject;
+    function AreaProfundizacion(const ID: string): TJSONObject;
+    function AreasProfundizacion: TJSONObject;
+    function cancelAreaProfundizacion(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptAreaProfundizacion(const token: string;
+      const datos: TJSONObject): TJSONObject;
+
+    { TrabajoGrado }
+    function updateTrabajoGrado(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function TrabajoGrado(const ID: string): TJSONObject;
+    function TrabajosGrado: TJSONObject;
+    function cancelTrabajoGrado(const token: string; const ID: string)
+      : TJSONObject;
+    function acceptTrabajoGrado(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+
+    { Periodo }
+    function updatePeriodo(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function Periodo(const ID: string): TJSONObject;
+    function Periodos: TJSONObject;
+    function cancelPeriodo(const token: string; const ID: string): TJSONObject;
+    function acceptPeriodo(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+
+    { ActividadFuncionDocente }
+    function updateActividadFuncionDocente(const token: string;
+      const datos: TJSONObject): TJSONObject;
+    function ActividadFuncionDocente(const ID: string): TJSONObject;
+    function ActividadesFuncionesDocente: TJSONObject;
+    function cancelActividadFuncionDocente(const token: string;
+      const ID: string): TJSONObject;
+    function acceptActividadFuncionDocente(const token: string;
+      const datos: TJSONObject): TJSONObject;
+
   end;
 {$METHODINFO OFF}
 
@@ -345,6 +413,1628 @@ implementation
 {$R *.dfm}
 
 uses System.StrUtils;
+
+{ Método INSERT - ActividadFuncionDocente }
+function TMatematicas.updateActividadFuncionDocente(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idactividadprograma', 'String');
+      agregarParametro('idfuncion', 'String');
+      agregarParametro('idactividad', 'String');
+      agregarParametro('idsubactividad', 'String');
+      agregarParametro('actividad', 'String');
+      agregarParametro('iddocente', 'Integer');
+      agregarParametro('periodo', 'String');
+      agregarParametro('horas', 'Integer');
+
+      INSERT('siap_actividades_funciones_docente', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La Actividad se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now),
+        'updateActividadFuncionDocente', E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateActividadFuncionDocente', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - ActividadFuncionDocente }
+function TMatematicas.ActividadFuncionDocente(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_actividades_funciones_docente', 'idactividadprograma',
+      Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idactividadprograma', 'String');
+    agregarParametro('idfuncion', 'String');
+    agregarParametro('idactividad', 'String');
+    agregarParametro('idsubactividad', 'String');
+    agregarParametro('actividad', 'String');
+    agregarParametro('iddocente', 'String');
+    agregarParametro('periodo', 'String');
+    agregarParametro('horas', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getActividadFuncionDocente',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('ActividadFuncionDocente', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - ActividadFuncionDocente }
+function TMatematicas.ActividadesFuncionesDocente: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('ActividadesFuncionesDocente', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_actividades_funciones_docente', 'idfuncion', Query);
+
+    limpiarParametros;
+    agregarParametro('idactividadprograma', 'String');
+    agregarParametro('idfuncion', 'String');
+    agregarParametro('idactividad', 'String');
+    agregarParametro('idsubactividad', 'String');
+    agregarParametro('actividad', 'String');
+    agregarParametro('iddocente', 'String');
+    agregarParametro('periodo', 'String');
+    agregarParametro('horas', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now),
+        'getAllActividadFuncionDocente', E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('ActividadesFuncionesDocente', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - ActividadFuncionDocente }
+function TMatematicas.cancelActividadFuncionDocente(const token, ID: string)
+  : TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_actividades_funciones_docente', 'idactividadprograma',
+        Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'La Actividad se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now),
+        'deleteActividadFuncionDocente', E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelActividadFuncionDocente', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - ActividadFuncionDocente }
+function TMatematicas.acceptActividadFuncionDocente(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idactividadprograma', 'String');
+      agregarParametro('idfuncion', 'String');
+      agregarParametro('idactividad', 'String');
+      agregarParametro('idsubactividad', 'String');
+      agregarParametro('actividad', 'String');
+      agregarParametro('iddocente', 'Integer');
+      agregarParametro('periodo', 'String');
+      agregarParametro('horas', 'Integer');
+
+      ID := datos.GetValue('idactividadprograma').Value;
+      UPDATE('siap_actividades_funciones_docente', 'idactividadprograma',
+        Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La Actividad se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now),
+        'acceptActividadFuncionDocente', E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateActividadFuncionDocente', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - Periodo }
+function TMatematicas.updatePeriodo(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idperiodo', 'String');
+      agregarParametro('periodo', 'String');
+
+      INSERT('siap_periodos', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El periodo se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updatePeriodo',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updatePeriodo', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - Periodo }
+function TMatematicas.Periodo(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_periodos', 'idperiodo', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idperiodo', 'String');
+    agregarParametro('periodo', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getPeriodo',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Periodo', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - Periodo }
+function TMatematicas.Periodos: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('Periodos', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_periodos', 'periodo', Query);
+
+    limpiarParametros;
+    agregarParametro('idperiodo', 'String');
+    agregarParametro('periodo', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllPeriodo',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Periodos', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - Periodo }
+function TMatematicas.cancelPeriodo(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_periodos', 'idperiodo', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'El periodo se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deletePeriodo',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelPeriodo', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - Periodo }
+function TMatematicas.acceptPeriodo(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idperiodo', 'String');
+      agregarParametro('periodo', 'String');
+
+      ID := datos.GetValue('idperiodo').Value;
+      UPDATE('siap_periodos', 'idperiodo', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El periodo se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptPeriodo',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updatePeriodo', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - TrabajoGrado }
+function TMatematicas.updateTrabajoGrado(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idtrabajogrado', 'String');
+      agregarParametro('titulo', 'String');
+      agregarParametro('estudiante1', 'String');
+      agregarParametro('estudiante2', 'String');
+      agregarParametro('estudiante3', 'String');
+      agregarParametro('idjurado1', 'Integer');
+      agregarParametro('idjurado2', 'Integer');
+      agregarParametro('idjurado3', 'Integer');
+      agregarParametro('iddirector', 'Integer');
+      agregarParametro('idmodalidad', 'String');
+      agregarParametro('idareaprofundizacion', 'String');
+      agregarParametro('idgrupoinvestigacion', 'String');
+      agregarParametro('actapropuesta', 'String');
+      agregarParametro('fechasustentacion', 'String');
+      agregarParametro('calificacion', 'String');
+
+      INSERT('siap_trabajosgrado', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El trabajo de grado se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateTrabajoGrado',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateTrabajoGrado', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - TrabajoGrado }
+function TMatematicas.TrabajoGrado(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_trabajosgrado', 'idtrabajogrado', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idtrabajogrado', 'String');
+    agregarParametro('titulo', 'String');
+    agregarParametro('estudiante1', 'String');
+    agregarParametro('estudiante2', 'String');
+    agregarParametro('estudiante3', 'String');
+    agregarParametro('idjurado1', 'String');
+    agregarParametro('idjurado2', 'String');
+    agregarParametro('idjurado3', 'String');
+    agregarParametro('iddirector', 'String');
+    agregarParametro('idmodalidad', 'String');
+    agregarParametro('idareaprofundizacion', 'String');
+    agregarParametro('idgrupoinvestigacion', 'String');
+    agregarParametro('actapropuesta', 'String');
+    agregarParametro('fechasustentacion', 'String');
+    agregarParametro('calificacion', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getTrabajoGrado',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('TrabajoGrado', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - TrabajoGrado }
+function TMatematicas.TrabajosGrado: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('TrabajosGrado', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_trabajosgrado', 'titulo', Query);
+
+    limpiarParametros;
+    agregarParametro('idtrabajogrado', 'String');
+    agregarParametro('titulo', 'String');
+    agregarParametro('estudiante1', 'String');
+    agregarParametro('estudiante2', 'String');
+    agregarParametro('estudiante3', 'String');
+    agregarParametro('idjurado1', 'String');
+    agregarParametro('idjurado2', 'String');
+    agregarParametro('idjurado3', 'String');
+    agregarParametro('iddirector', 'String');
+    agregarParametro('idmodalidad', 'String');
+    agregarParametro('idareaprofundizacion', 'String');
+    agregarParametro('idgrupoinvestigacion', 'String');
+    agregarParametro('actapropuesta', 'String');
+    agregarParametro('fechasustentacion', 'String');
+    agregarParametro('calificacion', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllTrabajoGrado',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('TrabajosGrado', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - TrabajoGrado }
+function TMatematicas.cancelTrabajoGrado(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_trabajosgrado', 'idtrabajogrado', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El trabajo de grado se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteTrabajoGrado',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelTrabajoGrado', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - TrabajoGrado }
+function TMatematicas.acceptTrabajoGrado(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idtrabajogrado', 'String');
+      agregarParametro('titulo', 'String');
+      agregarParametro('estudiante1', 'String');
+      agregarParametro('estudiante2', 'String');
+      agregarParametro('estudiante3', 'String');
+      agregarParametro('idjurado1', 'Integer');
+      agregarParametro('idjurado2', 'Integer');
+      agregarParametro('idjurado3', 'Integer');
+      agregarParametro('iddirector', 'Integer');
+      agregarParametro('idmodalidad', 'String');
+      agregarParametro('idareaprofundizacion', 'String');
+      agregarParametro('idgrupoinvestigacion', 'String');
+      agregarParametro('actapropuesta', 'String');
+      agregarParametro('fechasustentacion', 'String');
+      agregarParametro('calificacion', 'String');
+
+      ID := datos.GetValue('idtrabajogrado').Value;
+      UPDATE('siap_trabajosgrado', 'idtrabajogrado', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El trabajo de grado se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptTrabajoGrado',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateTrabajoGrado', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - AreaProfundizacion }
+function TMatematicas.updateAreaProfundizacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idareaprofundizacion', 'String');
+      agregarParametro('nombre', 'String');
+
+      INSERT('siap_areasprofundizacion', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El Área de Profundización se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateAreaProfundizacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateAreaProfundizacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - AreaProfundizacion }
+function TMatematicas.AreaProfundizacion(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_areasprofundizacion', 'idareaprofundizacion',
+      Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idareaprofundizacion', 'String');
+    agregarParametro('nombre', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAreaProfundizacion',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('AreaProfundizacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - AreaProfundizacion }
+function TMatematicas.AreasProfundizacion: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('AreasProfundizacion', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_areasprofundizacion', 'nombre', Query);
+
+    limpiarParametros;
+    agregarParametro('idareaprofundizacion', 'String');
+    agregarParametro('nombre', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllAreaProfundizacion',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('AreasProfundizacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - AreaProfundizacion }
+function TMatematicas.cancelAreaProfundizacion(const token, ID: string)
+  : TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_areasprofundizacion', 'idareaprofundizacion',
+        Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El Área de Profundización se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteAreaProfundizacion',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelAreaProfundizacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - AreaProfundizacion }
+function TMatematicas.acceptAreaProfundizacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idareaprofundizacion', 'String');
+      agregarParametro('nombre', 'String');
+
+      ID := datos.GetValue('idareaprofundizacion').Value;
+      UPDATE('siap_areasprofundizacion', 'idareaprofundizacion',
+        Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El Área de Profundización se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptAreaProfundizacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateAreaProfundizacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - Modalidad }
+function TMatematicas.updateModalidad(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idmodalidad', 'String');
+      agregarParametro('nombre', 'String');
+
+      INSERT('siap_modalidades', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La Modalidad se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateModalidad',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateModalidad', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - Modalidad }
+function TMatematicas.Modalidad(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_modalidades', 'idmodalidad', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idmodalidad', 'String');
+    agregarParametro('nombre', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getModalidad',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Modalidad', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - Modalidad }
+function TMatematicas.Modalidades: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('Modalidades', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_modalidades', 'nombre', Query);
+
+    limpiarParametros;
+    agregarParametro('idmodalidad', 'String');
+    agregarParametro('nombre', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllModalidad',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Modalidades', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - Modalidad }
+function TMatematicas.cancelModalidad(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_modalidades', 'idmodalidad', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'La Modalidad se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteModalidad',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelModalidad', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - Modalidad }
+function TMatematicas.acceptModalidad(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idmodalidad', 'String');
+      agregarParametro('nombre', 'String');
+
+      ID := datos.GetValue('idmodalidad').Value;
+      UPDATE('siap_modalidades', 'idmodalidad', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'La Modalidad se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptModalidad',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateModalidad', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - GrupoInvestigacion }
+function TMatematicas.updateGrupoInvestigacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idgrupoinvestigacion', 'String');
+      agregarParametro('nombre', 'String');
+      agregarParametro('sigla', 'String');
+      agregarParametro('iddirector', 'Integer');
+      agregarParametro('mision', 'String');
+      agregarParametro('vision', 'String');
+
+      INSERT('siap_gruposinvestigacion', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El grupo de investigación se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateGrupoInvestigacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateGrupoInvestigacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - GrupoInvestigacion }
+function TMatematicas.GrupoInvestigacion(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_gruposinvestigacion', 'idgrupoinvestigacion',
+      Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idgrupoinvestigacion', 'String');
+    agregarParametro('nombre', 'String');
+    agregarParametro('sigla', 'String');
+    agregarParametro('iddirector', 'String');
+    agregarParametro('mision', 'String');
+    agregarParametro('vision', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getGrupoInvestigacion',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('GrupoInvestigacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - GrupoInvestigacion }
+function TMatematicas.GruposInvestigacion: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('GruposInvestigacion', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_gruposinvestigacion', 'nombre', Query);
+
+    limpiarParametros;
+    agregarParametro('idgrupoinvestigacion', 'String');
+    agregarParametro('nombre', 'String');
+    agregarParametro('sigla', 'String');
+    agregarParametro('iddirector', 'String');
+    agregarParametro('mision', 'String');
+    agregarParametro('vision', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllGrupoInvestigacion',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('GruposInvestigacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - GrupoInvestigacion }
+function TMatematicas.cancelGrupoInvestigacion(const token, ID: string)
+  : TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_gruposinvestigacion', 'idgrupoinvestigacion',
+        Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El grupo de investigación se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteGrupoInvestigacion',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelGrupoInvestigacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - GrupoInvestigacion }
+function TMatematicas.acceptGrupoInvestigacion(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idgrupoinvestigacion', 'String');
+      agregarParametro('nombre', 'String');
+      agregarParametro('sigla', 'String');
+      agregarParametro('iddirector', 'Integer');
+      agregarParametro('mision', 'String');
+      agregarParametro('vision', 'String');
+
+      ID := datos.GetValue('idgrupoinvestigacion').Value;
+      UPDATE('siap_gruposinvestigacion', 'idgrupoinvestigacion',
+        Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta,
+        'El grupo de investigación se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptGrupoInvestigacion',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateGrupoInvestigacion', Json.toString);
+  Query.Free;
+end;
+
+{ Método INSERT - Egresado }
+function TMatematicas.updateEgresado(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idegresado', 'String');
+      agregarParametro('nombre', 'String');
+      agregarParametro('celular', 'String');
+      agregarParametro('correo', 'String');
+      agregarParametro('esegresado', 'String');
+      agregarParametro('fecha', 'String');
+      agregarParametro('gradoescolaridad', 'String');
+      agregarParametro('secretaria', 'String');
+      agregarParametro('institucion', 'String');
+      agregarParametro('municipio', 'String');
+      agregarParametro('cargo', 'String');
+      agregarParametro('nivellabora', 'String');
+
+      INSERT('siap_egresados', Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El Egresado se creo correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateEgresado',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateEgresado', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - Egresado }
+function TMatematicas.Egresado(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_egresados', 'idegresado', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idegresado', 'String');
+    agregarParametro('nombre', 'String');
+    agregarParametro('celular', 'String');
+    agregarParametro('correo', 'String');
+    agregarParametro('esegresado', 'String');
+    agregarParametro('fecha', 'String');
+    agregarParametro('gradoescolaridad', 'String');
+    agregarParametro('secretaria', 'String');
+    agregarParametro('institucion', 'String');
+    agregarParametro('municipio', 'String');
+    agregarParametro('cargo', 'String');
+    agregarParametro('nivellabora', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getEgresado',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Egresado', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - Egresado }
+function TMatematicas.Egresados: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('Egresados', ArrayJson);
+
+    limpiarConsulta(Query);
+    SELECT('siap_egresados', 'nombre', Query);
+
+    limpiarParametros;
+    agregarParametro('idegresado', 'String');
+    agregarParametro('nombre', 'String');
+    agregarParametro('celular', 'String');
+    agregarParametro('correo', 'String');
+    agregarParametro('esegresado', 'String');
+    agregarParametro('fecha', 'String');
+    agregarParametro('gradoescolaridad', 'String');
+    agregarParametro('secretaria', 'String');
+    agregarParametro('institucion', 'String');
+    agregarParametro('municipio', 'String');
+    agregarParametro('cargo', 'String');
+    agregarParametro('nivellabora', 'String');
+
+    for i := 1 to Query.RecordCount do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllEgresado',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Egresados', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - Egresado }
+function TMatematicas.cancelEgresado(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_egresados', 'idegresado', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'El Egresado se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteEgresado',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelEgresado', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - Egresado }
+function TMatematicas.acceptEgresado(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idegresado', 'String');
+      agregarParametro('nombre', 'String');
+      agregarParametro('celular', 'String');
+      agregarParametro('correo', 'String');
+      agregarParametro('esegresado', 'String');
+      agregarParametro('fecha', 'String');
+      agregarParametro('gradoescolaridad', 'String');
+      agregarParametro('secretaria', 'String');
+      agregarParametro('institucion', 'String');
+      agregarParametro('municipio', 'String');
+      agregarParametro('cargo', 'String');
+      agregarParametro('nivellabora', 'String');
+
+      ID := datos.GetValue('idegresado').Value;
+      UPDATE('siap_egresados', 'idegresado', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El Egresado se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptEgresado',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateEgresado', Json.toString);
+  Query.Free;
+end;
 
 { Método INSERT - ParticipanteEmem }
 function TMatematicas.updateParticipanteEmem(const token: string;
@@ -1846,10 +3536,10 @@ var
   Query, Query2: TFDQuery;
   ArrayJson, ArrayHorario: TJSONArray;
   JsonLinea: TJSONObject;
-  i: integer;
-  j: integer;
+  i, j, horas: integer;
   sumaHoras, sumaHorasSemana, horasTotales, horasSemestre, horasRestantes,
-    semanasSemestre: integer;
+    semanasSemestre: real;
+  Contrato: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -1870,6 +3560,8 @@ begin
       Texto(Periodo));
     Query.Open;
 
+    FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
+
     limpiarParametros;
     agregarParametro('idagendaservicio', 'String');
     agregarParametro('iddocente', 'String');
@@ -1885,6 +3577,7 @@ begin
     sumaHoras := 0;
     sumaHorasSemana := 0;
     horasTotales := obtenerHorasDocencia(idDocente);
+    Contrato := obtenerTipoContrato(idDocente);
 
     for i := 1 to Query.RecordCount do
     begin
@@ -1915,21 +3608,28 @@ begin
         Query2.Next;
       end;
 
-      sumaHorasSemana := sumaHorasSemana + Query.FieldByName('horas').AsInteger;
-      horasSemestre := Query.FieldByName('horas').AsInteger * semanasSemestre;
+      horas := Query.FieldByName('horas').AsInteger;
+      sumaHorasSemana := sumaHorasSemana + horas;
+      horasSemestre := horas * semanasSemestre;
+
+      if Contrato = 'carrera' then
+        horasSemestre := horasSemestre * 2.5;
+
+      escribirMensaje('Contrato: ' + idDocente, Contrato);
+
       sumaHoras := sumaHoras + horasSemestre;
 
       JsonServicio.AddPair('horarios', ArrayHorario);
-      JsonServicio.AddPair('horassemestre', IntToStr(horasSemestre));
+      JsonServicio.AddPair('horassemestre', FloatToStr(horasSemestre));
 
       ArrayJson.AddElement(JsonServicio);
       Query.Next;
     end;
 
     horasRestantes := horasTotales - sumaHoras;
-    Json.AddPair('docenciaDirecta', IntToStr(sumaHorasSemana));
-    Json.AddPair('horasTotales', IntToStr(sumaHoras));
-    Json.AddPair('horasRestantes', IntToStr(horasRestantes));
+    Json.AddPair('docenciaDirecta', FloatToStr(sumaHorasSemana));
+    Json.AddPair('horasTotales', FloatToStr(sumaHoras));
+    Json.AddPair('horasRestantes', FloatToStr(horasRestantes));
 
   except
     on E: Exception do
@@ -2080,6 +3780,7 @@ function TMatematicas.updateHorarioServicio(const token: string;
 var
   Json: TJSONObject;
   Query: TFDQuery;
+  iniA, finA, horas: integer;
 begin
   try
     Query := TFDQuery.create(nil);
@@ -2103,6 +3804,25 @@ begin
       INSERT('siap_horarios_servicios', Query);
 
       asignarDatos(datos, Query);
+
+      // Actualizar las horas del servicio
+      iniA := FHoras.IndexOf(datos.GetValue('inicio').Value);
+      finA := FHoras.IndexOf(datos.GetValue('fin').Value);
+      horas := abs(finA - iniA);
+
+      Query.Close;
+      Query.SQL.Text := 'SELECT horas FROM siap_servicios_programas WHERE ' +
+        'idservicioprograma=' + #39 + datos.GetValue('idservicioprograma')
+        .Value + #39;;
+      Query.Open;
+      horas := horas + Query.FieldByName('horas').AsInteger;
+
+      Query.Close;
+      Query.SQL.Text := 'UPDATE siap_servicios_programas SET horas=:horas' +
+        ' WHERE idservicioprograma=' + #39 +
+        datos.GetValue('idservicioprograma').Value + #39;
+      Query.Params.ParamByName('horas').Value := horas;
+      Query.ExecSQL;
 
       Json.AddPair(JsonRespuesta, 'El Horario se creo correctamente');
     end
@@ -2237,6 +3957,8 @@ function TMatematicas.cancelHorarioServicio(const token, ID: string)
 var
   Json: TJSONObject;
   Query: TFDQuery;
+  IdServicioPrograma: string;
+  iniA, finA, horas: integer;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -2245,8 +3967,34 @@ begin
 
     if token = FDataSnapMatematicas.obtenerToken then
     begin
+      // Actualizar las horas en el servicio programa
+      Query.Close;
+      Query.SQL.Text := 'SELECT * FROM siap_horarios_servicios WHERE ' +
+        'idhorarioservicio=' + #39 + ID + #39;
+      Query.Open;
+
+      IdServicioPrograma := Query.FieldByName('idservicioprograma').AsString;
+      iniA := FHoras.IndexOf(Query.FieldByName('inicio').AsString);
+      finA := FHoras.IndexOf(Query.FieldByName('fin').AsString);
+      horas := abs(finA - iniA);
+
+      // Se borran las horas
       limpiarConsulta(Query);
       DELETE('siap_horarios_servicios', 'idhorarioservicio', Texto(ID), Query);
+
+      // Se actualizan las horas en servicio programa
+      Query.Close;
+      Query.SQL.Text := 'SELECT horas FROM siap_servicios_programas WHERE ' +
+        'idservicioprograma=' + #39 + IdServicioPrograma + #39;
+      Query.Open;
+      horas := Query.FieldByName('horas').AsInteger - horas;
+
+      // Reasignas las horas del servicio (materia)
+      Query.Close;
+      Query.SQL.Text := 'UPDATE siap_servicios_programas SET horas=:horas ' +
+        ' WHERE idservicioprograma=' + #39 + IdServicioPrograma + #39;
+      Query.Params.ParamByName('horas').Value := horas;
+      Query.ExecSQL;
 
       Json.AddPair(JsonRespuesta, 'El Horario se eliminó correctamente');
     end
@@ -2437,6 +4185,8 @@ begin
   Query.Connection := Conexion;
   Query2 := TFDQuery.create(nil);
   Query2.Connection := Conexion;
+  Query3 := TFDQuery.create(nil);
+  Query3.Connection := Conexion;
 
   try
     Json := TJSONObject.create;
@@ -2502,9 +4252,16 @@ begin
       end;
 
       { Determinar quien tomo éste servicio }
+      Query3.Close;
+      Query3.SQL.Text := 'SELECT nombre FROM siap_agendas_servicios as ag ' +
+        'INNER JOIN siap_docentes as d ' +
+        'ON ag.iddocente = d.iddocente WHERE ag.idservicioprograma=' + #39 +
+        Query.FieldByName('idservicioprograma').AsString + #39;
+      Query3.Open;
 
       JsonTemp.AddPair('horas', IntToStr(totalHoras));
       JsonTemp.AddPair('horarios', ArrayHorario);
+      JsonTemp.AddPair('docente', Query3.FieldByName('nombre').AsString);
 
       ArrayJson.AddElement(JsonTemp);
       Query.Next;
@@ -2534,7 +4291,7 @@ var
   i, j, Total, TotalSemana, horasDocencia, Semanas: integer;
   inicio, fin: string;
   validacion: TIntegerString;
-  observacion, IdServicioPrograma: string;
+  observacion, IdServicioPrograma, Contrato: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -2547,6 +4304,10 @@ begin
     Json := TJSONObject.create;
     ArrayJson := TJSONArray.create;
     Json.AddPair('ServiciosProgramas', ArrayJson);
+
+    { Leer los servicios del programa para el periodo especificado, esto genera
+      una lista de servicios (materias las cuales se deben validad, que profesor
+      ya la ha tomado y si se le cruzan al profesor que se envia como paramétro) }
 
     limpiarConsulta(Query);
     Query.SQL.Add('SELECT * FROM siap_servicios_programas AS s ');
@@ -2571,16 +4332,19 @@ begin
     agregarParametro('jornada', 'String');
     agregarParametro('grupo', 'String');
 
+    { Hacer un ciclo para recorrer todos los servicios o materias obtenidos }
     for i := 1 to Query.RecordCount do
     begin
       JsonTemp := TJSONObject.create;
       JsonTemp := crearJSON(Query);
 
+      // Se obtiene el parámetro de semanas
       Semanas := Query.FieldByName('semanas').AsInteger;
 
+      // Se obtiene el ID del Servicio para realizar otras consultas
       IdServicioPrograma := Query.FieldByName('idservicioprograma').AsString;
 
-      { Extraer las horas }
+      { Se extraen las horas del servicio para realizar validaciones }
       Query2.Close;
       Query2.SQL.Text :=
         'SELECT * FROM siap_horarios_servicios WHERE idservicioprograma=' +
@@ -2591,6 +4355,7 @@ begin
       ArrayHorario := TJSONArray.create;
       TotalSemana := 0;
 
+      { Se crea un arreglo de las horas del servicio para mostrarlas en la tabla }
       for j := 1 to Query2.RecordCount do
       begin
         inicio := Query2.FieldByName('inicio').AsString;
@@ -2616,10 +4381,12 @@ begin
       { Determinar quien tomo éste servicio }
       observacion := obtenerDocenteServicio(IdServicioPrograma, Periodo);
 
-      { Determinar si se le cruza éste horario }
-      validacion := validarHorario(idDocente, IdServicioPrograma, Periodo);
+      { Determinar si se le cruza éste horario, Si NO fue tomado por otro docente }
       if observacion = '' then
+      begin
+        validacion := validarHorario(idDocente, IdServicioPrograma, Periodo);
         observacion := validacion.vString;
+      end;
 
       { Determinar si el curso tiene mas horas de las que se pueden }
       if observacion = '' then
@@ -2633,9 +4400,16 @@ begin
         Query3.SQL.Add('WHERE iddocente=' + idDocente);
         Query3.Open;
 
+        FDataSnapMatematicas.escribirSQL(Query3.SQL.Text);
+
         Total := Query3.FieldByName('horas').AsInteger;
         horasDocencia := validacion.vInteger;
+
         TotalSemana := TotalSemana * Semanas;
+
+        Contrato := Query3.FieldByName('contrato').AsString;
+        if (Contrato = 'carrera') then
+          TotalSemana := round(TotalSemana * 2.5);
 
         if (horasDocencia + TotalSemana) > Total then
           observacion := 'Excede las horas permitidas';
@@ -2865,7 +4639,7 @@ begin
     limpiarConsulta(Query);
     Query.SQL.Add('SELECT * FROM siap_programas AS p ');
     Query.SQL.Add('INNER JOIN siap_facultades AS f ');
-    Query.SQL.Add('ON p.idfacultad = f.idfacultad');
+    Query.SQL.Add('ON p.idfacultad = f.idfacultad ORDER BY p.programa');
     Query.Open;
 
     limpiarParametros;
@@ -5437,11 +7211,12 @@ function TMatematicas.validarHorario(idDocente, idservicio, Periodo: string)
 var
   Query: TFDQuery;
   Query2: TFDQuery;
-  diaA, diaB, iniA, iniB, finA, finB: integer;
+  diaA, diaB, iniA, iniB, finA, finB, dia, hora: integer;
   i: integer;
   j: integer;
   fm: boolean;
   horasDocencia, horas: integer;
+  sDia: string;
 begin
   Result.vString := '';
   Result.vInteger := 0;
@@ -5461,54 +7236,55 @@ begin
   Query2.Open;
   Query2.First;
 
-  { Leer los servicios asociados al docente }
-  Query.Close;
-  Query.SQL.Clear;
-
-  Query.SQL.Add('SELECT * FROM siap_agendas_servicios as a ');
-  Query.SQL.Add('INNER JOIN siap_horarios_servicios as h ');
-  Query.SQL.Add('ON a.idservicioprograma = h.idservicioprograma ');
-  Query.SQL.Add('WHERE a.iddocente = ' + idDocente);
-  Query.SQL.Add(' AND a.periodo = ' + Texto(Periodo));
-  Query.Open;
-  Query.First;
-
-  { Crear un ciclo anidado para evaluar las condiciones }
-  for i := 1 to Query2.RecordCount do
+  sDia := Query2.FieldByName('dia').AsString;
+  if (sDia <> 'virtual') and (sDia <> 'distancia') then
   begin
-    diaA := FDias.IndexOf(Query2.FieldByName('dia').AsString);
-    iniA := FHoras.IndexOf(Query2.FieldByName('inicio').AsString);
-    finA := FHoras.IndexOf(Query2.FieldByName('fin').AsString);
+    { Leer los servicios asociados al docente }
+    Query.Close;
+    Query.SQL.Clear;
 
-    for j := 1 to Query.RecordCount do
+    Query.SQL.Add('SELECT * FROM siap_agendas_servicios as a ');
+    Query.SQL.Add('INNER JOIN siap_horarios_servicios as h ');
+    Query.SQL.Add('ON a.idservicioprograma = h.idservicioprograma ');
+    Query.SQL.Add('WHERE a.iddocente = ' + idDocente);
+    Query.SQL.Add(' AND a.periodo = ' + Texto(Periodo));
+    Query.Open;
+    Query.First;
+
+    { Crear un ciclo anidado para evaluar las condiciones }
+    for i := 1 to Query2.RecordCount do
     begin
-      diaB := FDias.IndexOf(Query.FieldByName('dia').AsString);
-      iniB := FHoras.IndexOf(Query.FieldByName('inicio').AsString);
-      finB := FHoras.IndexOf(Query.FieldByName('fin').AsString);
+      // Horas del servicio a comparar
+      diaA := FDias.IndexOf(Query2.FieldByName('dia').AsString);
+      iniA := FHoras.IndexOf(Query2.FieldByName('inicio').AsString);
+      finA := FHoras.IndexOf(Query2.FieldByName('fin').AsString);
 
-      fm := abs(diaA - diaB) = 0;
-      if iniA < iniB then
-        fm := fm and (finB > iniB)
-      else
-        fm := fm and (iniB > finB);
-
-      horas := finB - iniB;
-
-      if fm then
+      // Ciclo para recorrer cada una de las materias YA asignadas al docente.
+      for j := 1 to Query.RecordCount do
       begin
-        Result.vString := 'El Horario se Cruza';
-        exit;
+        diaB := FDias.IndexOf(Query.FieldByName('dia').AsString);
+        iniB := FHoras.IndexOf(Query.FieldByName('inicio').AsString);
+        finB := FHoras.IndexOf(Query.FieldByName('fin').AsString);
+
+        dia := abs(diaB - diaA);
+        if dia = 0 then
+          fm := (iniB >= iniA) and (finB <= finA);
+
+        if fm then
+        begin
+          Result.vString := 'El Horario se Cruza';
+          exit;
+        end;
+
+        Query.Next;
       end;
-
-      { solo se puede sumar una sola vez el horario }
-      if j = 1 then
-        horasDocencia := horasDocencia + horas;
-
       Query2.Next;
     end;
-  end;
 
-  Result.vInteger := horasDocencia;
+    Result.vInteger := horasDocencia;
+  end
+  else
+    Result.vString := '';
 end;
 
 function TMatematicas.updateusuario(const token: string;
@@ -5984,6 +7760,9 @@ end;
 function TMatematicas.obtenerDocenteServicio(idservicio,
   Periodo: string): string;
 begin
+  { Se realiza una consulta para determinar el docente que tomo un servicio
+    y mostrarlo en la tabla con el fin de discriminar los servicios que
+    hacen falta }
   Query.Close;
   Query.SQL.Clear;
   Query.SQL.Add('SELECT * FROM siap_agendas_servicios as a');
@@ -6212,10 +7991,18 @@ begin
   Result := Json;
 end;
 
-function TMatematicas.obtenerTipoContratoDocente(idDocente: string): string;
+function TMatematicas.obtenerTipoContrato(idDocente: string): string;
 begin
   Query.Close;
-  Query.SQL.Text := 'SELECT * FROM siap_docentes';
+  Query.SQL.Clear;
+  Query.SQL.Add('SELECT * FROM siap_docentes as d ');
+  Query.SQL.Add('INNER JOIN siap_tipo_contrato as t ');
+  Query.SQL.Add('ON t.idtipocontrato = d.idtipocontrato ');
+  Query.SQL.Add('WHERE d.iddocente=' + idDocente);
+  Query.Open;
+
+  escribirMensaje('Consulta Contrato', Query.FieldByName('contrato').AsString);
+  Result := Query.FieldByName('contrato').AsString;
 end;
 
 function TMatematicas.updatetoken(const datos: TJSONObject): TJSONObject;

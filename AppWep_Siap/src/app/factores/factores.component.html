@@ -1,33 +1,12 @@
-<h1 class="m-3">Factores</h1>
-<hr>
-
 <div class="row m-3">
 
-    <!-- FACTOR DE INTERNACIONALIZACION -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('internacionalizacion')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/internacionalizacion.svg" alt="Descargar">
+    <!-- FACTOR DE PROCESOS ACADÉMICOS -->
+    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('procesos-academicos')">
+        <img style="margin: 5px; height: 120px;" src="assets/Iconos/procesos-academicos.svg" alt="Descargar">
         <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Internacionalización</p>
+            <p class="font-menu-factor">Procesos Académicos</p>
         </div>
     </div>
-
-    <!-- FACTOR DE EXTENSIÓN -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('extension')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/extension.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Extensión</p>
-        </div>
-    </div>
-
-
-    <!-- FACTOR DE DOCENTES -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('docentes')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/docentes.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Docentes</p>
-        </div>
-    </div>
-
 
     <!-- FACTOR DE ESTUDIANTES -->
     <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('estudiantes')">
@@ -37,11 +16,19 @@
         </div>
     </div>
 
-    <!-- FACTOR DE PROCESOS ACADÉMICOS -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('procesos-academicos')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/procesos-academicos.svg" alt="Descargar">
+    <!-- FACTOR DE DOCENTES -->
+    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu([])">
+        <img style="margin: 5px; height: 120px;" src="assets/Iconos/docentes.svg" alt="Descargar">
         <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Procesos Académicos</p>
+            <p class="font-menu-factor">Docentes</p>
+        </div>
+    </div>
+
+    <!-- FACTOR DE INTERNACIONALIZACION -->
+    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('internacionalizacion')">
+        <img style="margin: 5px; height: 120px;" src="assets/Iconos/internacionalizacion.svg" alt="Descargar">
+        <div class="text-center text-success" style="height: 65px;">
+            <p class="font-menu-factor">Internacionalización</p>
         </div>
     </div>
 
@@ -53,13 +40,12 @@
         </div>
     </div>
 
-</div>
+    <!-- FACTOR DE EXTENSIÓN -->
+    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('extension')">
+        <img style="margin: 5px; height: 120px;" src="assets/Iconos/extension.svg" alt="Descargar">
+        <div class="text-center text-success" style="height: 65px;">
+            <p class="font-menu-factor">Extensión y Gestión del Graduado</p>
+        </div>
+    </div>
 
-<div>
-    <h1>Apuntes</h1>
-    <hr>
-
-    <ul>
-        <li>Sistema de Información para la Autoevaluación del Programa</li>
-    </ul>
 </div>

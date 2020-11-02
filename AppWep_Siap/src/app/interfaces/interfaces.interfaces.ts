@@ -176,6 +176,7 @@ export interface ServicioPrograma {
   horassemestre?: string;
   jornada?: string;
   grupo?: string;
+  docente?: string;
 }
 
 export interface HorarioServicio {
@@ -280,4 +281,20 @@ export interface TrabajoGrado {
   actapropuesta?: string;
   fechasustentacion?: string;
   calificacion?: string;
+}
+
+export interface Periodo {
+  idperiodo?: string;
+  periodo?: string;
+}
+
+export interface ActividadFuncionDocente {
+  idactividadprograma?: string;
+  idfuncion?: string;
+  idactividad?: string;
+  idsubactividad?: string;
+  actividad?: string;
+  iddocente?: number;
+  periodo?: string;
+  horas?: string;
 }

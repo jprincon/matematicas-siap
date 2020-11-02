@@ -212,5 +212,80 @@ create table if not exists emem_participantes(
        idafiliacion text references emem_afiliaciones(idafiliacion)
 );
 
+/*Tabla para Egresado*/
+create table if not exists siap_egresados(
+       idegresado text primary key not null,
+       nombre text,
+       celular text,
+       correo text,
+       esegresado text,
+       fecha text,
+       gradoescolaridad text,
+       secretaria text,
+       institucion text,
+       municipio text,
+       cargo text,
+       nivellabora text
+);
+
+/*Tabla para GrupoInvestigacion*/
+create table if not exists siap_gruposinvestigacion(
+       idgrupoinvestigacion text primary key not null,
+       nombre text,
+       sigla text,
+       iddirector integer references siap_docentes(iddocente),
+       mision text,
+       vision text
+);
+
+/*Tabla para Modalidad*/
+create table if not exists siap_modalidades(
+       idmodalidad text primary key not null,
+       nombre text
+);
+
+/*Tabla para AreaProfundizacion*/
+create table if not exists siap_areasprofundizacion(
+       idareaprofundizacion text primary key not null,
+       nombre text
+);
+
+/*Tabla para TrabajoGrado*/
+create table if not exists siap_trabajosgrado(
+       idtrabajogrado text primary key not null,
+       titulo text,
+       estudiante1 text,
+       estudiante2 text,
+       estudiante3 text,
+       idjurado1 integer references siap_docentes(iddocente),
+       idjurado2 integer references siap_docentes(iddocente),
+       idjurado3 integer references siap_docentes(iddocente),
+       iddirector integer references siap_docentes(iddocente),
+       idmodalidad text references siap_modalidades(idmodalidad),
+       idareaprofundizacion text references siap_areasprofundizacion(idareaprofundizacion),
+       idgrupoinvestigacion text references siap_gruposinvestigacion(idgrupoinvestigacion),
+       actapropuesta text,
+       fechasustentacion text,
+       calificacion text
+);
+
+/*Tabla para Periodo*/
+create table if not exists siap_periodos(
+       idperiodo text primary key not null,
+       periodo text
+);
+
+/*Tabla para ActividadFuncionDocente*/
+create table if not exists siap_actividades_funciones_docente(
+       idactividadprograma text primary key not null,
+       idfuncion text references siap_funciones_docentes(idfunciondocente),
+       idactividad text references siap_actividades_docentes(idactividaddocente),
+       idsubactividad text references siap_subactividades_docentes(idsubactividaddocente),
+       actividad text,
+       iddocente integer references siap_docentes(iddocente),
+       periodo text,
+       horas integer
+);
+
 
 

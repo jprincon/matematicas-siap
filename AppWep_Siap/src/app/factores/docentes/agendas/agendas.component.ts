@@ -1,7 +1,7 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../../../services/transfer.service';
-import { TipoContrato, Docente, AgendaServicio, ServicioPrograma } from '../../../interfaces/interfaces.interfaces';
+import { TipoContrato, Docente, AgendaServicio, ServicioPrograma, Periodo } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { Utilidades } from '../../../utilidades/utilidades.class';
 
@@ -17,9 +17,11 @@ export class AgendasComponent implements OnInit {
   buscarNombre = '';
   bDocentes: Docente[] = [];
   Docentes: Docente[] = [];
+  Periodos: Periodo[] = [];
 
   AgendasServicio: AgendaServicio[] = [];
   leyendo = false;
+  soloCatedraticos = false;
 
   docenteSeleccionado: Docente = {};
 
@@ -45,9 +47,20 @@ export class AgendasComponent implements OnInit {
       this.periodo += '2';
     }
 
+    // temporal
+    this.periodo = '20201';
+
     this.transfer.enviarTituloAplicacion('Agendas');
 
     this.leerContratos();
+    this.leerPeriodos();
+  }
+
+  leerPeriodos() {
+    this.genService.getPeriodos().subscribe((rPeriodos: any) => {
+      // console.log(rPeriodos);
+      this.Periodos = rPeriodos.Periodos;
+    });
   }
 
   eliminarAgendaServicio(agenda: AgendaServicio) {
@@ -115,9 +128,18 @@ export class AgendasComponent implements OnInit {
     });
   }
 
+  agregarFuncion() {
+    this.dlgService.DlgFuncionesDocente('Crear', this.docenteSeleccionado.iddocente, '', this.periodo).subscribe((rRespuesta: any) => {
+      console.log(rRespuesta);
+    });
+  }
+
   seleccionarDocente(docente: Docente) {
+    this.soloCatedraticos = (this.tipoContrato === 'catedrático');
+    console.log(this.soloCatedraticos);
+
     this.docenteSeleccionado = docente;
-    console.log(this.docenteSeleccionado);
+    // console.log(this.docenteSeleccionado);
 
     this.leerAgendasServicio();
   }

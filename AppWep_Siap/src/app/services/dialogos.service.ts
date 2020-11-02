@@ -28,6 +28,8 @@ import { DlgGrupoInvestigacionComponent } from '../factores/investigacion/grupos
 import { DlgModalidadComponent } from '../factores/procesos_academicos/trabajos-grado/modalidades/dlg-modalidad/dlg-modalidad.component';
 import { DlgAreaProfundizacionComponent } from '../factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
 import { DlgTrabajoGradoComponent } from '../factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
+import { DlgPeriodoComponent } from '../factores/docentes/periodos/dlg-periodo/dlg-periodo.component';
+import { DlgFuncionesDocenteComponent } from '../factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
 
 @Injectable({
   providedIn: 'root'
@@ -156,7 +158,7 @@ export class DialogosService {
 
   DlgServicioPrograma(accion: string, idservicioprograma: string) {
     const dialogRef = this.dialog.open(DlgServicioProgramaComponent, {
-      width: '60%',
+      width: '60%', height: '80%',
       data: {accion, idservicioprograma}
     });
 
@@ -248,6 +250,24 @@ export class DialogosService {
     const dialogRef = this.dialog.open(DlgTrabajoGradoComponent, {
       width: '60%', height: '80%',
       data: {accion, idtrabajogrado}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgPeriodo(accion: string, idperiodo: string) {
+    const dialogRef = this.dialog.open(DlgPeriodoComponent, {
+      width: '60%',
+      data: {accion, idperiodo}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  DlgFuncionesDocente(accion: string, iddocente: string, idactividadprograma: string, periodo: string) {
+    const dialogRef = this.dialog.open(DlgFuncionesDocenteComponent, {
+      width: '60%',
+      data: {accion, iddocente, idactividadprograma, periodo}
     });
 
     return dialogRef.afterClosed();

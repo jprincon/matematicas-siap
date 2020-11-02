@@ -74,6 +74,31 @@ export class ServiciosService {
     return id;
   }
 
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     SERVICIOS ASSETS LOCALES
+     Obtiene datos de los assets
+  =========================================================================================================================*/
+  getConferencias() {
+    const url = 'assets/datos/conferencias.json';
+    return this.http.get(url);
+  }
+
+  getPonencias() {
+    const url = 'assets/datos/ponencias.json';
+    return this.http.get(url);
+  }
+
+  getCronograma() {
+    const url = 'assets/datos/programacion.json';
+    return this.http.get(url);
+  }
+
+  getContacto() {
+    const url = 'assets/datos/contacto.json';
+    return this.http.get(url);
+  }
+
+
   // Rutas del Servidor %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   dataSnap_Path(ruta: string) {
     return this.ENCABEZADO_HTTP + this.IP_SERVIDOR + this.PUERTO + this.GENERAL + ruta;

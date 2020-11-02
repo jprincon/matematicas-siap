@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TransferenciaService } from '../../Servicios/transferencia.service';
 import { Router } from '@angular/router';
 import { ServiciosService } from '../../Servicios/servicios.service';
+import { RUTA_CONCURSO, RUTA_PONENCIAS_CONFERENCIAS, RUTA_PARTICIPANTESEMEM, RUTA_MODALIDADES, RUTA_INSCRIPCION, RUTA_INICIO, RUTA_CONTACTO, RUTA_PROGRAMACION } from '../../config/config';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,15 @@ export class HeaderComponent implements OnInit {
   nombreUsuario = '';
   mostrarUsuario = false;
   esAdministrador = false;
+
+  _RUTA_CONCURSO = RUTA_CONCURSO;
+  _RUTA_PONENCIAS_CONFERENCIAS = RUTA_PONENCIAS_CONFERENCIAS;
+  _RUTA_PARTICIPANTESEMEM = RUTA_PARTICIPANTESEMEM;
+  _RUTA_MODALIDADES = RUTA_MODALIDADES;
+  _RUTA_INSCRIPCION = RUTA_INSCRIPCION;
+  _RUTA_INICIO = RUTA_INICIO;
+  _RUTA_CONTACTO = RUTA_CONTACTO;
+  _RUTA_PROGRAMACION = RUTA_PROGRAMACION;
 
   constructor(private router: Router,
               private transferencia: TransferenciaService,

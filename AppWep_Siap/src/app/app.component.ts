@@ -16,7 +16,9 @@ export class AppComponent {
               private router: Router,
               private transfer: TransferService) {
 
-    this.inicioSesionAutomatico();
+    // this.inicioSesionAutomatico();
+    console.clear();
+    this.genService.navegar(['inicio']);
   }
 
   inicioSesionAutomatico() {

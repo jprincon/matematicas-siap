@@ -10,7 +10,7 @@
         <ul class="navbar-nav mr-auto" routerLinkActive>
 
             <!-- %%%%%%% PROCESOS ACADÉMICOS %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="procesosAcademicos" role="button">Procesos Académicos</a>
 
                 <mat-menu #procesosAcademicos="matMenu">
@@ -36,7 +36,7 @@
             </li>
 
             <!-- %%%%%%% ESTUDIANTES %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="estudiantes" role="button">Estudiantes</a>
 
                 <mat-menu #estudiantes="matMenu">
@@ -52,12 +52,13 @@
             </li>
 
             <!-- %%%%%%% DOCENTES %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="docentes" role="button">Docentes</a>
 
                 <mat-menu #docentes="matMenu">
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_TIPO_CONTRATO])">Tipo de Contrato</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_CATEGORIA_DOCENTE])">Categorías de Docente</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_PERIODOS])">Periodos</button>
                     <button mat-menu-item (click)="verMenu([_RUTA_FACTOR_DOCENTES, _RUTA_DOCENTES])">Lista de Docentes</button>
                     <button mat-menu-item [matMenuTriggerFor]="agendas">Agendas</button>
                 </mat-menu>
@@ -72,7 +73,7 @@
             </li>
 
             <!-- %%%%%%% INTERNACIONALIZACIÓN %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="internacionalizacion" role="button">Internacionalización</a>
 
                 <mat-menu #internacionalizacion="matMenu">
@@ -84,7 +85,7 @@
             </li>
 
             <!-- %%%%%%% INVESTIGACIÓN %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="investigacion" role="button">Investigación</a>
 
                 <mat-menu #investigacion="matMenu">
@@ -103,7 +104,7 @@
             </li>
 
             <!-- %%%%%%% EXTENSIÓN Y GESTIÓN DEL GRADUADO %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="extension" role="button">Extensión y Gestión del Graduado</a>
 
                 <mat-menu #extension="matMenu">
@@ -143,7 +144,7 @@
             </li>
 
             <!-- %%%%%%% Acerca de ... %%%%%%% -->
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="acerca" role="button">Acerca de ...</a>
 
                 <mat-menu #acerca="matMenu">
@@ -155,7 +156,7 @@
                 </mat-menu>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item active" *ngIf="permisoNavegar">
                 <a class="nav-link puntero-manito" (click)="verMenu([_RUTA_ADMINISTRAR])">Administrar</a>
             </li>
 

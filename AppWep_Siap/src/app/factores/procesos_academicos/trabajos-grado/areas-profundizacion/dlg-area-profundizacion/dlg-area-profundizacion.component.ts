@@ -4,6 +4,7 @@ import { Utilidades } from '../../../../../utilidades/utilidades.class';
 import { AreaProfundizacion } from '../../../../../interfaces/interfaces.interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SnackBarComponent } from '../../../../../dialogos/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-dlg-area-profundizacion',
@@ -68,7 +69,7 @@ export class DlgAreaProfundizacionComponent implements OnInit {
   }
 
   mostrarSnackBar(titulo: string, msg: string) {
-    this.snackBar.openFromComponent(SnackbarComponent, {
+    this.snackBar.openFromComponent(SnackBarComponent, {
       data: {Titulo: titulo, Mensaje: msg}, duration: 5000
     });
   }

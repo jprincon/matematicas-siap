@@ -1,6 +1,7 @@
 import { GeneralService } from './../../services/general.service';
 import { Component, OnInit } from '@angular/core';
-import { RUTA_DOCENTES, RUTA_LISTADO_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_ACTUALIZACIONES, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_ADMINISTRADOR, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_GRUPOSINVESTIGACION, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_TRABAJOSGRADO } from '../../config/config';
+import { RUTA_DOCENTES, RUTA_LISTADO_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_ACTUALIZACIONES, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_ADMINISTRADOR, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_GRUPOSINVESTIGACION, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_TRABAJOSGRADO, RUTA_PERIODOS } from '../../config/config';
+import { TransferService } from '../../services/transfer.service';
 
 export interface SubMenu {
   nombre?: string;
@@ -47,6 +48,7 @@ export class MenuComponent implements OnInit {
   _RUTA_MODALIDADES = RUTA_MODALIDADES;
   _RUTA_AREASPROFUNDIZACION = RUTA_AREASPROFUNDIZACION;
   _RUTA_TRABAJOSGRADO = RUTA_TRABAJOSGRADO;
+  _RUTA_PERIODOS = RUTA_PERIODOS;
 
   _RUTA_ADMINISTRAR = RUTA_ADMINISTRADOR;
 
@@ -60,9 +62,16 @@ export class MenuComponent implements OnInit {
     {nombre: 'SIGMA - Seminario Interdisciplinario y Grupo de Matemática Aplicada'}
   ];
 
-  constructor(private genService: GeneralService) { }
+  permisoNavegar = false;
+
+  constructor(private genService: GeneralService,
+              private transfer: TransferService) { }
 
   ngOnInit() {
+    this.transfer.obtenerPermisoNavegar.subscribe((rPermiso: boolean) => {
+      this.permisoNavegar = rPermiso;
+      // console.log(rPermiso);
+    });
   }
 
   irAMenu(ruta: string) {
@@ -70,7 +79,7 @@ export class MenuComponent implements OnInit {
   }
 
   verMenu(rutas: string[]) {
-    console.log(rutas);
+    // console.log(rutas);
     this.genService.navegar(rutas);
   }
 

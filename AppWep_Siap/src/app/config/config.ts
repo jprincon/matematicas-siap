@@ -29,3 +29,4 @@ export const RUTA_ERRORES = 'errores';
 export const RUTA_ADMINISTRADOR = 'administrador';
 export const RUTA_AREASPROFUNDIZACION = 'areas-profundizacion';
 export const RUTA_TRABAJOSGRADO = 'trabajos-grado';
+export const RUTA_PERIODOS = 'periodos';

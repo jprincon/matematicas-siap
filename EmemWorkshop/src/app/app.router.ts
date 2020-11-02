@@ -4,14 +4,22 @@ import { ModalidadesComponent } from './componentes/modalidades/modalidades.comp
 import { InscripcionesComponent } from './componentes/inscripciones/inscripciones.component';
 import { AuthGuardService } from './Servicios/auth-guard.service';
 import { AfiliacionesComponent } from './componentes/administrar/afiliaciones/afiliaciones.component';
-import { RUTA_AFILIACIONES, RUTA_PARTICIPANTESEMEM } from './config/config';
+import { RUTA_AFILIACIONES, RUTA_PARTICIPANTESEMEM, RUTA_PONENCIAS_CONFERENCIAS, RUTA_CONCURSO, RUTA_INICIO, RUTA_MODALIDADES, RUTA_INSCRIPCION, RUTA_CONTACTO, RUTA_PROGRAMACION } from './config/config';
 import { AdministrarComponent } from './componentes/administrar/administrar.component';
 import { ParticipantesEmemComponent } from './componentes/administrar/participantes-emem/participantes-emem.component';
+import { PonenciasComponent } from './componentes/ponencias/ponencias.component';
+import { ConcursoComponent } from './componentes/concurso/concurso.component';
+import { ContactoComponent } from './componentes/contacto/contacto.component';
+import { ProgramacionComponent } from './componentes/programacion/programacion.component';
 
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent },
-  { path: 'modalidades', component: ModalidadesComponent },
-  { path: 'inscripcion', component: InscripcionesComponent },
+  { path: RUTA_INICIO, component: InicioComponent },
+  { path: RUTA_MODALIDADES, component: ModalidadesComponent },
+  { path: RUTA_INSCRIPCION, component: InscripcionesComponent },
+  {path: RUTA_PONENCIAS_CONFERENCIAS, component: PonenciasComponent},
+  {path: RUTA_CONCURSO, component: ConcursoComponent},
+  {path: RUTA_CONTACTO, component: ContactoComponent},
+  {path: RUTA_PROGRAMACION, component: ProgramacionComponent},
 
   // Administrar
   { path: 'administrar', component: AdministrarComponent, canActivate: [AuthGuardService],

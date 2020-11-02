@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="[_RUTA_INICIO]">
         <img src="assets/Imagenes/logo_emem.jpeg" width="200" height="200" alt="" loading="lazy">
     </a>
 
@@ -10,7 +10,7 @@
 
 <!-- Barra de Menús -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-    <a class="navbar-brand puntero-manito text-white"><img src="assets/Imagenes/logo_emem.jpeg" style="height: 32px;"> EMEM Workshop</a>
+    <a class="navbar-brand puntero-manito text-white" routerLink="[_RUTA_INICIO]"><img src="assets/Imagenes/logo_emem.jpeg" style="height: 32px;"> Workshop EMEM</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -18,14 +18,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
         <ul class="navbar-nav mr-auto puntero-manito">
-            <li class="nav-item active" (click)="verMenu('inicio')">
+            <li class="nav-item active" (click)="verMenu(_RUTA_INICIO)">
                 <a class="nav-link">Inicio</a>
             </li>
-            <li class="nav-item active" (click)="verMenu('modalidades')">
+            <li class="nav-item active" (click)="verMenu(_RUTA_MODALIDADES)">
                 <a class="nav-link">Modalidades</a>
             </li>
-            <li class="nav-item active" (click)="verMenu('inscripcion')">
-                <a class="nav-link">Inscripción</a>
+            <li class="nav-item active" (click)="verMenu(_RUTA_PONENCIAS_CONFERENCIAS)">
+                <a class="nav-link">Ponencias y Conferencias</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu(_RUTA_CONCURSO)">
+                <a class="nav-link">Concurso MAT10G</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu(_RUTA_PROGRAMACION)">
+                <a class="nav-link">Programación</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu(_RUTA_INSCRIPCION)">
+                <a class="nav-link">Preinscripcines</a>
+            </li>
+            <li class="nav-item active" (click)="verMenu(_RUTA_CONTACTO)">
+                <a class="nav-link">Contacto</a>
             </li>
         </ul>
     </div>

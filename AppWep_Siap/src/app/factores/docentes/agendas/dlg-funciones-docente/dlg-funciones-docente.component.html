@@ -1,0 +1,53 @@
+<h1>Crear/Editar Función</h1>
+<hr>
+
+<form>
+    <div class="form-group">
+        <label class="font-weight-bold">Función</label>
+        <select *ngIf="!leyendoFunciones" class="custom-select" required [(ngModel)]="actividadfunciondocente.idfuncion" name="idfuncion" (change)="leerActividades()">
+          <option *ngFor="let funcion of Funciones" [value]="funcion.idfunciondocente">{{funcion.funcion | capitalizado}}</option>
+        </select>
+
+        <div class="text-center" style="margin: 20px;" *ngIf="leyendoFunciones">
+            <i class="fas fa-sync fa-5x text-success fa fa-spin"></i>
+            <h3>Leyendo Funciones ...</h3>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Actividad</label>
+        <select *ngIf="!leyendoActividades" class="custom-select" required [(ngModel)]="actividadfunciondocente.idactividad" name="idactividad" (change)="leerSubactividades()">
+          <option *ngFor="let actividad of Actividades" [value]="actividad.idactividaddocente">{{actividad.actividad | capitalizado}}</option>
+        </select>
+
+        <div class="text-center" style="margin: 20px;" *ngIf="leyendoActividades">
+            <i class="fas fa-sync fa-5x text-success fa fa-spin"></i>
+            <h3>Leyendo Actividades ...</h3>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Subactividad</label>
+        <select *ngIf="!leyendoSubactividades" class="custom-select" required [(ngModel)]="actividadfunciondocente.idsubactividad" name="idsubactividad">
+          <option *ngFor="let subactividad of Subactividades" [value]="subactividad.idsubactividaddocente">{{subactividad.subactividad | capitalizado}}</option>
+        </select>
+
+        <div class="text-center" style="margin: 20px;" *ngIf="leyendoSubactividades">
+            <i class="fas fa-sync fa-5x text-success fa fa-spin"></i>
+            <h3>Leyendo Subactividades ...</h3>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Actividad del Programa</label>
+        <input class="form-control" required [(ngModel)]="actividadfunciondocente.actividad" name="actividad" type="text">
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Horas Semanales</label>
+        <input class="form-control" required [(ngModel)]="actividadfunciondocente.horas" name="horas" type="number">
+    </div>
+
+    <button (click)="guardarActividadFuncionDocente()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+
+</form>
