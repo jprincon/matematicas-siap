@@ -158,17 +158,17 @@ export class DialogosService {
 
   DlgServicioPrograma(accion: string, idservicioprograma: string) {
     const dialogRef = this.dialog.open(DlgServicioProgramaComponent, {
-      width: '60%', height: '80%',
+      width: '60%',
       data: {accion, idservicioprograma}
     });
 
     return dialogRef.afterClosed();
   }
 
-  DlgHorarioServicio(accion: string, idhorarioservicio: string, idservicioprograma: string) {
+  DlgHorarioServicio(accion: string, idhorarioservicio: string, idservicioprograma: string, jornada: string) {
     const dialogRef = this.dialog.open(DlgHorarioServicioComponent, {
       width: '60%',
-      data: {accion, idhorarioservicio, idservicioprograma}
+      data: {accion, idhorarioservicio, idservicioprograma, jornada}
     });
 
     return dialogRef.afterClosed();

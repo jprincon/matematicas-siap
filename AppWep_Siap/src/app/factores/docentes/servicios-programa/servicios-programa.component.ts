@@ -1,9 +1,9 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
-import { ServicioPrograma, HorarioServicio } from '../../../interfaces/interfaces.interfaces';
+import { ServicioPrograma, HorarioServicio, Periodo } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { TransferService } from '../../../services/transfer.service';
-import { RUTA_SERVICIOPROGRAMA, RUTA_FACTOR_DOCENTES } from '../../../config/config';
+import { RUTA_SERVICIOPROGRAMA, RUTA_FACTOR_DOCENTES, RUTA_SERVICIOSPROGRAMA } from '../../../config/config';
 
 @Component({
   selector: 'app-servicios-programa',
@@ -16,7 +16,7 @@ export class ServiciosProgramaComponent implements OnInit {
   ServiciosPrograma: ServicioPrograma[] = [];
   leyendo = false;
 
-  periodos: string[] = [];
+  periodos: Periodo[] = [];
 
   periodo = '';
   ordenarPor = 'programa';
@@ -33,24 +33,20 @@ export class ServiciosProgramaComponent implements OnInit {
               private tranfer: TransferService) { }
 
   ngOnInit() {
-    let fecha = new Date();
-    this.periodo = fecha.getFullYear().toString();
-    if (fecha.getMonth() < 7) {
-      this.periodo += '1';
-    } else {
-      this.periodo += '2';
-    }
-
-    // temporal
-    this.periodo = '20201';
-
-    fecha = new Date();
-    const year = fecha.getFullYear();
-    this.periodos.push(year + '1');
-    this.periodos.push(year + '2');
 
     this.tranfer.enviarTituloAplicacion('Servicios de Programas');
-    this.leerServiciosPrograma();
+
+    this.leerPeriodos();
+  }
+
+  leerPeriodos() {
+    this.genService.getPeriodos().subscribe((rPeriodos: any) => {
+      this.periodos = rPeriodos.Periodos;
+      console.log(rPeriodos);
+      this.periodo = this.periodos[this.periodos.length - 1].periodo;
+
+      this.leerServiciosPrograma();
+    });
   }
 
   filtrarServicios() {
@@ -75,6 +71,8 @@ export class ServiciosProgramaComponent implements OnInit {
         }
       }
     }
+
+    console.log(this.bServiciosPrograma);
   }
 
   buscarAsignatura() {
@@ -106,9 +104,9 @@ export class ServiciosProgramaComponent implements OnInit {
   leerServiciosPrograma() {
 
     this.leyendo = true;
-
     this.genService.getServiciosPrograma(this.ordenarPor, this.periodo).subscribe((rServiciosPrograma: any) => {
 
+      console.log(rServiciosPrograma);
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
 
       this.filtrarServicios();
@@ -118,20 +116,20 @@ export class ServiciosProgramaComponent implements OnInit {
   }
 
   verServicioPrograma(servicioprograma: ServicioPrograma) {
-    this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, servicioprograma.idservicioprograma]);
+    this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, servicioprograma.idservicioprograma, RUTA_SERVICIOSPROGRAMA]);
   }
 
   agregarServicioPrograma() {
     this.dlgService.DlgServicioPrograma('Crear', '').subscribe((rIdSercicioPrograma: string) => {
 
       if (rIdSercicioPrograma !== undefined) {
-        this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, rIdSercicioPrograma]);
+        this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, rIdSercicioPrograma, RUTA_SERVICIOSPROGRAMA]);
       }
     });
   }
 
   agregarHorarioServicio(servicio: ServicioPrograma) {
-    this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma).subscribe((rRespuesta: any) => {
+    this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma, '').subscribe((rRespuesta: any) => {
 
       this.leerServiciosPrograma();
     });
@@ -158,7 +156,7 @@ export class ServiciosProgramaComponent implements OnInit {
 
   editarHorarioServicio(horarioservicio: HorarioServicio) {
 
-    this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma).subscribe((rRespuesta: any) => {
+    this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma, '').subscribe((rRespuesta: any) => {
       this.dlgService.mostrarSnackBar('Información', rRespuesta);
       this.leerServiciosPrograma();
     });

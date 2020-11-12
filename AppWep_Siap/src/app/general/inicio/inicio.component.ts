@@ -49,7 +49,7 @@ export class InicioComponent implements OnInit {
           this.transfer.enviarPermisoNavegar(true);
           this.transfer.enviarPermisoAdminstrador(true);
 
-          this.dialogo.mostrarMensaje('Bienvenido al Sistema de Información para Autoevaluación del Programa de Licenciatura en Matemáticas', 'info');
+          // this.dialogo.mostrarMensaje('Bienvenido al Sistema de Información para Autoevaluación del Programa de Licenciatura en Matemáticas', 'info');
           this.genService.navegar(['factores']);
 
         } else {

@@ -50,6 +50,19 @@
     background: #48433D !important;
 }
 
+@page {
+    size: landscape;
+}
+
+
+/* Impresión de Horizontal*/
+
+@page {
+    size: 25cm 35.7cm;
+    margin: 5mm 5mm 5mm 5mm;
+    /* change the margins as you want them to be. */
+}
+
 
 /* EFECTOS */
 

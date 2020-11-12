@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <a class="navbar-brand" [routerLink]="['inicio']">
-        <h1 class="puntero-manito text-white">SIAP</h1>
+    <a class="navbar-brand" [routerLink]="['factores']">
+        <h1 class="puntero-manito text-white">SIAP <small *ngIf="!permisoNavegar">(Sistema de Información de Autoevaluación del Programa)</small></h1>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
         <ul class="navbar-nav mr-auto" routerLinkActive>
 
             <!-- %%%%%%% PROCESOS ACADÉMICOS %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="procesosAcademicos" role="button">Procesos Académicos</a>
 
                 <mat-menu #procesosAcademicos="matMenu">
@@ -32,11 +32,12 @@
                     <button mat-menu-item>PEP</button>
                     <button mat-menu-item>Alta Calidad</button>
                     <button mat-menu-item>Registro Calificado</button>
+                    <button mat-menu-item>Syllabus</button>
                 </mat-menu>
             </li>
 
             <!-- %%%%%%% ESTUDIANTES %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="estudiantes" role="button">Estudiantes</a>
 
                 <mat-menu #estudiantes="matMenu">
@@ -52,7 +53,7 @@
             </li>
 
             <!-- %%%%%%% DOCENTES %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="docentes" role="button">Docentes</a>
 
                 <mat-menu #docentes="matMenu">
@@ -73,7 +74,7 @@
             </li>
 
             <!-- %%%%%%% INTERNACIONALIZACIÓN %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="internacionalizacion" role="button">Internacionalización</a>
 
                 <mat-menu #internacionalizacion="matMenu">
@@ -85,7 +86,7 @@
             </li>
 
             <!-- %%%%%%% INVESTIGACIÓN %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="investigacion" role="button">Investigación</a>
 
                 <mat-menu #investigacion="matMenu">
@@ -104,7 +105,7 @@
             </li>
 
             <!-- %%%%%%% EXTENSIÓN Y GESTIÓN DEL GRADUADO %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="extension" role="button">Extensión y Gestión del Graduado</a>
 
                 <mat-menu #extension="matMenu">
@@ -112,7 +113,7 @@
                     <button mat-menu-item>Coordinación de Comunicaciones del Programa</button>
                     <button mat-menu-item>Proyecto: Laboratorio de Didáctica de las Matemáticas</button>
                     <button mat-menu-item [matMenuTriggerFor]="proyectosPrograma">Proyectos de Extensión del Programa</button>
-                    <button mat-menu-item (click)="verMenu([_RUTA_EGRESADOS])">Egresados</button>
+                    <button mat-menu-item (click)="verMenu([_RUTA_EGRESADOS])">Graduados</button>
                 </mat-menu>
 
                 <mat-menu #mads="matMenu">
@@ -144,7 +145,7 @@
             </li>
 
             <!-- %%%%%%% Acerca de ... %%%%%%% -->
-            <li class="nav-item dropdown" *ngIf="permisoNavegar">
+            <li class="nav-item dropdown puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link dropdown-toggle" [matMenuTriggerFor]="acerca" role="button">Acerca de ...</a>
 
                 <mat-menu #acerca="matMenu">
@@ -156,7 +157,7 @@
                 </mat-menu>
             </li>
 
-            <li class="nav-item active" *ngIf="permisoNavegar">
+            <li class="nav-item active puntero-manito" *ngIf="permisoNavegar">
                 <a class="nav-link puntero-manito" (click)="verMenu([_RUTA_ADMINISTRAR])">Administrar</a>
             </li>
 

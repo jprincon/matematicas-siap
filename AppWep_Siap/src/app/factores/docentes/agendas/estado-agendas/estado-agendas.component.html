@@ -1,0 +1,48 @@
+<div class="text-center" style="margin: 20px;" *ngIf="Leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Obteniendo el Estado de las Agendas ...</h3>
+</div>
+
+<div *ngIf="!Leyendo" class="m-3">
+
+    <button class="btn btn-outline-success" (click)="obtenerEstadoAgendas()"><img style="width: 32px;" src="assets/Iconos/Actualizar.png"> Actualizar</button>
+
+    <div *ngFor="let contrato of Contratos">
+        <h3>{{ contrato.TipoContrato | capitalizado }}</h3>
+        <hr>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Horas Docencia</th>
+                    <th>Horas Complementarias</th>
+                    <th>Horas Pendientes</th>
+                    <th>Acta Programa</th>
+                    <th>Acta Facultad</th>
+                    <th>Número Contrato</th>
+                    <th>Estado</th>
+                    <th>Concertada</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let agenda of contrato.Agendas" [ngClass]="{'table-danger': agenda.Estado !== 'Completa',
+                                                                        'table-success': agenda.Estado === 'Completa',
+                                                                        'table-warning': agenda.agendaConcertada !== 'si'}">
+                    <th>{{ agenda.documento | number }}</th>
+                    <td>{{ agenda.nombre | capitalizado }}</td>
+                    <td>{{ agenda.horasSemestrales }}</td>
+                    <td>{{ agenda.horasFunciones }}</td>
+                    <td>{{ agenda.horasRestantes}}</td>
+                    <td>{{ agenda.actaPrograma }}</td>
+                    <td>{{ agenda.actaFacultad}}</td>
+                    <td>{{ agenda.numeroContrato }}</td>
+                    <td>{{ agenda.Estado | capitalizado }}</td>
+                    <td>{{ agenda.agendaConcertada | capitalizado }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

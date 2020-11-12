@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label style="font-weight: bold;">Periodo</label>
                     <select [(ngModel)]="servicioprograma.periodo" name="periodo" required class="custom-select">
-            <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
+            <option [value]="periodo.periodo" *ngFor="let periodo of Periodos" >{{periodo.periodo | capitalizado}}</option>
           </select>
                 </div>
 
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label style="font-weight: bold;">Horas</label>
-                    <input type="number" required disabled class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
+                    <input type="number" required [disabled]="servicioprograma.jornada !== 'virtual'" class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
                 </div>
 
                 <div class="form-group">
@@ -53,19 +53,31 @@
                 </div>
 
                 <div class="form-group">
+                    <label style="font-weight: bold;">Tipo</label>
+
+                    <div class="input-group">
+                        <select [(ngModel)]="servicioprograma.tipo" name="tipo" required class="custom-select">
+                        <option value="pregrado">Pregrado</option>
+                        <option value="posgrado">Posgrado</option>
+                      </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label style="font-weight: bold;">Jornada</label>
 
                     <div class="input-group">
                         <select [(ngModel)]="servicioprograma.jornada" name="jornada" required class="custom-select">
                           <option value="diurna">Diurna</option>
-                          <option value="noturna">Noturna</option>
+                          <option value="nocturna">Nocturna</option>
                           <option value="distancia">Distancia</option>
                           <option value="virtual">Virtual</option>
+                          <option value="posgrado">Posgrado</option>
                         </select>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" *ngIf="servicioprograma.jornada !== 'virtual'">
                     <label style="font-weight: bold;">Semanas</label>
                     <input type="number" required class="form-control" [(ngModel)]="servicioprograma.semanas" name="semanas">
                 </div>
@@ -75,7 +87,7 @@
             </form>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-5" *ngIf="servicioprograma.jornada !== 'virtual'">
             <h3>Horarios</h3>
             <hr>
 

@@ -1,6 +1,6 @@
 import { GeneralService } from './../../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
-import { ServicioPrograma, Programa, HorarioServicio } from '../../../../interfaces/interfaces.interfaces';
+import { ServicioPrograma, Programa, HorarioServicio, Periodo } from '../../../../interfaces/interfaces.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgProgramaComponent } from '../../programas/dlg-programa/dlg-programa.component';
@@ -27,11 +27,14 @@ export class ServicioProgramaComponent implements OnInit {
 
   HorariosServicio: HorarioServicio[] = [];
 
-  periodos: string[] = [];
+  jornada: string;
+  Periodos: Periodo[] = [];
   programas: Programa[] = [];
+
 
   id: string;
   guardando = false;
+  dondeRegresa = '';
 
   constructor(private genService: GeneralService,
               private activatedRoute: ActivatedRoute,
@@ -39,12 +42,6 @@ export class ServicioProgramaComponent implements OnInit {
               private dlgService: DialogosService) { }
 
   ngOnInit() {
-    this.leerProgramas();
-    const fecha = new Date();
-    const year = fecha.getFullYear();
-    this.periodos.push(year + '1');
-    this.periodos.push(year + '2');
-
     this.obtenerParametro();
   }
 
@@ -52,29 +49,15 @@ export class ServicioProgramaComponent implements OnInit {
     this.leyendo = true;
     this.activatedRoute.params.subscribe((rParams: any) => {
       this.servicioprograma.idprograma = rParams.id;
+      this.dondeRegresa = rParams.donde;
 
-      this.leerServicio();
+      this.leerPeriodos();
     });
   }
 
-  leerServicio() {
-    this.genService.getServicioPrograma(this.servicioprograma.idprograma).subscribe((rServicio: ServicioPrograma) => {
-      this.servicioprograma = rServicio;
-
-      this.leerHorarios();
-    });
-  }
-
-  leerHorarios() {
-    this.genService.getHorariosServicio(this.servicioprograma.idservicioprograma).subscribe((rHorarios: any) => {
-      this.HorariosServicio = rHorarios.HorariosServicios;
-      this.servicioprograma.horas = rHorarios.totalHoras;
-      this.leyendo = false;
-    });
-  }
-
-  agregarPrograma() {
-    this.DlgPrograma('Crear', '').subscribe((rRespuesta: any) => {
+  leerPeriodos() {
+    this.genService.getPeriodos().subscribe((rPeriodos: any) => {
+      this.Periodos = rPeriodos.Periodos;
 
       this.leerProgramas();
     });
@@ -83,6 +66,40 @@ export class ServicioProgramaComponent implements OnInit {
   leerProgramas() {
     this.genService.getProgramas().subscribe((rProgramas: any) => {
       this.programas = rProgramas.Programas;
+
+      this.leerServicio();
+    });
+  }
+
+  leerServicio() {
+    this.genService.getServicioPrograma(this.servicioprograma.idprograma).subscribe((rServicio: ServicioPrograma) => {
+      this.servicioprograma = rServicio;
+      console.log(rServicio);
+      this.jornada = this.servicioprograma.jornada;
+
+      if (this.servicioprograma.jornada !== 'virtual') {
+        this.leerHorarios();
+      } else {
+        this.leyendo = false;
+      }
+    });
+  }
+
+  leerHorarios() {
+    this.genService.getHorariosServicio(this.servicioprograma.idservicioprograma).subscribe((rHorarios: any) => {
+      this.HorariosServicio = rHorarios.HorariosServicios;
+      if ((this.servicioprograma.jornada !== 'virtual') && (this.servicioprograma.jornada !== 'distancia')) {
+        this.servicioprograma.horas = rHorarios.totalHoras;
+      }
+
+      this.leyendo = false;
+    });
+  }
+
+  agregarPrograma() {
+    this.DlgPrograma('Crear', '').subscribe((rRespuesta: any) => {
+
+      this.leerProgramas();
     });
   }
 
@@ -96,7 +113,7 @@ export class ServicioProgramaComponent implements OnInit {
       this.guardando = false;
 
       if (regresar) {
-        this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOSPROGRAMA]);
+        this.genService.navegar([RUTA_FACTOR_DOCENTES, this.dondeRegresa]);
       }
     });
   }
@@ -111,7 +128,7 @@ export class ServicioProgramaComponent implements OnInit {
   }
 
   agregarHorarioServicio(servicio: ServicioPrograma) {
-    this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma).subscribe((rRespuesta: any) => {
+    this.dlgService.DlgHorarioServicio('Crear', '', servicio.idservicioprograma, this.jornada).subscribe((rRespuesta: any) => {
 
       this.leerHorarios();
     });
@@ -119,7 +136,7 @@ export class ServicioProgramaComponent implements OnInit {
 
   editarHorarioServicio(horarioservicio: HorarioServicio) {
 
-    this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma).subscribe((rRespuesta: any) => {
+    this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma, this.jornada).subscribe((rRespuesta: any) => {
       this.dlgService.mostrarSnackBar('Información', rRespuesta);
       this.leerHorarios();
     });

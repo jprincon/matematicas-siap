@@ -1,51 +1,34 @@
-<div class="row m-3">
+<div class="m-3">
 
-    <!-- FACTOR DE PROCESOS ACADÉMICOS -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('procesos-academicos')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/procesos-academicos.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Procesos Académicos</p>
+    <div class="mb-5">
+        <h1 class="text-success">FAVORITOS</h1>
+        <hr>
+
+        <div class="row m-3">
+
+            <!-- BOTÓN -->
+            <div *ngFor="let favorito of Favoritos" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu2(favorito)">
+                <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + favorito.icono" alt="Descargar">
+                <div class="text-center" style="height: 65px;">
+                    <p>{{ favorito.titulo | capitalizado }}</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- FACTOR DE ESTUDIANTES -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('estudiantes')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/estudiantes.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Estudiantes</p>
+    <div *ngFor="let menu of Menus" class="mb-5">
+        <h1 class="text-success">{{ menu.Titulo | uppercase }}</h1>
+        <hr>
+
+        <div class="row m-3">
+
+            <!-- BOTÓN -->
+            <div *ngFor="let boton of menu.Botones" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu(boton)">
+                <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + boton.Icono" alt="Descargar">
+                <div class="text-center" style="height: 65px;">
+                    <p>{{ boton.Titulo }}</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- FACTOR DE DOCENTES -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu([])">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/docentes.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Docentes</p>
-        </div>
-    </div>
-
-    <!-- FACTOR DE INTERNACIONALIZACION -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('internacionalizacion')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/internacionalizacion.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Internacionalización</p>
-        </div>
-    </div>
-
-    <!-- FACTOR DE INVESTIGACIÓN -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('investigacion')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/microscopio.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Investigación</p>
-        </div>
-    </div>
-
-    <!-- FACTOR DE EXTENSIÓN -->
-    <div class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu('extension')">
-        <img style="margin: 5px; height: 120px;" src="assets/Iconos/extension.svg" alt="Descargar">
-        <div class="text-center text-success" style="height: 65px;">
-            <p class="font-menu-factor">Extensión y Gestión del Graduado</p>
-        </div>
-    </div>
-
 </div>

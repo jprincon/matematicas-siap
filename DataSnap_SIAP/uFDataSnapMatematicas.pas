@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp, Vcl.ComCtrls,
   Vcl.ExtCtrls, Vcl.Buttons, System.ImageList, Vcl.ImgList, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Menus, SynEdit,
-  SynEditHighlighter, SynHighlighterSQL;
+  SynEditHighlighter, SynHighlighterSQL, SynHighlighterJSON;
 
 type
   TFDataSnapMatematicas = class(TForm)
@@ -37,9 +37,6 @@ type
     edServidor: TEdit;
     Bevel3: TBevel;
     StatusBar1: TStatusBar;
-    Panel1: TPanel;
-    Panel11: TPanel;
-    lbDatos: TListBox;
     Panel12: TPanel;
     sbConfigurar: TSpeedButton;
     Panel13: TPanel;
@@ -73,6 +70,12 @@ type
     TabSheet1: TTabSheet;
     seSQL: TSynEdit;
     SynSQLSyn1: TSynSQLSyn;
+    PageControl1: TPageControl;
+    TabSheet2: TTabSheet;
+    lbDatos: TListBox;
+    Panel11: TPanel;
+    seVista: TSynEdit;
+    SynJSONSyn1: TSynJSONSyn;
     procedure FormCreate(Sender: TObject);
     procedure ApplicationEvents1Idle(Sender: TObject; var Done: Boolean);
     procedure iniciarServidor(Sender: TObject);
@@ -84,6 +87,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure LvMensajesClick(Sender: TObject);
   private
     FServer: TIdHTTPWebBrokerBridge;
     letras: array [1 .. 36] of string;
@@ -96,7 +100,8 @@ type
     tokenServidor: string;
 
     procedure escribirSQL(sql: string);
-    procedure escribirMensaje(Msg: string; tipo: string);
+    procedure comentarioSQL(coment: string);
+    procedure escribirMensaje(tipo: string; Msg: string);
     function obtenerToken: string;
     function permiteCrearResumen: Boolean;
     function permiteInscribirTalleres: Boolean;
@@ -122,6 +127,11 @@ begin
   EditPort.Enabled := not FServer.Active;
 end;
 
+procedure TFDataSnapMatematicas.comentarioSQL(coment: string);
+begin
+  seSQL.Lines.Add('/* ' + coment + ' */');
+end;
+
 procedure TFDataSnapMatematicas.abrirNavegador(Sender: TObject);
 var
   LURL: string;
@@ -140,6 +150,15 @@ procedure TFDataSnapMatematicas.LimpiarConsola1Click(Sender: TObject);
 begin
   LvMensajes.Items.Clear;
   escribirMensaje(obtenerToken, 'Token');
+end;
+
+procedure TFDataSnapMatematicas.LvMensajesClick(Sender: TObject);
+begin
+  if LvMensajes.Selected <> nil then
+  begin
+    seVista.Lines.Clear;
+    seVista.Lines.Add(LvMensajes.Selected.SubItems[2]);
+  end;
 end;
 
 function TFDataSnapMatematicas.obtenerRutaCertificado: string;
@@ -180,7 +199,7 @@ begin
   Result := cbTalleres.Checked;
 end;
 
-procedure TFDataSnapMatematicas.escribirMensaje(Msg: string; tipo: string);
+procedure TFDataSnapMatematicas.escribirMensaje(tipo: string; Msg: string);
 begin
   with LvMensajes.Items.Add.SubItems do
   begin
@@ -194,6 +213,7 @@ end;
 procedure TFDataSnapMatematicas.escribirSQL(sql: string);
 begin
   seSQL.Lines.Add(sql);
+  seSQL.Lines.Add('');
   seSQL.Lines.Add('');
 end;
 
@@ -253,6 +273,8 @@ begin
   TrayIcon1.Visible := True;
 
   WindowState := wsMaximized;
+
+  paginaControl.ActivePageIndex := 0;
 end;
 
 procedure TFDataSnapMatematicas.FormResize(Sender: TObject);

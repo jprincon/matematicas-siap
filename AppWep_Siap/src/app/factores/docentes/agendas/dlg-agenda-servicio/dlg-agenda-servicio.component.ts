@@ -62,6 +62,7 @@ export class DlgAgendaServicioComponent implements OnInit {
     this.leyendo = true;
 
     this.genService.getServiciosProgramaDocente(this.iddocente, this.periodo).subscribe((rServiciosPrograma: any) => {
+      console.log(rServiciosPrograma);
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
       this.mostrarServicios();
       this.leyendo = false;

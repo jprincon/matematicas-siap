@@ -1,10 +1,16 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../../../services/transfer.service';
-import { TipoContrato, Docente, AgendaServicio, ServicioPrograma, Periodo } from '../../../interfaces/interfaces.interfaces';
+import { TipoContrato, Docente, AgendaServicio, ServicioPrograma, Periodo, ActividadFuncionDocente, FuncionDocente } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { Utilidades } from '../../../utilidades/utilidades.class';
+import { RUTA_FACTOR_DOCENTES, RUTA_EXPORTAR_AGENDA_DOCENTE, RUTA_EXPORTAR_AGENDAS_FACULTAD, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_AGENDAS, RUTA_ESTADO_AGENDAS } from '../../../config/config';
 
+interface Opcion {
+  Titulo?: string;
+  Icono?: string;
+  Ruta?: string[];
+}
 @Component({
   selector: 'app-agendas',
   templateUrl: './agendas.component.html',
@@ -14,53 +20,97 @@ export class AgendasComponent implements OnInit {
 
   contratos: TipoContrato[] = [];
   tipoContrato = '';
+  nombreContrato = '';
   buscarNombre = '';
   bDocentes: Docente[] = [];
   Docentes: Docente[] = [];
   Periodos: Periodo[] = [];
-
+  FuncionesDocente: ActividadFuncionDocente[] = [];
   AgendasServicio: AgendaServicio[] = [];
   leyendo = false;
   soloCatedraticos = false;
+
+  numerocontrato = '';
+  actaPrograma = '';
+  actaFacultad = '';
+  agendaConcertada = 'no';
 
   docenteSeleccionado: Docente = {};
 
   periodo = '';
   termino = '';
 
-  docenciaDirecta = 0;
+  // Estadìsticas de horas
+  iHorasRestantes = 0;
   horasRestantes = 0;
+  horasSemanales = 0;
+  horasSemestrales = 0;
+  horasMaxContrato = 0;
+  horasFunciones = 0;
+  horasDocencia = 0;
   horasTotales = 0;
+  reconocimientoPosgrado = 0;
+
+  observacion = '';
 
   posDoc = 0;
+
+  Opciones: Opcion[] = [
+    {
+        Titulo: 'Exportar Agendas Facultad',
+        Icono: 'Word.png',
+        Ruta: [RUTA_FACTOR_DOCENTES, RUTA_EXPORTAR_AGENDAS_FACULTAD],
+    },
+    {
+      Titulo: 'Estado de las Agendas',
+      Icono: 'Estado.png',
+      Ruta: [RUTA_FACTOR_DOCENTES, RUTA_ESTADO_AGENDAS],
+  }
+  ];
 
   constructor(private transfer: TransferService,
               private genService: GeneralService,
               private dlgService: DialogosService) { }
 
   ngOnInit() {
-    const fecha = new Date();
-    this.periodo = fecha.getFullYear().toString();
-    if (fecha.getMonth() < 6) {
-      this.periodo += '1';
-    } else {
-      this.periodo += '2';
-    }
-
-    // temporal
-    this.periodo = '20201';
-
     this.transfer.enviarTituloAplicacion('Agendas');
 
-    this.leerContratos();
+    /* Se debe seguir una cadena para leer correctamente los datos
+    1. leerPeriodos(), que llama luego a,
+    2. leerContratos(), que llama luego a,
+    3. leerDocentes(), que llama luego a,
+    4. seleccionarDocente(), que llama luego a,
+    5. leerAgendaServicios(), que llama luego a,
+    6. leerActividadesFuncionesDocentes()  */
+
     this.leerPeriodos();
   }
 
   leerPeriodos() {
     this.genService.getPeriodos().subscribe((rPeriodos: any) => {
-
       this.Periodos = rPeriodos.Periodos;
+
+      this.periodo = this.Periodos[this.Periodos.length - 1].periodo;
+
+      // Los reportes necesitan del periodo, así que se agrega manualmente
+      this.Opciones[0].Ruta.push(this.periodo);
+      this.Opciones[1].Ruta.push(this.periodo);
+
+      this.leerContratos();
     });
+  }
+
+  cambiarPeriodo() {
+    this.Opciones[0].Ruta[2] = this.periodo;
+    this.Opciones[1].Ruta[2] = this.periodo;
+
+    this.leerAgendasServicio();
+  }
+
+  abrirOpcion(ruta: string[]) {
+    console.log(ruta);
+
+    this.genService.navegar(ruta);
   }
 
   eliminarAgendaServicio(agenda: AgendaServicio) {
@@ -73,13 +123,73 @@ export class AgendasComponent implements OnInit {
   leerAgendasServicio() {
 
     this.genService.getAgendasServicio(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rAgendasServicio: any) => {
+      console.log(rAgendasServicio);
+
       this.AgendasServicio = rAgendasServicio.AgendasServicios;
+      if (this.AgendasServicio.length > 0) {
+        this.numerocontrato = this.AgendasServicio[0].numerocontrato;
+        this.actaPrograma = this.AgendasServicio[0].actaprograma;
+        this.actaFacultad = this.AgendasServicio[0].actafacultad;
+        this.agendaConcertada = this.AgendasServicio[0].agendaconcertada;
+      }
 
       this.leyendo = false;
 
-      this.docenciaDirecta = rAgendasServicio.docenciaDirecta;
+      this.horasSemanales = rAgendasServicio.horasSemanales;
       this.horasRestantes = rAgendasServicio.horasRestantes;
-      this.horasTotales = rAgendasServicio.horasTotales;
+      this.horasSemestrales = rAgendasServicio.horasSemestrales;
+      this.reconocimientoPosgrado = rAgendasServicio.reconocimientoPosgrado;
+
+      this.observacion = rAgendasServicio.observacion;
+
+      if (this.nombreContrato !== 'catedrático') {
+        this.leerActividadesFuncionesDocente();
+      }
+    });
+  }
+
+  leerActividadesFuncionesDocente() {
+    this.genService.getActividadesFuncionesDocente(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rFunciones: any) => {
+
+      console.log(rFunciones);
+
+      this.horasFunciones = rFunciones.horasFunciones;
+      this.horasDocencia = rFunciones.horasDocencia;
+      this.horasTotales = rFunciones.horasTotales;
+      this.horasRestantes = rFunciones.horasRestantes;
+      this.horasMaxContrato = rFunciones.horasMaxContrato;
+
+      this.FuncionesDocente = rFunciones.ActividadesFuncionesDocente;
+    });
+  }
+
+  seleccionarDocente(docente: Docente) {
+    console.log(this.tipoContrato);
+
+    this.soloCatedraticos = (this.tipoContrato === 'catedrático');
+    this.docenteSeleccionado = docente;
+    this.leerAgendasServicio();
+  }
+
+  exportarAgenda() {
+    this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_EXPORTAR_AGENDA_DOCENTE, this.docenteSeleccionado.iddocente, this.periodo]);
+  }
+
+  guardarDatosAgenda() {
+    const datosAgenda: AgendaServicio = {
+      numerocontrato: this.numerocontrato,
+      actafacultad: this.actaFacultad,
+      actaprograma: this.actaPrograma,
+      iddocente: this.docenteSeleccionado.iddocente,
+      periodo: this.periodo,
+      concertada: this.agendaConcertada
+    };
+
+    const datos = JSON.stringify(datosAgenda);
+
+    this.genService.putAgendaNumeroContrato(datos).subscribe((rRespuesta: any) => {
+      console.log(rRespuesta);
+      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta);
     });
   }
 
@@ -119,26 +229,26 @@ export class AgendasComponent implements OnInit {
   }
 
   leerDocentes() {
+    for (const cont of this.contratos) {
+      if (cont.idtipocontrato === this.tipoContrato) {
+        this.nombreContrato = cont.contrato;
+        console.log(this.nombreContrato);
+      }
+    }
+
     this.genService.getDocentesPorContrato(this.tipoContrato).subscribe((rDocentes: any) => {
       this.Docentes = rDocentes.Docentes;
-      this.docenteSeleccionado = this.Docentes[this.posDoc];
       this.bDocentes = this.Docentes;
-      this.leerAgendasServicio();
+
+      this.seleccionarDocente(this.Docentes[this.posDoc]);
     });
   }
 
   agregarFuncion() {
     this.dlgService.DlgFuncionesDocente('Crear', this.docenteSeleccionado.iddocente, '', this.periodo).subscribe((rRespuesta: any) => {
-
+      console.log(rRespuesta);
+      this.leerActividadesFuncionesDocente();
     });
-  }
-
-  seleccionarDocente(docente: Docente) {
-    this.soloCatedraticos = (this.tipoContrato === 'catedrático');
-
-    this.docenteSeleccionado = docente;
-
-    this.leerAgendasServicio();
   }
 
   buscarDocente() {
@@ -157,5 +267,35 @@ export class AgendasComponent implements OnInit {
       this.leerDocentes();
     });
   }
+
+  editarFuncionDocente(funcion: ActividadFuncionDocente){
+    this.dlgService.DlgFuncionesDocente('Editar', this.docenteSeleccionado.iddocente, funcion.idactividadprograma, this.periodo).subscribe((rRespuesta: any) => {
+      console.log(rRespuesta);
+      this.leerActividadesFuncionesDocente();
+    });
+  }
+
+  eliminarFuncionDocente(funcion: ActividadFuncionDocente){
+    this.dlgService.confirmacion('¿Está seguro de eliminar esta función?').subscribe((rRespuesta: boolean) => {
+      if (rRespuesta) {
+        this.genService.deleteActividadFuncionDocente(funcion.idactividadprograma).subscribe((rRespuesta2: any) => {
+          console.log(rRespuesta2);
+          this.leerActividadesFuncionesDocente();
+        });
+      }
+    });
+  }
+
+  editarServicioPrograma(IdServicio: string) {
+    this.dlgService.DlgServicioPrograma('Editar', IdServicio).subscribe((rRespuesta: any) => {
+      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.seleccionarDocente(this.docenteSeleccionado);
+    });
+  }
+
+  editarServicio(IdServicio: string) {
+    this.genService.navegar([RUTA_FACTOR_DOCENTES, RUTA_SERVICIOPROGRAMA, IdServicio, RUTA_AGENDAS]);
+  }
+
 
 }

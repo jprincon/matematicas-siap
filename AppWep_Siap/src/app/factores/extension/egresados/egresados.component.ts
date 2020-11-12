@@ -20,7 +20,7 @@ export class EgresadosComponent implements OnInit {
               private transfer: TransferService) { }
 
   ngOnInit() {
-    this.transfer.enviarTituloAplicacion('Egresados del Programa');
+    this.transfer.enviarTituloAplicacion('Graduados del Programa');
     this.leerEgresados();
   }
 

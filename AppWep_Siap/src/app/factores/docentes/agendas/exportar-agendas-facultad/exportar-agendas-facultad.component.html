@@ -1,0 +1,94 @@
+<div class="text-center" style="margin: 20px;" *ngIf="Leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Obteniendo el Estado de las Agendas ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!Leyendo">
+    <div class="" *ngFor="let contrato of Contratos">
+        <h1>{{contrato.TipoContrato | capitalizado}}</h1>
+        <hr>
+
+        <table class="table table-bordered">
+            <tbody *ngFor="let agenda of contrato.Agendas">
+                <tr style="background-color: #b2b2b2;">
+                    <th>Nombre</th>
+                    <td>{{ agenda.nombre | capitalizado }}</td>
+                    <th>Cédula</th>
+                    <td>{{ agenda.documento }}</td>
+                    <th>Categoría</th>
+                    <td>{{ agenda.categoria | capitalizado }}</td>
+                </tr>
+
+                <!-- Encabezado de los Servicios/Materias -->
+                <tr>
+                    <th>Asignatura</th>
+                    <th>Grupo</th>
+                    <th colspan="2">Programa</th>
+                    <th>I/H</th>
+                    <th>I/S</th>
+                </tr>
+
+                <tr *ngFor="let servicio of agenda.AgendasServicios">
+                    <td>{{ servicio.asignatura | capitalizado }}</td>
+                    <td>{{ servicio.grupo | uppercase }}</td>
+                    <td colspan="2">{{ servicio.programa | capitalizado }}</td>
+                    <td>
+                        <p *ngIf="(servicio.jornada !== 'virtual') &&
+                                (servicio.jornada !== 'distancia')">{{servicio.horas}}</p>
+                    </td>
+                    <td>{{ servicio.horassemestre }}</td>
+                </tr>
+
+                <!-- Total de Docencia -->
+                <tr *ngIf="agenda.reconocimientoPosgrado.length > 1">
+                    <td colspan="4" rowspan="2"></td>
+                    <th>Reconocimiento Posgrado</th>
+                    <th>{{ agenda.reconocimientoPosgrado }}</th>
+                </tr>
+
+                <tr>
+                    <td *ngIf="agenda.reconocimientoPosgrado.length === 1" colspan="4"></td>
+                    <th>Total Docencia Directa</th>
+                    <th>{{ agenda.horasSemestrales }}</th>
+                </tr>
+
+                <!-- Funciones Complementarias -->
+                <tr *ngIf="agenda.contrato !== 'catedrático'">
+                    <th>Función</th>
+                    <th>Actividad</th>
+                    <th>Subactividad</th>
+                    <th>Descripción</th>
+                    <th>I/H</th>
+                    <th>I/S</th>
+                </tr>
+
+                <tr *ngFor="let actividad of agenda.ActividadesFuncionesDocente">
+                    <td>{{ actividad.funcion | capitalizado }}</td>
+                    <td>{{ actividad.actividad | capitalizado }}</td>
+                    <td>{{ actividad.subactividad | capitalizado }}</td>
+                    <td>{{ actividad.actividadprograma | capitalizado }}</td>
+                    <td>
+                        <p *ngIf="actividad.calculada !== 'semestrales'">{{ actividad.horas }}</p>
+                    </td>
+                    <td>{{ actividad.horassemestre }}</td>
+                </tr>
+
+                <!-- Total de Funciones -->
+                <tr *ngIf="agenda.contrato !== 'catedrático'">
+                    <td colspan="4" rowspan="2"></td>
+                    <th>Actividad Complementaria</th>
+                    <th>{{ agenda.horasFunciones }}</th>
+                </tr>
+
+                <tr *ngIf="agenda.contrato !== 'catedrático'">
+                    <th>Total Horas Actividad</th>
+                    <th>{{ agenda.horasMaxContrato }}</th>
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

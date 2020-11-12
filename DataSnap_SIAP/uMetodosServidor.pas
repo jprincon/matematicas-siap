@@ -2,7 +2,7 @@ unit uMetodosServidor;
 
 interface
 
-uses System.SysUtils, System.Classes, System.Json, Contnrs,
+uses System.SysUtils, System.Classes, dialogs, System.Json, Contnrs,
   Datasnap.DSServer, Datasnap.DSAuth, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
@@ -244,6 +244,7 @@ type
     function ServiciosProgramaDocente(const idDocente: string;
       const Periodo: string): TJSONObject;
     function obtenerDocenteServicio(idservicio, Periodo: string): string;
+    function obtenerHorasServicio(idservicio: string): string;
     function validarHorario(idDocente, idservicio, Periodo: string)
       : TIntegerString;
     function cancelServicioPrograma(const token: string; const ID: string)
@@ -265,7 +266,11 @@ type
     function updateAgendaServicio(const token: string; const datos: TJSONObject)
       : TJSONObject;
     function AgendaServicio(const ID: string): TJSONObject;
+    function AgendasPorPeriodo(const Periodo: string): TJSONObject;
     function AgendasServicio(const idDocente: string; const Periodo: string)
+      : TJSONObject;
+    function EstadoAgendas(const Periodo: string): TJSONObject;
+    function obtenerNumerosActas(const idDocente: string; Periodo: string)
       : TJSONObject;
     function cancelDesasociarAgenda(const token: string;
       const IdServicioPrograma: string): TJSONObject;
@@ -273,6 +278,8 @@ type
       : TJSONObject;
     function acceptAgendaServicio(const token: string; const datos: TJSONObject)
       : TJSONObject;
+    function acceptAgendaNumeroContrato(const token: string;
+      const datos: TJSONObject): TJSONObject;
 
     { Configuracion }
     function updateConfiguracion(const token: string; const datos: TJSONObject)
@@ -399,11 +406,21 @@ type
     function updateActividadFuncionDocente(const token: string;
       const datos: TJSONObject): TJSONObject;
     function ActividadFuncionDocente(const ID: string): TJSONObject;
-    function ActividadesFuncionesDocente: TJSONObject;
+    function ActividadesFuncionesDocente(const idDocente: string;
+      const Periodo: string): TJSONObject;
     function cancelActividadFuncionDocente(const token: string;
       const ID: string): TJSONObject;
     function acceptActividadFuncionDocente(const token: string;
       const datos: TJSONObject): TJSONObject;
+
+    { Favorito }
+    function updateFavorito(const token: string; const datos: TJSONObject)
+      : TJSONObject;
+    function Favorito(const ID: string): TJSONObject;
+    function Favoritos: TJSONObject;
+    function cancelFavorito(const token: string; const ID: string): TJSONObject;
+    function acceptFavorito(const token: string; const datos: TJSONObject)
+      : TJSONObject;
 
   end;
 {$METHODINFO OFF}
@@ -413,6 +430,272 @@ implementation
 {$R *.dfm}
 
 uses System.StrUtils;
+
+{ Método INSERT - Favorito }
+function TMatematicas.updateFavorito(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+  Freq: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      // Determinar si ya existe para actualizar la frecuencia
+      Query.Close;
+      Query.SQL.Text := 'SELECT * FROM siap_favoritos WHERE idfavorito=' + #39 +
+        datos.GetValue('idfavorito').Value + #39;
+      Query.Open;
+
+      // ShowMessage(datos.GetValue('idfavorito').Value);
+
+      if Query.RecordCount > 0 then
+      begin
+        Freq := Query.FieldByName('frecuencia').AsInteger + 1;
+        ID := Query.FieldByName('idfavorito').AsString;
+
+        Query.Close;
+        Query.SQL.Clear;
+        Query.SQL.Add('UPDATE siap_favoritos SET ');
+        Query.SQL.Add('titulo=:titulo, ');
+        Query.SQL.Add('icono=:icono, ');
+        Query.SQL.Add('ruta=:ruta, ');
+        Query.SQL.Add('frecuencia=:frecuencia WHERE idfavorito=' + #39 +
+          ID + #39);
+
+        Query.Params.ParamByName('titulo').AsString :=
+          datos.GetValue('titulo').Value;
+        Query.Params.ParamByName('icono').AsString :=
+          LowerCase(datos.GetValue('icono').Value);
+        Query.Params.ParamByName('ruta').AsString :=
+          datos.GetValue('ruta').Value;
+        Query.Params.ParamByName('frecuencia').AsInteger := Freq;
+
+        Query.ExecSQL;
+
+        Json.AddPair(JsonRespuesta, 'El Favorito se actualizo correctamente');
+      end
+      else
+      begin
+        limpiarConsulta(Query);
+
+        limpiarParametros;
+
+        agregarParametro('idfavorito', 'String');
+        agregarParametro('titulo', 'String');
+        agregarParametro('icono', 'String');
+        agregarParametro('ruta', 'String');
+        agregarParametro('frecuencia', 'Integer');
+
+        INSERT('siap_favoritos', Query);
+
+        asignarDatos(datos, Query);
+
+        Json.AddPair(JsonRespuesta, 'El Favorito se creo correctamente');
+      end;
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'updateFavorito',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateFavorito', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET - Favorito }
+function TMatematicas.Favorito(const ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  i: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    limpiarConsulta(Query);
+    SelectWhere('siap_favoritos', 'idfavorito', Texto(ID), Query);
+
+    limpiarParametros;
+    agregarParametro('idfavorito', 'String');
+    agregarParametro('titulo', 'String');
+    agregarParametro('icono', 'String');
+    agregarParametro('ruta', 'String');
+    agregarParametro('frecuencia', 'String');
+
+    Json := crearJSON(Query);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getFavorito',
+        E.Message + '=>' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Favorito', Json.toString);
+  Query.Free;
+end;
+
+{ Método GET-ALL - Favorito }
+function TMatematicas.Favoritos: TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ArrayJson: TJSONArray;
+  JsonLinea: TJSONObject;
+  i, cant: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+    ArrayJson := TJSONArray.create;
+    Json.AddPair('Favoritos', ArrayJson);
+
+    limpiarConsulta(Query);
+    Query.SQL.Text := 'SELECT * FROM siap_favoritos ORDER BY frecuencia desc';
+    Query.Open;
+
+    limpiarParametros;
+    agregarParametro('idfavorito', 'String');
+    agregarParametro('titulo', 'String');
+    agregarParametro('icono', 'String');
+    agregarParametro('ruta', 'String');
+    agregarParametro('frecuencia', 'String');
+
+    cant := Query.RecordCount;
+    if cant > 12 then
+      cant := 12;
+    Query.First;
+
+    for i := 1 to cant do
+    begin
+      ArrayJson.AddElement(crearJSON(Query));
+      Query.Next;
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAllFavorito',
+        E.Message + '-no data-');
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('Favoritos', Json.toString);
+  Query.Free;
+end;
+
+{ Método DELETE - Favorito }
+function TMatematicas.cancelFavorito(const token, ID: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+      DELETE('siap_favoritos', 'idfavorito', Texto(ID), Query);
+
+      Json.AddPair(JsonRespuesta, 'El Favorito se eliminó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'deleteFavorito',
+        E.Message + '=> ' + ID);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelFavorito', Json.toString);
+  Query.Free;
+end;
+
+{ Método UPDATE - Favorito }
+function TMatematicas.acceptFavorito(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      limpiarParametros;
+
+      agregarParametro('idfavorito', 'String');
+      agregarParametro('titulo', 'String');
+      agregarParametro('icono', 'String');
+      agregarParametro('ruta', 'String');
+      agregarParametro('frecuencia', 'String');
+
+      ID := datos.GetValue('idfavorito').Value;
+      UPDATE('siap_favoritos', 'idfavorito', Texto(ID), Query);
+
+      asignarDatos(datos, Query);
+
+      Json.AddPair(JsonRespuesta, 'El Favorito se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptFavorito',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateFavorito', Json.toString);
+  Query.Free;
+end;
 
 { Método INSERT - ActividadFuncionDocente }
 function TMatematicas.updateActividadFuncionDocente(const token: string;
@@ -440,7 +723,8 @@ begin
       agregarParametro('actividad', 'String');
       agregarParametro('iddocente', 'Integer');
       agregarParametro('periodo', 'String');
-      agregarParametro('horas', 'Integer');
+      agregarParametro('calculada', 'String');
+      agregarParametro('horas', 'Float');
 
       INSERT('siap_actividades_funciones_docente', Query);
 
@@ -492,6 +776,7 @@ begin
     agregarParametro('iddocente', 'String');
     agregarParametro('periodo', 'String');
     agregarParametro('horas', 'String');
+    agregarParametro('calculada', 'String');
 
     Json := crearJSON(Query);
 
@@ -510,39 +795,118 @@ begin
 end;
 
 { Método GET-ALL - ActividadFuncionDocente }
-function TMatematicas.ActividadesFuncionesDocente: TJSONObject;
+function TMatematicas.ActividadesFuncionesDocente(const idDocente: string;
+  const Periodo: string): TJSONObject;
 var
   Json: TJSONObject;
-  Query: TFDQuery;
+  Query, Query2: TFDQuery;
   ArrayJson: TJSONArray;
   JsonLinea: TJSONObject;
-  i: integer;
+  i, horMaxCont: integer;
+  horas, horasFunciones, horasDocencia, horasRestantes, horasSemestre,
+    horasTotal: real;
+  calculadas: string;
+  serviciosDocente: TJSONObject;
+  contrato: string;
+  formato: TFormatSettings;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
+  Query2 := TFDQuery.create(nil);
+  Query2.Connection := Conexion;
+
   try
     Json := TJSONObject.create;
     ArrayJson := TJSONArray.create;
     Json.AddPair('ActividadesFuncionesDocente', ArrayJson);
 
+    contrato := obtenerTipoContrato(idDocente);
+
+    // Leer todas las funciones del docente
     limpiarConsulta(Query);
-    SELECT('siap_actividades_funciones_docente', 'idfuncion', Query);
+    Query.SQL.Add('SELECT fd.funcion as funcion,');
+    Query.SQL.Add('    ad.actividad as actividad,');
+    Query.SQL.Add('	   sd.subactividad as subactividad,');
+    Query.SQL.Add('	   afd.periodo as periodo,');
+    Query.SQL.Add('	   afd.horas as horas,');
+    Query.SQL.Add('	   afd.actividad as actividadprograma,');
+    Query.SQL.Add('    afd.calculada as calculada, ');
+    Query.SQL.Add('	   afd.idactividadprograma as idactividadprograma');
+    Query.SQL.Add('	   FROM siap_actividades_funciones_docente as afd ');
+    Query.SQL.Add('INNER JOIN siap_funciones_docentes as fd  ');
+    Query.SQL.Add('ON afd.idfuncion=fd.idfunciondocente ');
+    Query.SQL.Add('INNER JOIN siap_actividades_docentes as ad ');
+    Query.SQL.Add('ON afd.idactividad=ad.idactividaddocente ');
+    Query.SQL.Add('INNER JOIN siap_subactividades_docentes as sd ');
+    Query.SQL.Add('ON afd.idsubactividad=sd.idsubactividaddocente ');
+    Query.SQL.Add('WHERE afd.iddocente=' + idDocente + ' AND afd.periodo=' + #39
+      + Periodo + #39 + ' ORDER BY afd.calculada desc');
+    Query.Open;
+
+    FDataSnapMatematicas.comentarioSQL('Script ActividadesFuncionesDocente');
+    FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
 
     limpiarParametros;
     agregarParametro('idactividadprograma', 'String');
-    agregarParametro('idfuncion', 'String');
-    agregarParametro('idactividad', 'String');
-    agregarParametro('idsubactividad', 'String');
+    agregarParametro('funcion', 'String');
     agregarParametro('actividad', 'String');
-    agregarParametro('iddocente', 'String');
+    agregarParametro('subactividad', 'String');
+    agregarParametro('actividadprograma', 'String');
     agregarParametro('periodo', 'String');
     agregarParametro('horas', 'String');
+    agregarParametro('calculada', 'String');
+
+    horasFunciones := 0;
+    Query2.Close;
+    Query2.SQL.Text := 'SELECT * FROM siap_periodos WHERE periodo=' + #39 +
+      Periodo + #39;
+    Query2.Open;
+
+    escribirMensaje('tipo-contrato', contrato);
+    escribirMensaje('periodo', Periodo);
+
+    if contrato = 'carrera' then
+      horMaxCont := Query2.FieldByName('hormaxcarrera').AsInteger
+    else if contrato = 'contrato' then
+      horMaxCont := Query2.FieldByName('hormaxcontrato').AsInteger
+    else
+      horMaxCont := Query2.FieldByName('hormaxcatedratico').AsInteger;
 
     for i := 1 to Query.RecordCount do
     begin
-      ArrayJson.AddElement(crearJSON(Query));
+      horas := Query.FieldByName('horas').AsFloat;
+      calculadas := Query.FieldByName('calculada').AsString;
+
+      if calculadas = 'semestrales' then
+        horasSemestre := horas
+      else
+        horasSemestre := 17 * horas;
+
+      horasFunciones := horasFunciones + horasSemestre;
+      JsonLinea := TJSONObject.create;
+
+      JsonLinea := crearJSON(Query);
+      JsonLinea.AddPair('horassemestre', FloatToStr(horasSemestre));
+      ArrayJson.AddElement(JsonLinea);
       Query.Next;
     end;
+
+    { Obtener el número de horas de materias o servicios }
+    serviciosDocente := TJSONObject.create;
+    serviciosDocente := AgendasServicio(idDocente, Periodo);
+    horasDocencia :=
+      StrToFloat(serviciosDocente.GetValue('horasSemestrales').Value);
+
+    horasTotal := horasDocencia + horasFunciones;
+    horasRestantes := horMaxCont - horasTotal;
+
+    formato.DecimalSeparator := '.';
+
+    Json.AddPair('horasDocencia', FloatToStr(horasDocencia));
+    Json.AddPair('horasFunciones', FloatToStr(horasFunciones));
+    Json.AddPair('horasTotales', FloatToStr(horasTotal));
+    Json.AddPair('horasRestantes', FloatToStr(horasRestantes, formato));
+    Json.AddPair('horasMaxContrato', FloatToStr(horMaxCont));
 
   except
     on E: Exception do
@@ -623,7 +987,8 @@ begin
       agregarParametro('actividad', 'String');
       agregarParametro('iddocente', 'Integer');
       agregarParametro('periodo', 'String');
-      agregarParametro('horas', 'Integer');
+      agregarParametro('horas', 'Float');
+      agregarParametro('calculada', 'String');
 
       ID := datos.GetValue('idactividadprograma').Value;
       UPDATE('siap_actividades_funciones_docente', 'idactividadprograma',
@@ -673,6 +1038,9 @@ begin
 
       agregarParametro('idperiodo', 'String');
       agregarParametro('periodo', 'String');
+      agregarParametro('hormaxcarrera', 'Integer');
+      agregarParametro('hormaxcontrato', 'Integer');
+      agregarParametro('hormaxcatedratico', 'Integer');
 
       INSERT('siap_periodos', Query);
 
@@ -717,6 +1085,9 @@ begin
     limpiarParametros;
     agregarParametro('idperiodo', 'String');
     agregarParametro('periodo', 'String');
+    agregarParametro('hormaxcarrera', 'String');
+    agregarParametro('hormaxcontrato', 'String');
+    agregarParametro('hormaxcatedratico', 'String');
 
     Json := crearJSON(Query);
 
@@ -756,6 +1127,9 @@ begin
     limpiarParametros;
     agregarParametro('idperiodo', 'String');
     agregarParametro('periodo', 'String');
+    agregarParametro('hormaxcarrera', 'String');
+    agregarParametro('hormaxcontrato', 'String');
+    agregarParametro('hormaxcatedratico', 'String');
 
     for i := 1 to Query.RecordCount do
     begin
@@ -835,6 +1209,9 @@ begin
 
       agregarParametro('idperiodo', 'String');
       agregarParametro('periodo', 'String');
+      agregarParametro('hormaxcarrera', 'Integer');
+      agregarParametro('hormaxcontrato', 'Integer');
+      agregarParametro('hormaxcatedratico', 'Integer');
 
       ID := datos.GetValue('idperiodo').Value;
       UPDATE('siap_periodos', 'idperiodo', Texto(ID), Query);
@@ -3103,6 +3480,7 @@ begin
             Query3.FieldByName('idactividaddocente').AsString);
 
           ArraySubactividades.Add(JsonSubactividad);
+          Query3.Next;
         end;
 
         JsonActividad.AddPair('subactividades', ArraySubactividades);
@@ -3240,7 +3618,6 @@ begin
       agregarParametro('idconfiguracion', 'String');
       agregarParametro('nombredirector', 'String');
       agregarParametro('nombredecano', 'String');
-      agregarParametro('semanassemestre', 'String');
 
       INSERT('siap_configuraciones', Query);
 
@@ -3286,7 +3663,6 @@ begin
     agregarParametro('idconfiguracion', 'String');
     agregarParametro('nombredirector', 'String');
     agregarParametro('nombredecano', 'String');
-    agregarParametro('semanassemestre', 'String');
 
     Json := crearJSON(Query);
 
@@ -3327,9 +3703,6 @@ begin
     agregarParametro('idconfiguracion', 'String');
     agregarParametro('nombredirector', 'String');
     agregarParametro('nombredecano', 'String');
-    agregarParametro('semanassemestre', 'String');
-    agregarParametro('horascatedra', 'String');
-    agregarParametro('horascontrato', 'String');
 
     for i := 1 to Query.RecordCount do
     begin
@@ -3411,9 +3784,6 @@ begin
       agregarParametro('idconfiguracion', 'String');
       agregarParametro('nombredirector', 'String');
       agregarParametro('nombredecano', 'String');
-      agregarParametro('semanassemestre', 'String');
-      agregarParametro('horascatedra', 'String');
-      agregarParametro('horascontrato', 'String');
 
       ID := datos.GetValue('idconfiguracion').Value;
       UPDATE('siap_configuraciones', 'idconfiguracion', Texto(ID), Query);
@@ -3529,6 +3899,141 @@ begin
 end;
 
 { Método GET-ALL - AgendaServicio }
+function TMatematicas.AgendasPorPeriodo(const Periodo: string): TJSONObject;
+var
+  Query, QDoc: TFDQuery;
+  Json, JsonDocente, JsonServicio, JsonContratos: TJSONObject;
+  ArrayDocentes, ArrayContratos, ArrayServicios: TJSONArray;
+  idDocente: string;
+  TiposContrato: TStringList;
+  tc, d, m: integer;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  QDoc := TFDQuery.create(nil);
+  QDoc.Connection := Conexion;
+
+  try
+    escribirMensaje('AgendasPorPeriodo',
+      'Se inicio el proceso de obtener las agendas por periodo');
+
+    Json := TJSONObject.create;
+
+    { Se crea una consulta para leer a los docentes por cada uno de los tipos
+      de contrato, primero carrera, contrato y cátedra }
+    TiposContrato := TStringList.create;
+    TiposContrato.Add('carrera');
+    TiposContrato.Add('contrato');
+    TiposContrato.Add('catedrático');
+
+    ArrayContratos := TJSONArray.create;
+    Json.AddPair('Contratos', Json);
+
+    for tc := 1 to TiposContrato.Count do
+    begin
+      JsonContratos := TJSONObject.create;
+      JsonContratos.AddPair('TipoContrato', TiposContrato[tc - 1]);
+
+      ArrayDocentes := TJSONArray.create;
+      JsonContratos.AddPair('Docentes', ArrayDocentes);
+
+      QDoc.Close;
+      QDoc.SQL.Clear;
+      QDoc.SQL.Add('SELECT * FROM siap_docentes AS d ');
+      QDoc.SQL.Add('INNER JOIN siap_tipo_contrato AS tc ');
+      QDoc.SQL.Add('ON tc.idtipocontrato = d.idtipocontrato ');
+      QDoc.SQL.Add('INNER JOIN siap_categoria_docentes AS c ');
+      QDoc.SQL.Add('ON d.idcategoriadocente = c.idcategoriadocente ');
+      QDoc.SQL.Add('WHERE activo=' + #39 + 'si' + #39 + ' AND tc.contrato=' +
+        #39 + TiposContrato[tc - 1] + #39 + ' ');
+      QDoc.SQL.Add('ORDER BY d.nombre');
+
+      FDataSnapMatematicas.comentarioSQL('Consulta de Docentes por Contrato');
+      FDataSnapMatematicas.escribirSQL(QDoc.SQL.Text);
+
+      QDoc.Open;
+      QDoc.First;
+
+      escribirMensaje('AgendasPorPeriodo',
+        'Se realizó la consulta de la Lista de Docentes');
+
+      { Ciclo para recorrer cada docente }
+      for d := 1 to QDoc.RecordCount do
+      begin
+        idDocente := QDoc.FieldByName('iddocente').AsString;
+
+        JsonDocente := TJSONObject.create;
+        JsonDocente.AddPair('iddocente', QDoc.FieldByName('iddocente')
+          .AsString);
+        JsonDocente.AddPair('nombre', QDoc.FieldByName('nombre').AsString);
+        JsonDocente.AddPair('contrato', QDoc.FieldByName('contrato').AsString);
+        JsonDocente.AddPair('categoria', QDoc.FieldByName('categoria')
+          .AsString);
+
+        escribirMensaje('Agrego al Docente (' + IntToStr(d) + ')',
+          'AgendasPorPeriodo');
+
+        { Realizar una consulta para leer los servicios asociadas al docente }
+        Query.Close;
+        Query.SQL.Clear;
+        Query.SQL.Add('SELECT * FROM siap_agendas_servicios as ags ');
+        Query.SQL.Add('INNER JOIN siap_docentes as d ');
+        Query.SQL.Add('ON ags.iddocente = d.iddocente ');
+        Query.SQL.Add('INNER JOIN siap_tipo_contrato as tc ');
+        Query.SQL.Add('ON d.idtipocontrato = tc.idtipocontrato ');
+        Query.SQL.Add('INNER JOIN siap_categoria_docentes as cd ');
+        Query.SQL.Add('ON d.idcategoriadocente = cd.idcategoriadocente ');
+        Query.SQL.Add('INNER JOIN siap_servicios_programas as sp ');
+        Query.SQL.Add('ON sp.idservicioprograma = ags.idservicioprograma ');
+        Query.SQL.Add('WHERE ags.periodo=' + #39 + Periodo + #39 +
+          ' and ags.iddocente=' + #39 + idDocente + #39 + ' ');
+        Query.SQL.Add('ORDER BY sp.jornada');
+
+        FDataSnapMatematicas.comentarioSQL
+          ('Consulta de los Servicios del Docente');
+        FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
+
+        Query.Open;
+        Query.First;
+
+        ArrayServicios := TJSONArray.create;
+        for m := 1 to Query.RecordCount do
+        begin
+          JsonServicio := TJSONObject.create;
+          JsonServicio.AddPair('asignatura', Query.FieldByName('asignatura')
+            .AsString);
+          JsonServicio.AddPair('horas', Query.FieldByName('horas').AsString);
+          JsonServicio.AddPair('grupo', Query.FieldByName('grupo').AsString);
+          JsonServicio.AddPair('semanas', Query.FieldByName('semanas')
+            .AsString);
+          JsonServicio.AddPair('tipo', Query.FieldByName('tipo').AsString);
+
+          ArrayServicios.Add(JsonServicio);
+          Query.Next;
+        end;
+
+        { Agregar los servicios al docente }
+        JsonDocente.AddPair('Servicios', ArrayServicios);
+
+        { Agregar el docente a la lista de docentes }
+        ArrayDocentes.Add(JsonDocente);
+        QDoc.Next;
+      end;
+    end;
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'AgendasPorPeriodo',
+        E.Message + Periodo);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('AgendasServicio', Json.toString);
+  Query.Free;
+end;
+
 function TMatematicas.AgendasServicio(const idDocente: string;
   const Periodo: string): TJSONObject;
 var
@@ -3537,9 +4042,10 @@ var
   ArrayJson, ArrayHorario: TJSONArray;
   JsonLinea: TJSONObject;
   i, j, horas: integer;
-  sumaHoras, sumaHorasSemana, horasTotales, horasSemestre, horasRestantes,
-    semanasSemestre: real;
-  Contrato: string;
+  sumaHorasSemana, sumaHorasSemestre, totalHorasContrato, horasRestantes,
+    semanasSemestre, reconocimientoPosgrado, horasSemestre, horasFactor: real;
+  contrato, Jornada, Aulas, tipo, Observacion: string;
+  formato: TFormatSettings;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -3550,7 +4056,8 @@ begin
     ArrayJson := TJSONArray.create;
     Json.AddPair('AgendasServicios', ArrayJson);
 
-    limpiarConsulta(Query);
+    Query.Close;
+    Query.SQL.Clear;
     Query.SQL.Add('SELECT * FROM siap_agendas_servicios as a ');
     Query.SQL.Add('INNER JOIN siap_servicios_programas as s ');
     Query.SQL.Add('ON a.idservicioprograma = s.idservicioprograma ');
@@ -3558,8 +4065,15 @@ begin
     Query.SQL.Add('ON s.idprograma = p.idprograma ');
     Query.SQL.Add('WHERE iddocente=' + idDocente + ' AND a.periodo=' +
       Texto(Periodo));
-    Query.Open;
 
+    FDataSnapMatematicas.comentarioSQL('Consulta - AgendasServicios');
+    FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
+
+    Query.Open;
+    Query.First;
+
+    FDataSnapMatematicas.comentarioSQL
+      ('Consulta para obtener los servicios asociados a un docente');
     FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
 
     limpiarParametros;
@@ -3571,21 +4085,35 @@ begin
     agregarParametro('idprograma', 'String');
     agregarParametro('programa', 'String');
     agregarParametro('horas', 'String');
-    agregarParametro('aulas', 'String');
+    agregarParametro('jornada', 'String');
+    agregarParametro('grupo', 'String');
     agregarParametro('semanas', 'Integer');
+    agregarParametro('tipo', 'String');
+    agregarParametro('numerocontrato', 'String');
+    agregarParametro('actaprograma', 'String');
+    agregarParametro('actafacultad', 'String');
+    agregarParametro('grupo', 'String');
+    agregarParametro('concertada', 'String');
 
-    sumaHoras := 0;
     sumaHorasSemana := 0;
-    horasTotales := obtenerHorasDocencia(idDocente);
-    Contrato := obtenerTipoContrato(idDocente);
+    sumaHorasSemestre := 0;
+    reconocimientoPosgrado := 0;
+    contrato := obtenerTipoContrato(idDocente);
+    Observacion := '';
 
+    // Ciclo para contar la cantidad de materias o servicios
     for i := 1 to Query.RecordCount do
     begin
       JsonServicio := TJSONObject.create;
       JsonServicio := crearJSON(Query);
 
+      // Obtiene las semanas del semestre particulares a cada matería/servicio
       semanasSemestre := Query.FieldByName('semanas').AsInteger;
+      Jornada := Query.FieldByName('jornada').AsString;
+      tipo := Query.FieldByName('tipo').AsString;
 
+      { Hace una consulta para determinar los horarios asociados al servicio
+        o materia de programa }
       Query2.Close;
       Query2.SQL.Text :=
         'SELECT * FROM siap_horarios_servicios WHERE idservicioprograma=' +
@@ -3593,48 +4121,167 @@ begin
       Query2.Open;
       Query2.First;
 
-      ArrayHorario := TJSONArray.create;
-
-      for j := 1 to Query2.RecordCount do
+      { Si la jornada no es virtual entonces se cuentan las horas a través
+        de los horarios, además también se crea un Array con los horarios }
+      if (Jornada <> 'virtual') then
       begin
-        JsonHorario := TJSONObject.create;
-        JsonHorario.AddPair('idhorarioservicio',
-          Query2.FieldByName('idhorarioservicio').AsString);
-        JsonHorario.AddPair('dia', Query2.FieldByName('dia').AsString);
-        JsonHorario.AddPair('inicio', Query2.FieldByName('inicio').AsString);
-        JsonHorario.AddPair('fin', Query2.FieldByName('fin').AsString);
+        ArrayHorario := TJSONArray.create;
 
-        ArrayHorario.Add(JsonHorario);
-        Query2.Next;
+        // Ciclo para contar los horarios de cada servicio o materia.
+        Aulas := '';
+        for j := 1 to Query2.RecordCount do
+        begin
+          JsonHorario := TJSONObject.create;
+          JsonHorario.AddPair('idhorarioservicio',
+            Query2.FieldByName('idhorarioservicio').AsString);
+          JsonHorario.AddPair('dia', Query2.FieldByName('dia').AsString);
+          JsonHorario.AddPair('inicio', Query2.FieldByName('inicio').AsString);
+          JsonHorario.AddPair('fin', Query2.FieldByName('fin').AsString);
+          JsonHorario.AddPair('aula', Query2.FieldByName('salon').AsString);
+
+          ArrayHorario.Add(JsonHorario);
+          Query2.Next;
+        end;
       end;
 
+      { Para obtener las horas totales de docencia se debe leer el periodo, en
+        el cual se registran las horas totales en cada  uno de ellos, y por tipo
+        de contrato, por ejemplo carrera 900 y contrato 940 }
+      Query2.Close;
+      Query2.SQL.Text := 'SELECT * FROM siap_periodos WHERE periodo=' + #39 +
+        Periodo + #39;
+      Query2.Open;
+
+      { Obtener la cantidad de horas semanales, en el caso de la virtualidad
+        totales }
+
+      { sumaHorasSemestre empieza en cero (0), sumaHorasSemana empieza en cero (0)
+        según sea la condición se suman las horas por semana, únicamente en el caso
+        de que sea diferente de virtual y diferente de distancia }
+
+      // Leer las horas
       horas := Query.FieldByName('horas').AsInteger;
-      sumaHorasSemana := sumaHorasSemana + horas;
-      horasSemestre := horas * semanasSemestre;
 
-      if Contrato = 'carrera' then
-        horasSemestre := horasSemestre * 2.5;
+      // Determinar si se suman las horas semanales
+      if (Jornada <> 'virtual') and (Jornada <> 'distancia') then
+        sumaHorasSemana := sumaHorasSemana + horas;
 
-      escribirMensaje('Contrato: ' + idDocente, Contrato);
+      escribirMensaje('tipo-servicio',
+        tipo + ' (' + Query.FieldByName('asignatura').AsString + ')');
 
-      sumaHoras := sumaHoras + horasSemestre;
+      { Para docentes de Carrera %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+      if contrato = 'carrera' then
+      begin
+        totalHorasContrato := Query2.FieldByName('hormaxcarrera').AsInteger;
 
-      JsonServicio.AddPair('horarios', ArrayHorario);
+        if (Jornada = 'virtual') and (tipo <> 'posgrado') then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+        end
+        else if Jornada = 'distancia' then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+        end
+        else if (Jornada = 'posgrado') then
+        begin
+          horasSemestre := horas * semanasSemestre;
+          reconocimientoPosgrado := reconocimientoPosgrado + horasSemestre;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 3.5;
+        end
+        else if (Jornada = 'virtual') and (tipo = 'posgrado') then
+        begin
+          horasSemestre := horas;
+          reconocimientoPosgrado := reconocimientoPosgrado + horasSemestre;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 3.5;
+        end
+        else
+        begin
+          horasSemestre := horas * semanasSemestre;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+        end;
+
+        horasFactor := horasSemestre * 2.5;
+      end
+
+      { Para docentes de contrato %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+      else if contrato = 'contrato' then
+      begin
+        totalHorasContrato := Query2.FieldByName('hormaxcontrato').AsInteger;
+        if Jornada = 'virtual' then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+        end
+        else if Jornada = 'distancia' then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+        end
+        else
+        begin
+          horasSemestre := horas * semanasSemestre;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+        end;
+
+        horasFactor := horasSemestre * 2;
+      end
+
+      { Para docentes catedráticos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
+      else
+      begin
+        totalHorasContrato := Query2.FieldByName('hormaxcatedratico').AsInteger;
+        if Jornada = 'virtual' then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre);
+        end
+        else if Jornada = 'distancia' then
+        begin
+          horasSemestre := horas;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre)
+        end
+        else
+        begin
+          horasSemestre := horas * semanasSemestre;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre);
+        end;
+
+        horasFactor := horasSemestre * 1;
+      end;
+
+      if (Jornada <> 'virtual') then
+        JsonServicio.AddPair('horarios', ArrayHorario);
+
       JsonServicio.AddPair('horassemestre', FloatToStr(horasSemestre));
+      JsonServicio.AddPair('horasfactor', FloatToStr(horasFactor));
 
       ArrayJson.AddElement(JsonServicio);
       Query.Next;
     end;
 
-    horasRestantes := horasTotales - sumaHoras;
-    Json.AddPair('docenciaDirecta', FloatToStr(sumaHorasSemana));
-    Json.AddPair('horasTotales', FloatToStr(sumaHoras));
-    Json.AddPair('horasRestantes', FloatToStr(horasRestantes));
+    // Calcular las horas restantes
+    horasRestantes := totalHorasContrato - sumaHorasSemestre;
+
+    formato.DecimalSeparator := '.';
+
+    Json.AddPair('horasSemanales', FloatToStr(sumaHorasSemana));
+    Json.AddPair('horasSemestrales', FloatToStr(sumaHorasSemestre));
+    Json.AddPair('totalHoras', FloatToStr(horasRestantes));
+    Json.AddPair('horasRestantes', FloatToStr(horasRestantes, formato));
+    Json.AddPair('reconocimientoPosgrado', FloatToStr(reconocimientoPosgrado));
+
+    if (sumaHorasSemana < 16) and (contrato = 'contrato') then
+      Observacion := Observacion +
+        'El docente no cumple con el mínimo de horas por semana';
+
+    Json.AddPair('observacion', Observacion);
 
   except
     on E: Exception do
     begin
-      Json.AddPair(JsonError, E.Message);
+      Json.AddPair(JsonError, '(AgendasServicio) - ' + E.Message);
       enviarError(TimeToStr(now), DateToStr(now), 'getAllAgendaServicio',
         E.Message + '-no data-');
     end;
@@ -3642,6 +4289,134 @@ begin
 
   Result := Json;
   escribirMensaje('AgendasServicio', Json.toString);
+  Query.Free;
+end;
+
+function TMatematicas.EstadoAgendas(const Periodo: string): TJSONObject;
+var
+  Json, JsonContrato, JsonFunciones, JsonNumeros, JsonAgenda: TJSONObject;
+  Agendas, Contratos, Actividades: TJSONArray;
+  Query: TFDQuery;
+  TiposContratos: TStringList;
+  i: integer;
+  idDocente: string;
+  j, horPen, horMax: integer;
+  Estado, Concertada: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+
+  try
+    Json := TJSONObject.create;
+
+    TiposContratos := TStringList.create;
+    TiposContratos.Add('carrera');
+    TiposContratos.Add('contrato');
+    TiposContratos.Add('catedrático');
+
+    Contratos := TJSONArray.create;
+    for i := 1 to TiposContratos.Count do
+    begin
+      Agendas := TJSONArray.create;
+
+      Query.Close;
+      Query.SQL.Clear;
+      Query.SQL.Add('SELECT * FROM siap_docentes AS d ');
+      Query.SQL.Add('INNER JOIN siap_tipo_contrato AS tc ');
+      Query.SQL.Add('ON d.idtipocontrato = tc.idtipocontrato ');
+      Query.SQL.Add('INNER JOIN siap_categoria_docentes AS cd ');
+      Query.SQL.Add('ON d.idcategoriadocente = cd.idcategoriadocente ');
+      Query.SQL.Add('WHERE activo='#39 + 'si' + #39 + ' AND contrato=' + #39 +
+        TiposContratos[i - 1] + #39 + ' ORDER BY nombre');
+
+      FDataSnapMatematicas.comentarioSQL('Consulta - EstadoAgendas');
+      FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
+
+      Query.Open;
+      Query.First;
+
+      for j := 1 to Query.RecordCount do
+      begin
+        idDocente := Query.FieldByName('iddocente').AsString;
+
+        JsonAgenda := TJSONObject.create;
+
+        // Obtener los servicios de Docencia
+        JsonAgenda := AgendasServicio(idDocente, Periodo);
+
+        // Agregas los datos básicos
+        JsonAgenda.AddPair('documento', idDocente);
+        JsonAgenda.AddPair('nombre', Query.FieldByName('nombre').AsString);
+        JsonAgenda.AddPair('categoria', Query.FieldByName('categoria')
+          .AsString);
+        JsonAgenda.AddPair('contrato', Query.FieldByName('contrato').AsString);
+
+        // Obtener las funciones complementarias
+        JsonFunciones := TJSONObject.create;
+        JsonFunciones := ActividadesFuncionesDocente(idDocente, Periodo);
+
+        Actividades := TJSONArray.create;
+        Actividades := (JsonFunciones.GetValue('ActividadesFuncionesDocente')
+          as TJSONArray);
+
+        // Agregar las funciones
+        JsonAgenda.AddPair('ActividadesFuncionesDocente', Actividades);
+        JsonAgenda.AddPair('horasMaxContrato',
+          JsonFunciones.GetValue('horasMaxContrato').Value);
+        JsonAgenda.AddPair('horasFunciones',
+          JsonFunciones.GetValue('horasFunciones').Value);
+        JsonAgenda.AddPair('horasRestantes',
+          JsonFunciones.GetValue('horasRestantes').Value);
+        JsonAgenda.AddPair('horasTotales',
+          JsonFunciones.GetValue('horasTotales').Value);
+
+        // Obtener los números de actas
+        JsonNumeros := TJSONObject.create;
+        JsonNumeros := obtenerNumerosActas(idDocente, Periodo);
+
+        JsonAgenda.AddPair('numeroContrato',
+          JsonNumeros.GetValue('numeroContrato').Value);
+        JsonAgenda.AddPair('actaPrograma',
+          JsonNumeros.GetValue('actaPrograma').Value);
+        JsonAgenda.AddPair('actaFacultad',
+          JsonNumeros.GetValue('actaFacultad').Value);
+        JsonAgenda.AddPair('agendaConcertada',
+          JsonNumeros.GetValue('agendaConcertada').Value);
+
+        horPen := StrToInt(JsonFunciones.GetValue('horasRestantes').Value);
+        Concertada := JsonNumeros.GetValue('agendaConcertada').Value;
+
+        if (horPen = 0) or (Concertada = 'si') then
+          Estado := 'Completa'
+        else
+          Estado := 'En Proceso';
+
+        JsonAgenda.AddPair('Estado', Estado);
+
+        Agendas.Add(JsonAgenda);
+        Query.Next;
+      end;
+
+      JsonContrato := TJSONObject.create;
+      JsonContrato.AddPair('TipoContrato', TiposContratos[i - 1]);
+      JsonContrato.AddPair('Agendas', Agendas);
+
+      Contratos.Add(JsonContrato);
+    end;
+
+    Json.AddPair('Contratos', Contratos);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, '(EstadoAgendas) - ' + E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'EstadoAgendas',
+        E.Message + '=> ' + Periodo);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('cancelAgendaServicio', Json.toString);
   Query.Free;
 end;
 
@@ -3725,6 +4500,64 @@ begin
 end;
 
 { Método UPDATE - AgendaServicio }
+function TMatematicas.acceptAgendaNumeroContrato(const token: string;
+  const datos: TJSONObject): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+  ID: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+  try
+    Json := TJSONObject.create;
+
+    if token = FDataSnapMatematicas.obtenerToken then
+    begin
+      limpiarConsulta(Query);
+
+      Query.Close;
+      Query.SQL.Clear;
+      Query.SQL.Add('UPDATE siap_agendas_servicios SET ');
+      Query.SQL.Add('numerocontrato=:numerocontrato, ');
+      Query.SQL.Add('actaprograma=:actaprograma, ');
+      Query.SQL.Add('actafacultad=:actafacultad, ');
+      Query.SQL.Add('concertada=:concertada ');
+      Query.SQL.Add('WHERE iddocente=' + datos.GetValue('iddocente').Value +
+        ' AND periodo=' + #39 + datos.GetValue('periodo').Value + #39);
+
+      Query.Params.ParamByName('numerocontrato').Value :=
+        datos.GetValue('numerocontrato').Value;
+      Query.Params.ParamByName('actaprograma').Value :=
+        datos.GetValue('actaprograma').Value;
+      Query.Params.ParamByName('actafacultad').Value :=
+        datos.GetValue('actafacultad').Value;
+      Query.Params.ParamByName('concertada').Value :=
+        datos.GetValue('concertada').Value;
+
+      Query.ExecSQL;
+
+      Json.AddPair(JsonRespuesta, 'La agenda se actualizó correctamente');
+    end
+    else
+    begin
+      Json.AddPair(JsonRespuesta, AccesoDenegado);
+    end;
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'acceptAgendaServicio',
+        E.Message + datos.toString);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('updateAgendaServicio', Json.toString);
+  Query.Free;
+end;
+
 function TMatematicas.acceptAgendaServicio(const token: string;
   const datos: TJSONObject): TJSONObject;
 var
@@ -4097,6 +4930,7 @@ begin
       agregarParametro('semanas', 'Integer');
       agregarParametro('jornada', 'String');
       agregarParametro('grupo', 'String');
+      agregarParametro('tipo', 'String');
 
       INSERT('siap_servicios_programas', Query);
 
@@ -4126,7 +4960,7 @@ end;
 { Método GET - ServicioPrograma }
 function TMatematicas.ServicioPrograma(const ID: string): TJSONObject;
 var
-  Json: TJSONObject;
+  Json, JsonServicio: TJSONObject;
   Query: TFDQuery;
   i: integer;
 begin
@@ -4146,15 +4980,21 @@ begin
     agregarParametro('idservicioprograma', 'String');
     agregarParametro('asignatura', 'String');
     agregarParametro('idprograma', 'String');
-    agregarParametro('horas', 'String');
     agregarParametro('aulas', 'String');
     agregarParametro('periodo', 'String');
     agregarParametro('semanas', 'Integer');
     agregarParametro('programa', 'String');
     agregarParametro('jornada', 'String');
     agregarParametro('grupo', 'String');
+    agregarParametro('tipo', 'String');
 
-    Json := crearJSON(Query);
+    JsonServicio := TJSONObject.create;
+    JsonServicio := crearJSON(Query);
+
+    { Se calculan las horas a través de una función que leer los horarios. En el
+      caso de Virtual o distancia envia las horas del curso por semestre }
+    JsonServicio.AddPair('horas', obtenerHorasServicio(ID));
+    Json := JsonServicio;
 
   except
     on E: Exception do
@@ -4178,8 +5018,9 @@ var
   Query, Query2, Query3: TFDQuery;
   ArrayJson, ArrayHorario: TJSONArray;
   JsonLinea: TJSONObject;
-  i, j, hIni, hFin, Total, totalHoras, ld: integer;
-  inicio, fin: string;
+  i, j, horasSemestre, hIni, hFin, Total, totalHoras, ld,
+    semanasSemestre: integer;
+  inicio, fin, Jornada: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -4204,13 +5045,13 @@ begin
     agregarParametro('idservicioprograma', 'String');
     agregarParametro('asignatura', 'String');
     agregarParametro('idprograma', 'String');
-    agregarParametro('horas', 'String');
     agregarParametro('aulas', 'String');
     agregarParametro('periodo', 'String');
     agregarParametro('programa', 'String');
     agregarParametro('semanas', 'Integer');
     agregarParametro('jornada', 'String');
     agregarParametro('grupo', 'String');
+    agregarParametro('tipo', 'String');
 
     for i := 1 to Query.RecordCount do
     begin
@@ -4224,31 +5065,52 @@ begin
       Query2.Open;
       Query2.First;
 
-      ArrayHorario := TJSONArray.create;
-      totalHoras := 0;
-      for j := 1 to Query2.RecordCount do
+      Jornada := Query.FieldByName('jornada').AsString;
+      semanasSemestre := Query.FieldByName('semanas').AsInteger;
+
+      // Obtener los horarios. Si es virtual omite el proceso de leer los horarios
+      if Jornada <> 'virtual' then
       begin
-        inicio := Query2.FieldByName('inicio').AsString;
-        fin := Query2.FieldByName('fin').AsString;
 
-        hIni := FHoras.IndexOf(inicio);
-        hFin := FHoras.IndexOf(fin);
-        Total := hFin - hIni;
-        totalHoras := totalHoras + Total;
+        ArrayHorario := TJSONArray.create;
+        totalHoras := 0;
+        for j := 1 to Query2.RecordCount do
+        begin
+          inicio := Query2.FieldByName('inicio').AsString;
+          fin := Query2.FieldByName('fin').AsString;
 
-        JsonHorario := TJSONObject.create;
-        JsonHorario.AddPair('idhorarioservicio',
-          Query2.FieldByName('idhorarioservicio').AsString);
-        JsonHorario.AddPair('dia', Query2.FieldByName('dia').AsString);
-        JsonHorario.AddPair('inicio', inicio);
-        JsonHorario.AddPair('fin', fin);
-        JsonHorario.AddPair('total', IntToStr(Total));
-        JsonHorario.AddPair('salon', Query2.FieldByName('salon').AsString);
-        JsonHorario.AddPair('idservicioprograma',
-          Query2.FieldByName('idservicioprograma').AsString);
+          hIni := FHoras.IndexOf(inicio);
+          hFin := FHoras.IndexOf(fin);
+          Total := hFin - hIni;
+          totalHoras := totalHoras + Total;
 
-        ArrayHorario.Add(JsonHorario);
-        Query2.Next;
+          JsonHorario := TJSONObject.create;
+          JsonHorario.AddPair('idhorarioservicio',
+            Query2.FieldByName('idhorarioservicio').AsString);
+          JsonHorario.AddPair('dia', Query2.FieldByName('dia').AsString);
+          JsonHorario.AddPair('inicio', inicio);
+          JsonHorario.AddPair('fin', fin);
+          JsonHorario.AddPair('total', IntToStr(Total));
+          JsonHorario.AddPair('salon', Query2.FieldByName('salon').AsString);
+          JsonHorario.AddPair('idservicioprograma',
+            Query2.FieldByName('idservicioprograma').AsString);
+
+          ArrayHorario.Add(JsonHorario);
+          Query2.Next;
+        end;
+
+        if Jornada <> 'distancia' then
+          horasSemestre := totalHoras * semanasSemestre
+        else
+        begin
+          totalHoras := Query.FieldByName('horas').AsInteger;
+          horasSemestre := Query.FieldByName('horas').AsInteger;
+        end;
+      end
+      else
+      begin
+        totalHoras := Query.FieldByName('horas').AsInteger;
+        horasSemestre := totalHoras;
       end;
 
       { Determinar quien tomo éste servicio }
@@ -4260,7 +5122,9 @@ begin
       Query3.Open;
 
       JsonTemp.AddPair('horas', IntToStr(totalHoras));
-      JsonTemp.AddPair('horarios', ArrayHorario);
+      JsonTemp.AddPair('horasSemestre', IntToStr(horasSemestre));
+      if Query.FieldByName('jornada').AsString <> 'virtual' then
+        JsonTemp.AddPair('horarios', ArrayHorario);
       JsonTemp.AddPair('docente', Query3.FieldByName('nombre').AsString);
 
       ArrayJson.AddElement(JsonTemp);
@@ -4291,7 +5155,7 @@ var
   i, j, Total, TotalSemana, horasDocencia, Semanas: integer;
   inicio, fin: string;
   validacion: TIntegerString;
-  observacion, IdServicioPrograma, Contrato: string;
+  Observacion, IdServicioPrograma, contrato: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -4331,6 +5195,7 @@ begin
     agregarParametro('semanas', 'Integer');
     agregarParametro('jornada', 'String');
     agregarParametro('grupo', 'String');
+    agregarParametro('tipo', 'String');
 
     { Hacer un ciclo para recorrer todos los servicios o materias obtenidos }
     for i := 1 to Query.RecordCount do
@@ -4379,17 +5244,17 @@ begin
       end;
 
       { Determinar quien tomo éste servicio }
-      observacion := obtenerDocenteServicio(IdServicioPrograma, Periodo);
+      Observacion := obtenerDocenteServicio(IdServicioPrograma, Periodo);
 
       { Determinar si se le cruza éste horario, Si NO fue tomado por otro docente }
-      if observacion = '' then
+      if Observacion = '' then
       begin
         validacion := validarHorario(idDocente, IdServicioPrograma, Periodo);
-        observacion := validacion.vString;
+        Observacion := validacion.vString;
       end;
 
       { Determinar si el curso tiene mas horas de las que se pueden }
-      if observacion = '' then
+      if Observacion = '' then
       begin
 
         Query3.Close;
@@ -4407,16 +5272,16 @@ begin
 
         TotalSemana := TotalSemana * Semanas;
 
-        Contrato := Query3.FieldByName('contrato').AsString;
-        if (Contrato = 'carrera') then
+        contrato := Query3.FieldByName('contrato').AsString;
+        if (contrato = 'carrera') then
           TotalSemana := round(TotalSemana * 2.5);
 
         if (horasDocencia + TotalSemana) > Total then
-          observacion := 'Excede las horas permitidas';
+          Observacion := 'Excede las horas permitidas';
       end;
 
       JsonTemp.AddPair('horarios', ArrayHorario);
-      JsonTemp.AddPair('observacion', observacion);
+      JsonTemp.AddPair('observacion', Observacion);
 
       ArrayJson.AddElement(JsonTemp);
       Query.Next;
@@ -4503,6 +5368,7 @@ begin
       agregarParametro('semanas', 'Integer');
       agregarParametro('jornada', 'String');
       agregarParametro('grupo', 'String');
+      agregarParametro('tipo', 'String');
 
       ID := datos.GetValue('idservicioprograma').Value;
       UPDATE('siap_servicios_programas', 'idservicioprograma',
@@ -5175,9 +6041,9 @@ begin
     Query.SQL.Add('INNER JOIN siap_categoria_docentes AS c ');
     Query.SQL.Add('ON d.idcategoriadocente = c.idcategoriadocente');
     Query.SQL.Add('INNER JOIN siap_tipo_contrato as t');
-    Query.SQL.Add
-      ('ON d.idtipocontrato = t.idtipocontrato WHERE d.idtipocontrato=' +
-      Texto(IdContrato) + ' ORDER BY nombre');
+    Query.SQL.Add('ON d.idtipocontrato = t.idtipocontrato');
+    Query.SQL.Add(' WHERE d.idtipocontrato=' + Texto(IdContrato) +
+      ' AND activo=' + #39 + 'si' + #39 + ' ORDER BY nombre');
     Query.Open;
 
     limpiarParametros;
@@ -7813,6 +8679,57 @@ begin
   Result := Query.FieldByName('horas').AsInteger;
 end;
 
+function TMatematicas.obtenerHorasServicio(idservicio: string): string;
+var
+  Query: TFDQuery;
+  Jornada: string;
+  i, horas: integer;
+  inicio, fin: string;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+
+  try
+
+    Query.Close;
+    Query.SQL.Clear;
+    Query.SQL.Add('SELECT * FROM siap_horarios_servicios AS hs ');
+    Query.SQL.Add('INNER JOIN siap_servicios_programas AS sp ');
+    Query.SQL.Add('ON hs.idservicioprograma = sp.idservicioprograma ');
+    Query.SQL.Add('WHERE hs.idservicioprograma=' + #39 + idservicio + #39);
+    Query.Open;
+
+    Jornada := Query.FieldByName('jornada').AsString;
+
+    if (Jornada = 'virtual') or (Jornada = 'distancia') then
+    begin
+      Result := Query.FieldByName('horas').AsString;
+      exit;
+    end;
+
+    { Si pasa el filtro anterior, se debe calcular por el número de horas
+      del horario }
+    horas := 0;
+    for i := 1 to Query.RecordCount do
+    begin
+      inicio := Query.FieldByName('inicio').AsString;
+      fin := Query.FieldByName('fin').AsString;
+
+      horas := horas + abs(FHoras.IndexOf(inicio) - FHoras.IndexOf(fin));
+      Query.Next;
+    end;
+
+    Result := IntToStr(horas);
+
+  except
+    on E: Exception do
+    begin
+      enviarError(TimeToStr(now), DateToStr(now), 'obtenerHorasServicio',
+        E.Message + ' => ' + idservicio);
+    end;
+  end;
+end;
+
 function TMatematicas.obtenerListasTalleres: TJSONObject;
 var
   Json: TJSONObject;
@@ -7916,6 +8833,44 @@ begin
     begin
       Json.AddPair('error', E.Message);
     end;
+  end;
+
+  Result := Json;
+end;
+
+function TMatematicas.obtenerNumerosActas(const idDocente: string;
+  Periodo: string): TJSONObject;
+var
+  Json: TJSONObject;
+  Query: TFDQuery;
+begin
+  Query := TFDQuery.create(nil);
+  Query.Connection := Conexion;
+
+  Json := TJSONObject.create;
+
+  Query.Close;
+  Query.SQL.Clear;
+  Query.SQL.Add('SELECT * FROM siap_agendas_servicios ');
+  Query.SQL.Add('WHERE iddocente=' + idDocente + ' AND periodo=' + #39 +
+    Periodo + #39);
+  Query.Open;
+  Query.First;
+
+  if Query.RecordCount > 0 then
+  begin
+    Json.AddPair('numeroContrato', Query.FieldByName('numerocontrato')
+      .AsString);
+    Json.AddPair('actaFacultad', Query.FieldByName('actafacultad').AsString);
+    Json.AddPair('actaPrograma', Query.FieldByName('actaprograma').AsString);
+    Json.AddPair('agendaConcertada', Query.FieldByName('concertada').AsString);
+  end
+  else
+  begin
+    Json.AddPair('numeroContrato', '');
+    Json.AddPair('actaFacultad', '');
+    Json.AddPair('actaPrograma', '');
+    Json.AddPair('agendaConcertada', '');
   end;
 
   Result := Json;
@@ -8658,7 +9613,7 @@ begin
 
     if FTipoParametro[i - 1] = 'Float' then
       Query.Params.ParamByName(FParametros[i - 1]).Value :=
-        StrToFloat(datos.GetValue(FParametros[i - 1]).Value);
+        StringToFloat(datos.GetValue(FParametros[i - 1]).Value);
 
     if FTipoParametro[i - 1] = 'Date' then
       Query.Params.ParamByName(FParametros[i - 1]).Value :=

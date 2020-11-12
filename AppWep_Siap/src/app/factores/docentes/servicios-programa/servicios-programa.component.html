@@ -11,7 +11,7 @@
             <div class="form-group">
                 <label class="font-weight-bold">Periodo</label>
                 <select [(ngModel)]="periodo" name="periodo" required class="custom-select" (change)="leerServiciosPrograma()">
-                  <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
+                  <option [value]="periodo.periodo" *ngFor="let periodo of periodos" >{{periodo.periodo | capitalizado}}</option>
                 </select>
             </div>
         </div>
@@ -43,6 +43,7 @@
         </div>
     </div>
     <button *ngIf="editar" class="btn btn-outline-success float-right" (click)="agregarServicioPrograma()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar Servicio</button>
+    <button class="btn btn-outline-success float-right" (click)="leerServiciosPrograma()" style="margin: 5px;"><img src="assets/Iconos/Actualizar.png" style="height: 32px;"> Actualizar</button>
 
     <table class="table table-hover puntero-manito table-striped">
         <thead class="table-dark">
@@ -52,8 +53,8 @@
                 <th>Grupo</th>
                 <th>Jornada</th>
                 <th>Programa</th>
-                <th>Horas</th>
-                <th>Semanas</th>
+                <th>I/H</th>
+                <th>I/S</th>
                 <th>Horario</th>
                 <th *ngIf="editar">Ver</th>
                 <th *ngIf="editar">Editar</th>
@@ -83,28 +84,31 @@
                 <td>{{ servicioprograma.jornada | capitalizado }}</td>
                 <td>{{ servicioprograma.programa | capitalizado }}</td>
                 <td>{{ servicioprograma.horas }}</td>
-                <td>{{ servicioprograma.semanas }}</td>
+                <td>{{ servicioprograma.horasSemestre }}</td>
                 <td style="width: 700px;">
-                    <table class="table">
-                        <tbody>
-                            <tr *ngFor="let horario of servicioprograma.horarios">
-                                <td style="width: 100px;">{{ horario.dia | capitalizado }} de</td>
-                                <td style="width: 90px;">{{ horario.inicio }}</td>
-                                <td style="width: 10px;">a</td>
-                                <td style="width: 100px;">{{ horario.fin }}</td>
-                                <td style="width: 100px;">({{ horario.total }} Horas)</td>
-                                <td>{{ horario.salon | uppercase }}</td>
-                                <td style="width: 60px;" *ngIf="editar">
-                                    <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarHorarioServicio(horario)">
-                                </td>
-                                <td style="width: 60px;" *ngIf="editar">
-                                    <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarHorarioServicio(horario)">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div *ngIf="servicioprograma.jornada !== 'virtual'">
+                        <table class="table">
+                            <tbody>
+                                <tr *ngFor="let horario of servicioprograma.horarios">
+                                    <td style="width: 100px;">{{ horario.dia | capitalizado }} de</td>
+                                    <td style="width: 90px;">{{ horario.inicio }}</td>
+                                    <td style="width: 10px;">a</td>
+                                    <td style="width: 100px;">{{ horario.fin }}</td>
+                                    <td style="width: 100px;">({{ horario.total }} Horas)</td>
+                                    <td>{{ horario.salon | uppercase }}</td>
+                                    <td style="width: 60px;" *ngIf="editar">
+                                        <img src="assets/Iconos/Editar2.png" style="height: 24px;" (click)="editarHorarioServicio(horario)">
+                                    </td>
+                                    <td style="width: 60px;" *ngIf="editar">
+                                        <img src="assets/Iconos/Cancelar.png" style="height: 24px;" (click)="eliminarHorarioServicio(horario)">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                    <button *ngIf="editar" class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+                        <button *ngIf="editar" class="btn-outline-success btn btn-sm" (click)="agregarHorarioServicio(servicioprograma)"><img style="width: 24px;" src="assets/Iconos/Agregar.png"> Agregar Hora</button>
+                    </div>
+                    <p *ngIf="servicioprograma.jornada === 'virtual'">Virtual</p>
 
                     <p class="text-danger" *ngIf="servicioprograma.docente">Tomado por {{ servicioprograma.docente | capitalizado }}</p>
                 </td>

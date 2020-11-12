@@ -15,8 +15,7 @@ export class ConfiguracionesComponent implements OnInit {
 
   configuracion: Configuracion = {
     nombredecano: '',
-    nombredirector: '',
-    semanassemestre: '17'
+    nombredirector: ''
   };
 
   constructor(private genService: GeneralService,
@@ -31,8 +30,13 @@ export class ConfiguracionesComponent implements OnInit {
     this.leyendo = true;
 
     this.genService.getConfiguraciones().subscribe((rConfiguraciones: any) => {
+      console.log(rConfiguraciones);
       this.Configuraciones = rConfiguraciones.Configuraciones;
-      this.configuracion = this.Configuraciones[0];
+
+      if (this.Configuraciones.length > 0) {
+        this.configuracion = this.Configuraciones[0];
+      }
+
       this.leyendo = false;
     });
   }

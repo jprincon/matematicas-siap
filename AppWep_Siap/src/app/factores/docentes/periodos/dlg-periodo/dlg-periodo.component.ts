@@ -15,7 +15,10 @@ export class DlgPeriodoComponent implements OnInit {
 
 
   periodo: Periodo = {
-    periodo: ''
+    periodo: '',
+    hormaxcarrera: 0,
+    hormaxcontrato: 0,
+    hormaxcatedratico: 0
   };
 
   accion: string;

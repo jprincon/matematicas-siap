@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LS_ULTIMA_RUTA } from '../config/config';
 import { retry } from 'rxjs/operators';
+import { Periodo } from '../interfaces/interfaces.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,10 @@ export class GeneralService {
   private URL_HORARIOSERVICIO = 'HorarioServicio';
   private URL_HORARIOSSERVICIO = 'HorariosServicio';
   private URL_AGENDASERVICIO = 'AgendaServicio';
+  private URL_AGENDANUMEROCONTRATO = 'AgendaNumeroContrato';
   private URL_AGENDASSERVICIO = 'AgendasServicio';
+  private URL_ESTADO_AGENDAS = 'EstadoAgendas';
+  private URL_AGENDASPORPERIODO = 'AgendasPorPeriodo';
   private URL_DESASOCIAR_AGENDASSERVICIO = 'DesasociarAgenda';
   private URL_CONFIGURACION = 'Configuracion';
   private URL_CONFIGURACIONES = 'Configuraciones';
@@ -81,6 +85,8 @@ export class GeneralService {
   private URL_PERIODOS = 'Periodos';
   private URL_ACTIVIDADFUNCIONDOCENTE = 'ActividadFuncionDocente';
   private URL_ACTIVIDADESFUNCIONESDOCENTE = 'ActividadesFuncionesDocente';
+  private URL_FAVORITO = 'Favorito';
+  private URL_FAVORITOS = 'Favoritos';
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -935,7 +941,19 @@ export class GeneralService {
 
   getAgendasServicio(IdDocente: string, Periodo: string) {
     const url = this.dataSnap_Path(this.URL_AGENDASSERVICIO) + this.parametro(IdDocente) + this.parametro(Periodo);
+    console.log(url);
     return this.http.get(url).pipe(retry(10));
+  }
+
+  getEstadoAgendas(Periodo: string) {
+    const url = this.dataSnap_Path(this.URL_ESTADO_AGENDAS) + this.parametro(Periodo);
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  getAgendasPorPeriodo(Periodo: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDASPORPERIODO) + this.parametro(Periodo);
+    return this.http.get(url);
   }
 
   getAgendaServicio(id: string) {
@@ -945,6 +963,14 @@ export class GeneralService {
 
   putAgendaServicio(datos: string) {
     const url = this.dataSnap_Path(this.URL_AGENDASERVICIO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  putAgendaNumeroContrato(datos: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDANUMEROCONTRATO) + this.parametro(this.token);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1349,8 +1375,8 @@ export class GeneralService {
     return this.http.post(url, datos, {headers}).pipe(retry(10));
   }
 
-  getActividadesFuncionesDocente() {
-    const url = this.dataSnap_Path(this.URL_ACTIVIDADESFUNCIONESDOCENTE);
+  getActividadesFuncionesDocente(IdDocente: string, Periodo: string) {
+    const url = this.dataSnap_Path(this.URL_ACTIVIDADESFUNCIONESDOCENTE) + this.parametro(IdDocente) + this.parametro(Periodo);
     return this.http.get(url).pipe(retry(10));
   }
 
@@ -1370,6 +1396,43 @@ export class GeneralService {
   deleteActividadFuncionDocente(id: string) {
     const url = this.dataSnap_Path(this.URL_ACTIVIDADFUNCIONDOCENTE) + this.parametro(this.token) + this.parametro(id);
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  /* Favorito %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+
+  postFavorito(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FAVORITO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(retry(10));
+  }
+
+  getFavoritos() {
+    const url = this.dataSnap_Path(this.URL_FAVORITOS);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getFavorito(id: string) {
+    const url = this.dataSnap_Path(this.URL_FAVORITO) + this.parametro(id);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  putFavorito(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FAVORITO) + this.parametro(this.token);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers}).pipe(retry(10));
+  }
+
+  deleteFavorito(id: string) {
+    const url = this.dataSnap_Path(this.URL_FAVORITO) + this.parametro(this.token) + this.parametro(id);
+    console.log(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

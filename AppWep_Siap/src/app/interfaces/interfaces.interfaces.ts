@@ -177,6 +177,8 @@ export interface ServicioPrograma {
   jornada?: string;
   grupo?: string;
   docente?: string;
+  tipo?: string;
+  horasSemestre?: number;
 }
 
 export interface HorarioServicio {
@@ -186,21 +188,60 @@ export interface HorarioServicio {
   fin?: string;
   total?: string;
   salon?: string;
+  aula?: string;
   idservicioprograma?: string;
 }
 
 export interface AgendaServicio {
-  idagendaservicio?: string;
-  iddocente?: string;
-  idservicioprograma?: string;
-  periodo?: string;
   asignatura?: string;
-  aulas?: string;
+  grupo?: string;
   horarios?: HorarioServicio[];
   horas?: string;
-  idprograma?: string;
-  programa?: string;
+  horasfactor?: string;
   horassemestre?: string;
+  idagendaservicio?: string;
+  iddocente?: string;
+  idprograma?: string;
+  idservicioprograma?: string;
+  jornada?: string;
+  numerocontrato?: string;
+  actaprograma?: string;
+  actafacultad?: string;
+  agendaconcertada?: string;
+  periodo?: string;
+  programa?: string;
+  concertada?: string;
+  aulas?: string;
+  semanas?: string;
+  tipo?: string;
+}
+
+export interface Agenda {
+  AgendasServicios?: AgendaServicio[];
+  Estado?: string;
+  documento?: string;
+  horasFunciones?: string;
+  horasMaxContrato?: string;
+  horasRestantes?: string;
+  horasSemanales?: string;
+  horasSemestrales?: string;
+  horasTotales?: string;
+  nombre?: string;
+  observacion?: string;
+  reconocimientoPosgrado?: string;
+  totalHoras?: string;
+  numeroContrato?: string;
+  actaFacultad?: string;
+  actaPrograma?: string;
+  agendaConcertada?: string;
+  categoria?: string;
+  contrato?: string;
+  ActividadesFuncionesDocente?: ActividadFuncionDocente[];
+}
+
+export interface Contrato {
+  TipoContrato?: string;
+  Agendas?: Agenda[];
 }
 
 export interface Configuracion {
@@ -286,6 +327,9 @@ export interface TrabajoGrado {
 export interface Periodo {
   idperiodo?: string;
   periodo?: string;
+  hormaxcarrera?: number;
+  hormaxcontrato?: number;
+  hormaxcatedratico?: number;
 }
 
 export interface ActividadFuncionDocente {
@@ -297,4 +341,30 @@ export interface ActividadFuncionDocente {
   iddocente?: number;
   periodo?: string;
   horas?: string;
+  actividadprograma?: string;
+  funcion?: string;
+  horassemestre?: number;
+  subactividad?: string;
+  calculada?: string;
 }
+
+export interface BotonMenu {
+  Titulo: string;
+  Icono: string;
+  Ruta: string[];
+  IdBoton: string;
+}
+
+export interface MenuFactores {
+    Titulo: string;
+    Botones: BotonMenu[];
+}
+
+export interface Favorito {
+  idfavorito?: string;
+  titulo?: string;
+  icono?: string;
+  ruta?: string;
+  frecuencia?: string;
+}
+

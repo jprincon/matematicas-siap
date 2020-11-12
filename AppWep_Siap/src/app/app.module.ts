@@ -123,6 +123,9 @@ import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajo
 import { PeriodosComponent } from './factores/docentes/periodos/periodos.component';
 import { DlgPeriodoComponent } from './factores/docentes/periodos/dlg-periodo/dlg-periodo.component';
 import { DlgFuncionesDocenteComponent } from './factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
+import { ExportarAgendaComponent } from './factores/docentes/agendas/exportar-agenda/exportar-agenda.component';
+import { ExportarAgendasFacultadComponent } from './factores/docentes/agendas/exportar-agendas-facultad/exportar-agendas-facultad.component';
+import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agendas/estado-agendas.component';
 
 
 
@@ -281,6 +284,12 @@ import { DlgFuncionesDocenteComponent } from './factores/docentes/agendas/dlg-fu
     DlgPeriodoComponent,
 
     DlgFuncionesDocenteComponent,
+
+    ExportarAgendaComponent,
+
+    ExportarAgendasFacultadComponent,
+
+    EstadoAgendasComponent,
 
 
   ],

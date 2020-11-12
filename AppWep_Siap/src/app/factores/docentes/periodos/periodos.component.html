@@ -12,6 +12,9 @@
             <tr>
                 <th>No</th>
                 <th>Periodo</th>
+                <th>Máximo Horas Carrera</th>
+                <th>Máximo Horas Contrato</th>
+                <th>Máximo Horas Catedrático</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
@@ -21,6 +24,9 @@
             <tr *ngFor="let periodo of Periodos; let id = index">
                 <td>{{ id + 1 }}</td>
                 <td>{{ periodo.periodo }}</td>
+                <td>{{ periodo.hormaxcarrera }}</td>
+                <td>{{ periodo.hormaxcontrato }}</td>
+                <td>{{ periodo.hormaxcatedratico }}</td>
                 <td>
                     <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarPeriodo(periodo)">
                 </td>
@@ -31,3 +37,10 @@
         </tbody>
     </table>
 </div>
+
+<h2>Preguntas</h2>
+<hr>
+
+<ul>
+    <li>Es necesario incluir las fechas de inicio y cierre de cada periodo?</li>
+</ul>

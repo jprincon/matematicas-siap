@@ -1,7 +1,7 @@
 import { GeneralService } from './../../../../services/general.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { ServicioPrograma, Programa } from '../../../../interfaces/interfaces.interfaces';
+import { ServicioPrograma, Programa, Periodo } from '../../../../interfaces/interfaces.interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Utilidades } from '../../../../utilidades/utilidades.class';
 import { SnackBarComponent } from '../../../../dialogos/snack-bar/snack-bar.component';
@@ -35,6 +35,8 @@ export class DlgServicioProgramaComponent implements OnInit {
   guardando = false;
   leyendo = false;
 
+  Periodos: Periodo[] = [];
+
   constructor(public dialogRef: MatDialogRef<DlgServicioProgramaComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private genService: GeneralService,
@@ -46,15 +48,18 @@ export class DlgServicioProgramaComponent implements OnInit {
     this.id = this.data.idservicioprograma;
 
     this.leerProgramas();
-
-    const fecha = new Date();
-    const year = fecha.getFullYear();
-    this.periodos.push(year + '1');
-    this.periodos.push(year + '2');
+    this.leerPeriodos();
 
     if (this.accion === 'Editar') {
       this.leerServicioPrograma();
     }
+  }
+
+  leerPeriodos() {
+    this.genService.getPeriodos().subscribe((rPeriodos: any) => {
+      console.log(rPeriodos);
+      this.Periodos = rPeriodos.Periodos;
+    });
   }
 
   agregarPrograma() {

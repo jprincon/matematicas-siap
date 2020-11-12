@@ -1,0 +1,166 @@
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Agenda ...</h3>
+</div>
+
+<div class="m-3" *ngIf="!leyendo">
+
+    <h4 class="text-center">Formato de Concertación de Agenda Docente</h4>
+    <hr>
+
+    <table class="table-bordered">
+        <tbody>
+            <tr>
+                <th style="width: 15%;">Nombre</th>
+                <td style="width: 35%;">{{ docente.nombre | capitalizado }}</td>
+                <th style="width: 15%;">Número de Contrato</th>
+                <td style="width: 35%;">
+                    {{ numerocontrato }}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Cédula</th>
+                <td>{{ docente.documento | number }}</td>
+                <th>Teléfono</th>
+                <td>{{ docente.telefono }}</td>
+            </tr>
+
+            <tr>
+                <th>Categoría</th>
+                <td>{{ docente.categoria | capitalizado}}</td>
+                <th>Correo</th>
+                <td class="text-info">{{ docente.correo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- %%%%%%% Tabla para  mostrar servicios %%%%%%% -->
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Asignatura</th>
+                <th>Grupo</th>
+                <th>Programa</th>
+                <th>I/H</th>
+                <th>I/S</th>
+                <th>Horario</th>
+                <th>Aulas</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let agenda of AgendasServicio">
+                <td>{{ agenda.asignatura | capitalizado }}</td>
+                <td>{{ agenda.grupo }}</td>
+                <td>{{ agenda.programa | capitalizado }}</td>
+                <td>{{ agenda.horas | capitalizado }}</td>
+                <td>{{ agenda.horassemestre }}</td>
+                <td>
+                    <ul *ngIf="agenda.jornada !== 'virtual'">
+                        <li *ngFor="let horario of agenda.horarios">{{ horario.dia | capitalizado }} de {{ horario.inicio }} a {{ horario.fin }}</li>
+                    </ul>
+
+                    <p *ngIf="agenda.jornada === 'virtual'">Virtual</p>
+                </td>
+                <td>{{ agenda.aulas | uppercase }}</td>
+                <td></td>
+            </tr>
+
+            <tr *ngIf="reconocimientoPosgrado > 0">
+                <td></td>
+                <td></td>
+                <th>Reconocimiento de Posgrado</th>
+                <th></th>
+                <th class="text-success">{{ reconocimientoPosgrado }}</th>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <th>Total Docencia Directa</th>
+                <th>{{ horasSemanales }}</th>
+                <th class="text-success">{{ horasSemestrales }}</th>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr *ngIf="nombreContrato === 'catedrático'">
+                <td></td>
+                <td>Horas Dispobibles</td>
+                <td></td>
+                <td>{{ horasRestantes }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="nombreContrato !== 'catedrático'">
+        <table class="mt-3 table table-hover">
+            <thead>
+                <tr>
+                    <th>Función</th>
+                    <th>Actividad</th>
+                    <th>Subactividad</th>
+                    <th>Actividad Programa</th>
+                    <th>Horas Semanales</th>
+                    <th>Horas Semestre</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <thead>
+                <tr *ngFor="let funcion of FuncionesDocente">
+                    <td>{{ funcion.funcion | capitalizado }}</td>
+                    <td>{{ funcion.actividad | capitalizado }}</td>
+                    <td>{{ funcion.subactividad | capitalizado }}</td>
+                    <td>{{ funcion.actividadprograma | capitalizado }}</td>
+                    <td><span *ngIf="funcion.calculada === 'semanales'">{{ funcion.horas | capitalizado }}</span></td>
+                    <td>{{ funcion.horassemestre | capitalizado }}</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th>Total Horas Actividades</th>
+                    <td></td>
+                    <th class="text-success">{{ horasTotales }}</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-4 form-group">
+                <hr class="mt-5" style="border-color: black; border-width: 2px;">
+                <p class="text-center font-weight-bold">{{ docente.nombre | uppercase }}</p>
+                <p class="text-center" style="font-size: 10px;">Docente del Programa de Licenciatura en Matemáticas</p>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <hr class="mt-5" style="border-color: black; border-width: 2px;">
+                <p class="text-center font-weight-bold">{{ configuracion.nombredirector | uppercase }}</p>
+                <p class="text-center" style="font-size: 10px;">Director de Licenciatura en Matemáticas</p>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <hr class="mt-5" style="border-color: black; border-width: 2px;">
+                <p class="text-center font-weight-bold">{{ configuracion.nombredecano | uppercase }}</p>
+                <p class="text-center" style="font-size: 10px;">Decano de la Facultad de Ciencias de la Educación</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,64 +12,83 @@
 </div>
 
 <form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardarServicioPrograma()">
-    <div class="form-group">
-        <label style="font-weight: bold;">Periodo</label>
-        <select [(ngModel)]="servicioprograma.periodo" name="periodo" required class="custom-select">
-          <option [value]="periodo" *ngFor="let periodo of periodos" >{{periodo | capitalizado}}</option>
-        </select>
-    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="m-3">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Periodo</label>
+                    <select [(ngModel)]="servicioprograma.periodo" name="periodo" required class="custom-select">
+                  <option [value]="periodo.periodo" *ngFor="let periodo of Periodos" >{{periodo.periodo | capitalizado}}</option>
+                </select>
+                </div>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Asignatura</label>
-        <input type="text" required class="form-control" [(ngModel)]="servicioprograma.asignatura" name="asignatura">
-    </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Asignatura</label>
+                    <input type="text" required class="form-control" [(ngModel)]="servicioprograma.asignatura" name="asignatura">
+                </div>
 
+                <div class="form-group">
+                    <label style="font-weight: bold;">Programa</label>
 
+                    <div class="input-group">
+                        <select [(ngModel)]="servicioprograma.idprograma" name="idprograma" required class="custom-select">
+                    <option *ngFor="let programa of programas" [value]="programa.idprograma">{{programa.programa | capitalizado}}</option>
+                  </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button" (click)="agregarPrograma()"><img src="assets/Iconos/Agregar.png" style="height: 22px;"> Crear Programa</button>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Programa</label>
-
-        <div class="input-group">
-            <select [(ngModel)]="servicioprograma.idprograma" name="idprograma" required class="custom-select">
-            <option *ngFor="let programa of programas" [value]="programa.idprograma">{{programa.programa | capitalizado}}</option>
-          </select>
-            <div class="input-group-append">
-                <button class="btn btn-outline-success" type="button" (click)="agregarPrograma()"><img src="assets/Iconos/Agregar.png" style="height: 22px;"> Crear Programa</button>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Horas</label>
+                    <input type="number" required [disabled]="(servicioprograma.jornada !== 'virtual') &&
+                                                              (servicioprograma.jornada !== 'distancia')" class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Horas</label>
-        <input type="number" required disabled class="form-control" [(ngModel)]="servicioprograma.horas" name="horas">
-    </div>
+        <div class="col-md-6">
+            <div class="m-3">
 
-    <!-- <div class="form-group">
-        <label style="font-weight: bold;">Aulas</label>
-        <input type="text" required class="form-control" [(ngModel)]="servicioprograma.aulas" name="aulas">
-    </div> -->
+                <div class="form-group">
+                    <label style="font-weight: bold;">Jornada</label>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Semanas</label>
-        <input type="number" required class="form-control" [(ngModel)]="servicioprograma.semanas" name="semanas">
-    </div>
+                    <div class="input-group">
+                        <select [(ngModel)]="servicioprograma.jornada" name="jornada" required class="custom-select">
+                          <option value="diurna">Diurna</option>
+                          <option value="nocturna">Nocturna</option>
+                          <option value="distancia">Distancia</option>
+                          <option value="virtual">Virtual</option>
+                          <option value="posgrado">Posgrado</option>
+                        </select>
+                    </div>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Grupo</label>
-        <input type="text" style="text-transform:uppercase;" required class="form-control" [(ngModel)]="servicioprograma.grupo" name="grupo">
-    </div>
+                    <div class="form-group">
+                        <label style="font-weight: bold;">Grupo</label>
+                        <input type="text" style="text-transform:uppercase;" required class="form-control" [(ngModel)]="servicioprograma.grupo" name="grupo">
+                    </div>
 
-    <div class="form-group">
-        <label style="font-weight: bold;">Jornada</label>
+                    <div class="form-group">
+                        <label style="font-weight: bold;">Tipo</label>
 
-        <div class="input-group">
-            <select [(ngModel)]="servicioprograma.jornada" name="jornada" required class="custom-select">
-          <option value="diurna">Diurna</option>
-          <option value="nocturna">Nocturna</option>
-          <option value="distancia">Distancia</option>
-          <option value="virtual">Virtual</option>
-          <option value="posgrado">Posgrado</option>
-        </select>
+                        <div class="input-group">
+                            <select [(ngModel)]="servicioprograma.tipo" name="tipo" required class="custom-select">
+                              <option value="pregrado">Pregrado</option>
+                              <option value="posgrado">Posgrado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="(servicioprograma.jornada !== 'virtual') &&
+                                                   (servicioprograma.jornada !== 'distancia') &&
+                                                   (servicioprograma.jornada !== 'posgrado')">
+                        <label style="font-weight: bold;">Semanas</label>
+                        <input type="number" required class="form-control" [(ngModel)]="servicioprograma.semanas" name="semanas">
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 

@@ -1278,59 +1278,23 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Top = 146
     Width = 1008
     Height = 556
-    ActivePage = TabSheet1
+    ActivePage = TabSalida
     Align = alClient
     TabOrder = 2
     object TabSalida: TTabSheet
       Caption = 'Consola'
-      object Panel1: TPanel
-        Left = 768
-        Top = 0
-        Width = 232
-        Height = 522
-        Align = alRight
-        TabOrder = 0
-        object Panel11: TPanel
-          Left = 1
-          Top = 1
-          Width = 230
-          Height = 25
-          Align = alTop
-          BevelOuter = bvNone
-          Caption = 'Datos de la Conexi'#243'n'
-          Color = 12615680
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
-          Font.Height = -16
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentBackground = False
-          ParentFont = False
-          TabOrder = 0
-        end
-        object lbDatos: TListBox
-          AlignWithMargins = True
-          Left = 4
-          Top = 29
-          Width = 224
-          Height = 489
-          Align = alClient
-          BorderStyle = bsNone
-          ItemHeight = 19
-          TabOrder = 1
-        end
-      end
       object pMensajes: TPanel
         Left = 0
         Top = 0
-        Width = 768
+        Width = 500
         Height = 522
         Align = alClient
-        TabOrder = 1
+        TabOrder = 0
+        ExplicitWidth = 768
         object Panel2: TPanel
           Left = 1
           Top = 1
-          Width = 766
+          Width = 498
           Height = 25
           Align = alTop
           BevelOuter = bvNone
@@ -1344,11 +1308,12 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
           ParentBackground = False
           ParentFont = False
           TabOrder = 0
+          ExplicitWidth = 766
         end
         object LvMensajes: TListView
           Left = 1
           Top = 26
-          Width = 766
+          Width = 498
           Height = 495
           Align = alClient
           Columns = <
@@ -1360,22 +1325,104 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             end
             item
               Caption = 'Tipo'
-              Width = 150
+              Width = 300
             end
             item
               Caption = 'Mensaje'
-              Width = 300
+              Width = 1000
             end
             item
               Caption = 'Fecha'
               Width = 150
             end>
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -19
+          Font.Name = 'Tahoma'
+          Font.Style = []
           GridLines = True
           ReadOnly = True
           RowSelect = True
+          ParentFont = False
           PopupMenu = PopupMenu1
           TabOrder = 1
           ViewStyle = vsReport
+          OnClick = LvMensajesClick
+          ExplicitWidth = 766
+        end
+      end
+      object PageControl1: TPageControl
+        Left = 500
+        Top = 0
+        Width = 500
+        Height = 522
+        ActivePage = TabSheet2
+        Align = alRight
+        MultiLine = True
+        TabOrder = 1
+        TabPosition = tpRight
+        object TabSheet2: TTabSheet
+          Caption = 'Vista de Consola'
+          object lbDatos: TListBox
+            AlignWithMargins = True
+            Left = 3
+            Top = 28
+            Width = 460
+            Height = 483
+            Align = alClient
+            BorderStyle = bsNone
+            ItemHeight = 19
+            TabOrder = 0
+          end
+          object Panel11: TPanel
+            Left = 0
+            Top = 0
+            Width = 466
+            Height = 25
+            Align = alTop
+            BevelOuter = bvNone
+            Caption = 'Datos de la Conexi'#243'n'
+            Color = 12615680
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWhite
+            Font.Height = -16
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentBackground = False
+            ParentFont = False
+            TabOrder = 1
+          end
+          object seVista: TSynEdit
+            Left = 0
+            Top = 25
+            Width = 466
+            Height = 489
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -21
+            Font.Name = 'Courier New'
+            Font.Style = []
+            TabOrder = 2
+            CodeFolding.GutterShapeSize = 11
+            CodeFolding.CollapsedLineColor = clGrayText
+            CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.IndentGuidesColor = clGray
+            CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = False
+            CodeFolding.ShowHintMark = True
+            UseCodeFolding = False
+            Gutter.Font.Charset = DEFAULT_CHARSET
+            Gutter.Font.Color = clWindowText
+            Gutter.Font.Height = -11
+            Gutter.Font.Name = 'Courier New'
+            Gutter.Font.Style = []
+            Highlighter = SynJSONSyn1
+            Lines.Strings = (
+              'seVista')
+            WordWrap = True
+            FontSmoothing = fsmNone
+          end
         end
       end
     end
@@ -1627,11 +1674,8 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
         Highlighter = SynSQLSyn1
         Lines.Strings = (
           '')
+        WordWrap = True
         FontSmoothing = fsmNone
-        ExplicitLeft = 360
-        ExplicitTop = 128
-        ExplicitWidth = 201
-        ExplicitHeight = 137
       end
     end
   end
@@ -1646,7 +1690,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Left = 808
     Top = 64
     Bitmap = {
-      494C0101040008007C0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000800840020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000004000000001002000000000000080
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2753,7 +2797,18 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Options.AutoDetectEnabled = False
     Options.AutoDetectLineLimit = 0
     Options.Visible = False
+    CommentAttri.Foreground = 53760
+    KeyAttri.Foreground = 10485760
+    StringAttri.Foreground = clBlue
+    SymbolAttri.Foreground = 8388863
     Left = 892
     Top = 488
+  end
+  object SynJSONSyn1: TSynJSONSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
+    Left = 860
+    Top = 628
   end
 end

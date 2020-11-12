@@ -14,6 +14,7 @@
                 <tr>
                     <th>No</th>
                     <th>Asignatura</th>
+                    <th>Grupo</th>
                     <th>Programa</th>
                     <th>Horas</th>
                     <th>Observación</th>
@@ -34,6 +35,7 @@
                             </div>
                         </div>
                     </td>
+                    <td></td>
                     <td>
                         <div class="input-group mb-3">
                             <input class="form-control" type="text" (keyup)="buscarPrograma()" [(ngModel)]="terminoPrograma" name="terminoPrograma">
@@ -56,6 +58,7 @@
                 <tr *ngFor="let servicioprograma of bServiciosPrograma; let id = index">
                     <td>{{ id + 1 }}</td>
                     <td>{{ servicioprograma.asignatura | capitalizado }}</td>
+                    <td>{{ servicioprograma.grupo | uppercase }}</td>
                     <td>{{ servicioprograma.programa | capitalizado }}</td>
                     <td>{{ servicioprograma.horas }}</td>
                     <td class="text-danger font-weight-bold">{{ servicioprograma.observacion | capitalizado }}</td>

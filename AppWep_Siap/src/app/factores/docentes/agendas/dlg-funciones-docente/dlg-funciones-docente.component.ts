@@ -76,6 +76,16 @@ export class DlgFuncionesDocenteComponent implements OnInit {
     });
   }
 
+  leerActividadFuncionDocente() {
+    this.genService.getActividadFuncionDocente(this.id).subscribe((rActividadFuncionDocente: ActividadFuncionDocente) => {
+      console.log(rActividadFuncionDocente);
+      this.actividadfunciondocente = rActividadFuncionDocente;
+
+      this.leerActividades();
+      this.leerSubactividades();
+    });
+  }
+
   leerSubactividades() {
     this.leyendoSubactividades = true;
 
@@ -90,11 +100,7 @@ export class DlgFuncionesDocenteComponent implements OnInit {
 
   }
 
-  leerActividadFuncionDocente() {
-    this.genService.getActividadFuncionDocente(this.id).subscribe((rActividadFuncionDocente: ActividadFuncionDocente) => {
-      this.actividadfunciondocente = rActividadFuncionDocente;
-    });
-  }
+
 
   guardarActividadFuncionDocente() {
 

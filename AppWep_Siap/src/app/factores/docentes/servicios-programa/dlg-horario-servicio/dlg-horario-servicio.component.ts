@@ -27,10 +27,13 @@ export class DlgHorarioServicioComponent implements OnInit {
   contIntentos = 0;
   guardando = false;
   leyendo = false;
+  jornada = '';
 
-  horas: string[] = ['7:00 a.m.', '8:00 a.m.', '9:00 a.m.', '10:00 a.m.', '11:00 a.m.', '12:00 p.m.', '1:00 p.m.', '2:00 p.m.', '3:00 p.m.',
-                     '4:00 p.m.', '5:00 p.m.', '6:00 p.m.', '7:00 p.m.', '8:00 p.m.', '9:00 p.m.', '10:00 p.m.'];
-  dias: string[] = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo', 'virtual', 'distancia'];
+  horario: string[] = ['7:00 a.m.', '8:00 a.m.', '9:00 a.m.', '10:00 a.m.', '11:00 a.m.', '12:00 p.m.', '1:00 p.m.', '2:00 p.m.', '3:00 p.m.',
+  '4:00 p.m.', '5:00 p.m.', '6:00 p.m.', '7:00 p.m.', '8:00 p.m.', '9:00 p.m.', '10:00 p.m.'];
+  horasIni: string[] = [];
+  horasFin: string[] = [];
+  dias: string[] = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
 
   constructor(public dialogRef: MatDialogRef<DlgHorarioServicioComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,6 +45,10 @@ export class DlgHorarioServicioComponent implements OnInit {
     this.accion = this.data.accion;
     this.id = this.data.idhorarioservicio;
     this.horarioservicio.idservicioprograma = this.data.idservicioprograma;
+    this.jornada = this.data.jornada;
+
+    this.horasIni = this.horario;
+    this.horasFin = this.horario;
 
     if (this.accion === 'Editar') {
       this.leerHorarioServicio();
@@ -55,6 +62,14 @@ export class DlgHorarioServicioComponent implements OnInit {
       this.horarioservicio = rHorarioServicio;
       this.leyendo = false;
     });
+  }
+
+  actualizarHoras() {
+    const id = this.horario.indexOf(this.horarioservicio.inicio);
+    this.horasFin = [];
+    for (let i = id + 1; i < this.horario.length; i++) {
+      this.horasFin.push(this.horario[i]);
+    }
   }
 
   guardarHorarioServicio() {

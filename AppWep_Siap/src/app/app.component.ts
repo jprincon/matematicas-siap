@@ -16,35 +16,7 @@ export class AppComponent {
               private router: Router,
               private transfer: TransferService) {
 
-    // this.inicioSesionAutomatico();
-    console.clear();
+    // console.clear();
     this.genService.navegar(['inicio']);
-  }
-
-  inicioSesionAutomatico() {
-    if (!localStorage.getItem(LS_USUARIO)) {
-      this.genService.navegar(['inicio']);
-      return;
-    }
-
-    if (!localStorage.getItem(LS_CLAVE)) {
-      this.genService.navegar(['inicio']);
-      return;
-    }
-
-    const usuario = localStorage.getItem(LS_USUARIO).toString();
-    this.genService.getUsuario(usuario).subscribe((rUsuario: any) => {
-
-      const clave = rUsuario.nombre + rUsuario.correo + rUsuario.contra;
-      const claveMd5 = new Md5().appendStr(clave).end().toString();
-
-      if (claveMd5 === localStorage.getItem(LS_CLAVE).toString()) {
-
-
-        this.genService.restaurarRutas();
-      } else {
-        this.genService.navegar(['inicio']);
-      }
-    });
   }
 }

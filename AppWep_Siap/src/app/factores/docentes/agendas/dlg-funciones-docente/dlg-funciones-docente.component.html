@@ -44,7 +44,15 @@
     </div>
 
     <div class="form-group">
-        <label class="font-weight-bold">Horas Semanales</label>
+        <label class="font-weight-bold">Distribucción de Horas</label>
+        <select class="custom-select" required [(ngModel)]="actividadfunciondocente.calculada" name="calculada">
+          <option value="semanales">Semanales</option>
+          <option value="semestrales">Semestrales</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Horas {{ actividadfunciondocente.calculada | capitalizado }}</label>
         <input class="form-control" required [(ngModel)]="actividadfunciondocente.horas" name="horas" type="number">
     </div>
 

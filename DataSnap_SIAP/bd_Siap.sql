@@ -146,6 +146,7 @@ create table if not exists siap_servicios_programas(
 alter table siap_servicios_programas add column jornada text;
 alter table siap_servicios_programas add column grupo text;
 alter table siap_servicios_programas add column semanas text;
+alter table siap_servicios_programas add column tipo text;
 
 /*Tabla para HorarioServicio*/
 create table if not exists siap_horarios_servicios(
@@ -164,6 +165,10 @@ create table if not exists siap_agendas_servicios(
        idservicioprograma text references siap_servicios_programas(idservicioprograma),
        periodo text
 );
+-- alter table siap_agendas_servicios add column numerocontrato text;
+-- alter table siap_agendas_servicios add column actaprograma text;
+-- alter table siap_agendas_servicios add column actafacultad text;
+-- alter table siap_agendas_servicios add column concertada text;
 
 /*Tabla para Configuracion*/
 create table if not exists siap_configuraciones(
@@ -272,8 +277,14 @@ create table if not exists siap_trabajosgrado(
 /*Tabla para Periodo*/
 create table if not exists siap_periodos(
        idperiodo text primary key not null,
-       periodo text
+       periodo text,
+	   hormaxcarrera integer,
+	   hormaxcontrato integer,
+	   hormaxcatedratico integer
 );
+-- alter table siap_periodos add column hormaxcarrera integer;
+-- alter table siap_periodos add column hormaxcontrato integer;
+-- alter table siap_periodos add column hormaxcatedratico integer;
 
 /*Tabla para ActividadFuncionDocente*/
 create table if not exists siap_actividades_funciones_docente(
@@ -284,8 +295,16 @@ create table if not exists siap_actividades_funciones_docente(
        actividad text,
        iddocente integer references siap_docentes(iddocente),
        periodo text,
-       horas integer
+       horas integer,
+	   calculada text
 );
+-- alter table siap_actividades_funciones_docente add column calculada text;
 
-
-
+/*Tabla para Favorito*/
+create table if not exists siap_favoritos(
+       idfavorito text primary key not null,
+       titulo text,
+       icono text,
+       ruta text,
+       frecuencia integer
+);

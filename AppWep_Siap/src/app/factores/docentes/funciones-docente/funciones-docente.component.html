@@ -91,15 +91,15 @@
 
     <ul>
         <li *ngFor="let funcion of FuncionesDocente">
-            {{ funcion.funcion | capitalizado }}
+            <span class="text-success font-weight-bold">{{ funcion.funcion | capitalizado }}</span>
 
             <ul>
                 <li *ngFor="let actividad of funcion.actividades">
-                    {{ actividad.actividad | capitalizado }}
+                    <span class="text-info font-weight-bold">{{ actividad.actividad | capitalizado }}</span>
 
                     <ul>
                         <li *ngFor="let subactividad of actividad.subactividades">
-                            {{ subactividad.subactividad }}
+                            <span class="text-dark">{{ subactividad.subactividad | capitalizado }}</span>
                         </li>
                     </ul>
                 </li>

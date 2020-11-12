@@ -17,7 +17,7 @@ export class CapitalizadoPipe implements PipeTransform {
   }
 
   esNumeroRomano(pp: string): boolean {
-    return ((this.numerosRomanos.indexOf(pp) >= 0));
+    return ((this.numerosRomanos.indexOf(pp.toLocaleLowerCase()) >= 0));
   }
 
   transform(texto: string, todo: boolean = false): string {
