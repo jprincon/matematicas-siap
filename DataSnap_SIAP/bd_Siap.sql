@@ -169,6 +169,7 @@ create table if not exists siap_agendas_servicios(
 -- alter table siap_agendas_servicios add column actaprograma text;
 -- alter table siap_agendas_servicios add column actafacultad text;
 -- alter table siap_agendas_servicios add column concertada text;
+-- alter table siap_agendas_servicios add column completada text;
 
 /*Tabla para Configuracion*/
 create table if not exists siap_configuraciones(

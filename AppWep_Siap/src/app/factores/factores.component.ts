@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../services/transfer.service';
 import { MenuFactores, BotonMenu, Favorito } from '../interfaces/interfaces.interfaces';
 import { Utilidades } from '../utilidades/utilidades.class';
-import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE } from '../config/config';
+import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES } from '../config/config';
 
 @Component({
   selector: 'app-factores',
@@ -120,6 +120,12 @@ export class FactoresComponent implements OnInit {
           Icono: 'agendas.png',
           Ruta: [RUTA_FACTOR_DOCENTES, RUTA_AGENDAS],
           IdBoton: 'doc-agendas'
+        },
+        {
+          Titulo: 'Estadísticas',
+          Icono: 'estadisticas.png',
+          Ruta: [RUTA_FACTOR_DOCENTES, RUTA_ESTADISTICAS_FACTOR_DOCENTES],
+          IdBoton: 'doc-estadisticas'
         }
       ]
      },

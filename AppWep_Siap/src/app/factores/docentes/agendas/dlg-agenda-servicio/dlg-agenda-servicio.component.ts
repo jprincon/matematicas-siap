@@ -4,6 +4,7 @@ import { TransferService } from '../../../../services/transfer.service';
 import { DialogosService } from '../../../../services/dialogos.service';
 import { ServicioPrograma } from '../../../../interfaces/interfaces.interfaces';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ServiciosProgramaComponent } from '../../servicios-programa/servicios-programa.component';
 
 @Component({
   selector: 'app-dlg-agenda-servicio',
@@ -44,6 +45,15 @@ export class DlgAgendaServicioComponent implements OnInit {
       return;
     }
 
+    if (this.verServicios === 'Cruces') {
+      for (const servicio of this.ServiciosPrograma) {
+        if (servicio.observacion.indexOf('Horario') > 0) {
+          this.bServiciosPrograma.push(servicio);
+        }
+      }
+      return;
+    }
+
     for (const servicio of this.ServiciosPrograma) {
       if (servicio.observacion.length === 0) {
         this.bServiciosPrograma.push(servicio);
@@ -64,6 +74,8 @@ export class DlgAgendaServicioComponent implements OnInit {
     this.genService.getServiciosProgramaDocente(this.iddocente, this.periodo).subscribe((rServiciosPrograma: any) => {
       console.log(rServiciosPrograma);
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
+      console.log(this.ServiciosPrograma);
+
       this.mostrarServicios();
       this.leyendo = false;
     });

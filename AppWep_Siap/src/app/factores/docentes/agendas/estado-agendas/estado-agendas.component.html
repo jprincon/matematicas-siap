@@ -11,7 +11,7 @@
         <h3>{{ contrato.TipoContrato | capitalizado }}</h3>
         <hr>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="estadoAgendas" #estadoAgendas>
             <thead>
                 <tr>
                     <th>Documento</th>
@@ -29,7 +29,8 @@
 
             <tbody>
                 <tr *ngFor="let agenda of contrato.Agendas" [ngClass]="{'table-danger': agenda.Estado !== 'Completa',
-                                                                        'table-success': agenda.Estado === 'Completa',
+                                                                        'table-success': ((agenda.Estado === 'Completa') || (agenda.agendaCompletada === 'si'))
+                                                                        && (agenda.agendaConcertada === 'si'),
                                                                         'table-warning': agenda.agendaConcertada !== 'si'}">
                     <th>{{ agenda.documento | number }}</th>
                     <td>{{ agenda.nombre | capitalizado }}</td>

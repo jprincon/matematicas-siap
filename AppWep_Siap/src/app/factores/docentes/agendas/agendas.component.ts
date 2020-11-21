@@ -34,6 +34,7 @@ export class AgendasComponent implements OnInit {
   actaPrograma = '';
   actaFacultad = '';
   agendaConcertada = 'no';
+  agendaCompleta = 'no';
 
   docenteSeleccionado: Docente = {};
 
@@ -130,7 +131,7 @@ export class AgendasComponent implements OnInit {
         this.numerocontrato = this.AgendasServicio[0].numerocontrato;
         this.actaPrograma = this.AgendasServicio[0].actaprograma;
         this.actaFacultad = this.AgendasServicio[0].actafacultad;
-        this.agendaConcertada = this.AgendasServicio[0].agendaconcertada;
+        this.agendaConcertada = this.AgendasServicio[0].concertada;
       }
 
       this.leyendo = false;
@@ -141,6 +142,9 @@ export class AgendasComponent implements OnInit {
       this.reconocimientoPosgrado = rAgendasServicio.reconocimientoPosgrado;
 
       this.observacion = rAgendasServicio.observacion;
+
+      console.log('¿Agenda Concertada?', this.agendaConcertada);
+
 
       if (this.nombreContrato !== 'catedrático') {
         this.leerActividadesFuncionesDocente();
@@ -182,8 +186,11 @@ export class AgendasComponent implements OnInit {
       actaprograma: this.actaPrograma,
       iddocente: this.docenteSeleccionado.iddocente,
       periodo: this.periodo,
-      concertada: this.agendaConcertada
+      concertada: this.agendaConcertada,
+      completada: this.agendaCompleta
     };
+
+    console.log(datosAgenda);
 
     const datos = JSON.stringify(datosAgenda);
 

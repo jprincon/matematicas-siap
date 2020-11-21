@@ -211,6 +211,7 @@ export interface AgendaServicio {
   periodo?: string;
   programa?: string;
   concertada?: string;
+  completada?: string;
   aulas?: string;
   semanas?: string;
   tipo?: string;
@@ -234,6 +235,7 @@ export interface Agenda {
   actaFacultad?: string;
   actaPrograma?: string;
   agendaConcertada?: string;
+  agendaCompletada?: string;
   categoria?: string;
   contrato?: string;
   ActividadesFuncionesDocente?: ActividadFuncionDocente[];
@@ -349,10 +351,10 @@ export interface ActividadFuncionDocente {
 }
 
 export interface BotonMenu {
-  Titulo: string;
-  Icono: string;
-  Ruta: string[];
-  IdBoton: string;
+  Titulo?: string;
+  Icono?: string;
+  Ruta?: string[];
+  IdBoton?: string;
 }
 
 export interface MenuFactores {

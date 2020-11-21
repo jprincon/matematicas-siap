@@ -43,7 +43,12 @@ import { DocenteComponent } from './factores/docentes/docente/docente.component'
 import { ErroresComponent } from './general/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 
-import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES, RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_FACTOR_EXTENSION, RUTA_GRUPOSINVESTIGACION, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_TRABAJOSGRADO, RUTA_PERIODOS, RUTA_EXPORTAR_AGENDA_DOCENTE, RUTA_EXPORTAR_AGENDAS_FACULTAD, RUTA_ESTADO_AGENDAS } from './config/config';
+import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS,
+         RUTA_FACULTADES, RUTA_PROGRAMAS, RUTA_SERVICIOSPROGRAMA, RUTA_SERVICIOPROGRAMA, RUTA_ACTUALIZACIONES, RUTA_TAREAS_PENDIENTES,
+         RUTA_FUNCIONESDOCENTE, RUTA_EGRESADOS, RUTA_FACTOR_EXTENSION, RUTA_GRUPOSINVESTIGACION, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION,
+         RUTA_TRABAJOSGRADO, RUTA_PERIODOS, RUTA_EXPORTAR_AGENDA_DOCENTE, RUTA_EXPORTAR_AGENDAS_FACULTAD, RUTA_ESTADO_AGENDAS,
+         RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA } from './config/config';
+
 import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
 import { ProgramasComponent } from './factores/docentes/programas/programas.component';
 import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
@@ -59,6 +64,8 @@ import { PeriodosComponent } from './factores/docentes/periodos/periodos.compone
 import { ExportarAgendaComponent } from './factores/docentes/agendas/exportar-agenda/exportar-agenda.component';
 import { ExportarAgendasFacultadComponent } from './factores/docentes/agendas/exportar-agendas-facultad/exportar-agendas-facultad.component';
 import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agendas/estado-agendas.component';
+import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
+import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
 
 const routes: Routes = [
 
@@ -97,6 +104,8 @@ const routes: Routes = [
       {path: RUTA_SERVICIOSPROGRAMA, component: ServiciosProgramaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_SERVICIOPROGRAMA + '/:id/:donde', component: ServicioProgramaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_AGENDAS, component: AgendasComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_ESTADISTICAS_FACTOR_DOCENTES, component: EstadisticasFactorDocentesComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA, component: EfdServiciosProgramaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_EXPORTAR_AGENDA_DOCENTE + '/:id/:periodo', component: ExportarAgendaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_EXPORTAR_AGENDAS_FACULTAD + '/:periodo', component: ExportarAgendasFacultadComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_ESTADO_AGENDAS + '/:periodo', component: EstadoAgendasComponent, canActivate: [RutaNavegarService]},

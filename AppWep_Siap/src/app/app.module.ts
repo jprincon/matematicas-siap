@@ -126,6 +126,8 @@ import { DlgFuncionesDocenteComponent } from './factores/docentes/agendas/dlg-fu
 import { ExportarAgendaComponent } from './factores/docentes/agendas/exportar-agenda/exportar-agenda.component';
 import { ExportarAgendasFacultadComponent } from './factores/docentes/agendas/exportar-agendas-facultad/exportar-agendas-facultad.component';
 import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agendas/estado-agendas.component';
+import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
+import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
 
 
 
@@ -290,6 +292,10 @@ import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agend
     ExportarAgendasFacultadComponent,
 
     EstadoAgendasComponent,
+
+    EstadisticasFactorDocentesComponent,
+
+    EfdServiciosProgramaComponent,
 
 
   ],

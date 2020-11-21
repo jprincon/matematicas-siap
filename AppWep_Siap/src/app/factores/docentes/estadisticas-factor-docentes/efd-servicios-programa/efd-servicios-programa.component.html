@@ -1,0 +1,41 @@
+<div class="m-3">
+    <div class="row">
+
+        <!-- %%%%%%% Lista de Programas %%%%%%% -->
+        <div class="col-md-3">
+            <div class="card card-shadow">
+                <div class="card-title bg-success">
+                    <h3 class="text-white text-center">Programas</h3>
+                </div>
+
+                <div class="card-body">
+                    <input class="form-control" (keyup)="buscarProgramas()" [(ngModel)]="filtroProgrma" name="filtroPrograma">
+
+                    <div class="list-group list-group-flush">
+                        <a *ngFor="let programa of bProgramas" (click)="seleccionarPrograma(programa)" class="puntero-manito list-group-item list-group-item-action">{{ programa.programa | capitalizado }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- %%%%%%% Reporte del Programa %%%%%%% -->
+        <div class="col-md-9">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Asignatura</th>
+                        <th>I/H</th>
+                        <th>I/S</th>
+                        <th>Grupo</th>
+                        <th>Profesor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
