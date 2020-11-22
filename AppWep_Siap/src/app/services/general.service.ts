@@ -87,6 +87,7 @@ export class GeneralService {
   private URL_ACTIVIDADESFUNCIONESDOCENTE = 'ActividadesFuncionesDocente';
   private URL_FAVORITO = 'Favorito';
   private URL_FAVORITOS = 'Favoritos';
+  private URL_REPORTE_PROGRAMA_SERVICIOS = 'ReporteProgramaServicios';
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -224,6 +225,25 @@ export class GeneralService {
     const datos = JSON.stringify(credenciales);
 
     return this.http.post(url, datos, {headers});
+  }
+
+  descargarTablaExcel() {
+    const uri = 'data:application/vnd.ms-excel;base64,'
+    const template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>';
+
+    const base64 = function(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
+     }
+
+    const format = function(s, c) {
+      return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; });
+    }
+
+    return function(table, name) {
+      if (!table.nodeType) table = document.getElementById(table)
+      var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+      window.location.href = uri + base64(format(template, ctx))
+    }
   }
 
   generarID() {
@@ -1437,5 +1457,10 @@ export class GeneralService {
       'Content-Type': 'application/json'
     });
     return this.http.delete(url, {headers}).pipe(retry(10));
+  }
+
+  getReporteProgramasServicios(IdPrograma: string, periodo: string) {
+    const url = this.dataSnap_Path(this.URL_REPORTE_PROGRAMA_SERVICIOS) + this.parametro(IdPrograma) + this.parametro(periodo);
+    return this.http.get(url).pipe(retry(10));
   }
 }

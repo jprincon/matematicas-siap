@@ -9,7 +9,17 @@
                 </div>
 
                 <div class="card-body">
-                    <input class="form-control" (keyup)="buscarProgramas()" [(ngModel)]="filtroProgrma" name="filtroPrograma">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Periodo</label>
+                        <select class="custom-select" [(ngModel)]="periodo" name="periodo">
+                      <option [value]="periodo.periodo" *ngFor="let periodo of Periodos" >{{ periodo.periodo }}</option>
+                    </select>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="form-control input-group-prepend" (keyup)="buscarProgramas()" [(ngModel)]="filtroProgrma" name="filtroPrograma" placeholder="Buscar Programa">
+                        <button class="btn btn-outline-success input-group-append" (click)="borrarBusqueda()">...</button>
+                    </div>
 
                     <div class="list-group list-group-flush">
                         <a *ngFor="let programa of bProgramas" (click)="seleccionarPrograma(programa)" class="puntero-manito list-group-item list-group-item-action">{{ programa.programa | capitalizado }}</a>
@@ -20,22 +30,56 @@
 
         <!-- %%%%%%% Reporte del Programa %%%%%%% -->
         <div class="col-md-9">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Asignatura</th>
-                        <th>I/H</th>
-                        <th>I/S</th>
-                        <th>Grupo</th>
-                        <th>Profesor</th>
-                    </tr>
-                </thead>
 
-                <tbody>
+            <button [value]="nombreExcel" class="btn btn-outline-success m-3" onclick="crearExcel('reporte-servicios-programas', value)">Exportar como Excel</button>
+            <button [value]="nombreDoc" class="btn btn-outline-success m-3" onclick="crearWord('reporte-word', value)">Exportar como Word</button>
 
-                </tbody>
-            </table>
+            <div id="reporte-word">
+                <table class="table table-bordered" id="reporte-servicios-programas">
+                    <thead style="background-color: $999999;">
+                        <tr>
+                            <th>No</th>
+                            <th>Asignatura</th>
+                            <th>I/H</th>
+                            <th>I/S</th>
+                            <th>Grupo</th>
+                            <th>Profesor</th>
+                        </tr>
+                    </thead>
+
+                    <tbody *ngFor="let servicio of ReportesServicios; let id = index">
+                        <tr>
+                            <td rowspan="6">{{ id + 1 }}</td>
+                            <td class="font-weight-bold">{{ servicio.asignatura | capitalizado }}</td>
+                            <td rowspan="6">{{ servicio.horas }}</td>
+                            <td rowspan="6">{{ servicio.horsem }}</td>
+                            <td rowspan="6">{{ servicio.grupo }}</td>
+                            <td>{{ servicio.nombre | capitalizado }}</td>
+                        </tr>
+
+                        <tr>
+                            <td rowspan="5">({{ servicio.tipo | capitalizado }})</td>
+                            <td>{{ servicio.contrato }} ({{ servicio.categoria }})</td>
+                        </tr>
+
+                        <tr>
+                            <td>CC {{ servicio.iddocente }}</td>
+                        </tr>
+
+                        <tr>
+                            <td class="font-weight-bold">Número de contrato {{ servicio.numerocontrato }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ servicio.correo }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Tel. {{ servicio.telefono }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -370,3 +370,22 @@ export interface Favorito {
   frecuencia?: string;
 }
 
+export interface ReporteServicio {
+  asignatura?: string;
+  categoria?: string;
+  correo?: string;
+  grupo?: string;
+  horas?: string;
+  semanas?: string;
+  horsem?: string;
+  iddocente?: string;
+  jornada?: string;
+  nombre?: string;
+  contrato?: string;
+  numerocontrato?: string;
+  periodo?: string;
+  programa?: string;
+  telefono?: string;
+  tipo?: string;
+}
+

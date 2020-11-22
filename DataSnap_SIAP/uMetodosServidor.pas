@@ -283,7 +283,8 @@ type
     function EstadoAgendas(const Periodo: string): TJSONObject;
     function obtenerNumerosActas(const idDocente: string; Periodo: string)
       : TJSONObject;
-    function ReporteProgramaServicios(const IdProgrma: string): TJSONObject;
+    function ReporteProgramaServicios(const IdProgrma, Periodo: string)
+      : TJSONObject;
     function cancelDesasociarAgenda(const token: string;
       const IdServicioPrograma: string): TJSONObject;
     function cancelAgendaServicio(const token: string; const ID: string)
@@ -5570,8 +5571,6 @@ begin
 end;
 
 function TMatematicas.pruebaExcel: TJSONObject;
-var
-  Hoja: _worksheet;
 begin
 
 end;
@@ -7008,12 +7007,15 @@ begin
   end;
 end;
 
-function TMatematicas.ReporteProgramaServicios(const IdProgrma: string)
+function TMatematicas.ReporteProgramaServicios(const IdProgrma, Periodo: string)
   : TJSONObject;
 var
-  Json: TJSONObject;
+  Json, JsonServicio: TJSONObject;
+  Servicios: TJSONArray;
   Query: TFDQuery;
   i: integer;
+  horSem: integer;
+  contrato: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
@@ -7031,18 +7033,74 @@ begin
     Query.SQL.Add('ON sp.idprograma = pr.idprograma ');
     Query.SQL.Add('INNER JOIN siap_categoria_docentes as cd  ');
     Query.SQL.Add('ON doc.idcategoriadocente = cd.idcategoriadocente ');
+    Query.SQL.Add('INNER JOIN siap_tipo_contrato as tc ');
+    Query.SQL.Add('ON tc.idtipocontrato = doc.idtipocontrato ');
     Query.SQL.Add('WHERE sp.idprograma=' + #39 + IdProgrma + #39 + '');
+    Query.SQL.Add(' AND ags.periodo=' + #39 + Periodo + #39 +
+      ' ORDER BY sp.asignatura');
     Query.Open;
     Query.First;
 
-    Json := crearJSON(Query);
+    FDataSnapMatematicas.comentarioSQL
+      ('Consulta para reporte de servicios por programa');
+    FDataSnapMatematicas.escribirSQL(Query.SQL.Text);
+
+    Servicios := TJSONArray.create;
+
+    for i := 1 to Query.RecordCount do
+    begin
+      JsonServicio := TJSONObject.create;
+
+      JsonServicio.AddPair('iddocente', Query.FieldByName('iddocente')
+        .AsString);
+      JsonServicio.AddPair('periodo', Query.FieldByName('periodo').AsString);
+      JsonServicio.AddPair('numerocontrato', Query.FieldByName('numerocontrato')
+        .AsString);
+      JsonServicio.AddPair('nombre', Query.FieldByName('nombre').AsString);
+      JsonServicio.AddPair('correo', Query.FieldByName('correo').AsString);
+      JsonServicio.AddPair('telefono', Query.FieldByName('telefono').AsString);
+      JsonServicio.AddPair('asignatura', Query.FieldByName('asignatura')
+        .AsString);
+      JsonServicio.AddPair('horas', Query.FieldByName('horas').AsString);
+      JsonServicio.AddPair('jornada', Query.FieldByName('jornada').AsString);
+      JsonServicio.AddPair('tipo', Query.FieldByName('tipo').AsString);
+      JsonServicio.AddPair('programa', Query.FieldByName('programa').AsString);
+      JsonServicio.AddPair('categoria', Query.FieldByName('categoria')
+        .AsString);
+      JsonServicio.AddPair('grupo', Query.FieldByName('grupo').AsString);
+      JsonServicio.AddPair('semanas', Query.FieldByName('semanas').AsString);
+
+      contrato := Query.FieldByName('contrato').AsString;
+      if contrato = 'catedrático' then
+        contrato := 'Docente de Cátedra '
+      else
+        contrato := 'Docente de ' + contrato;
+
+      JsonServicio.AddPair('contrato', contrato);
+
+      if (Query.FieldByName('jornada').AsString = 'virtual') then
+        JsonServicio.AddPair('horsem', 'virtual')
+      else if (Query.FieldByName('jornada').AsString = 'distancia') then
+        JsonServicio.AddPair('horsem', 'distancia')
+      else
+      begin
+        horSem := StrToInt(Query.FieldByName('horas').AsString) *
+          StrToInt(Query.FieldByName('semanas').AsString);
+        JsonServicio.AddPair('horsem', IntToStr(horSem));
+      end;
+
+      Servicios.Add(JsonServicio);
+      Query.Next;
+    end;
+
+    Json.AddPair('Servicios', Servicios);
 
   except
     on E: Exception do
     begin
       Json.AddPair(JsonError, E.Message);
       enviarError(TimeToStr(now), DateToStr(now), 'getAgendaServicio',
-        E.Message + '=>' + ID);
+        E.Message + '=>' + IdProgrma);
     end;
   end;
 
