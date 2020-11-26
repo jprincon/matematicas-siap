@@ -4193,32 +4193,35 @@ begin
         if (Jornada = 'virtual') and (tipo <> 'posgrado') then
         begin
           horasSemestre := horas;
-          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre);
+          horasFactor := horasSemestre;
         end
         else if Jornada = 'distancia' then
         begin
           horasSemestre := horas;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+          horasFactor := horasSemestre * 2.5;
         end
         else if (Jornada = 'posgrado') then
         begin
           horasSemestre := horas * semanasSemestre;
           reconocimientoPosgrado := reconocimientoPosgrado + horasSemestre;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 3.5;
+          horasFactor := horasSemestre * 2.5;
         end
         else if (Jornada = 'virtual') and (tipo = 'posgrado') then
         begin
           horasSemestre := horas;
           reconocimientoPosgrado := reconocimientoPosgrado + horasSemestre;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 3.5;
+          horasFactor := horasSemestre * 2.5;
         end
         else
         begin
           horasSemestre := horas * semanasSemestre;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2.5;
+          horasFactor := horasSemestre * 2.5;
         end;
-
-        horasFactor := horasSemestre * 2.5;
       end
 
       { Para docentes de contrato %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
@@ -4228,20 +4231,20 @@ begin
         if Jornada = 'virtual' then
         begin
           horasSemestre := horas;
-          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+          sumaHorasSemestre := sumaHorasSemestre + (horasSemestre);
         end
         else if Jornada = 'distancia' then
         begin
           horasSemestre := horas;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+          horasFactor := horasSemestre * 2;
         end
         else
         begin
           horasSemestre := horas * semanasSemestre;
           sumaHorasSemestre := sumaHorasSemestre + (horasSemestre) * 2;
+          horasFactor := horasSemestre * 2;
         end;
-
-        horasFactor := horasSemestre * 2;
       end
 
       { Para docentes catedráticos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% }
