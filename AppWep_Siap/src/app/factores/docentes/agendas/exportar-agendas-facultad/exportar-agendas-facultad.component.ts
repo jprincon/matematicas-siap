@@ -33,7 +33,7 @@ export class ExportarAgendasFacultadComponent implements OnInit {
   leerAgendas() {
     this.Leyendo = true;
     this.genService.getEstadoAgendas(this.periodo).subscribe((rAgendas: any) => {
-      console.log(rAgendas);
+
       this.Contratos = rAgendas.Contratos;
       this.Leyendo = false;
     });

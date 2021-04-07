@@ -136,6 +136,10 @@ $(PostBuildEvent)]]></PostBuildEvent>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="..\..\..\..\Dropbox\MIS_PROYECTOS\7000_Librerias\Utilidades\Utilidades.pas"/>
+        <DCCReference Include="uModuloDatos.pas">
+            <Form>moduloDatos</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <None Include="js\base64.js"/>
         <None Include="js\serverfunctionexecutor.js"/>
         <None Include="js\json2.js"/>

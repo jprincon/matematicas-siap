@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { GeneralService } from './general.service';
 import { TransferService } from './transfer.service';
 
 @Injectable({
@@ -7,16 +8,11 @@ import { TransferService } from './transfer.service';
 })
 export class RutaNavegarService {
 
-  permiso = false;
+  constructor(private genService: GeneralService) {
 
-  constructor(private transfer: TransferService) {
-    transfer.obtenerPermisoNavegar.subscribe((rPermiso: boolean) => {
-      this.permiso = rPermiso;
-
-    });
-   }
+  }
 
   canActivate() {
-    return this.permiso;
+    return this.genService.obtenerPermisoNavegar();
   }
 }

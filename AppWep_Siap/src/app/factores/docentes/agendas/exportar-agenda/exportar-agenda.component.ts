@@ -51,7 +51,6 @@ export class ExportarAgendaComponent implements OnInit {
 
     // Obtener los datos del decano y del director
     this.genService.getConfiguraciones().subscribe((rConfiguraciones: any) => {
-      console.log(rConfiguraciones);
       this.Configuraciones = rConfiguraciones.Configuraciones;
       if (this.Configuraciones.length > 0) {
         this.configuracion = this.Configuraciones[0];
@@ -61,7 +60,6 @@ export class ExportarAgendaComponent implements OnInit {
 
   obtenerDocente() {
     this.genService.getDocente(this.IdDocente).subscribe((rDocente: any) => {
-      console.log(rDocente);
       this.docente = rDocente;
       this.nombreContrato = this.docente.contrato;
 
@@ -73,7 +71,6 @@ export class ExportarAgendaComponent implements OnInit {
 
   obtenerParametros() {
     this.activateRoute.params.subscribe((rParams: any) => {
-      console.log(rParams);
       this.IdDocente = rParams.id;
       this.Periodo = rParams.periodo;
 
@@ -84,7 +81,6 @@ export class ExportarAgendaComponent implements OnInit {
   leerAgendasServicio() {
 
     this.genService.getAgendasServicio(this.IdDocente, this.Periodo).subscribe((rAgendasServicio: any) => {
-      console.log(rAgendasServicio);
 
       this.AgendasServicio = rAgendasServicio.AgendasServicios;
       if (this.AgendasServicio.length > 0) {
@@ -108,8 +104,6 @@ export class ExportarAgendaComponent implements OnInit {
 
   leerActividadesFuncionesDocente() {
     this.genService.getActividadesFuncionesDocente(this.IdDocente, this.Periodo).subscribe((rFunciones: any) => {
-
-      console.log(rFunciones);
 
       this.horasFunciones = rFunciones.horasFunciones;
       this.horasDocencia = rFunciones.horasDocencia;

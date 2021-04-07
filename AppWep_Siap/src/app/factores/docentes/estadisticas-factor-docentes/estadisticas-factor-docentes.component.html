@@ -1,14 +1,12 @@
 <div class="m-3">
 
-    <div *ngFor="let menu of Menus" class="mb-5">
-        <div class="row m-3">
+    <div class="row m-3">
 
-            <!-- BOTÓN -->
-            <div *ngFor="let boton of Menus" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu(boton.Ruta)">
-                <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + boton.Icono" [alt]="boton.Titulo">
-                <div class="text-center" style="height: 65px;">
-                    <p>{{ boton.Titulo }}</p>
-                </div>
+        <!-- BOTÓN -->
+        <div *ngFor="let boton of Menus" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu(boton.Ruta)">
+            <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + boton.Icono" [alt]="boton.Titulo">
+            <div class="text-center" style="height: 65px;">
+                <p>{{ boton.Titulo }}</p>
             </div>
         </div>
     </div>

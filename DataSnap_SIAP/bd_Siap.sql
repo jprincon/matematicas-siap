@@ -267,12 +267,21 @@ create table if not exists siap_trabajosgrado(
        idjurado2 integer references siap_docentes(iddocente),
        idjurado3 integer references siap_docentes(iddocente),
        iddirector integer references siap_docentes(iddocente),
+	   idcodirector integer references siap_docentes(iddocente),
        idmodalidad text references siap_modalidades(idmodalidad),
        idareaprofundizacion text references siap_areasprofundizacion(idareaprofundizacion),
        idgrupoinvestigacion text references siap_gruposinvestigacion(idgrupoinvestigacion),
+       actanombramientojurados text,	   
        actapropuesta text,
+	   evaluacionpropuesta text,
+	   evaluaciontrabajoescrito text,
+	   evaluacionsustentacion text,
        fechasustentacion text,
-       calificacion text
+       calificacionfinal text,
+       estudiantecedederechos text,
+	   fechainicioejecucion text,
+	   cantidadsemestresejecucion integer,
+	   estadoavance integer
 );
 
 /*Tabla para Periodo*/

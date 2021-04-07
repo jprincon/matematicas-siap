@@ -42,7 +42,7 @@ export class ServiciosProgramaComponent implements OnInit {
   leerPeriodos() {
     this.genService.getPeriodos().subscribe((rPeriodos: any) => {
       this.periodos = rPeriodos.Periodos;
-      console.log(rPeriodos);
+
       this.periodo = this.periodos[this.periodos.length - 1].periodo;
 
       this.leerServiciosPrograma();
@@ -72,7 +72,6 @@ export class ServiciosProgramaComponent implements OnInit {
       }
     }
 
-    console.log(this.bServiciosPrograma);
   }
 
   buscarAsignatura() {
@@ -106,7 +105,6 @@ export class ServiciosProgramaComponent implements OnInit {
     this.leyendo = true;
     this.genService.getServiciosPrograma(this.ordenarPor, this.periodo).subscribe((rServiciosPrograma: any) => {
 
-      console.log(rServiciosPrograma);
       this.ServiciosPrograma = rServiciosPrograma.ServiciosProgramas;
 
       this.filtrarServicios();

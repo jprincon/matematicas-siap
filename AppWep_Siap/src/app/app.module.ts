@@ -119,7 +119,7 @@ import { DlgModalidadComponent } from './factores/procesos_academicos/trabajos-g
 import { AreasProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/areas-profundizacion.component';
 import { DlgAreaProfundizacionComponent } from './factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
 import { TrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/trabajos-grado.component';
-import { DlgTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
+import { CrearEditarTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
 import { PeriodosComponent } from './factores/docentes/periodos/periodos.component';
 import { DlgPeriodoComponent } from './factores/docentes/periodos/dlg-periodo/dlg-periodo.component';
 import { DlgFuncionesDocenteComponent } from './factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
@@ -128,6 +128,9 @@ import { ExportarAgendasFacultadComponent } from './factores/docentes/agendas/ex
 import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agendas/estado-agendas.component';
 import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
 import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
+import { EfdHorasFacultadesComponent } from './factores/docentes/estadisticas-factor-docentes/efd-horas-facultades/efd-horas-facultades.component';
+import { SeleccionarDocenteComponent } from './factores/docentes/docentes/seleccionar-docente/seleccionar-docente.component';
+import { TituloDialogoComponent } from './general/titulo-dialogo/titulo-dialogo.component';
 
 
 
@@ -279,7 +282,7 @@ import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-
 
     TrabajosGradoComponent,
 
-    DlgTrabajoGradoComponent,
+    CrearEditarTrabajoGradoComponent,
 
     PeriodosComponent,
 
@@ -296,6 +299,12 @@ import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-
     EstadisticasFactorDocentesComponent,
 
     EfdServiciosProgramaComponent,
+
+    EfdHorasFacultadesComponent,
+
+    SeleccionarDocenteComponent,
+
+    TituloDialogoComponent,
 
 
   ],
@@ -335,9 +344,10 @@ import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-
     DlgGrupoInvestigacionComponent,
     DlgModalidadComponent,
     DlgAreaProfundizacionComponent,
-    DlgTrabajoGradoComponent,
+    CrearEditarTrabajoGradoComponent,
     DlgPeriodoComponent,
-    DlgFuncionesDocenteComponent
+    DlgFuncionesDocenteComponent,
+    SeleccionarDocenteComponent
   ],
   bootstrap: [AppComponent]
 })

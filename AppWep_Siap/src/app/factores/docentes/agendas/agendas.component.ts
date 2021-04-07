@@ -109,7 +109,6 @@ export class AgendasComponent implements OnInit {
   }
 
   abrirOpcion(ruta: string[]) {
-    console.log(ruta);
 
     this.genService.navegar(ruta);
   }
@@ -124,7 +123,6 @@ export class AgendasComponent implements OnInit {
   leerAgendasServicio() {
 
     this.genService.getAgendasServicio(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rAgendasServicio: any) => {
-      console.log(rAgendasServicio);
 
       this.AgendasServicio = rAgendasServicio.AgendasServicios;
       if (this.AgendasServicio.length > 0) {
@@ -143,8 +141,6 @@ export class AgendasComponent implements OnInit {
 
       this.observacion = rAgendasServicio.observacion;
 
-      console.log('¿Agenda Concertada?', this.agendaConcertada);
-
 
       if (this.nombreContrato !== 'catedrático') {
         this.leerActividadesFuncionesDocente();
@@ -154,8 +150,6 @@ export class AgendasComponent implements OnInit {
 
   leerActividadesFuncionesDocente() {
     this.genService.getActividadesFuncionesDocente(this.docenteSeleccionado.iddocente, this.periodo).subscribe((rFunciones: any) => {
-
-      console.log(rFunciones);
 
       this.horasFunciones = rFunciones.horasFunciones;
       this.horasDocencia = rFunciones.horasDocencia;
@@ -168,7 +162,6 @@ export class AgendasComponent implements OnInit {
   }
 
   seleccionarDocente(docente: Docente) {
-    console.log(this.tipoContrato);
 
     this.soloCatedraticos = (this.tipoContrato === 'catedrático');
     this.docenteSeleccionado = docente;
@@ -190,12 +183,10 @@ export class AgendasComponent implements OnInit {
       completada: this.agendaCompleta
     };
 
-    console.log(datosAgenda);
-
     const datos = JSON.stringify(datosAgenda);
 
     this.genService.putAgendaNumeroContrato(datos).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta);
     });
   }
@@ -239,7 +230,6 @@ export class AgendasComponent implements OnInit {
     for (const cont of this.contratos) {
       if (cont.idtipocontrato === this.tipoContrato) {
         this.nombreContrato = cont.contrato;
-        console.log(this.nombreContrato);
       }
     }
 
@@ -253,7 +243,7 @@ export class AgendasComponent implements OnInit {
 
   agregarFuncion() {
     this.dlgService.DlgFuncionesDocente('Crear', this.docenteSeleccionado.iddocente, '', this.periodo).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerActividadesFuncionesDocente();
     });
   }
@@ -277,7 +267,7 @@ export class AgendasComponent implements OnInit {
 
   editarFuncionDocente(funcion: ActividadFuncionDocente){
     this.dlgService.DlgFuncionesDocente('Editar', this.docenteSeleccionado.iddocente, funcion.idactividadprograma, this.periodo).subscribe((rRespuesta: any) => {
-      console.log(rRespuesta);
+
       this.leerActividadesFuncionesDocente();
     });
   }
@@ -286,7 +276,7 @@ export class AgendasComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar esta función?').subscribe((rRespuesta: boolean) => {
       if (rRespuesta) {
         this.genService.deleteActividadFuncionDocente(funcion.idactividadprograma).subscribe((rRespuesta2: any) => {
-          console.log(rRespuesta2);
+
           this.leerActividadesFuncionesDocente();
         });
       }

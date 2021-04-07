@@ -1,66 +1,70 @@
-<h1>TrabajosGrado</h1>
+<h1 class="text-info m-3">Trabajos Grado</h1>
 <hr>
 
 <div class="text-center" style="margin: 20px;" *ngIf="leyendo">
     <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
-    <h3>Leyendo TrabajosGrado ...</h3>
+    <h3>Leyendo Trabajos Grado ...</h3>
 </div>
 
-<div class="m-3" *ngIf="!leyendo">
+<div class="row m-3">
+    <div class="col-md-3">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title">Opciones de Búsqueda</h3>
+            </div>
 
-    <button class="btn btn-outline-success float-right" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Agregar TrabajoGrado</button>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Título</label>
+                    <input (keydown.enter)="buscarTrabajosGrado()" class="form-control" [(ngModel)]="trabajogrado.titulo" name="titulo">
+                </div>
 
-    <table class="table table-hover puntero-manito">
-        <thead class="table-dark">
-            <tr>
-                <th>No</th>
-                <th>Título</th>
-                <th>Estudiantes</th>
-                <th>Jurados</th>
-                <th>Director</th>
-                <th>Modalidad</th>
-                <th>Área de Profundización</th>
-                <th>Grupo de Investigación</th>
-                <th>Acta de la Propuesta</th>
-                <th>Fecha Sustentación</th>
-                <th>Calificación</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
+            </div>
+        </div>
+    </div>
 
-        <tbody>
-            <tr *ngFor="let trabajogrado of TrabajosGrado; let id = index">
-                <td>{{ id + 1 }}</td>
-                <td>{{ trabajogrado.titulo }}</td>
-                <td>
-                    <ul>
-                        <li>{{ trabajogrado.estudiante1 }}</li>
-                        <li>{{ trabajogrado.estudiante2 }}</li>
-                        <li>{{ trabajogrado.estudiante3 }}</li>
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li>{{ trabajogrado.idjurado1 }}</li>
-                        <li>{{ trabajogrado.idjurado2 }}</li>
-                        <li>{{ trabajogrado.idjurado3 }}</li>
-                    </ul>
-                </td>
-                <td>{{ trabajogrado.iddirector }}</td>
-                <td>{{ trabajogrado.idmodalidad }}</td>
-                <td>{{ trabajogrado.idareaprofundizacion }}</td>
-                <td>{{ trabajogrado.idgrupoinvestigacion }}</td>
-                <td>{{ trabajogrado.actapropuesta }}</td>
-                <td>{{ trabajogrado.fechasustentacion }}</td>
-                <td>{{ trabajogrado.calificacion }}</td>
-                <td>
-                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
-                </td>
-                <td>
-                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTrabajoGrado(trabajogrado)">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="col-md-9">
+        <div class="m-3" *ngIf="!leyendo">
+
+            <button class="btn btn-outline-success float-right" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Crear Trabajo Grado</button>
+
+            <table class="table table-hover puntero-manito">
+                <thead class="table-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Título</th>
+                        <th>Estudiantes</th>
+                        <th>Modalidad</th>
+                        <th>Fecha Sustentación</th>
+                        <th>Calificación Final</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let trabajogrado of TrabajosGrado; let id = index">
+                        <td>{{ id + 1 }}</td>
+                        <td>{{ trabajogrado.titulo }}</td>
+                        <td>
+                            <ul>
+                                <li>{{ trabajogrado.estudiante1 }}</li>
+                                <li>{{ trabajogrado.estudiante2 }}</li>
+                                <li>{{ trabajogrado.estudiante3 }}</li>
+                            </ul>
+                        </td>
+                        <td>{{ trabajogrado.modalidad.nombre | capitalizado }}</td>
+                        <td>{{ trabajogrado.fechasustentacion }}</td>
+                        <td>{{ trabajogrado.calificacionfinal }}</td>
+                        <td>
+                            <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
+                        </td>
+                        <td>
+                            <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTrabajoGrado(trabajogrado)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

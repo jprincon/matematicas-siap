@@ -35,3 +35,6 @@ export const RUTA_EXPORTAR_AGENDA_DOCENTE = 'exportar-agenda-docente';
 export const RUTA_EXPORTAR_AGENDAS_FACULTAD = 'exportar-agendas-facultad';
 export const RUTA_ESTADO_AGENDAS = 'estado-agendas';
 export const RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA = 'estadisticas-servicios-programa';
+export const RUTA_ESTADISTICAS_HORAS_FACULTADES = 'estadisticas-horas-facultades';
+export const RUTA_FACTORES = 'factores';
+export const RUTA_CREAR_EDITAR_TRABAJO_GRADO = 'crear-editar-trabajo-grado';

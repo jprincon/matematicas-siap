@@ -57,7 +57,7 @@ export class DlgServicioProgramaComponent implements OnInit {
 
   leerPeriodos() {
     this.genService.getPeriodos().subscribe((rPeriodos: any) => {
-      console.log(rPeriodos);
+
       this.Periodos = rPeriodos.Periodos;
     });
   }

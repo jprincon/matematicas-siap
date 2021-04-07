@@ -74,7 +74,7 @@ export class ServicioProgramaComponent implements OnInit {
   leerServicio() {
     this.genService.getServicioPrograma(this.servicioprograma.idprograma).subscribe((rServicio: ServicioPrograma) => {
       this.servicioprograma = rServicio;
-      console.log(rServicio);
+
       this.jornada = this.servicioprograma.jornada;
 
       if (this.servicioprograma.jornada !== 'virtual') {

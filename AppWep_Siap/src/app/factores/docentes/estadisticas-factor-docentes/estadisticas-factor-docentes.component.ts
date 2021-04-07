@@ -1,7 +1,7 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuFactores, BotonMenu } from '../../../interfaces/interfaces.interfaces';
-import { RUTA_FACTOR_DOCENTES, RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA } from '../../../config/config';
+import { RUTA_FACTOR_DOCENTES, RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA, RUTA_ESTADISTICAS_HORAS_FACULTADES } from '../../../config/config';
 import { TransferService } from '../../../services/transfer.service';
 
 @Component({
@@ -16,6 +16,11 @@ export class EstadisticasFactorDocentesComponent implements OnInit {
       Titulo: 'Servicios por Programa',
       Icono: 'pendiente.png',
       Ruta: [RUTA_FACTOR_DOCENTES, RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA]
+    },
+    {
+      Titulo: 'Horas por Facultad',
+      Icono: 'pendiente.png',
+      Ruta: [RUTA_FACTOR_DOCENTES, RUTA_ESTADISTICAS_HORAS_FACULTADES]
     }
   ];
 

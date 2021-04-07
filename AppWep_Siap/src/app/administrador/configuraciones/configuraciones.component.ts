@@ -30,7 +30,7 @@ export class ConfiguracionesComponent implements OnInit {
     this.leyendo = true;
 
     this.genService.getConfiguraciones().subscribe((rConfiguraciones: any) => {
-      console.log(rConfiguraciones);
+
       this.Configuraciones = rConfiguraciones.Configuraciones;
 
       if (this.Configuraciones.length > 0) {

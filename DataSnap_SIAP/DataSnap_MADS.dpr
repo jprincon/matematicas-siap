@@ -19,8 +19,8 @@ uses
   uTReferenciaResumen in 'uTReferenciaResumen.pas',
   uFResumenes in 'uFResumenes.pas' {FResumenes} ,
   uFCertificados in 'uFCertificados.pas' {FCertificados} ,
-  Utilidades
-    in '..\..\..\..\Dropbox\MIS_PROYECTOS\7000_Librerias\Utilidades\Utilidades.pas';
+  Utilidades in '..\..\..\..\Dropbox\MIS_PROYECTOS\7000_Librerias\Utilidades\Utilidades.pas',
+  uModuloDatos in 'uModuloDatos.pas' {moduloDatos: TDataModule};
 
 {$R *.res}
 
@@ -29,9 +29,11 @@ begin
     WebRequestHandler.WebModuleClass := WebModuleClass;
   Application.Initialize;
   Application.Title := 'Data Snap Matemáticas';
+  Application.CreateForm(TmoduloDatos, moduloDatos);
   Application.CreateForm(TFDataSnapMatematicas, FDataSnapMatematicas);
   Application.CreateForm(TFResumenes, FResumenes);
   Application.CreateForm(TFCertificados, FCertificados);
+
   Application.Run;
 
 end.

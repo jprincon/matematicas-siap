@@ -1,0 +1,62 @@
+<div class="form-group">
+    <label class="font-weight-bold">Descargar formato de Horas por Facultad</label>
+    <div class="input-group">
+
+        <select class="custom-select" [(ngModel)]="periodo" name="periodo" (change)="obtenerReporteHorasFacultad()">
+          <option [value]="periodo.periodo" *ngFor="let periodo of Periodos" >{{ periodo.periodo }}</option>
+        </select>
+
+        <select class="custom-select">
+          <option value="format-excel">Descargar en formato Excel</option>
+        </select>
+
+        <button [value]="nombreExcel" class="input-group-append btn btn-outline-success" onclick="crearExcel('reporte-horas-facultades', value)">Descargar</button>
+    </div>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Generando Reporte de Horas por Facultad ...</h3>
+</div>
+
+<div *ngIf="!leyendo">
+
+    <div id="reporte-horas-facultades">
+        <div class="m-3" *ngFor="let contrato of Contratos">
+            <h1>Docentes ({{ contrato.Contrato | capitalizado }})</h1>
+            <hr>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombre</th>
+                            <th style="width: 200px;" *ngFor="let facultad of contrato.Facultades">{{ facultad.Nombre | capitalizado }}</th>
+                            <th>Total Docencia Directa (Sin Factor)</th>
+                            <th>Total Docencia Directa (Con Factor)</th>
+                            <th>Total Docencia Complementaria</th>
+                            <th>Total Horas Investigación</th>
+                            <th>Total Horas Extensión</th>
+                            <th>TOTAL HORAS AGENDA</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let docente of contrato.Docentes">
+                            <td>{{ docente.IdDocente | number }}</td>
+                            <td>{{ docente.Nombre | capitalizado }}</td>
+                            <td *ngFor="let facultad of docente.Facultades">{{ facultad.TotalHoras }}</td>
+                            <td>{{ docente.totalHorasSinFactor }}</td>
+                            <td>{{ docente.totalHorasConFactor }}</td>
+                            <td>{{ docente.Funciones[0].TotalHoras }}</td>
+                            <td>{{ docente.Funciones[1].TotalHoras }}</td>
+                            <td>{{ docente.Funciones[2].TotalHoras }}</td>
+                            <td>{{ docente.TotalHorasAgenda }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -41,7 +41,7 @@ export class EstadoAgendasComponent implements OnInit  {
   obtenerEstadoAgendas() {
     this.Leyendo = true;
     this.genService.getEstadoAgendas(this.periodo).subscribe((rEstadoAgendas: any) => {
-      console.log(rEstadoAgendas);
+
       this.Contratos = rEstadoAgendas.Contratos;
       this.Leyendo = false;
 
@@ -66,7 +66,6 @@ export class EstadoAgendasComponent implements OnInit  {
 
   exportarExcel2() {
     const element = document.getElementById('estadoAgendas');
-    console.log(element);
 
     const table = document.getElementById("estadoAgendas");
     const html = table.outerHTML;

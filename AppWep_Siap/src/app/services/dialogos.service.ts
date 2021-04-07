@@ -27,9 +27,10 @@ import { DlgEgresadoComponent } from '../factores/extension/egresados/dlg-egresa
 import { DlgGrupoInvestigacionComponent } from '../factores/investigacion/grupos-investigacion/dlg-grupo-investigacion/dlg-grupo-investigacion.component';
 import { DlgModalidadComponent } from '../factores/procesos_academicos/trabajos-grado/modalidades/dlg-modalidad/dlg-modalidad.component';
 import { DlgAreaProfundizacionComponent } from '../factores/procesos_academicos/trabajos-grado/areas-profundizacion/dlg-area-profundizacion/dlg-area-profundizacion.component';
-import { DlgTrabajoGradoComponent } from '../factores/procesos_academicos/trabajos-grado/dlg-trabajo-grado/dlg-trabajo-grado.component';
 import { DlgPeriodoComponent } from '../factores/docentes/periodos/dlg-periodo/dlg-periodo.component';
 import { DlgFuncionesDocenteComponent } from '../factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
+import { CrearEditarTrabajoGradoComponent } from '../factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
+import { SeleccionarDocenteComponent } from '../factores/docentes/docentes/seleccionar-docente/seleccionar-docente.component';
 
 @Injectable({
   providedIn: 'root'
@@ -246,15 +247,6 @@ export class DialogosService {
     return dialogRef.afterClosed();
   }
 
-  DlgTrabajoGrado(accion: string, idtrabajogrado: string) {
-    const dialogRef = this.dialog.open(DlgTrabajoGradoComponent, {
-      width: '60%', height: '80%',
-      data: {accion, idtrabajogrado}
-    });
-
-    return dialogRef.afterClosed();
-  }
-
   DlgPeriodo(accion: string, idperiodo: string) {
     const dialogRef = this.dialog.open(DlgPeriodoComponent, {
       width: '60%',
@@ -272,4 +264,15 @@ export class DialogosService {
 
     return dialogRef.afterClosed();
   }
+
+  SeleccionarDocente() {
+    const dialogRef = this.dialog.open(SeleccionarDocenteComponent, {
+      width: '80%',
+      data: {}
+    });
+
+    return dialogRef.afterClosed();
+  }
 }
+
+

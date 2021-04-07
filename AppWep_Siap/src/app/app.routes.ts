@@ -66,6 +66,9 @@ import { ExportarAgendasFacultadComponent } from './factores/docentes/agendas/ex
 import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agendas/estado-agendas.component';
 import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
 import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
+import { EfdHorasFacultadesComponent } from './factores/docentes/estadisticas-factor-docentes/efd-horas-facultades/efd-horas-facultades.component';
+import { RUTA_ESTADISTICAS_HORAS_FACULTADES, RUTA_FACTORES, RUTA_CREAR_EDITAR_TRABAJO_GRADO } from './config/config';
+import { CrearEditarTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
 
 const routes: Routes = [
 
@@ -78,13 +81,14 @@ const routes: Routes = [
      FACTORES
      Rutas para los factores
   =========================================================================================================================*/
-  {path: 'factores', component: FactoresComponent, canActivate: [RutaNavegarService]},
+  {path: RUTA_FACTORES, component: FactoresComponent, canActivate: [RutaNavegarService]},
 
   // %%%%%%% Rutas Procesos Académicos %%%%%%%
   {path: 'procesos-academicos', component: ProcesosAcademicosComponent, canActivate: [RutaNavegarService]},
   {path: RUTA_AREASPROFUNDIZACION, component: AreasProfundizacionComponent},
   {path: RUTA_MODALIDADES, component: ModalidadesComponent},
   {path: RUTA_TRABAJOSGRADO, component: TrabajosGradoComponent},
+  {path: RUTA_CREAR_EDITAR_TRABAJO_GRADO + '/:Id', component: CrearEditarTrabajoGradoComponent},
 
 
   // %%%%%%% Rutas Factor Estudinates %%%%%%%
@@ -106,6 +110,7 @@ const routes: Routes = [
       {path: RUTA_AGENDAS, component: AgendasComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_ESTADISTICAS_FACTOR_DOCENTES, component: EstadisticasFactorDocentesComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_ESTADISTICAS_SERVICIOS_PROGRAMA, component: EfdServiciosProgramaComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_ESTADISTICAS_HORAS_FACULTADES, component: EfdHorasFacultadesComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_EXPORTAR_AGENDA_DOCENTE + '/:id/:periodo', component: ExportarAgendaComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_EXPORTAR_AGENDAS_FACULTAD + '/:periodo', component: ExportarAgendasFacultadComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_ESTADO_AGENDAS + '/:periodo', component: EstadoAgendasComponent, canActivate: [RutaNavegarService]},

@@ -8,7 +8,7 @@ uses
   Vcl.AppEvnts, Vcl.StdCtrls, IdHTTPWebBrokerBridge, Web.HTTPApp, Vcl.ComCtrls,
   Vcl.ExtCtrls, Vcl.Buttons, System.ImageList, Vcl.ImgList, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, Vcl.Menus, SynEdit,
-  SynEditHighlighter, SynHighlighterSQL, SynHighlighterJSON;
+  SynEditHighlighter, SynHighlighterSQL, SynHighlighterJSON, uModuloDatos;
 
 type
   TFDataSnapMatematicas = class(TForm)
@@ -231,44 +231,7 @@ procedure TFDataSnapMatematicas.FormCreate(Sender: TObject);
 begin
   FServer := TIdHTTPWebBrokerBridge.Create(Self);
 
-  letras[1] := 'a';
-  letras[2] := 'b';
-  letras[3] := 'c';
-  letras[4] := 'd';
-  letras[5] := 'e';
-  letras[6] := 'f';
-  letras[7] := 'g';
-  letras[8] := 'h';
-  letras[9] := 'i';
-  letras[10] := 'j';
-  letras[11] := 'k';
-  letras[12] := 'l';
-  letras[13] := 'm';
-  letras[14] := 'n';
-  letras[15] := 'o';
-  letras[16] := 'p';
-  letras[17] := 'q';
-  letras[18] := 'r';
-  letras[19] := 's';
-  letras[20] := 't';
-  letras[21] := 'u';
-  letras[22] := 'v';
-  letras[23] := 'w';
-  letras[24] := 'x';
-  letras[25] := 'y';
-  letras[26] := 'z';
-  letras[27] := '0';
-  letras[28] := '1';
-  letras[29] := '2';
-  letras[30] := '3';
-  letras[31] := '4';
-  letras[32] := '5';
-  letras[33] := '6';
-  letras[34] := '7';
-  letras[35] := '8';
-  letras[36] := '9';
-
-  generarNuevoToken;
+  tokenServidor := moduloDatos.generarNuevoToken;
 
   TrayIcon1.Visible := True;
 

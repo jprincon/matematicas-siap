@@ -39,7 +39,6 @@ export class FuncionesDocenteComponent implements OnInit {
 
     this.genService.getFuncionesDocente().subscribe((rFuncionesDocente: any) => {
       this.FuncionesDocente = rFuncionesDocente.FuncionesDocentes;
-      console.log(this.FuncionesDocente);
 
       this.leyendo = false;
 

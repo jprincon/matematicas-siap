@@ -1,6 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <a class="navbar-brand" [routerLink]="['factores']">
-        <h1 class="puntero-manito text-white">SIAP <small *ngIf="!permisoNavegar">(Sistema de Información de Autoevaluación del Programa)</small></h1>
+        <h1 class="puntero-manito text-white">
+            <div class="form-group">
+                <h1>SIAP</h1>
+                <h6>Versión {{ version }}</h6>
+            </div> <small *ngIf="!permisoNavegar">(Sistema de Información de Autoevaluación del Programa)</small></h1>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

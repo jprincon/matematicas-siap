@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../services/transfer.service';
 import { MenuFactores, BotonMenu, Favorito } from '../interfaces/interfaces.interfaces';
 import { Utilidades } from '../utilidades/utilidades.class';
-import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES } from '../config/config';
+import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_TRABAJOSGRADO } from '../config/config';
 
 @Component({
   selector: 'app-factores',
@@ -22,8 +22,8 @@ export class FactoresComponent implements OnInit {
        {
          IdBoton: 'pro-aca-tra-gra',
          Titulo: 'Trabajos de Grado',
-          Icono: 'pendiente.png',
-          Ruta: ['']
+          Icono: 'trabajosGrado.png',
+          Ruta: [RUTA_TRABAJOSGRADO]
        },
        {
           Titulo: 'Plan de Mejoramiento',
@@ -299,13 +299,12 @@ export class FactoresComponent implements OnInit {
 
   obtenerFavoritos() {
     this.genService.getFavoritos().subscribe((rFavoritos: any) => {
-      console.log(rFavoritos);
+
       this.Favoritos = rFavoritos.Favoritos;
     });
   }
 
   abrirMenu2(favorito: Favorito) {
-    console.log(favorito.ruta.split(','));
 
     const boton: BotonMenu = {
       IdBoton: favorito.idfavorito,
@@ -329,7 +328,7 @@ export class FactoresComponent implements OnInit {
 
     const datos = JSON.stringify(favorito);
     this.genService.postFavorito(datos).subscribe((rFavorito: any) => {
-      console.log(rFavorito);
+
       this.genService.navegar(boton.Ruta);
     });
 

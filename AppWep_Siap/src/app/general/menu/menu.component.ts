@@ -62,6 +62,8 @@ export class MenuComponent implements OnInit {
     {nombre: 'SIGMA - Seminario Interdisciplinario y Grupo de Matemática Aplicada'}
   ];
 
+  version = '2.21.2.18';
+
   permisoNavegar = false;
 
   constructor(private genService: GeneralService,

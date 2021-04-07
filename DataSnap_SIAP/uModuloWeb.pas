@@ -117,7 +117,10 @@ begin
     Response.SetCustomHeader('Access-Control-Allow-Headers',
       Request.GetFieldByName('Access-Control-Request-Headers'));
 
-    Response.SetCustomHeader('Access-Control-Allow-Methods', 'DELETE, PUT, POST, GET');
+    Response.SetCustomHeader('Access-Control-Allow-Methods',
+      'DELETE, PUT, POST, GET');
+
+    Response.SetCustomHeader('Content-Type', 'application/json');
 
     Handled := True;
   end;

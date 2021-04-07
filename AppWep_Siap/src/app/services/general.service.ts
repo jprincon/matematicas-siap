@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LS_ULTIMA_RUTA } from '../config/config';
-import { retry } from 'rxjs/operators';
+import { map, retry } from 'rxjs/operators';
 import { Periodo } from '../interfaces/interfaces.interfaces';
 
 @Injectable({
@@ -88,14 +88,18 @@ export class GeneralService {
   private URL_FAVORITO = 'Favorito';
   private URL_FAVORITOS = 'Favoritos';
   private URL_REPORTE_PROGRAMA_SERVICIOS = 'ReporteProgramaServicios';
+  private URL_REPORTE_HORAS_POR_FACULTAD = 'ReporteHorasFacultad';
+  private URL_LOGIN_USUARIO = 'LoginUsuario';
+
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    Autorizacion: ''
+  });
 
   constructor(private http: HttpClient,
               private router: Router) {
 
-    this.postToken().subscribe((respuesta: any) => {
-      this.token = respuesta.token;
-
-    });
+    this.token = '';
   }
 
   navegar(rutas: string[]) {
@@ -110,6 +114,10 @@ export class GeneralService {
     } else {
       this.router.navigate(['menu-principal']);
     }
+  }
+
+  dataSnap_Route(ruta: string) {
+    return this.ENCABEZADO_HTTP + this.IP_SERVIDOR + this.PUERTO + this.GENERAL + ruta;
   }
 
   dataSnap_Token() {
@@ -210,21 +218,8 @@ export class GeneralService {
     return '/' + dato;
   }
 
-  postToken() {
-    const url = this.dataSnap_Token();
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    const credenciales = {
-      nombre: 'jprincon',
-      correo: 'jarincon@uniquindio.edu.co',
-      clave: 'Donmatematicas#512519'
-    };
-
-    const datos = JSON.stringify(credenciales);
-
-    return this.http.post(url, datos, {headers});
+  obtenerPermisoNavegar(): boolean {
+    return this.token.length > 0;
   }
 
   descargarTablaExcel() {
@@ -302,6 +297,28 @@ export class GeneralService {
       'Content-Type': 'application/json'
     });
     return this.http.post(url, datos, {headers});
+  }
+
+  postLoginUsuario(datos: string) {
+    const url = this.dataSnap_Route(this.URL_LOGIN_USUARIO);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers}).pipe(
+      map((RespLogin: any) => {
+
+        if (RespLogin.Respuesta === 'Acceso-Correcto') {
+          this.token = RespLogin.Token;
+
+          this.headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            Autorizacion: this.token
+          });
+        }
+
+        return RespLogin;
+      })
+    );
   }
 
   putUsuario(datos: string) {
@@ -961,13 +978,13 @@ export class GeneralService {
 
   getAgendasServicio(IdDocente: string, Periodo: string) {
     const url = this.dataSnap_Path(this.URL_AGENDASSERVICIO) + this.parametro(IdDocente) + this.parametro(Periodo);
-    console.log(url);
+
     return this.http.get(url).pipe(retry(10));
   }
 
   getEstadoAgendas(Periodo: string) {
     const url = this.dataSnap_Path(this.URL_ESTADO_AGENDAS) + this.parametro(Periodo);
-    console.log(url);
+
     return this.http.get(url);
   }
 
@@ -1314,11 +1331,9 @@ export class GeneralService {
   /* TrabajoGrado %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 
   postTrabajoGrado(datos: string) {
-    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(this.token);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-    return this.http.post(url, datos, {headers}).pipe(retry(10));
+    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO);
+    const headers = this.headers;
+    return this.http.post(url, datos, {headers});
   }
 
   getTrabajosGrado() {
@@ -1332,7 +1347,7 @@ export class GeneralService {
   }
 
   putTrabajoGrado(datos: string) {
-    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(this.token);
+    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1452,7 +1467,6 @@ export class GeneralService {
 
   deleteFavorito(id: string) {
     const url = this.dataSnap_Path(this.URL_FAVORITO) + this.parametro(this.token) + this.parametro(id);
-    console.log(url);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -1461,6 +1475,11 @@ export class GeneralService {
 
   getReporteProgramasServicios(IdPrograma: string, periodo: string) {
     const url = this.dataSnap_Path(this.URL_REPORTE_PROGRAMA_SERVICIOS) + this.parametro(IdPrograma) + this.parametro(periodo);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getReporteHorasFacultad(periodo: string) {
+    const url = this.dataSnap_Path(this.URL_REPORTE_HORAS_POR_FACULTAD) + this.parametro(periodo);
     return this.http.get(url).pipe(retry(10));
   }
 }

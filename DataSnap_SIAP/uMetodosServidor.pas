@@ -1,3 +1,83 @@
+{$A8,B-,C+,D+,E-,F-,G+,H+,I+,J-,K-,L+,M-,N-,O+,P+,Q-,R-,S-,T-,U-,V+,W-,X+,Y+,Z1}
+{$MINSTACKSIZE $00004000}
+{$MAXSTACKSIZE $00100000}
+{$IMAGEBASE $00400000}
+{$APPTYPE GUI}
+{$WARN SYMBOL_DEPRECATED ON}
+{$WARN SYMBOL_LIBRARY ON}
+{$WARN SYMBOL_PLATFORM ON}
+{$WARN SYMBOL_EXPERIMENTAL ON}
+{$WARN UNIT_LIBRARY ON}
+{$WARN UNIT_PLATFORM ON}
+{$WARN UNIT_DEPRECATED ON}
+{$WARN UNIT_EXPERIMENTAL ON}
+{$WARN HRESULT_COMPAT ON}
+{$WARN HIDING_MEMBER ON}
+{$WARN HIDDEN_VIRTUAL ON}
+{$WARN GARBAGE ON}
+{$WARN BOUNDS_ERROR ON}
+{$WARN ZERO_NIL_COMPAT ON}
+{$WARN STRING_CONST_TRUNCED ON}
+{$WARN FOR_LOOP_VAR_VARPAR ON}
+{$WARN TYPED_CONST_VARPAR ON}
+{$WARN ASG_TO_TYPED_CONST ON}
+{$WARN CASE_LABEL_RANGE ON}
+{$WARN FOR_VARIABLE ON}
+{$WARN CONSTRUCTING_ABSTRACT ON}
+{$WARN COMPARISON_FALSE ON}
+{$WARN COMPARISON_TRUE ON}
+{$WARN COMPARING_SIGNED_UNSIGNED ON}
+{$WARN COMBINING_SIGNED_UNSIGNED ON}
+{$WARN UNSUPPORTED_CONSTRUCT ON}
+{$WARN FILE_OPEN ON}
+{$WARN FILE_OPEN_UNITSRC ON}
+{$WARN BAD_GLOBAL_SYMBOL ON}
+{$WARN DUPLICATE_CTOR_DTOR ON}
+{$WARN INVALID_DIRECTIVE ON}
+{$WARN PACKAGE_NO_LINK ON}
+{$WARN PACKAGED_THREADVAR ON}
+{$WARN IMPLICIT_IMPORT ON}
+{$WARN HPPEMIT_IGNORED ON}
+{$WARN NO_RETVAL ON}
+{$WARN USE_BEFORE_DEF ON}
+{$WARN FOR_LOOP_VAR_UNDEF ON}
+{$WARN UNIT_NAME_MISMATCH ON}
+{$WARN NO_CFG_FILE_FOUND ON}
+{$WARN IMPLICIT_VARIANTS ON}
+{$WARN UNICODE_TO_LOCALE ON}
+{$WARN LOCALE_TO_UNICODE ON}
+{$WARN IMAGEBASE_MULTIPLE ON}
+{$WARN SUSPICIOUS_TYPECAST ON}
+{$WARN PRIVATE_PROPACCESSOR ON}
+{$WARN UNSAFE_TYPE OFF}
+{$WARN UNSAFE_CODE OFF}
+{$WARN UNSAFE_CAST OFF}
+{$WARN OPTION_TRUNCATED ON}
+{$WARN WIDECHAR_REDUCED ON}
+{$WARN DUPLICATES_IGNORED ON}
+{$WARN UNIT_INIT_SEQ ON}
+{$WARN LOCAL_PINVOKE ON}
+{$WARN MESSAGE_DIRECTIVE ON}
+{$WARN TYPEINFO_IMPLICITLY_ADDED ON}
+{$WARN RLINK_WARNING ON}
+{$WARN IMPLICIT_STRING_CAST ON}
+{$WARN IMPLICIT_STRING_CAST_LOSS ON}
+{$WARN EXPLICIT_STRING_CAST OFF}
+{$WARN EXPLICIT_STRING_CAST_LOSS OFF}
+{$WARN CVT_WCHAR_TO_ACHAR ON}
+{$WARN CVT_NARROWING_STRING_LOST ON}
+{$WARN CVT_ACHAR_TO_WCHAR ON}
+{$WARN CVT_WIDENING_STRING_LOST ON}
+{$WARN NON_PORTABLE_TYPECAST ON}
+{$WARN XML_WHITESPACE_NOT_ALLOWED ON}
+{$WARN XML_UNKNOWN_ENTITY ON}
+{$WARN XML_INVALID_NAME_START ON}
+{$WARN XML_INVALID_NAME ON}
+{$WARN XML_EXPECTED_CHARACTER ON}
+{$WARN XML_CREF_NO_RESOLVE ON}
+{$WARN XML_NO_PARM ON}
+{$WARN XML_NO_MATCHING_PARM ON}
+{$WARN IMMUTABLE_STRINGS OFF}
 unit uMetodosServidor;
 
 interface
@@ -13,7 +93,9 @@ uses System.SysUtils, System.Classes, dialogs, System.Json, Contnrs,
   uTReferenciaResumen, uFResumenes, IdMessage, IdIOHandler, IdIOHandlerSocket,
   IdIOHandlerStack, IdSSL, IdSSLOpenSSL, IdBaseComponent, IdComponent,
   IdTCPConnection, IdTCPClient, IdExplicitTLSClientServerBase, IdMessageClient,
-  IdSMTPBase, IdSMTP, uFCertificados, Utilidades, ComObj;
+  IdSMTPBase, IdSMTP, uFCertificados, Utilidades, ComObj,
+  Datasnap.DSHTTPWebBroker,
+  Web.HTTPApp, uModuloDatos;
 
 type
 {$METHODINFO ON}
@@ -96,6 +178,7 @@ type
     function usuario(idClave: string): TJSONObject;
     function updateusuario(const token: string; const datos: TJSONObject)
       : TJSONObject;
+    function updateLoginUsuario(const datos: TJSONObject): TJSONObject;
     function cancelusuario(const idClave: string; const token: string)
       : TJSONObject;
     function acceptusuario(const token: string; const datos: TJSONObject)
@@ -285,6 +368,7 @@ type
       : TJSONObject;
     function ReporteProgramaServicios(const IdProgrma, Periodo: string)
       : TJSONObject;
+    function ReporteHorasFacultad(Periodo: string): TJSONObject;
     function cancelDesasociarAgenda(const token: string;
       const IdServicioPrograma: string): TJSONObject;
     function cancelAgendaServicio(const token: string; const ID: string)
@@ -397,14 +481,11 @@ type
       const datos: TJSONObject): TJSONObject;
 
     { TrabajoGrado }
-    function updateTrabajoGrado(const token: string; const datos: TJSONObject)
-      : TJSONObject;
+    function updateTrabajoGrado(const datos: TJSONObject): TJSONObject;
     function TrabajoGrado(const ID: string): TJSONObject;
     function TrabajosGrado: TJSONObject;
-    function cancelTrabajoGrado(const token: string; const ID: string)
-      : TJSONObject;
-    function acceptTrabajoGrado(const token: string; const datos: TJSONObject)
-      : TJSONObject;
+    function cancelTrabajoGrado(const ID: string): TJSONObject;
+    function acceptTrabajoGrado(const datos: TJSONObject): TJSONObject;
 
     { Periodo }
     function updatePeriodo(const token: string; const datos: TJSONObject)
@@ -1255,43 +1336,156 @@ begin
 end;
 
 { Método INSERT - TrabajoGrado }
-function TMatematicas.updateTrabajoGrado(const token: string;
-  const datos: TJSONObject): TJSONObject;
+function TMatematicas.updateTrabajoGrado(const datos: TJSONObject): TJSONObject;
 var
   Json: TJSONObject;
-  Query: TFDQuery;
+  QTrabajoGrado: TFDQuery;
+  objWebModule: TWebModule;
+  token: string;
+  sDat: TStringList;
 begin
   try
-    Query := TFDQuery.create(nil);
-    Query.Connection := Conexion;
+    QTrabajoGrado := TFDQuery.create(nil);
+    QTrabajoGrado.Connection := Conexion;
     Json := TJSONObject.create;
+
+    sDat := TStringList.create;
+    sDat.Add(datos.toString);
+    sDat.SaveToFile('C:\Users\julia\Desktop\datos.json');
+    sDat.Free;
+
+    objWebModule := GetDataSnapWebModule;
+    token := objWebModule.Request.GetFieldByName('Autorizacion');
 
     if token = FDataSnapMatematicas.obtenerToken then
     begin
 
-      limpiarConsulta(Query);
+      QTrabajoGrado.Close;
+      QTrabajoGrado.SQL.Clear;
+      QTrabajoGrado.SQL.Add('INSERT INTO siap_trabajosgrado (');
+      QTrabajoGrado.SQL.Add('idtrabajogrado, ');
+      QTrabajoGrado.SQL.Add('titulo, ');
+      QTrabajoGrado.SQL.Add('estudiante1, ');
+      QTrabajoGrado.SQL.Add('estudiante2, ');
+      QTrabajoGrado.SQL.Add('estudiante3, ');
+      QTrabajoGrado.SQL.Add('idjurado1, ');
+      QTrabajoGrado.SQL.Add('idjurado2, ');
+      QTrabajoGrado.SQL.Add('idjurado3, ');
+      QTrabajoGrado.SQL.Add('iddirector, ');
+      QTrabajoGrado.SQL.Add('idcodirector, ');
+      QTrabajoGrado.SQL.Add('idmodalidad, ');
+      QTrabajoGrado.SQL.Add('idareaprofundizacion, ');
+      QTrabajoGrado.SQL.Add('idgrupoinvestigacion, ');
+      QTrabajoGrado.SQL.Add('actanombramientojurados, ');
+      QTrabajoGrado.SQL.Add('actapropuesta, ');
+      QTrabajoGrado.SQL.Add('evaluacionpropuesta, ');
+      QTrabajoGrado.SQL.Add('evaluaciontrabajoescrito, ');
+      QTrabajoGrado.SQL.Add('evaluacionsustentacion, ');
+      QTrabajoGrado.SQL.Add('fechasustentacion, ');
+      QTrabajoGrado.SQL.Add('calificacionfinal, ');
+      QTrabajoGrado.SQL.Add('estudiantecedederechos, ');
+      QTrabajoGrado.SQL.Add('fechainicioejecucion, ');
+      QTrabajoGrado.SQL.Add('cantidadsemestresejecucion, ');
+      QTrabajoGrado.SQL.Add('estadoavance ) VALUES (');
+      QTrabajoGrado.SQL.Add(':idtrabajogrado, ');
+      QTrabajoGrado.SQL.Add(':titulo, ');
+      QTrabajoGrado.SQL.Add(':estudiante1, ');
+      QTrabajoGrado.SQL.Add(':estudiante2, ');
+      QTrabajoGrado.SQL.Add(':estudiante3, ');
+      QTrabajoGrado.SQL.Add(':idjurado1, ');
+      QTrabajoGrado.SQL.Add(':idjurado2, ');
+      QTrabajoGrado.SQL.Add(':idjurado3, ');
+      QTrabajoGrado.SQL.Add(':iddirector, ');
+      QTrabajoGrado.SQL.Add(':idcodirector, ');
+      QTrabajoGrado.SQL.Add(':idmodalidad, ');
+      QTrabajoGrado.SQL.Add(':idareaprofundizacion, ');
+      QTrabajoGrado.SQL.Add(':idgrupoinvestigacion, ');
+      QTrabajoGrado.SQL.Add(':actanombramientojurados, ');
+      QTrabajoGrado.SQL.Add(':actapropuesta, ');
+      QTrabajoGrado.SQL.Add(':evaluacionpropuesta, ');
+      QTrabajoGrado.SQL.Add(':evaluaciontrabajoescrito, ');
+      QTrabajoGrado.SQL.Add(':evaluacionsustentacion, ');
+      QTrabajoGrado.SQL.Add(':fechasustentacion, ');
+      QTrabajoGrado.SQL.Add(':calificacionfinal, ');
+      QTrabajoGrado.SQL.Add(':estudiantecedederechos, ');
+      QTrabajoGrado.SQL.Add(':fechainicioejecucion, ');
+      QTrabajoGrado.SQL.Add(':cantidadsemestresejecucion, ');
+      QTrabajoGrado.SQL.Add(':estadoavance)');
 
-      limpiarParametros;
+      QTrabajoGrado.Params.ParamByName('idtrabajogrado').Value :=
+        datos.GetValue('idtrabajogrado').Value;
 
-      agregarParametro('idtrabajogrado', 'String');
-      agregarParametro('titulo', 'String');
-      agregarParametro('estudiante1', 'String');
-      agregarParametro('estudiante2', 'String');
-      agregarParametro('estudiante3', 'String');
-      agregarParametro('idjurado1', 'Integer');
-      agregarParametro('idjurado2', 'Integer');
-      agregarParametro('idjurado3', 'Integer');
-      agregarParametro('iddirector', 'Integer');
-      agregarParametro('idmodalidad', 'String');
-      agregarParametro('idareaprofundizacion', 'String');
-      agregarParametro('idgrupoinvestigacion', 'String');
-      agregarParametro('actapropuesta', 'String');
-      agregarParametro('fechasustentacion', 'String');
-      agregarParametro('calificacion', 'String');
+      QTrabajoGrado.Params.ParamByName('titulo').Value :=
+        datos.GetValue('titulo').Value;
 
-      INSERT('siap_trabajosgrado', Query);
+      QTrabajoGrado.Params.ParamByName('estudiante1').Value :=
+        datos.GetValue('estudiante1').Value;
 
-      asignarDatos(datos, Query);
+      QTrabajoGrado.Params.ParamByName('estudiante2').Value :=
+        datos.GetValue('estudiante2').Value;
+
+      QTrabajoGrado.Params.ParamByName('estudiante3').Value :=
+        datos.GetValue('estudiante3').Value;
+
+      QTrabajoGrado.Params.ParamByName('idjurado1').Value :=
+        StrToInt(datos.GetValue('idjurado1').Value);
+
+      QTrabajoGrado.Params.ParamByName('idjurado2').Value :=
+        StrToInt(datos.GetValue('idjurado2').Value);
+
+      QTrabajoGrado.Params.ParamByName('idjurado3').Value :=
+        StrToInt(datos.GetValue('idjurado3').Value);
+
+      QTrabajoGrado.Params.ParamByName('iddirector').Value :=
+        StrToInt(datos.GetValue('iddirector').Value);
+
+      if datos.GetValue('idcodirector').Value <> '' then
+        QTrabajoGrado.Params.ParamByName('idcodirector').Value :=
+          StrToInt(datos.GetValue('idcodirector').Value);
+
+      QTrabajoGrado.Params.ParamByName('idmodalidad').Value :=
+        datos.GetValue('idmodalidad').Value;
+
+      QTrabajoGrado.Params.ParamByName('idareaprofundizacion').Value :=
+        datos.GetValue('idareaprofundizacion').Value;
+
+      QTrabajoGrado.Params.ParamByName('idgrupoinvestigacion').Value :=
+        datos.GetValue('idgrupoinvestigacion').Value;
+
+      QTrabajoGrado.Params.ParamByName('actanombramientojurados').Value :=
+        datos.GetValue('actanombramientojurados').Value;
+
+      QTrabajoGrado.Params.ParamByName('actapropuesta').Value :=
+        datos.GetValue('actapropuesta').Value;
+
+      QTrabajoGrado.Params.ParamByName('evaluacionpropuesta').Value :=
+        datos.GetValue('evaluacionpropuesta').Value;
+
+      QTrabajoGrado.Params.ParamByName('evaluaciontrabajoescrito').Value :=
+        datos.GetValue('evaluaciontrabajoescrito').Value;
+
+      QTrabajoGrado.Params.ParamByName('evaluacionsustentacion').Value :=
+        datos.GetValue('evaluacionsustentacion').Value;
+
+      QTrabajoGrado.Params.ParamByName('fechasustentacion').Value :=
+        datos.GetValue('fechasustentacion').Value;
+
+      QTrabajoGrado.Params.ParamByName('calificacionfinal').Value :=
+        datos.GetValue('calificacionfinal').Value;
+
+      QTrabajoGrado.Params.ParamByName('estudiantecedederechos').Value :=
+        datos.GetValue('estudiantecedederechos').Value;
+
+      QTrabajoGrado.Params.ParamByName('fechainicioejecucion').Value :=
+        datos.GetValue('fechainicioejecucion').Value;
+
+      QTrabajoGrado.Params.ParamByName('cantidadsemestresejecucion').Value :=
+        StrToInt(datos.GetValue('cantidadsemestresejecucion').Value);
+
+      QTrabajoGrado.Params.ParamByName('estadoavance').Value :=
+        StrToInt(datos.GetValue('estadoavance').Value);
+
+      QTrabajoGrado.ExecSQL;
 
       Json.AddPair(JsonRespuesta, 'El trabajo de grado se creo correctamente');
     end
@@ -1370,39 +1564,92 @@ var
   ArrayJson: TJSONArray;
   JsonLinea: TJSONObject;
   i: integer;
+  ID: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
   try
     Json := TJSONObject.create;
     ArrayJson := TJSONArray.create;
-    Json.AddPair('TrabajosGrado', ArrayJson);
 
     limpiarConsulta(Query);
     SELECT('siap_trabajosgrado', 'titulo', Query);
-
-    limpiarParametros;
-    agregarParametro('idtrabajogrado', 'String');
-    agregarParametro('titulo', 'String');
-    agregarParametro('estudiante1', 'String');
-    agregarParametro('estudiante2', 'String');
-    agregarParametro('estudiante3', 'String');
-    agregarParametro('idjurado1', 'String');
-    agregarParametro('idjurado2', 'String');
-    agregarParametro('idjurado3', 'String');
-    agregarParametro('iddirector', 'String');
-    agregarParametro('idmodalidad', 'String');
-    agregarParametro('idareaprofundizacion', 'String');
-    agregarParametro('idgrupoinvestigacion', 'String');
-    agregarParametro('actapropuesta', 'String');
-    agregarParametro('fechasustentacion', 'String');
-    agregarParametro('calificacion', 'String');
+    Query.SQL.Text :=
+      'SELECT * FROM siap_trabajosgrado ORDER BY fechasustentacion';
+    Query.Open;
+    Query.First;
 
     for i := 1 to Query.RecordCount do
     begin
-      ArrayJson.AddElement(crearJSON(Query));
+      JsonLinea := TJSONObject.create;
+      JsonLinea.AddPair('idtrabajogrado', Query.FieldByName('idtrabajogrado')
+        .AsString);
+      JsonLinea.AddPair('titulo', Query.FieldByName('titulo').AsString);
+      JsonLinea.AddPair('estudiante1', Query.FieldByName('estudiante1')
+        .AsString);
+      JsonLinea.AddPair('estudiante2', Query.FieldByName('estudiante2')
+        .AsString);
+      JsonLinea.AddPair('estudiante3', Query.FieldByName('estudiante3')
+        .AsString);
+
+      ID := Query.FieldByName('idjurado1').AsString;
+      JsonLinea.AddPair('idjurado1', ID);
+      JsonLinea.AddPair('jurado1', Docente(ID));
+
+      ID := Query.FieldByName('idjurado2').AsString;
+      JsonLinea.AddPair('idjurado2', ID);
+      JsonLinea.AddPair('jurado2', Docente(ID));
+
+      ID := Query.FieldByName('idjurado3').AsString;
+      JsonLinea.AddPair('idjurado3', ID);
+      JsonLinea.AddPair('jurado3', Docente(ID));
+
+      ID := Query.FieldByName('iddirector').AsString;
+      JsonLinea.AddPair('iddirector', ID);
+      JsonLinea.AddPair('director', Docente(ID));
+
+      ID := Query.FieldByName('idcodirector').AsString;
+      JsonLinea.AddPair('idcodirector', ID);
+      JsonLinea.AddPair('codirector', Docente(ID));
+
+      ID := Query.FieldByName('idmodalidad').AsString;
+      JsonLinea.AddPair('idmodalidad', ID);
+      JsonLinea.AddPair('modalidad', Modalidad(ID));
+
+      ID := Query.FieldByName('idareaprofundizacion').AsString;
+      JsonLinea.AddPair('idareaprofundizacion', ID);
+      JsonLinea.AddPair('areaprofundizacion', AreaProfundizacion(ID));
+
+      ID := Query.FieldByName('idgrupoinvestigacion').AsString;
+      JsonLinea.AddPair('idgrupoinvestigacion', ID);
+      JsonLinea.AddPair('grupoinvestigacion', GrupoInvestigacion(ID));
+
+      JsonLinea.AddPair('actapropuesta', Query.FieldByName('actapropuesta')
+        .AsString);
+      JsonLinea.AddPair('evaluacionpropuesta',
+        Query.FieldByName('evaluacionpropuesta').AsString);
+      JsonLinea.AddPair('evaluaciontrabajoescrito',
+        Query.FieldByName('evaluaciontrabajoescrito').AsString);
+      JsonLinea.AddPair('evaluacionsustentacion',
+        Query.FieldByName('evaluacionsustentacion').AsString);
+      JsonLinea.AddPair('fechasustentacion',
+        Query.FieldByName('fechasustentacion').AsString);
+      JsonLinea.AddPair('calificacionfinal',
+        Query.FieldByName('calificacionfinal').AsString);
+      JsonLinea.AddPair('estudiantecedederechos',
+        Query.FieldByName('estudiantecedederechos').AsString);
+      JsonLinea.AddPair('fechainicioejecucion',
+        Query.FieldByName('fechainicioejecucion').AsString);
+      JsonLinea.AddPair('cantidadsemestresejecucion',
+        Query.FieldByName('cantidadsemestresejecucion').AsString);
+      JsonLinea.AddPair('estadoavance', Query.FieldByName('estadoavance')
+        .AsString);
+
+      ArrayJson.AddElement(JsonLinea);
       Query.Next;
     end;
+
+    Json.AddPair('TrabajosGrado', ArrayJson);
 
   except
     on E: Exception do
@@ -1419,15 +1666,20 @@ begin
 end;
 
 { Método DELETE - TrabajoGrado }
-function TMatematicas.cancelTrabajoGrado(const token, ID: string): TJSONObject;
+function TMatematicas.cancelTrabajoGrado(const ID: string): TJSONObject;
 var
   Json: TJSONObject;
   Query: TFDQuery;
+  objWebModule: TWebModule;
+  token: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
   try
     Json := TJSONObject.create;
+
+    objWebModule := GetDataSnapWebModule;
+    token := objWebModule.Request.GetFieldByName('Autorizacion');
 
     if token = FDataSnapMatematicas.obtenerToken then
     begin
@@ -1457,17 +1709,21 @@ begin
 end;
 
 { Método UPDATE - TrabajoGrado }
-function TMatematicas.acceptTrabajoGrado(const token: string;
-  const datos: TJSONObject): TJSONObject;
+function TMatematicas.acceptTrabajoGrado(const datos: TJSONObject): TJSONObject;
 var
   Json: TJSONObject;
   Query: TFDQuery;
   ID: string;
+  objWebModule: TWebModule;
+  token: string;
 begin
   Query := TFDQuery.create(nil);
   Query.Connection := Conexion;
   try
     Json := TJSONObject.create;
+
+    objWebModule := GetDataSnapWebModule;
+    token := objWebModule.Request.GetFieldByName('Autorizacion');
 
     if token = FDataSnapMatematicas.obtenerToken then
     begin
@@ -7010,6 +7266,300 @@ begin
   end;
 end;
 
+function TMatematicas.ReporteHorasFacultad(Periodo: string): TJSONObject;
+var
+  Json, JsonContrato, JsonNombreFacultad, JsonFacultad, JsonDocente,
+    JsonFuncion, JsonActividad: TJSONObject;
+
+  Contratos, Docentes, NombresFacultades, Funciones, Facultades: TJSONArray;
+
+  Query, QContrato, QDocentes, QFacultad, QFunciones, QServicios,
+    QActividades: TFDQuery;
+
+  i, j, k, l, Semanas: integer;
+
+  IdTipoContrato, FormaCalculoFuncion, IdFuncion, NombreContrato, idDocente,
+    IdFacultad, Jornada, tipo: string;
+
+  Factor, TotalHorasAgenda, sumaHorasServicios, horas, sumaHorasSinFactor,
+    sumaHorasConFactor, sumaHorasFunciones: real;
+begin
+  QServicios := TFDQuery.create(nil);
+  QServicios.Connection := Conexion;
+  QContrato := TFDQuery.create(nil);
+  QContrato.Connection := Conexion;
+  QFacultad := TFDQuery.create(nil);
+  QFacultad.Connection := Conexion;
+  QDocentes := TFDQuery.create(nil);
+  QDocentes.Connection := Conexion;
+  QFunciones := TFDQuery.create(nil);
+  QFunciones.Connection := Conexion;
+  QActividades := TFDQuery.create(nil);
+  QActividades.Connection := Conexion;
+
+  try
+    Json := TJSONObject.create;
+
+    { Leer los tipos de contrato que hay }
+    QContrato.Close;
+    QContrato.SQL.Text :=
+      'SELECT * FROM siap_tipo_contrato ORDER BY horas desc';
+    QContrato.Open;
+    QContrato.First;
+
+    Contratos := TJSONArray.create;
+
+    for i := 1 to QContrato.RecordCount do
+    begin
+      IdTipoContrato := QContrato.FieldByName('idtipocontrato').AsString;
+      NombreContrato := QContrato.FieldByName('contrato').AsString;
+
+      JsonContrato := TJSONObject.create;
+      JsonContrato.AddPair('IdTipoContrato', IdTipoContrato);
+      JsonContrato.AddPair('Contrato', QContrato.FieldByName('contrato')
+        .AsString);
+
+      if NombreContrato = 'carrera' then
+        Factor := 2.5;
+      if NombreContrato = 'contrato' then
+        Factor := 2.0;
+      if NombreContrato = 'catedrático' then
+        Factor := 1.0;
+
+      { escribirMensaje('ReporteHorasFacultad', 'El Factor Calculado es = ' +
+        floatTostr(Factor)); }
+
+      { Leer los docentes por tipo de contrato }
+      QDocentes.Close;
+      QDocentes.SQL.Text := 'SELECT * FROM siap_docentes WHERE idtipocontrato='
+        + #39 + IdTipoContrato + #39 + ' ORDER BY nombre';
+      QDocentes.Open;
+      QDocentes.First;
+
+      Docentes := TJSONArray.create;
+
+      { escribirMensaje('ReporteHorasFacultad',
+        'Se realizo la consulta de docentes, Total = ' +
+        IntToStr(QDocentes.RecordCount)); }
+
+      for j := 1 to QDocentes.RecordCount do
+      begin
+        idDocente := QDocentes.FieldByName('iddocente').AsString;
+        TotalHorasAgenda := 0;
+
+        JsonDocente := TJSONObject.create;
+        JsonDocente.AddPair('IdDocente', QDocentes.FieldByName('iddocente')
+          .AsString);
+        JsonDocente.AddPair('Nombre', QDocentes.FieldByName('nombre').AsString);
+
+        { Leer las facultades }
+        QFacultad.Close;
+        QFacultad.SQL.Text := 'SELECT * FROM siap_facultades ORDER BY facultad';
+        QFacultad.Open;
+        QFacultad.First;
+
+        { escribirMensaje('ReporteHorasFacultad',
+          'Se realizo la consulta de Facultades, Total = ' +
+          IntToStr(QFacultad.RecordCount)); }
+
+        sumaHorasSinFactor := 0;
+        sumaHorasConFactor := 0;
+
+        Facultades := TJSONArray.create;
+        for k := 1 to QFacultad.RecordCount do
+        begin
+          IdFacultad := QFacultad.FieldByName('idfacultad').AsString;
+
+          JsonFacultad := TJSONObject.create;
+          JsonFacultad.AddPair('IdFacultad', IdFacultad);
+          JsonFacultad.AddPair('Nombre', QFacultad.FieldByName('facultad')
+            .AsString);
+
+          QServicios.Close;
+          QServicios.SQL.Clear;
+          QServicios.SQL.Add('SELECT * FROM siap_agendas_servicios as sas ');
+          QServicios.SQL.Add('INNER JOIN siap_docentes as sd ');
+          QServicios.SQL.Add('ON sas.iddocente = sd.iddocente ');
+          QServicios.SQL.Add('INNER JOIN siap_servicios_programas as ssp ');
+          QServicios.SQL.Add
+            ('ON sas.idservicioprograma = ssp.idservicioprograma ');
+          QServicios.SQL.Add('INNER JOIN siap_programas as sp ');
+          QServicios.SQL.Add('ON sp.idprograma = ssp.idprograma ');
+          QServicios.SQL.Add('INNER JOIN siap_facultades as sf ');
+          QServicios.SQL.Add('ON sf.idfacultad = sp.idfacultad ');
+          QServicios.SQL.Add('WHERE sas.periodo=' + #39 + Periodo + #39 +
+            ' AND sd.iddocente=' + idDocente + ' AND sf.idfacultad=' + #39 +
+            IdFacultad + #39);
+          QServicios.Open;
+          QServicios.First;
+
+          { escribirMensaje('ReporteHorasFacultad',
+            'Se realizo la consulta de Servicios, Total = ' +
+            IntToStr(QServicios.RecordCount)); }
+
+          sumaHorasServicios := 0;
+
+          for l := 1 to QServicios.RecordCount do
+          begin
+            tipo := QServicios.FieldByName('tipo').AsString;
+            Jornada := QServicios.FieldByName('jornada').AsString;
+            horas := QServicios.FieldByName('horas').AsInteger;
+
+            if (Jornada <> 'virtual') and (Jornada <> 'distancia') then
+            begin
+              Semanas := QServicios.FieldByName('semanas').AsInteger;
+              sumaHorasServicios := sumaHorasServicios + horas * Semanas;
+
+              sumaHorasSinFactor := sumaHorasSinFactor + horas * Semanas;
+
+              if tipo = 'pregrado' then
+                sumaHorasConFactor := sumaHorasConFactor +
+                  (horas * Semanas) * Factor
+              else
+                sumaHorasConFactor := sumaHorasConFactor + (horas * Semanas) *
+                  (Factor + 1);
+            end
+            else
+            begin
+              sumaHorasServicios := sumaHorasServicios + horas;
+              sumaHorasSinFactor := sumaHorasSinFactor + horas;
+            end;
+
+            QServicios.Next;
+          end;
+
+          // Guardar la cantidad de horas de la facultad
+          JsonFacultad.AddPair('TotalHoras', floatTostr(sumaHorasServicios));
+
+          Facultades.Add(JsonFacultad);
+
+          QFacultad.Next;
+        end;
+
+        TotalHorasAgenda := TotalHorasAgenda + sumaHorasConFactor;
+
+        { Si el tipo de contrato es carrera o contrato leer funciones docentes }
+        QFunciones.Close;
+        QFunciones.SQL.Text :=
+          'SELECT * FROM siap_funciones_docentes ORDER BY funcion';
+        QFunciones.Open;
+        QFunciones.First;
+
+        { escribirMensaje('ReporteHorasFacultad',
+          'Se realizo la consulta de Funciones, Total = ' +
+          IntToStr(QFunciones.RecordCount)); }
+
+        Funciones := TJSONArray.create;
+        for k := 1 to QFunciones.RecordCount do
+        begin
+          IdFuncion := QFunciones.FieldByName('idfunciondocente').AsString;
+
+          JsonFuncion := TJSONObject.create;
+          JsonFuncion.AddPair('IdFuncion', IdFuncion);
+          JsonFuncion.AddPair('Nombre', QFunciones.FieldByName('funcion')
+            .AsString);
+
+          QActividades.Close;
+          QActividades.SQL.Clear;
+          QActividades.SQL.Add
+            ('SELECT * FROM siap_actividades_funciones_docente as safd ');
+          QActividades.SQL.Add('INNER JOIN siap_funciones_docentes as sfd ');
+          QActividades.SQL.Add('ON safd.idfuncion = sfd.idfunciondocente ');
+          QActividades.SQL.Add('WHERE safd.iddocente=' + idDocente +
+            ' AND safd.periodo=' + #39 + Periodo + #39 + ' AND safd.idfuncion='
+            + #39 + IdFuncion + #39 + '');
+          QActividades.Open;
+          QActividades.First;
+
+          sumaHorasFunciones := 0;
+          for l := 1 to QActividades.RecordCount do
+          begin
+            FormaCalculoFuncion := QActividades.FieldByName
+              ('calculada').AsString;
+            horas := QActividades.FieldByName('horas').AsFloat;
+
+            if FormaCalculoFuncion = 'semanales' then
+              sumaHorasFunciones := sumaHorasFunciones + horas * 17
+            else
+              sumaHorasFunciones := sumaHorasFunciones + horas;
+
+            QActividades.Next;
+          end;
+
+          JsonFuncion.AddPair('TotalHoras', floatTostr(sumaHorasFunciones));
+
+          TotalHorasAgenda := TotalHorasAgenda + sumaHorasFunciones;
+
+          Funciones.Add(JsonFuncion);
+
+          QFunciones.Next;
+        end;
+
+        JsonDocente.AddPair('Facultades', Facultades);
+        JsonDocente.AddPair('totalHorasSinFactor',
+          floatTostr(sumaHorasSinFactor));
+        JsonDocente.AddPair('totalHorasConFactor',
+          floatTostr(sumaHorasConFactor));
+        JsonDocente.AddPair('Funciones', Funciones);
+        JsonDocente.AddPair('TotalHorasAgenda', floatTostr(TotalHorasAgenda));
+
+        Docentes.Add(JsonDocente);
+
+        QDocentes.Next;
+
+        escribirMensaje('ReporteHorasFacultad',
+          'Se creo el informe del docente = ' + idDocente);
+      end;
+
+      { Crear el vector de nombres de facultades }
+      QFacultad.Close;
+      QFacultad.SQL.Text := 'SELECT * FROM siap_facultades ORDER BY facultad';
+      QFacultad.Open;
+      QFacultad.First;
+
+      NombresFacultades := TJSONArray.create;
+      for k := 1 to QFacultad.RecordCount do
+      begin
+        JsonNombreFacultad := TJSONObject.create;
+        JsonNombreFacultad.AddPair('IdFacultad',
+          QFacultad.FieldByName('idfacultad').AsString);
+        JsonNombreFacultad.AddPair('Nombre', QFacultad.FieldByName('facultad')
+          .AsString);
+
+        NombresFacultades.Add(JsonNombreFacultad);
+        QFacultad.Next;
+      end;
+
+      escribirMensaje('ReporteHorasFacultad',
+        'Se agrego la lista de facultades');
+
+      JsonContrato.AddPair('Docentes', Docentes);
+      JsonContrato.AddPair('Facultades', NombresFacultades);
+
+      Contratos.Add(JsonContrato);
+
+      QContrato.Next;
+
+      escribirMensaje('ReporteHorasFacultad', 'Contrato Terminado: ' +
+        Contratos.toString);
+    end;
+
+    Json.AddPair('Contratos', Contratos);
+
+  except
+    on E: Exception do
+    begin
+      Json.AddPair(JsonError, E.Message);
+      enviarError(TimeToStr(now), DateToStr(now), 'getAgendaServicio',
+        E.Message + '=>' + Periodo);
+    end;
+  end;
+
+  Result := Json;
+  escribirMensaje('AgendaServicio', Json.toString);
+  Query.Free;
+end;
+
 function TMatematicas.ReporteProgramaServicios(const IdProgrma, Periodo: string)
   : TJSONObject;
 var
@@ -8679,6 +9229,11 @@ begin
   end;
 
   Result := Json;
+end;
+
+function TMatematicas.updateLoginUsuario(const datos: TJSONObject): TJSONObject;
+begin
+  Result := moduloDatos.postLoginUsuario(datos);
 end;
 
 function TMatematicas.acceptconcurrencia(const token: string;

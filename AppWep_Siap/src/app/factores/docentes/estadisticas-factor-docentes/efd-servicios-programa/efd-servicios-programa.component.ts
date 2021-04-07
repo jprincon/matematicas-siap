@@ -31,7 +31,7 @@ export class EfdServiciosProgramaComponent implements OnInit {
 
   obtenerReportePrograma(IdPrograma: string, periodo: string) {
     this.genService.getReporteProgramasServicios(IdPrograma, periodo).subscribe((rServicios: any) => {
-      console.log(rServicios);
+
       this.ReportesServicios = rServicios.Servicios;
     });
   }
@@ -51,7 +51,7 @@ export class EfdServiciosProgramaComponent implements OnInit {
 
   obtenerProgramas() {
     this.genService.getProgramas().subscribe((rProgramas: any) => {
-      console.log(rProgramas);
+
       this.Programas = rProgramas.Programas;
       this.bProgramas = this.Programas;
 
@@ -75,7 +75,6 @@ export class EfdServiciosProgramaComponent implements OnInit {
   }
 
   seleccionarPrograma(programa: Programa) {
-    console.log(programa);
 
     this.nombreDoc = 'Reporte de Servicios - ' + programa.programa.toUpperCase() + ' - (' + this.periodo + ').doc';
     this.nombreExcel = 'Reporte de Servicios - ' + programa.programa.toUpperCase() + ' - (' + this.periodo + ').xls';

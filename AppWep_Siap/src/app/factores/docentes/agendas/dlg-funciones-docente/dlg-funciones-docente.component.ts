@@ -78,7 +78,7 @@ export class DlgFuncionesDocenteComponent implements OnInit {
 
   leerActividadFuncionDocente() {
     this.genService.getActividadFuncionDocente(this.id).subscribe((rActividadFuncionDocente: ActividadFuncionDocente) => {
-      console.log(rActividadFuncionDocente);
+
       this.actividadfunciondocente = rActividadFuncionDocente;
 
       this.leerActividades();

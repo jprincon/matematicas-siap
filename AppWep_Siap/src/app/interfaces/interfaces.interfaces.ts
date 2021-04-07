@@ -309,21 +309,38 @@ export interface AreaProfundizacion {
 }
 
 export interface TrabajoGrado {
-  idtrabajogrado?: string;
   titulo?: string;
+  idtrabajogrado?: string;
   estudiante1?: string;
   estudiante2?: string;
   estudiante3?: string;
   idjurado1?: string;
+  jurado1?: Docente;
   idjurado2?: string;
+  jurado2?: Docente;
   idjurado3?: string;
+  jurado3?: Docente;
   iddirector?: string;
+  director?: Docente;
+	idcodirector?: string;
+  codirector?: Docente;
   idmodalidad?: string;
+  modalidad?: Modalidad;
   idareaprofundizacion?: string;
+  areaProfundizacion?: AreaProfundizacion;
   idgrupoinvestigacion?: string;
+  grupoInvestigacion?: GrupoInvestigacion;
+  actanombramientojurados?: string;
   actapropuesta?: string;
+  evaluacionpropuesta?: string;
+	evaluaciontrabajoescrito?: string;
+	evaluacionsustentacion?: string;
   fechasustentacion?: string;
-  calificacion?: string;
+  calificacionfinal?: string;
+  estudiantecedederechos?: string;
+	fechainicioejecucion?: string;
+	cantidadsemestresejecucion?: number;
+  estadoavance?: number;
 }
 
 export interface Periodo {
@@ -387,5 +404,34 @@ export interface ReporteServicio {
   programa?: string;
   telefono?: string;
   tipo?: string;
+}
+
+export interface FacultadEFD {
+  IdFacultad?: string;
+  Nombre?: string;
+  TotalHoras?: string;
+}
+
+export interface FuncionEFD {
+  IdFuncion?: string;
+  Nombre?: string;
+  TotalHoras?: string;
+}
+
+export interface DocenteEFD {
+  IdDocente?: string;
+  Nombre?: string;
+  totalHorasConFactor?: string;
+  totalHorasSinFactor?: string;
+  Facultades?: FacultadEFD[];
+  Funciones?: FuncionEFD[];
+  TotalHorasAgenda?: string;
+}
+
+export interface ContratoEFD {
+  Contrato?: string;
+  IdTipoContrato?: string;
+  Docentes?: DocenteEFD[];
+  Facultades?: FacultadEFD[];
 }
 
