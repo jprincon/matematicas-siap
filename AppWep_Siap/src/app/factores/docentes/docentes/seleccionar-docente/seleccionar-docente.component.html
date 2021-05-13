@@ -1,4 +1,4 @@
-<app-titulo-dialogo [Titulo]="'Seleccionar Docente ...'"></app-titulo-dialogo>
+<app-titulo-dialogo [Titulo]="'Seleccionar ...'"></app-titulo-dialogo>
 
 <div class="text-center" style="margin: 20px;" *ngIf="leyendo">
     <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
@@ -26,7 +26,7 @@
     </tbody>
 
     <tbody>
-        <tr *ngFor="let docente of Docentes; let id = index">
+        <tr *ngFor="let docente of bDocentes; let id = index">
             <td>
                 <img style="border-radius: 100%; width: 64px;" [src]="docente.foto | noImagen">
             </td>

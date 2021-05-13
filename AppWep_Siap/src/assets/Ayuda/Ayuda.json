@@ -1,0 +1,45 @@
+{
+    "Temas": [{
+            "Capitulo": "Procesos Académicos",
+            "Secciones": [{
+                "Seccion": "Trabajos de Grado"
+            }]
+        },
+        {
+            "Capitulo": "Estudiantes",
+            "Secciones": [{
+                "Seccion": "Pruebas Saber PRO"
+            }]
+        },
+        {
+            "Capitulo": "Docentes",
+            "Secciones": [{
+                "Seccion": "Docentes"
+            }]
+        },
+        {
+            "Capitulo": "Internacionalización",
+            "Secciones": [{
+                "Seccion": "RED Clema"
+            }]
+        },
+        {
+            "Capitulo": "Investigación",
+            "Secciones": [{
+                "Seccion": "Grupos de Investigación"
+            }]
+        },
+        {
+            "Capitulo": "Extensión y Gestión del Graduado",
+            "Secciones": [{
+                "Seccion": "MADS - Laboratorio de Matemática Aplicada y Desarrollo de Software"
+            }]
+        },
+        {
+            "Capitulo": "Administración de la Plataforma",
+            "Secciones": [{
+                "Seccion": "Usuarios"
+            }]
+        }
+    ]
+}

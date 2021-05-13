@@ -11,6 +11,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
+import { ChartsModule } from 'ng2-charts';
+
 // %%%%%%% Routing Module %%%%%%%
 import { routingModule } from './app.routes';
 
@@ -80,20 +82,20 @@ import { EstudiantesComponent } from './factores/estudiantes/estudiantes.compone
 import { InvestigacionComponent } from './factores/investigacion/investigacion.component';
 
 // %%%%%%% Manual de la Aplicación %%%%%%%
-import { ManualDesarrolloComponent } from './general/manual-desarrollo/manual-desarrollo.component';
+import { ManualDesarrolloComponent } from './acerca/manual-desarrollo/manual-desarrollo.component';
 import { InternacionalizacionComponent } from './factores/internacionalizacion/internacionalizacion.component';
 import { ProcesosAcademicosComponent } from './factores/procesos_academicos/procesos-academicos.component';
 import { TituloMenuComponent } from './general/titulo-menu/titulo-menu.component';
 import { TiposContratoComponent } from './factores/docentes/tipos-contrato/tipos-contrato.component';
 import { DlgTipoContratoComponent } from './factores/docentes/tipos-contrato/dlg-tipo-contrato/dlg-tipo-contrato.component';
-import { ActualizacionesComponent } from './general/actualizaciones/actualizaciones.component';
+import { ActualizacionesComponent } from './acerca/actualizaciones/actualizaciones.component';
 import { CategoriasDocentesComponent } from './factores/docentes/categorias-docentes/categorias-docentes.component';
 import { DlgCategoriaDocenteComponent } from './factores/docentes/categorias-docentes/dlg-categoria-docente/dlg-categoria-docente.component';
 import { DocentesComponent } from './factores/docentes/docentes/docentes.component';
 import { DlgDocenteComponent } from './factores/docentes/docentes/dlg-docente/dlg-docente.component';
 import { NoImagenPipe } from './pipes/no-imagen.pipe';
 import { DocenteComponent } from './factores/docentes/docente/docente.component';
-import { ErroresComponent } from './general/errores/errores.component';
+import { ErroresComponent } from './acerca/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 import { FacultadesComponent } from './factores/docentes/facultades/facultades.component';
 import { DlgFacultadComponent } from './factores/docentes/facultades/dlg-facultad/dlg-facultad.component';
@@ -105,7 +107,7 @@ import { DlgHorarioServicioComponent } from './factores/docentes/servicios-progr
 import { DlgAgendaServicioComponent } from './factores/docentes/agendas/dlg-agenda-servicio/dlg-agenda-servicio.component';
 import { ConfiguracionesComponent } from './administrador/configuraciones/configuraciones.component';
 import { ServicioProgramaComponent } from './factores/docentes/servicios-programa/servicio-programa/servicio-programa.component';
-import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
+import { TareasPendientesComponent } from './acerca/tareas-pendientes/tareas-pendientes.component';
 import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
 import { DlgFuncionDocenteComponent } from './factores/docentes/funciones-docente/dlg-funcion-docente/dlg-funcion-docente.component';
 import { DlgActividadDocenteComponent } from './factores/docentes/funciones-docente/dlg-actividad-docente/dlg-actividad-docente.component';
@@ -131,6 +133,12 @@ import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-
 import { EfdHorasFacultadesComponent } from './factores/docentes/estadisticas-factor-docentes/efd-horas-facultades/efd-horas-facultades.component';
 import { SeleccionarDocenteComponent } from './factores/docentes/docentes/seleccionar-docente/seleccionar-docente.component';
 import { TituloDialogoComponent } from './general/titulo-dialogo/titulo-dialogo.component';
+import { GraficaEstadisticaComponent } from './dialogos/grafica-estadistica/grafica-estadistica.component';
+import { ActaProgramaComponent } from './factores/procesos_academicos/trabajos-grado/acta-programa/acta-programa.component';
+import { CrearDirectorJuradoComponent } from './factores/docentes/docentes/crear-director-jurado/crear-director-jurado.component';
+import { DirectoresJuradosComponent } from './factores/docentes/docentes/directores-jurados/directores-jurados.component';
+import { CoordinacionPracticaDocenteComponent } from './factores/procesos_academicos/coordinacion-practica-docente/coordinacion-practica-docente.component';
+import { AcercaComponent } from './acerca/acerca.component';
 
 
 
@@ -306,6 +314,18 @@ import { TituloDialogoComponent } from './general/titulo-dialogo/titulo-dialogo.
 
     TituloDialogoComponent,
 
+    GraficaEstadisticaComponent,
+
+    ActaProgramaComponent,
+
+    CrearDirectorJuradoComponent,
+
+    DirectoresJuradosComponent,
+
+    CoordinacionPracticaDocenteComponent,
+
+    AcercaComponent,
+
 
   ],
   imports: [
@@ -318,7 +338,8 @@ import { TituloDialogoComponent } from './general/titulo-dialogo/titulo-dialogo.
     MatSnackBarModule,
     MatMenuModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    ChartsModule
   ],
   providers: [],
   entryComponents: [
@@ -347,7 +368,10 @@ import { TituloDialogoComponent } from './general/titulo-dialogo/titulo-dialogo.
     CrearEditarTrabajoGradoComponent,
     DlgPeriodoComponent,
     DlgFuncionesDocenteComponent,
-    SeleccionarDocenteComponent
+    SeleccionarDocenteComponent,
+    GraficaEstadisticaComponent,
+    ActaProgramaComponent,
+    CrearDirectorJuradoComponent
   ],
   bootstrap: [AppComponent]
 })

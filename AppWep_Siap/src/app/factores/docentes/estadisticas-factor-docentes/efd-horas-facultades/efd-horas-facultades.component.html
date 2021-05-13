@@ -21,42 +21,182 @@
 
 <div *ngIf="!leyendo">
 
-    <div id="reporte-horas-facultades">
-        <div class="m-3" *ngFor="let contrato of Contratos">
-            <h1>Docentes ({{ contrato.Contrato | capitalizado }})</h1>
-            <hr>
+    <div class="card text-center">
+        <div class="card-header bg-light">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item puntero-manito" *ngFor="let contrato of Contratos" (click)="cambiarPestana(contrato)">
+                    <a class="nav-link" [ngClass]="{'active': contrato.Activo}">Docentes ({{ contrato.Contrato | capitalizado }})</a>
+                </li>
+                <li class="nav-item puntero-manito" (click)="cambiarOtraPestana('reporte-afinidad-facultad')">
+                    <a class="nav-link" [ngClass]="{'active': tabReporteFacultad}">Reporte de Afinidad Facultad (Horas Docencia sin Factor)</a>
+                </li>
+                <li class="nav-item puntero-manito" (click)="cambiarOtraPestana('graficos')">
+                    <a class="nav-link" [ngClass]="{'active': tabGraficas}">Análisis Gráfico</a>
+                </li>
+                <li class="nav-item puntero-manito" (click)="cambiarOtraPestana('analisis-horas')">
+                    <a class="nav-link" [ngClass]="{'active': tabAnalisisHoras}">Análisis Horas</a>
+                </li>
+            </ul>
+        </div>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Documento</th>
-                            <th>Nombre</th>
-                            <th style="width: 200px;" *ngFor="let facultad of contrato.Facultades">{{ facultad.Nombre | capitalizado }}</th>
-                            <th>Total Docencia Directa (Sin Factor)</th>
-                            <th>Total Docencia Directa (Con Factor)</th>
-                            <th>Total Docencia Complementaria</th>
-                            <th>Total Horas Investigación</th>
-                            <th>Total Horas Extensión</th>
-                            <th>TOTAL HORAS AGENDA</th>
-                        </tr>
-                    </thead>
+        <div class="card-body">
+            <div id="reporte-horas-facultades">
+                <div class="m-3" *ngFor="let contrato of Contratos">
+                    <!--  <h1>Docentes ({{ contrato.Contrato | capitalizado }})</h1>
+                    <hr> -->
+                    <div *ngIf="contrato.Activo">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Documento</th>
+                                        <th>Nombre</th>
+                                        <th style="width: 200px;" *ngFor="let facultad of contrato.Facultades">{{ facultad.Nombre | capitalizado }}</th>
+                                        <th>Total Docencia Directa (Sin Factor)</th>
+                                        <th>Total Docencia Directa (Con Factor)</th>
+                                        <th>Total Docencia Complementaria</th>
+                                        <th>Total Horas Investigación</th>
+                                        <th>Total Horas Extensión</th>
+                                        <th>TOTAL HORAS AGENDA</th>
+                                    </tr>
+                                </thead>
 
-                    <tbody>
-                        <tr *ngFor="let docente of contrato.Docentes">
-                            <td>{{ docente.IdDocente | number }}</td>
-                            <td>{{ docente.Nombre | capitalizado }}</td>
-                            <td *ngFor="let facultad of docente.Facultades">{{ facultad.TotalHoras }}</td>
-                            <td>{{ docente.totalHorasSinFactor }}</td>
-                            <td>{{ docente.totalHorasConFactor }}</td>
-                            <td>{{ docente.Funciones[0].TotalHoras }}</td>
-                            <td>{{ docente.Funciones[1].TotalHoras }}</td>
-                            <td>{{ docente.Funciones[2].TotalHoras }}</td>
-                            <td>{{ docente.TotalHorasAgenda }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                                <tbody>
+                                    <tr *ngFor="let docente of contrato.Docentes">
+                                        <td>{{ docente.IdDocente | number }}</td>
+                                        <td>{{ docente.Nombre | capitalizado }}</td>
+                                        <td *ngFor="let facultad of docente.Facultades">{{ facultad.TotalHoras }}</td>
+                                        <td>{{ docente.totalHorasSinFactor }}</td>
+                                        <td>{{ docente.totalHorasConFactor }}</td>
+                                        <td>{{ docente.Funciones[0].TotalHoras }}</td>
+                                        <td>{{ docente.Funciones[1].TotalHoras }}</td>
+                                        <td>{{ docente.Funciones[2].TotalHoras }}</td>
+                                        <td>{{ docente.TotalHorasAgenda }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Total</th>
+                                        <td></td>
+                                        <th *ngFor="let facultad of contrato.Facultades">{{ facultad.TotalHoras }}</th>
+                                        <th *ngFor="let estadistica of contrato.Estadisticas">{{ estadistica.Horas }}</th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <div *ngIf="tabReporteFacultad">
+                <div class="alert alert-success">
+                    <h3>Descripción</h3>
+                    <hr>
+                    <p class="text-justify">A continuación se presenta la distribución de horas de docencia sin factor de cada docente, por cada facultad por tipo de contrato.</p>
+                </div>
+
+                <div *ngFor="let afinidadContrato of afinidadContratos">
+
+                    <div class="card">
+                        <div class="card-header bg-dark text-white text-center">
+                            <h3 class="text-white">Estadísticas de Afinidad por Facultad para docentes con tipo de contrato: {{ afinidadContrato.Nombre | capitalizado }}</h3>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="card shadow" style="width: 600px; margin: 30px;" *ngFor="let docente of afinidadContrato.Docentes; let id = index">
+                            <div class="card-header bg-dark text-white text-center">
+                                <h3>{{ docente.Docente | capitalizado }}</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <canvas baseChart [data]="docente.Datos" [labels]="docente.Etiquetas" [chartType]="pieChartType" [options]="pieChartOptions" [colors]="pieChartColors" [legend]="pieChartLegend">
+                          </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="tabGraficas">
+                <div class="row">
+                    <div style="width: 400px; margin: 30px;">
+                        <div class="card shadow" (click)="verGrafica('horas-facultades')">
+                            <div class="card-header bg-dark text-white text-center">
+                                <h3 style="height: 120px;" class="card-title">Cantidad de horas de prestación de servicios por facultad y tipo de contrato</h3>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: block; height: 250px;">
+                                    <canvas baseChart [datasets]="datosFacultadesDocencia" [labels]="lbFacultadesDocencia" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 400px; margin: 30px;">
+                        <div class="card shadow" (click)="verGrafica('ejes-misionales')">
+                            <div class="card-header bg-dark text-white text-center">
+                                <h3 class="card-title" style="height: 120px;">Ejes misionales por tipo de contrato</h3>
+                            </div>
+                            <div class="card-body">
+                                <div style="display: block; height: 250px;">
+                                    <canvas baseChart [datasets]="datosEstadisticasFunciones" [labels]="lbEstadisticasFunciones" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                                  </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="tabAnalisisHoras">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="card shadow">
+                            <div class="card-header bg-dark">
+                                <h3 class="text-white text-center">Opciones de Gráficas</h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <select class="custom-select" (change)="cambiarOpciones()" [(ngModel)]="generalChartType" name="radarChartType">
+                                  <option value="bar">Barras</option>
+                                  <option value="pie">Pastel</option>
+                                  <option value="polarArea">Área Polar</option>
+                                  <option value="radar">Radar</option>
+                                  <option value="line">Lineal</option>
+                                </select>
+
+                                <ul class="list-group list-group-flush text-justify puntero-manito">
+                                    <li class="list-group-item-action list-group-item" *ngFor="let menuEst of MenusEstadisticas" (click)="crearGrafica(menuEst)">{{ menuEst.Titulo}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        <div class="alert alert-info" role="alert">
+                            <h1 class="font-weight-bold">{{ tituloGeneral }}</h1>
+                            <hr>
+                            <p class="font-size-24 text-justify">{{ descripcionGeneral }}</p>
+                        </div>
+
+                        <div style="display: block;">
+                            <canvas baseChart [datasets]="datosGeneral" [colors]="generalChartColors" [labels]="lbDatosGeneral" [options]="generalChartOptions" [legend]="generalChartLegend" [chartType]="generalChartType">
+                            </canvas>
+                        </div>
+
+                        <div style="height: 50px;"></div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
+
 </div>

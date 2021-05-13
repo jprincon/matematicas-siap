@@ -25,7 +25,7 @@ export class SeleccionarDocenteComponent implements OnInit {
 
   obtenerDocentes() {
     this.leyendo = true;
-    this.genService.getDocentes('Nombre').subscribe((RespDocentes: any) => {
+    this.genService.getDirectoresJurados().subscribe((RespDocentes: any) => {
       console.log(RespDocentes);
       this.Docentes = RespDocentes.Docentes;
       this.bDocentes = this.Docentes;

@@ -15,6 +15,8 @@ export interface Menu {
   habilitado?: boolean;
   tieneSubMenu?: boolean;
   subMenu?: SubMenu[];
+  imagen?: string;
+  descripcion?: string;
 }
 
 export interface MenuPrincipal {

@@ -16,10 +16,12 @@
 
     <div class="row">
 
-        <div class="col-md-3">
+        <div style="width: 25%;">
             <div class="card card-shadow">
                 <div class="card-body">
-                    <img class="img-fluid" style="border-radius: 100%;" [src]="docente.foto | noImagen">
+                    <div class="circular-landscape" align="center" style="width: 250px; height: 250px;">
+                        <img [src]="docente.foto | noImagen">
+                    </div>
 
                     <h3 class="text-center">{{ docente.nombre | capitalizado }}</h3>
 
@@ -70,30 +72,101 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Tipo Contrato</label>
-                <select class="custom-select" [(ngModel)]="docente.idtipocontrato" name="idtipocontrato">
-                <option [value]="''">Seleccione un tipo de contrato ...</option>
-                <option [value]="tipo.idtipocontrato" *ngFor="let tipo of TiposContrato" >{{ tipo.contrato | capitalizado }}</option>
-              </select>
-            </div>
-
             <button (click)="guardarDocente()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
         </div>
     </div>
 
-    <!-- %%%%%%% Histórico de Agendas %%%%%%% -->
-    <h3>Histórico de Agendas</h3>
-    <hr>
+    <mat-accordion>
 
-    <!-- %%%%%%% Grupo de Investigación %%%%%%% -->
-    <h3>Grupo de Investigación</h3>
-    <hr>
+        <!-- %%%%%%% Formación %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Formación</h3>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
 
-    <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
-    <h3>Trabajos de Grado</h3>
-    <hr>
+        <!-- %%%%%%% Grupo de Investigación %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Grupo de Investigación</h3>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
 
+        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Trabajos de Grado Dirigidos</h3>
+            </mat-expansion-panel-header>
 
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="font-size-24">No</th>
+                        <th class="font-size-24">Título</th>
+                        <th class="font-size-24">Estudiantes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let trabajoGrado of perfilDocente.DirectorTrabajosGrado; let id = index">
+                        <td class="font-size-24">{{ id + 1 }}</td>
+                        <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
+                        <td class="font-size-24">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-expansion-panel>
+
+        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Trabajos de Grado Evaluados</h3>
+            </mat-expansion-panel-header>
+
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="font-size-24">No</th>
+                        <th class="font-size-24">Título</th>
+                        <th class="font-size-24">Estudiantes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let trabajoGrado of perfilDocente.JuradoTrabajosGrado; let id = index">
+                        <td class="font-size-24">{{ id + 1 }}</td>
+                        <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
+                        <td class="font-size-24">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
+                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-expansion-panel>
+
+        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Producción</h3>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+
+        <!-- %%%%%%% Histórico de Agendas %%%%%%% -->
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <h3>Histórico de Agendas</h3>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
 
 </form>

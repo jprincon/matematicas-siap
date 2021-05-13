@@ -104,11 +104,24 @@ create table if not exists siap_docentes (
 	nombre text,
 	correo text,
 	telefono text,
+	vinculacion text,
+	institucion text,
 	idcategoriadocente text references siap_categoria_docentes(idcategoriadocente),
 	idtipocontrato text references siap_tipo_contrato(idtipocontrato)
 ); 
 alter table siap_docentes add column activo text;
 alter table siap_docentes add column documento text;
+alter table siap_docentes add column vinculacion text;
+alter table siap_docentes add column institucion text;
+
+create table if not exists siap_formacion (
+	idformacion text primary key not null,
+	titulo text,
+	fechainicio text,
+	fechafin text,
+	institucion text,
+	iddocente integer references siap_docentes(iddocente)
+);
 
 /* Tabla de Errores: Permite registrar los errores de la aplicación
    y mostrarlos mediante un servicio */
@@ -123,8 +136,14 @@ create table if not exists siap_errores(
 /*Tabla para Facultad*/
 create table if not exists siap_facultades(
        idfacultad text primary key not null,
-       facultad text
+       facultad text,
+	   color text,
+	   nombrecorto text,
+	   orden integer
 );
+-- alter table siap_facultades add column color text;
+-- alter table siap_facultades add column nombrecorto text;
+-- alter table siap_facultades add column orden integer;
 
 /*Tabla para Programa*/
 create table if not exists siap_programas(

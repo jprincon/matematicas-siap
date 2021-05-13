@@ -1,6 +1,6 @@
 import { GeneralService } from '../../../../services/general.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { TrabajoGrado, Docente, Modalidad, AreaProfundizacion, GrupoInvestigacion } from '../../../../interfaces/interfaces.interfaces';
+import { TrabajoGrado, Docente, Modalidad, AreaProfundizacion, GrupoInvestigacion, ActaConsejoCurricular } from '../../../../interfaces/interfaces.interfaces';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Utilidades } from '../../../../utilidades/utilidades.class';
@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogosService } from '../../../../services/dialogos.service';
 import { SeleccionarDocenteComponent } from '../../../docentes/docentes/seleccionar-docente/seleccionar-docente.component';
 import { RUTA_TRABAJOSGRADO } from '../../../../config/config';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-crear-editar-trabajo-grado',
@@ -52,6 +53,13 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 	    cantidadsemestresejecucion: 0,
       estadoavance: 0
   };
+
+  actanombramientojurados = '';
+  jurado1 = '';
+  jurado2 = '';
+  jurado3 = '';
+  director = '';
+  codirector = '';
 
   /* trabajogrado: TrabajoGrado = {
     titulo: 'Coordenadas Polares',
@@ -98,6 +106,13 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
   AreasProfundizacion: AreaProfundizacion[] = [];
   GruposInvestigacion: GrupoInvestigacion[] = [];
 
+  verCamposEstudiantes: boolean[] = [true, false, false];
+  estudiantes = 1;
+  estadoLectura = 0;
+
+  private bsLecturaTerminada = new BehaviorSubject<boolean>(false);
+  public obtenerEstadoLectura = this.bsLecturaTerminada.asObservable();
+
   constructor(private genService: GeneralService,
               private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,
@@ -106,6 +121,14 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerParametros();
+
+    this.obtenerEstadoLectura.subscribe((rEstado: boolean) => {
+      if (rEstado) {
+        if (this.id !== 'Crear') {
+          this.leerTrabajoGrado();
+        }
+      }
+    });
   }
 
   obtenerParametros() {
@@ -113,9 +136,6 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       console.log(rParams);
 
       this.id = rParams.Id;
-      if (this.id !== 'Crear') {
-        this.leerTrabajoGrado();
-      }
 
       this.leerModalidades();
       this.leerAreasProfundizacion();
@@ -127,6 +147,8 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     this.genService.getModalidades().subscribe((RespModalidades: any) => {
       console.log(RespModalidades);
       this.Modalidades = RespModalidades.Modalidades;
+      this.estadoLectura++;
+      this.bsLecturaTerminada.next(this.estadoLectura === 3);
     });
   }
 
@@ -134,6 +156,8 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     this.genService.getAreasProfundizacion().subscribe((RespAreasProfundizacion: any) => {
       console.log(RespAreasProfundizacion);
       this.AreasProfundizacion = RespAreasProfundizacion.AreasProfundizacion;
+      this.estadoLectura++;
+      this.bsLecturaTerminada.next(this.estadoLectura === 3);
     });
   }
 
@@ -141,13 +165,29 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     this.genService.getGruposInvestigacion().subscribe((RespGruposInvestigacion: any) => {
       console.log(RespGruposInvestigacion);
       this.GruposInvestigacion = RespGruposInvestigacion.GruposInvestigacion;
+      this.estadoLectura++;
+      this.bsLecturaTerminada.next(this.estadoLectura === 3);
     });
   }
 
   leerTrabajoGrado() {
-      this.genService.getTrabajoGrado(this.id).subscribe((rTrabajoGrado: TrabajoGrado) => {
-        this.trabajogrado = rTrabajoGrado;
-      });
+    this.leyendo = true;
+    this.genService.getTrabajoGrado(this.id).subscribe((rTrabajoGrado: TrabajoGrado) => {
+      console.log(rTrabajoGrado);
+      this.trabajogrado = rTrabajoGrado;
+
+      this.verCamposEstudiantes[1] = this.trabajogrado.estudiante2.length > 0;
+      this.verCamposEstudiantes[2] = this.trabajogrado.estudiante3.length > 0;
+      this.leyendo = false;
+    });
+  }
+
+  generarActa() {
+    this.dlgService.mostrarAcc(this.trabajogrado.actanombramientojurados).subscribe((rActa: string) => {
+      console.log(rActa);
+      this.trabajogrado.actanombramientojurados = rActa;
+      this.actanombramientojurados = rActa;
+    });
   }
 
   guardarTrabajoGrado() {
@@ -166,6 +206,31 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       this.trabajogrado.modalidad = {};
       this.trabajogrado.areaProfundizacion = {};
 
+      if (this.trabajogrado.idcodirector.length === 0) {
+        this.trabajogrado.idcodirector = this.trabajogrado.iddirector;
+      }
+
+      // Validaciones de Campo
+      if (this.trabajogrado.iddirector.length === 0) {
+        this.dlgService.mostrarMensaje('Debe completar el campo del director del trabajo de grado', 'info');
+        this.guardando = false;
+        return;
+      }
+
+      if ((this.trabajogrado.idjurado1.length === 0) &&
+          (this.trabajogrado.idjurado2.length === 0) &&
+          (this.trabajogrado.idjurado3.length === 0)) {
+        this.dlgService.mostrarMensaje('Debe completar los campos de los jurados', 'info');
+        this.guardando = false;
+        return;
+      }
+
+      if (this.trabajogrado.actanombramientojurados.length === 0) {
+        this.dlgService.mostrarMensaje('Debe completar el campo de acta de nombramiento de jurados', 'info');
+        this.guardando = false;
+        return;
+      }
+
       const datos = JSON.stringify(this.trabajogrado);
       this.genService.postTrabajoGrado(datos).subscribe((rRespuesta: any) => {
 
@@ -173,10 +238,22 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
         this.genService.navegar([RUTA_TRABAJOSGRADO]);
       });
     } else {
+
+      this.trabajogrado.jurado1 = {};
+      this.trabajogrado.jurado2 = {};
+      this.trabajogrado.jurado3 = {};
+      this.trabajogrado.director = {};
+      this.trabajogrado.codirector = {};
+      this.trabajogrado.grupoInvestigacion = {};
+      this.trabajogrado.modalidad = {};
+      this.trabajogrado.areaProfundizacion = {};
+
       const datos = JSON.stringify(this.trabajogrado);
 
+      console.log(this.trabajogrado);
       this.genService.putTrabajoGrado(datos).subscribe((rRespuesta: any) => {
 
+        this.guardando = false;
         this.dlgService.mostrarSnackBar('Siap dice ...', rRespuesta.Respuesta || rRespuesta.Error);
         this.genService.navegar([RUTA_TRABAJOSGRADO]);
       });
@@ -200,24 +277,49 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       if (nJurado === 1) {
         this.trabajogrado.idjurado1 = RespDocente.iddocente;
         this.trabajogrado.jurado1 = RespDocente;
+        this.jurado1 = this.trabajogrado.jurado1.nombre;
       }
       if (nJurado === 2) {
         this.trabajogrado.idjurado2 = RespDocente.iddocente;
         this.trabajogrado.jurado2 = RespDocente;
+        this.jurado2 = this.trabajogrado.jurado2.nombre;
       }
       if (nJurado === 3) {
         this.trabajogrado.idjurado3 = RespDocente.iddocente;
         this.trabajogrado.jurado3 = RespDocente;
+        this.jurado3 = this.trabajogrado.jurado3.nombre;
       }
       if (nJurado === 4) {
         this.trabajogrado.iddirector = RespDocente.iddocente;
         this.trabajogrado.director = RespDocente;
+        this.director = this.trabajogrado.director.nombre;
       }
       if (nJurado === 5) {
         this.trabajogrado.idcodirector = RespDocente.iddocente;
         this.trabajogrado.codirector = RespDocente;
+        this.codirector = this.trabajogrado.codirector.nombre;
       }
     });
+  }
+
+  noEditar() {
+    this.jurado1 = this.trabajogrado.jurado1.nombre;
+    this.jurado2 = this.trabajogrado.jurado2.nombre;
+    this.jurado3 = this.trabajogrado.jurado3.nombre;
+    this.director = this.trabajogrado.director.nombre;
+    this.codirector = this.trabajogrado.codirector.nombre;
+    this.actanombramientojurados = this.trabajogrado.actanombramientojurados;
+  }
+
+  agregarEstudiante() {
+    this.estudiantes++;
+    if (this.estudiantes > 3) {
+      this.estudiantes = 3;
+    }
+
+    for (let i = 0; i < this.estudiantes; i++) {
+      this.verCamposEstudiantes[i] = true;
+    }
   }
 
 }

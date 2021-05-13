@@ -1426,10 +1426,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     object TabConfiguracion: TTabSheet
       Caption = 'Configuraci'#243'n'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object ScrollBox1: TScrollBox
         Left = 0
         Top = 0
@@ -1459,7 +1455,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             AlignWithMargins = True
             Left = 5
             Top = 24
-            Width = 801
+            Width = 984
             Height = 19
             Align = alTop
             Caption = 
@@ -1471,6 +1467,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             Font.Name = 'Tahoma'
             Font.Style = [fsItalic]
             ParentFont = False
+            ExplicitWidth = 801
           end
           object cbCrearResumenesEMEM: TCheckBox
             AlignWithMargins = True
@@ -1508,7 +1505,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             AlignWithMargins = True
             Left = 5
             Top = 24
-            Width = 740
+            Width = 984
             Height = 19
             Align = alTop
             Caption = 
@@ -1520,6 +1517,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             Font.Name = 'Tahoma'
             Font.Style = [fsItalic]
             ParentFont = False
+            ExplicitWidth = 740
           end
           object edRutaCertificado: TEdit
             AlignWithMargins = True
@@ -1558,7 +1556,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             AlignWithMargins = True
             Left = 5
             Top = 24
-            Width = 658
+            Width = 984
             Height = 19
             Align = alTop
             Caption = 
@@ -1570,6 +1568,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             Font.Name = 'Tahoma'
             Font.Style = [fsItalic]
             ParentFont = False
+            ExplicitWidth = 658
           end
           object edDescargaCertificados: TEdit
             AlignWithMargins = True
@@ -1608,7 +1607,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             AlignWithMargins = True
             Left = 5
             Top = 24
-            Width = 493
+            Width = 984
             Height = 19
             Align = alTop
             Caption = 
@@ -1620,6 +1619,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
             Font.Name = 'Tahoma'
             Font.Style = [fsItalic]
             ParentFont = False
+            ExplicitWidth = 493
           end
           object cbTalleres: TCheckBox
             AlignWithMargins = True
@@ -1643,10 +1643,6 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     object TabSheet1: TTabSheet
       Caption = 'Scripts SQL'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object seSQL: TSynEdit
         Left = 0
         Top = 0
@@ -1691,7 +1687,7 @@ object FDataSnapMatematicas: TFDataSnapMatematicas
     Left = 808
     Top = 64
     Bitmap = {
-      494C010104000800900020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000800940020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000004000000001002000000000000080
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

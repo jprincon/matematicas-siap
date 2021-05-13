@@ -8,6 +8,27 @@
 
 <div class="row m-3">
     <div class="col-md-3">
+
+        <div class="card shadow mb-3">
+            <div class="card-header bg-dark text-white">
+                <h3 class="card-title">Menú</h3>
+            </div>
+
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item-action list-group-item puntero-manito" *ngFor="let menu of Menus" (click)="abrirMenu(menu)">
+                        <div class="media">
+                            <img class="mr-3" [src]="menu.imagen" style="width: 64px;">
+                            <div class="media-body">
+                                <h5 class="text-info">{{ menu.nombre | capitalizado }}</h5>
+                                <p>{{ menu.descripcion }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="card shadow">
             <div class="card-header bg-dark text-white">
                 <h3 class="card-title">Opciones de Búsqueda</h3>
@@ -16,9 +37,8 @@
             <div class="card-body">
                 <div class="form-group">
                     <label class="font-weight-bold text-info">Título</label>
-                    <input (keydown.enter)="buscarTrabajosGrado()" class="form-control" [(ngModel)]="trabajogrado.titulo" name="titulo">
+                    <input (keydown.enter)="buscarTrabajosGrado_porTitulo()" class="form-control" [(ngModel)]="trabajogrado.titulo" name="titulo">
                 </div>
-
             </div>
         </div>
     </div>
@@ -26,9 +46,95 @@
     <div class="col-md-9">
         <div class="m-3" *ngIf="!leyendo">
 
-            <button class="btn btn-outline-success float-right" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Crear Trabajo Grado</button>
+            <div class="modal-footer">
+                <button class="btn btn-outline-success" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Crear Trabajo Grado</button>
+            </div>
 
-            <table class="table table-hover puntero-manito">
+            <ul class="list-group" *ngIf="verDescripciones">
+                <li class="list-group-item list-group-item-action" *ngFor="let trabajogrado of TrabajosGrado; let id = index">
+                    <div class="media">
+                        <img class="mr-3" src="assets/Iconos/trabajosgrado.png" style="height: 64px;">
+                        <div class="media-body">
+                            <h4 class="text-info">{{ trabajogrado.titulo | capitalizado }}</h4>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Autor(es)</h5>
+                                    <hr>
+                                    <ul>
+                                        <li>{{ trabajogrado.estudiante1 | capitalizado}}</li>
+                                        <li *ngIf="trabajogrado.estudiante2.length > 0">{{ trabajogrado.estudiante2 | capitalizado}}</li>
+                                        <li *ngIf="trabajogrado.estudiante3.length > 0">{{ trabajogrado.estudiante3 | capitalizado}}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Dirección</h5>
+                                    <hr>
+                                    <ul>
+                                        <li><b>Director: </b>{{ trabajogrado.director.nombre | capitalizado}}</li>
+                                        <li *ngIf="trabajogrado.codirector"><b>Codirector: </b>{{ trabajogrado.codirector.nombre | capitalizado}}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Jurados</h5>
+                                    <hr>
+                                    <ul>
+                                        <li>{{ trabajogrado.jurado1.nombre | capitalizado}}</li>
+                                        <li>{{ trabajogrado.jurado2.nombre | capitalizado}}</li>
+                                        <li>{{ trabajogrado.jurado3.nombre | capitalizado}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Tipología</h5>
+                                    <hr>
+                                    <ul>
+                                        <li><b>Modalidad: </b>{{ trabajogrado.modalidad.nombre| capitalizado}}</li>
+                                        <li><b>Área Profundización: </b>{{ trabajogrado.areaProfundizacion.nombre| capitalizado}}</li>
+                                        <li><b>Grupo Investigación: </b>{{ trabajogrado.grupoInvestigacion.nombre| capitalizado}}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Evaluación</h5>
+                                    <hr>
+                                    <ul>
+                                        <li><b>Propuesta: </b>{{ trabajogrado.evaluacionpropuesta| capitalizado}}</li>
+                                        <li><b>Trabajo Escrito: </b>{{ trabajogrado.evaluaciontrabajoescrito| capitalizado}}</li>
+                                        <li><b>Sustentación: </b>{{ trabajogrado.evaluacionsustentacion| capitalizado}}</li>
+                                        <li><b>Calificación Final: </b>{{ trabajogrado.calificacionfinal | capitalizado}}</li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h5 class="text-info">Estado</h5>
+                                    <hr>
+                                    <ul>
+                                        <li><b>Fecha de Entrega de Propuesta: </b>{{ trabajogrado.actapropuesta}}</li>
+                                        <li><b>Fecha de Inicio de Ejecución: </b>{{ trabajogrado.fechainicioejecucion}}</li>
+                                        <li><b>Fecha de Sustentación: </b>{{ trabajogrado.fechasustentacion}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
+                                <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTrabajoGrado(trabajogrado)">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <table class="table table-hover puntero-manito" *ngIf="verLista">
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
@@ -45,17 +151,17 @@
                 <tbody>
                     <tr *ngFor="let trabajogrado of TrabajosGrado; let id = index">
                         <td>{{ id + 1 }}</td>
-                        <td>{{ trabajogrado.titulo }}</td>
+                        <td>{{ trabajogrado.titulo | capitalizado }}</td>
                         <td>
                             <ul>
-                                <li>{{ trabajogrado.estudiante1 }}</li>
-                                <li>{{ trabajogrado.estudiante2 }}</li>
-                                <li>{{ trabajogrado.estudiante3 }}</li>
+                                <li>{{ trabajogrado.estudiante1 | capitalizado}}</li>
+                                <li *ngIf="trabajogrado.estudiante2.length > 0">{{ trabajogrado.estudiante2 | capitalizado}}</li>
+                                <li *ngIf="trabajogrado.estudiante3.length > 0">{{ trabajogrado.estudiante3 | capitalizado}}</li>
                             </ul>
                         </td>
                         <td>{{ trabajogrado.modalidad.nombre | capitalizado }}</td>
                         <td>{{ trabajogrado.fechasustentacion }}</td>
-                        <td>{{ trabajogrado.calificacionfinal }}</td>
+                        <td>{{ trabajogrado.calificacionfinal | capitalizado }}</td>
                         <td>
                             <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
                         </td>
@@ -65,6 +171,27 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="row" *ngIf="verTarjetas">
+                <div style="width: 25%;" *ngFor="let trabajogrado of TrabajosGrado">
+                    <div class="card shadow m-3">
+                        <div class="card-header text-white bg-dark">
+                            <h4 class="card-title text-center">{{ trabajogrado.modalidad.nombre | capitalizado }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="text-info text-center">{{ trabajogrado.titulo | reducirTexto:'150' | capitalizado}}</h2>
+                            <hr>
+                            <ul>
+                                <li>{{ trabajogrado.estudiante1 | capitalizado}}</li>
+                                <li *ngIf="trabajogrado.estudiante2.length > 0">{{ trabajogrado.estudiante2 | capitalizado}}</li>
+                                <li *ngIf="trabajogrado.estudiante3.length > 0">{{ trabajogrado.estudiante3 | capitalizado}}</li>
+                            </ul>
+                            <div class="card-footer bg-light">
+                                <p class="text-center">{{ trabajogrado.grupoInvestigacion.nombre | capitalizado }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>

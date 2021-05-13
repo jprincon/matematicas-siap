@@ -20,8 +20,20 @@ export class Utilidades {
     return clave;
   }
 
+  generarColor() {
+    const r = this.getRandomInt(0, 255);
+    const g = this.getRandomInt(0, 255);
+    const b = this.getRandomInt(0, 255);
+
+    return `rgba(${r},${g},${b},0.7)`;
+  }
+
   getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  StrToFloat(s: string): number {
+    return Number(s.replace(',', '.'));
   }
 
   transformarFecha(fechaJS: string): string {

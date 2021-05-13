@@ -1,0 +1,40 @@
+<h2 class="text-info text-center">Acta del Consejo Curricular</h2>
+<hr>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="font-weight-bold text-info">Acta</label>
+            <input class="form-control" [(ngModel)]="acc.Acta" name="acta">
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="font-weight-bold text-info">Día</label>
+            <input class="form-control" [(ngModel)]="acc.Dia" name="Dia">
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="font-weight-bold text-info">Mes</label>
+            <input class="form-control" [(ngModel)]="acc.Mes" name="Mes">
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="font-weight-bold text-info">Año</label>
+            <input class="form-control" [(ngModel)]="acc.Anyo" name="Anyo">
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success" role="alert">
+    <p>ACC {{acc.Acta}} del {{ acc.Dia }} de {{ acc.Mes }} del {{ acc.Anyo }}</p>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-outline-success" (click)="guardar()">Guardar</button>
+</div>

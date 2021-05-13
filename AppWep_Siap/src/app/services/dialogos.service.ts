@@ -11,7 +11,7 @@ import { EsperaComponent } from '../dialogos/espera/espera.component';
 import { MostrarParticipanteComponent } from '../dialogos/mostrar-participante/mostrar-participante.component';
 import { EvaluarResumenEmemComponent } from '../dialogos/evaluar-resumen-emem/evaluar-resumen-emem.component';
 import { SnackBarComponent } from '../dialogos/snack-bar/snack-bar.component';
-import { Usuario, Resumen } from '../interfaces/interfaces.interfaces';
+import { Usuario, Resumen, ActaConsejoCurricular } from '../interfaces/interfaces.interfaces';
 import { DlgTipoContratoComponent } from '../factores/docentes/tipos-contrato/dlg-tipo-contrato/dlg-tipo-contrato.component';
 import { DlgCategoriaDocenteComponent } from '../factores/docentes/categorias-docentes/dlg-categoria-docente/dlg-categoria-docente.component';
 import { DlgDocenteComponent } from '../factores/docentes/docentes/dlg-docente/dlg-docente.component';
@@ -31,6 +31,11 @@ import { DlgPeriodoComponent } from '../factores/docentes/periodos/dlg-periodo/d
 import { DlgFuncionesDocenteComponent } from '../factores/docentes/agendas/dlg-funciones-docente/dlg-funciones-docente.component';
 import { CrearEditarTrabajoGradoComponent } from '../factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
 import { SeleccionarDocenteComponent } from '../factores/docentes/docentes/seleccionar-docente/seleccionar-docente.component';
+import { ChartDataSets, ChartType } from 'chart.js';
+import { Label } from 'ng2-charts';
+import { GraficaEstadisticaComponent } from '../dialogos/grafica-estadistica/grafica-estadistica.component';
+import { ActaProgramaComponent } from '../factores/procesos_academicos/trabajos-grado/acta-programa/acta-programa.component';
+import { CrearDirectorJuradoComponent } from '../factores/docentes/docentes/crear-director-jurado/crear-director-jurado.component';
 
 @Injectable({
   providedIn: 'root'
@@ -132,6 +137,15 @@ export class DialogosService {
 
   DlgDocente(accion: string, iddocente: string) {
     const dialogRef = this.dialog.open(DlgDocenteComponent, {
+      width: '60%',
+      data: {accion, iddocente}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  crearEditarDirectorJurado(accion: string, iddocente: string) {
+    const dialogRef = this.dialog.open(CrearDirectorJuradoComponent, {
       width: '60%',
       data: {accion, iddocente}
     });
@@ -269,6 +283,22 @@ export class DialogosService {
     const dialogRef = this.dialog.open(SeleccionarDocenteComponent, {
       width: '80%',
       data: {}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  mostrarGrafica(datos: ChartDataSets[], etiquetas: Label[], tipo: ChartType, titulo: string) {
+    const dialogRef = this.dialog.open(GraficaEstadisticaComponent, {
+      width: '90%',
+      data: {datos, etiquetas, tipo, titulo}
+    });
+  }
+
+  mostrarAcc(acc: string) {
+    const dialogRef = this.dialog.open(ActaProgramaComponent, {
+      width: '600px',
+      data: {acc}
     });
 
     return dialogRef.afterClosed();

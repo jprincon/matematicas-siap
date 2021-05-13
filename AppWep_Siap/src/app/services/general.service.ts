@@ -44,6 +44,7 @@ export class GeneralService {
   private URL_DOCENTE = 'Docente';
   private URL_FOTO_DOCENTE = 'FotoDocente';
   private URL_DOCENTES = 'Docentes';
+  private URL_DIRECTORES_JURADOS = 'DirectoresJurados';
   private URL_DOCENTES_POR_CONTRATO = 'DocentesPorContrato';
   private URL_ERROR = 'Error';
   private URL_ERROR_POR_MENSAJE = 'ErrorPorMensaje';
@@ -90,6 +91,7 @@ export class GeneralService {
   private URL_REPORTE_PROGRAMA_SERVICIOS = 'ReporteProgramaServicios';
   private URL_REPORTE_HORAS_POR_FACULTAD = 'ReporteHorasFacultad';
   private URL_LOGIN_USUARIO = 'LoginUsuario';
+  private URL_PERFIL_DOCENTE = 'PerfilDocente';
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -220,6 +222,11 @@ export class GeneralService {
 
   obtenerPermisoNavegar(): boolean {
     return this.token.length > 0;
+  }
+
+  getManualAyuda() {
+    const url = 'assets/Ayuda/Ayuda.json';
+    return this.http.get(url);
   }
 
   descargarTablaExcel() {
@@ -729,6 +736,11 @@ export class GeneralService {
 
   getDocentes(ordenarPor: string) {
     const url = this.dataSnap_Path(this.URL_DOCENTES) + this.parametro(ordenarPor);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  getDirectoresJurados() {
+    const url = this.dataSnap_Path(this.URL_DIRECTORES_JURADOS);
     return this.http.get(url).pipe(retry(10));
   }
 
@@ -1348,18 +1360,13 @@ export class GeneralService {
 
   putTrabajoGrado(datos: string) {
     const url = this.dataSnap_Path(this.URL_TRABAJOGRADO);
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    const headers = this.headers;
     return this.http.put(url, datos, {headers}).pipe(retry(10));
   }
 
   deleteTrabajoGrado(id: string) {
-    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(this.token) + this.parametro(id);
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(id);
+    const headers = this.headers;
     return this.http.delete(url, {headers}).pipe(retry(10));
   }
 
@@ -1480,6 +1487,13 @@ export class GeneralService {
 
   getReporteHorasFacultad(periodo: string) {
     const url = this.dataSnap_Path(this.URL_REPORTE_HORAS_POR_FACULTAD) + this.parametro(periodo);
+    return this.http.get(url).pipe(retry(10));
+  }
+
+  // %%%%%%% Perfil del Docente %%%%%%%
+
+  getPerfilDocente(IdDocente: string) {
+    const url = this.dataSnap_Path(this.URL_PERFIL_DOCENTE) + this.parametro(IdDocente);
     return this.http.get(url).pipe(retry(10));
   }
 }

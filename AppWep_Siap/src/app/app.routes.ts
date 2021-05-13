@@ -30,17 +30,17 @@ import { EstudiantesComponent } from './factores/estudiantes/estudiantes.compone
 import { InvestigacionComponent } from './factores/investigacion/investigacion.component';
 
 // %%%%%%% Rutas de Acceso Público %%%%%%%
-import { ManualDesarrolloComponent } from './general/manual-desarrollo/manual-desarrollo.component';
+import { ManualDesarrolloComponent } from './acerca/manual-desarrollo/manual-desarrollo.component';
 import { NoPaginaComponent } from './general/no-pagina/no-pagina.component';
 import { FactoresComponent } from './factores/factores.component';
 import { InternacionalizacionComponent } from './factores/internacionalizacion/internacionalizacion.component';
 import { ProcesosAcademicosComponent } from './factores/procesos_academicos/procesos-academicos.component';
 import { TiposContratoComponent } from './factores/docentes/tipos-contrato/tipos-contrato.component';
-import { ActualizacionesComponent } from './general/actualizaciones/actualizaciones.component';
+import { ActualizacionesComponent } from './acerca/actualizaciones/actualizaciones.component';
 import { CategoriasDocentesComponent } from './factores/docentes/categorias-docentes/categorias-docentes.component';
 import { DocentesComponent } from './factores/docentes/docentes/docentes.component';
 import { DocenteComponent } from './factores/docentes/docente/docente.component';
-import { ErroresComponent } from './general/errores/errores.component';
+import { ErroresComponent } from './acerca/errores/errores.component';
 import { AgendasComponent } from './factores/docentes/agendas/agendas.component';
 
 import { RUTA_DOCENTES, RUTA_TIPO_CONTRATO, RUTA_CATEGORIA_DOCENTE, RUTA_FACTOR_DOCENTES, RUTA_DOCENTE, RUTA_ERRORES, RUTA_AGENDAS,
@@ -53,7 +53,7 @@ import { FacultadesComponent } from './factores/docentes/facultades/facultades.c
 import { ProgramasComponent } from './factores/docentes/programas/programas.component';
 import { ServiciosProgramaComponent } from './factores/docentes/servicios-programa/servicios-programa.component';
 import { ServicioProgramaComponent } from './factores/docentes/servicios-programa/servicio-programa/servicio-programa.component';
-import { TareasPendientesComponent } from './general/tareas-pendientes/tareas-pendientes.component';
+import { TareasPendientesComponent } from './acerca/tareas-pendientes/tareas-pendientes.component';
 import { FuncionesDocenteComponent } from './factores/docentes/funciones-docente/funciones-docente.component';
 import { EgresadosComponent } from './factores/extension/egresados/egresados.component';
 import { GruposInvestigacionComponent } from './factores/investigacion/grupos-investigacion/grupos-investigacion.component';
@@ -67,8 +67,10 @@ import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agend
 import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
 import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
 import { EfdHorasFacultadesComponent } from './factores/docentes/estadisticas-factor-docentes/efd-horas-facultades/efd-horas-facultades.component';
-import { RUTA_ESTADISTICAS_HORAS_FACULTADES, RUTA_FACTORES, RUTA_CREAR_EDITAR_TRABAJO_GRADO } from './config/config';
+import { RUTA_ESTADISTICAS_HORAS_FACULTADES, RUTA_FACTORES, RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, RUTA_ADMINISTRADOR, RUTA_NOT_PAGE_FOUND, RUTA_ACERCA, RUTA_MANUAL_AYUDA, RUTA_GESTION_ERRORES } from './config/config';
 import { CrearEditarTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
+import { DirectoresJuradosComponent } from './factores/docentes/docentes/directores-jurados/directores-jurados.component';
+import { AcercaComponent } from './acerca/acerca.component';
 
 const routes: Routes = [
 
@@ -90,18 +92,21 @@ const routes: Routes = [
   {path: RUTA_TRABAJOSGRADO, component: TrabajosGradoComponent},
   {path: RUTA_CREAR_EDITAR_TRABAJO_GRADO + '/:Id', component: CrearEditarTrabajoGradoComponent},
 
+  // %%%%%%% FACTORES - PROCESOS ACADÉMICOS %%%%%%%
 
-  // %%%%%%% Rutas Factor Estudinates %%%%%%%
+  // %%%%%%% FACTORES - ESTUDIANTES %%%%%%%
+
   {path: 'estudiantes', component: EstudiantesComponent, canActivate: [RutaNavegarService]},
 
+  // %%%%%%% FACTORES - DOCENTES %%%%%%%
 
-  // %%%%%%% Rutas Factor Docentes %%%%%%%
   {path: RUTA_FACTOR_DOCENTES, component: FactorDocentesComponent, canActivate: [RutaNavegarService],
     children: [
       {path: RUTA_TIPO_CONTRATO, component: TiposContratoComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_CATEGORIA_DOCENTE, component: CategoriasDocentesComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_PERIODOS, component: PeriodosComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_DOCENTES, component: DocentesComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, component: DirectoresJuradosComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_DOCENTE + '/:id', component: DocenteComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_FACULTADES, component: FacultadesComponent, canActivate: [RutaNavegarService]},
       {path: RUTA_PROGRAMAS, component: ProgramasComponent, canActivate: [RutaNavegarService]},
@@ -119,39 +124,40 @@ const routes: Routes = [
     ]
   },
 
+  // %%%%%%% FACTORES - INTERNACIONALIZACIÓN %%%%%%%
 
-  // %%%%%%% Rutas Factor Internacionalización %%%%%%%
   {path: 'internacionalizacion', component: InternacionalizacionComponent, canActivate: [RutaNavegarService]},
 
+  // %%%%%%% FACTORES - INVESTIGACION %%%%%%%
 
-  // %%%%%%% Rutas Investigación %%%%%%%
   {path: 'investigacion', component: InvestigacionComponent, canActivate: [RutaNavegarService]},
   {path: RUTA_GRUPOSINVESTIGACION, component: GruposInvestigacionComponent},
 
+  // %%%%%%% FACTORES - EXTENSIÓN Y GESTIÓN DEL GRADUADO %%%%%%%
 
-  // %%%%%%% Rutas Factor Extension %%%%%%%
   {path: RUTA_FACTOR_EXTENSION, component: ExtensionComponent, canActivate: [RutaNavegarService]},
   {path: RUTA_EGRESADOS, component: EgresadosComponent},
 
+  // %%%%%%% MENU - ACERCA DE %%%%%%%
+  {path: RUTA_ACERCA, component: AcercaComponent,
+    children: [
+      {path: RUTA_ACTUALIZACIONES, component: ActualizacionesComponent},
+      {path: RUTA_TAREAS_PENDIENTES, component: TareasPendientesComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_MANUAL_AYUDA, component: ManualDesarrolloComponent, canActivate: [RutaNavegarService]},
+      {path: RUTA_GESTION_ERRORES, component: ErroresComponent, canActivate: [RutaNavegarService]}
+    ]},
 
-  // %%%%%%% Acerca de ... %%%%%%%
-  {path: RUTA_ACTUALIZACIONES, component: ActualizacionesComponent},
-  {path: RUTA_TAREAS_PENDIENTES, component: TareasPendientesComponent, canActivate: [RutaNavegarService]},
-  {path: RUTA_ERRORES, component: ErroresComponent, canActivate: [RutaNavegarService]},
-
-
-  // %%%%%%% Rutas de Administración %%%%%%%
+  // %%%%%%% MENU - ADMINISTRACIÓN DE LA PLATAFORMA %%%%%%%
   {
-    path: 'administrador',
+    path: RUTA_ADMINISTRADOR,
     component: AdministradorComponent,
     children: RUTAS_ADMINISTRADOR,
     canActivate: [RutaAdminService]
   },
 
-
   // %%%%%%% Ruta de Página no encontrada %%%%%%%
-  {path: 'no-page-found', component: NoPaginaComponent},
-  {path: '**', pathMatch: 'full', redirectTo: 'no-page-found'}
+  {path: RUTA_NOT_PAGE_FOUND, component: NoPaginaComponent},
+  {path: '**', pathMatch: 'full', redirectTo: RUTA_NOT_PAGE_FOUND}
 ];
 
 export const routingModule = RouterModule.forRoot(routes, {useHash: true});

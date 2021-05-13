@@ -1,4 +1,5 @@
 import { stringify } from '@angular/core/src/util'
+import { Label } from 'ng2-charts';
 
 export interface Noticia {
   imagen?: string;
@@ -140,6 +141,8 @@ export interface Docente {
   contrato?: string;
   documento?: string;
   activo?: string;
+  institucion?: string;
+  vinculacion?: string;
 }
 
 export interface Error {
@@ -410,6 +413,8 @@ export interface FacultadEFD {
   IdFacultad?: string;
   Nombre?: string;
   TotalHoras?: string;
+  Color?: string;
+  NombreCorto?: string;
 }
 
 export interface FuncionEFD {
@@ -428,10 +433,60 @@ export interface DocenteEFD {
   TotalHorasAgenda?: string;
 }
 
+export interface Estadistica {
+  Nombre?: string;
+  Horas?: string;
+}
+
 export interface ContratoEFD {
   Contrato?: string;
   IdTipoContrato?: string;
   Docentes?: DocenteEFD[];
   Facultades?: FacultadEFD[];
+  Activo?: boolean;
+  Estadisticas?: Estadistica[];
+}
+
+export interface AfinidadDocente {
+  Docente?: string;
+  Etiquetas?: Label[];
+  Datos?: number[];
+}
+
+export interface AfinidadContrato {
+  Nombre?: string;
+  Docentes?: AfinidadDocente[];
+}
+
+export interface ActaConsejoCurricular {
+  Acta?: string;
+  Dia?: string;
+  Mes?: string;
+  Anyo?: string;
+}
+
+export interface PerfilDocenteTrabajoGrado {
+  CalificacionFinal?: string;
+  Estudiante1?: string;
+  Estudiante2?: string;
+  Estudiante3?: string;
+  EvaluacionPropuesta?: string;
+  EvaluacionSustentacion?: string;
+  EvaluacionTrabajoEscrito?: string;
+  Titulo?: string;
+}
+
+export interface PerfilDocente {
+  JuradoTrabajosGrado?: PerfilDocenteTrabajoGrado[];
+  DirectorTrabajosGrado?: PerfilDocenteTrabajoGrado[];
+}
+
+export interface Seccion {
+  Seccion?: string;
+}
+
+export interface Tema {
+  Capitulo?: string;
+  Secciones?: Seccion[];
 }
 

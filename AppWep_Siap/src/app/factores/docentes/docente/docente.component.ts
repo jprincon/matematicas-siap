@@ -1,3 +1,4 @@
+import { PerfilDocente } from './../../../interfaces/interfaces.interfaces';
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -30,6 +31,8 @@ export class DocenteComponent implements OnInit {
   guardando = false;
   leyendo = false;
 
+  perfilDocente: PerfilDocente;
+
   constructor(private activatedRoute: ActivatedRoute,
               private genService: GeneralService,
               private dlgService: DialogosService,
@@ -50,7 +53,13 @@ export class DocenteComponent implements OnInit {
 
       this.genService.getDocente(this.docente.iddocente).subscribe((rDocente: Docente) => {
         this.docente = rDocente;
-        this.leyendo = false;
+
+        this.genService.getPerfilDocente(this.docente.iddocente).subscribe((rPerfilDocente: any) => {
+
+          console.log(rPerfilDocente);
+          this.perfilDocente = rPerfilDocente;
+          this.leyendo = false;
+        });
       });
     });
   }
