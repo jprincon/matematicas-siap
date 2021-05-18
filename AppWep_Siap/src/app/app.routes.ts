@@ -67,10 +67,12 @@ import { EstadoAgendasComponent } from './factores/docentes/agendas/estado-agend
 import { EstadisticasFactorDocentesComponent } from './factores/docentes/estadisticas-factor-docentes/estadisticas-factor-docentes.component';
 import { EfdServiciosProgramaComponent } from './factores/docentes/estadisticas-factor-docentes/efd-servicios-programa/efd-servicios-programa.component';
 import { EfdHorasFacultadesComponent } from './factores/docentes/estadisticas-factor-docentes/efd-horas-facultades/efd-horas-facultades.component';
-import { RUTA_ESTADISTICAS_HORAS_FACULTADES, RUTA_FACTORES, RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, RUTA_ADMINISTRADOR, RUTA_NOT_PAGE_FOUND, RUTA_ACERCA, RUTA_MANUAL_AYUDA, RUTA_GESTION_ERRORES } from './config/config';
+import { RUTA_ESTADISTICAS_HORAS_FACULTADES, RUTA_FACTORES, RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, RUTA_ADMINISTRADOR, RUTA_NOT_PAGE_FOUND, RUTA_ACERCA, RUTA_MANUAL_AYUDA, RUTA_GESTION_ERRORES, RUTA_PLAN_MEJORAMIENTO, RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO } from './config/config';
 import { CrearEditarTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/crear-editar-trabajo-grado/crear-editar-trabajo-grado.component';
 import { DirectoresJuradosComponent } from './factores/docentes/docentes/directores-jurados/directores-jurados.component';
 import { AcercaComponent } from './acerca/acerca.component';
+import { PlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/plan-mejoramiento.component';
+import { CrearEditarPlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/crear-editar-plan-mejoramiento/crear-editar-plan-mejoramiento.component';
 
 const routes: Routes = [
 
@@ -93,6 +95,8 @@ const routes: Routes = [
   {path: RUTA_CREAR_EDITAR_TRABAJO_GRADO + '/:Id', component: CrearEditarTrabajoGradoComponent},
 
   // %%%%%%% FACTORES - PROCESOS ACADÉMICOS %%%%%%%
+  {path: RUTA_PLAN_MEJORAMIENTO, component: PlanMejoramientoComponent},
+  {path: RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO + '/:Id', component: CrearEditarPlanMejoramientoComponent},
 
   // %%%%%%% FACTORES - ESTUDIANTES %%%%%%%
 

@@ -1,0 +1,106 @@
+<h2 class="text-info">Plan de Mejoramiento {{ planMejoramiento.orden }}</h2>
+<hr>
+
+<table class="table table-hover">
+    <tbody>
+        <tr>
+            <th>No</th>
+            <td>{{ planMejoramiento.orden }}</td>
+        </tr>
+
+        <tr>
+            <th>Factor/Estándares de Calidad/Normatividad</th>
+            <td>{{ planMejoramiento.factorCalidad.factor }}</td>
+        </tr>
+
+        <tr>
+            <th>Característica Requisito</th>
+            <td>{{ planMejoramiento.requisito.requisito }}</td>
+        </tr>
+
+        <tr>
+            <th>Descripción Oportunidad de Mejora (Debilidad o Fortaleza a Consolidar)</th>
+            <td>{{ planMejoramiento.descripcion_mejora }}</td>
+        </tr>
+
+        <tr>
+            <th>Tipo de Acción</th>
+            <td>{{ planMejoramiento.tipoAccion.tipo_accion}}</td>
+        </tr>
+
+        <tr>
+            <th>Causas Principales</th>
+            <td>{{ planMejoramiento.causas_principales}}</td>
+        </tr>
+
+        <tr>
+            <th>Metas</th>
+            <td>{{ planMejoramiento.metas }}</td>
+        </tr>
+
+        <tr>
+            <th>Fecha de Inicio Programada</th>
+            <td>{{ planMejoramiento.fecha_inicio }}</td>
+        </tr>
+
+        <tr>
+            <th>Fecha de Finalización Programada</th>
+            <td>{{ planMejoramiento.fecha_fin }}</td>
+        </tr>
+
+        <tr>
+            <th>Actividades</th>
+            <td>{{ planMejoramiento.actividades }}</td>
+        </tr>
+
+        <tr>
+            <th>Presupuesto en Miles de $ u otros Recursos</th>
+            <td></td>
+        </tr>
+
+        <tr>
+            <th>Responsable de la Ejecución Principal</th>
+            <td>{{ planMejoramiento.responsable_ejecucion }}</td>
+        </tr>
+
+        <tr>
+            <th>Responsable del Seguimiento</th>
+            <td>{{ planMejoramiento.responsable_seguimiento }}</td>
+        </tr>
+
+        <tr>
+            <th>Indicador para la Meta</th>
+            <td>{{ planMejoramiento.indicador_meta }}</td>
+        </tr>
+
+        <tr>
+            <th>Fórmulas de Indicadores</th>
+            <td>{{ planMejoramiento.formula_indicador }}</td>
+        </tr>
+
+        <tr>
+            <th>Resultado de los Indicadores</th>
+            <td>{{ planMejoramiento.resultado_indicador}}</td>
+        </tr>
+
+        <tr>
+            <th>Avance por Metas (Acumulado)</th>
+            <td>{{ planMejoramiento.avance_meta }}</td>
+        </tr>
+
+        <tr>
+            <th>Seguimiento</th>
+            <td>{{ planMejoramiento.seguimiento }}</td>
+        </tr>
+
+        <tr>
+            <th>Observaciones/Verificación de la Eficacia</th>
+            <td>{{ planMejoramiento.observaciones }}</td>
+        </tr>
+
+        <tr>
+            <th>Estado Actual de la Acción</th>
+            <td>{{ planMejoramiento.responsable_ejecucion }}</td>
+        </tr>
+    </tbody>
+</table>

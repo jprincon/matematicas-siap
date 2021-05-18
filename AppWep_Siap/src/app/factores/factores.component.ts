@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../services/transfer.service';
 import { MenuFactores, BotonMenu, Favorito } from '../interfaces/interfaces.interfaces';
 import { Utilidades } from '../utilidades/utilidades.class';
-import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_TRABAJOSGRADO, RUTA_ACERCA, RUTA_ACTUALIZACIONES, RUTA_MANUAL_AYUDA, RUTA_TAREAS_PENDIENTES, RUTA_GESTION_ERRORES } from '../config/config';
+import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_TRABAJOSGRADO, RUTA_ACERCA, RUTA_ACTUALIZACIONES, RUTA_MANUAL_AYUDA, RUTA_TAREAS_PENDIENTES, RUTA_GESTION_ERRORES, RUTA_PLAN_MEJORAMIENTO } from '../config/config';
 
 @Component({
   selector: 'app-factores',
@@ -28,7 +28,7 @@ export class FactoresComponent implements OnInit {
        {
           Titulo: 'Plan de Mejoramiento',
           Icono: 'pendiente.png',
-          Ruta: [''],
+          Ruta: [RUTA_PLAN_MEJORAMIENTO],
           IdBoton: 'pro-aca-plan-mejora'
        },
        {

@@ -34,8 +34,18 @@ export class EfdHorasFacultadesComponent implements OnInit {
     },
     {
       Titulo: 'Distribución de horas en los ejes misionales',
-      Descripcion: 'Esta gráfica muestra la distribución de horas por las tres categorias de tipo de contrato. El propósito es conocer como se distribuyen las horas en cada uno de los ejes misionales de la Universidad',
+      Descripcion: 'Esta gráfica muestra la distribución de horas totales de las tres categorias de tipo de contrato. El propósito es conocer como se distribuyen las horas en cada uno de los ejes misionales de la Universidad',
       Tipo: 'ejes-misionales'
+    },
+    {
+      Titulo: 'Distribución de horas en los ejes misionales por tipo de contrato',
+      Descripcion: 'Esta gráfica muestra la distribución de horas en las tres categorias de tipo de contrato. En ésta gráfica se conoce cómo se distribuyen las horas de cada uno de los ejes misionales en cada uno de los tipos de contrato.',
+      Tipo: 'ejes-misionales-tipo-contrato'
+    },
+    {
+      Titulo: 'Distribución de horas por facultad y tipo de contrato',
+      Descripcion: 'Esta gráfica muestra la distribución de horas por cada una de las facultades y por los tres tipos de contrato.',
+      Tipo: 'horas-por-facultad-contrato'
     }
   ];
 
@@ -126,7 +136,6 @@ export class EfdHorasFacultadesComponent implements OnInit {
               private dlgService: DialogosService) { }
 
   ngOnInit() {
-    console.clear();
 
     this.transfer.enviarTituloAplicacion('Reporte de Horas por Facultad');
     // this.obtenerReporteHorasFacultad();
@@ -148,6 +157,7 @@ export class EfdHorasFacultadesComponent implements OnInit {
     this.leyendo = true;
     this.genService.getReporteHorasFacultad('2021-1').subscribe((rReporte: any) => {
       console.log(rReporte);
+
       this.Contratos = rReporte.Contratos;
 
       this.cambiarPestana(this.Contratos[0]);
@@ -197,7 +207,7 @@ export class EfdHorasFacultadesComponent implements OnInit {
       this.afinidadContratos.push({Nombre: contrato.Contrato, Docentes: aDocentes});
     }
 
-    console.log(this.afinidadContratos);  }
+  }
 
   generarGraficas() {
     // Estadísticas de Facultades
@@ -229,8 +239,6 @@ export class EfdHorasFacultadesComponent implements OnInit {
       }
       this.datosEstadisticasFunciones.push({data: datos, label: contrato.Contrato.toUpperCase()});
     }
-    console.log(this.datosEstadisticasFunciones);
-
   }
 
   crearGrafica(menuEst: any) {
@@ -241,7 +249,6 @@ export class EfdHorasFacultadesComponent implements OnInit {
     this.descripcionGeneral = menuEst.Descripcion;
 
     // %%%%%%% Horas de Docencia Directa por Tipo de Contrato %%%%%%%
-
     if (menuEst.Tipo === 'hordoc-tipcon') {
       const datos: number[] = [];
       for (const contrato of this.Contratos) {
@@ -267,6 +274,43 @@ export class EfdHorasFacultadesComponent implements OnInit {
         this.lbDatosGeneral.push(estadista.Nombre);
       }
       this.datosGeneral.push({data: datos, label: menuEst.Titulo});
+    }
+
+    // %%%%%%% Número de Horas por ejes misionales por tipo de contrato %%%%%%%
+    if (menuEst.Tipo === 'ejes-misionales-tipo-contrato') {
+
+      for (const estadista of this.Contratos[0].Estadisticas) {
+        this.lbDatosGeneral.push(estadista.Nombre);
+      }
+
+      for (const contrato of this.Contratos) {
+        const datos: number[] = [];
+
+        for (const estadistica of contrato.Estadisticas) {
+          datos.push(new Utilidades().StrToFloat(estadistica.Horas));
+        }
+
+        this.datosGeneral.push({data: datos, label: contrato.Contrato.toUpperCase()});
+      }
+    }
+
+    // %%%%%%% Horas por tipo de contrato por facultad %%%%%%%
+    if (menuEst.Tipo === 'horas-por-facultad-contrato') {
+      // Crear las etiquetas para las facultades
+      for (const facultad of this.Contratos[0].Facultades) {
+        this.lbDatosGeneral.push(facultad.NombreCorto);
+      }
+
+      // Datos de horas por cada contrato por cada facultad
+      for (const contrato of this.Contratos) {
+        const datos: number[] = [];
+
+        for (const facultad of contrato.Facultades) {
+          datos.push(Number(facultad.TotalHoras));
+        }
+
+        this.datosGeneral.push({data: datos, label: contrato.Contrato.toUpperCase()});
+      }
     }
   }
 

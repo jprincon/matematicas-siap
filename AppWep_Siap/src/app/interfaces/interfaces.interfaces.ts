@@ -490,3 +490,53 @@ export interface Tema {
   Secciones?: Seccion[];
 }
 
+export interface FactorCalidad {
+  idfactorcalidad?: string;
+  factor?: string;
+}
+
+export interface Requisito {
+  idrequisito?: string;
+  requisito?: string;
+}
+
+export interface TipoAccion {
+  idtipoaccion?: string;
+  tipo_accion?: string;
+}
+
+export interface Fuente {
+  idfuente?: string;
+  fuente?: string;
+}
+
+export interface PlanMejoramiento {
+  idplan?: string;
+  orden?: number;
+  idfuente?: string;
+  fuente?: Fuente;
+  idfactorcalidad?: string;
+  factorCalidad?: FactorCalidad;
+  idrequisito?: string;
+  requisito?: Requisito;
+  descripcion_mejora?: string;
+  idtipoaccion?: string;
+  tipoAccion?: TipoAccion;
+  causas_principales?: string;
+  metas?: string;
+  fecha_inicio?: Date;
+  fecha_fin?: Date;
+  actividades?: string;
+  responsable_ejecucion?: string;
+  responsable_seguimiento?: string;
+  indicador_meta?: string;
+  formula_indicador?: string;
+  resultado_indicador?: string;
+  avance_meta?: string;
+  seguimiento?: string;
+  observaciones?: string;
+  estado_actual_accion?: string;
+}
+
+
+

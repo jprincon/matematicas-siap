@@ -44,3 +44,5 @@ export const RUTA_NOT_PAGE_FOUND = 'no-page-found';
 export const RUTA_ACERCA = 'acerca';
 export const RUTA_MANUAL_AYUDA = 'manual-ayuda';
 export const RUTA_GESTION_ERRORES = 'gestion-errores';
+export const RUTA_PLAN_MEJORAMIENTO = 'plan-mejoramiento';
+export const RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO = 'crear-editar-plan-mejoramiento';

@@ -92,6 +92,12 @@ export class GeneralService {
   private URL_REPORTE_HORAS_POR_FACULTAD = 'ReporteHorasFacultad';
   private URL_LOGIN_USUARIO = 'LoginUsuario';
   private URL_PERFIL_DOCENTE = 'PerfilDocente';
+  private URL_FACTORES_CALIDAD = 'factoresCalidad';
+  private URL_REQUISITOS = 'Requisitos';
+  private URL_TIPOS_ACCION = 'TiposAccion';
+  private URL_FUENTES = 'Fuentes';
+  private URL_PLAN_MEJORAMIENTO = 'PlanMejoramiento';
+  private URL_PLANES_MEJORAMIENTO = 'PlanesMejoramiento';
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -1495,5 +1501,59 @@ export class GeneralService {
   getPerfilDocente(IdDocente: string) {
     const url = this.dataSnap_Path(this.URL_PERFIL_DOCENTE) + this.parametro(IdDocente);
     return this.http.get(url).pipe(retry(10));
+  }
+
+  getFactoresCalidad() {
+    const url = this.dataSnap_Path(this.URL_FACTORES_CALIDAD);
+    return this.http.get(url);
+  }
+
+  getRequisitos() {
+    const url = this.dataSnap_Path(this.URL_REQUISITOS);
+    return this.http.get(url);
+  }
+
+  getTiposAccion() {
+    const url = this.dataSnap_Path(this.URL_TIPOS_ACCION);
+    return this.http.get(url);
+  }
+
+  getFuentes() {
+    const url = this.dataSnap_Path(this.URL_FUENTES);
+    return this.http.get(url);
+  }
+
+  getPlanesMejoramiento() {
+    const url = this.dataSnap_Path(this.URL_PLANES_MEJORAMIENTO);
+    return this.http.get(url);
+  }
+
+  getPlanMejoramiento(IdPlan: string) {
+    const url = this.dataSnap_Path(this.URL_PLAN_MEJORAMIENTO) + this.parametro(IdPlan);
+    return this.http.get(url);
+  }
+
+  deletePlanMejoramiento(IdPlan: string) {
+    const url = this.dataSnap_Path(this.URL_PLAN_MEJORAMIENTO) + this.parametro(IdPlan);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url,  {headers});
+  }
+
+  postPlanMejoramiento(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PLAN_MEJORAMIENTO);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers});
+  }
+
+  putPlanMejoramiento(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PLAN_MEJORAMIENTO);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put(url, datos, {headers});
   }
 }

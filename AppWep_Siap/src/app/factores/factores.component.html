@@ -7,7 +7,7 @@
         <div class="row m-3">
 
             <!-- BOTÓN -->
-            <div *ngFor="let favorito of Favoritos" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu2(favorito)">
+            <div *ngFor="let favorito of Favoritos" style="width: 270px;" class="text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu2(favorito)">
                 <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + favorito.icono" alt="Descargar">
                 <div class="text-center" style="height: 65px;">
                     <p>{{ favorito.titulo | capitalizado }}</p>
@@ -23,7 +23,7 @@
         <div class="row m-3">
 
             <!-- BOTÓN -->
-            <div *ngFor="let boton of menu.Botones" class="col-md-2 text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu(boton)">
+            <div *ngFor="let boton of menu.Botones" style="width: 270px;" class="text-center puntero-manito animate__rubberBand animate__animated" (click)="abrirMenu(boton)">
                 <img style="margin: 5px; height: 120px;" [src]="'assets/Iconos/' + boton.Icono" alt="Descargar">
                 <div class="text-center" style="height: 65px;">
                     <p>{{ boton.Titulo }}</p>

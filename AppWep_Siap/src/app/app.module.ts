@@ -139,6 +139,9 @@ import { CrearDirectorJuradoComponent } from './factores/docentes/docentes/crear
 import { DirectoresJuradosComponent } from './factores/docentes/docentes/directores-jurados/directores-jurados.component';
 import { CoordinacionPracticaDocenteComponent } from './factores/procesos_academicos/coordinacion-practica-docente/coordinacion-practica-docente.component';
 import { AcercaComponent } from './acerca/acerca.component';
+import { PlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/plan-mejoramiento.component';
+import { CrearEditarPlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/crear-editar-plan-mejoramiento/crear-editar-plan-mejoramiento.component';
+import { VerPlanMejoraComponent } from './factores/procesos_academicos/plan-mejoramiento/ver-plan-mejora/ver-plan-mejora.component';
 
 
 
@@ -326,6 +329,12 @@ import { AcercaComponent } from './acerca/acerca.component';
 
     AcercaComponent,
 
+    PlanMejoramientoComponent,
+
+    CrearEditarPlanMejoramientoComponent,
+
+    VerPlanMejoraComponent,
+
 
   ],
   imports: [
@@ -371,7 +380,8 @@ import { AcercaComponent } from './acerca/acerca.component';
     SeleccionarDocenteComponent,
     GraficaEstadisticaComponent,
     ActaProgramaComponent,
-    CrearDirectorJuradoComponent
+    CrearDirectorJuradoComponent,
+    VerPlanMejoraComponent
   ],
   bootstrap: [AppComponent]
 })
