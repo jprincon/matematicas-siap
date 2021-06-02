@@ -11,7 +11,7 @@ import { EsperaComponent } from '../dialogos/espera/espera.component';
 import { MostrarParticipanteComponent } from '../dialogos/mostrar-participante/mostrar-participante.component';
 import { EvaluarResumenEmemComponent } from '../dialogos/evaluar-resumen-emem/evaluar-resumen-emem.component';
 import { SnackBarComponent } from '../dialogos/snack-bar/snack-bar.component';
-import { Usuario, Resumen, ActaConsejoCurricular, PlanMejoramiento } from '../interfaces/interfaces.interfaces';
+import { Usuario, Resumen, ActaConsejoCurricular, PlanMejoramiento, FactorCalidad } from '../interfaces/interfaces.interfaces';
 import { DlgTipoContratoComponent } from '../factores/docentes/tipos-contrato/dlg-tipo-contrato/dlg-tipo-contrato.component';
 import { DlgCategoriaDocenteComponent } from '../factores/docentes/categorias-docentes/dlg-categoria-docente/dlg-categoria-docente.component';
 import { DlgDocenteComponent } from '../factores/docentes/docentes/dlg-docente/dlg-docente.component';
@@ -37,6 +37,7 @@ import { GraficaEstadisticaComponent } from '../dialogos/grafica-estadistica/gra
 import { ActaProgramaComponent } from '../factores/procesos_academicos/trabajos-grado/acta-programa/acta-programa.component';
 import { CrearDirectorJuradoComponent } from '../factores/docentes/docentes/crear-director-jurado/crear-director-jurado.component';
 import { VerPlanMejoraComponent } from '../factores/procesos_academicos/plan-mejoramiento/ver-plan-mejora/ver-plan-mejora.component';
+import { CrearEditarFactorCalidadComponent } from '../factores/procesos_academicos/plan-mejoramiento/crear-editar-factor-calidad/crear-editar-factor-calidad.component';
 
 @Injectable({
   providedIn: 'root'
@@ -310,6 +311,15 @@ export class DialogosService {
       width: '90%', height: '90%',
       data: {planMejoramiento}
     });
+  }
+
+  crearEditarFactorCalidad(factorCalidad: FactorCalidad) {
+    const dialogRef = this.dialog.open(CrearEditarFactorCalidadComponent, {
+      width: '60%',
+      data: {factorCalidad}
+    });
+
+    return dialogRef.afterClosed();
   }
 }
 

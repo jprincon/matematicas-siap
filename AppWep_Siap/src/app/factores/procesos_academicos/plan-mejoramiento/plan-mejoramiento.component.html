@@ -1,31 +1,29 @@
 <div class="m-3">
-    <button class="btn btn-outline-success mb-3" (click)="agregarPlanMejoramiento()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Plan Mejoramiento</button>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-header bg-dark">
+                    <h3 class="card-title text-white text-center">Opciones para el Plan de Mejoramiento</h3>
+                </div>
 
-    <table class="table table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>No</th>
-                <th>Descripción de la Oportunidad de Mejora</th>
-                <th>Ver Más ...</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
+                <div class="card-body">
+                    <ul class="list-group-flush list-group">
+                        <li class="list-group-item list-group-item-action puntero-manito" (click)="abrirRuta(menu)" *ngFor="let menu of Menus">
+                            <div class="media">
+                                <img class="mr-3" [src]="menu.imagen" style="width: 48px;">
+                                <div class="media-body">
+                                    <h3 class="text-info">{{ menu.nombre }}</h3>
+                                    <p>{{ menu.descripcion }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        <tbody>
-            <tr *ngFor="let plan of PlanesMejoramiento">
-                <td>{{ plan.orden }}</td>
-                <td>{{ plan.descripcion_mejora }}</td>
-                <td>
-                    <img src="assets/Iconos/Ver.png" style="height: 32px;" (click)="verPlan(plan)">
-                </td>
-                <td>
-                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarPlan(plan)">
-                </td>
-                <td>
-                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarPlan(plan)">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="col-md-9">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>

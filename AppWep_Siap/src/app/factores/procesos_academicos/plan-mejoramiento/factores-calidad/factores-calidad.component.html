@@ -1,0 +1,29 @@
+<div class="m-3">
+    <div class="modal-footer">
+        <button class="btn btn-outline-success" (click)="agregarFactorCalidad()"><img style="width: 32px;" src="assets/Iconos/Agregar.png"> Crear Factor de Calidad</button>
+    </div>
+
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Factor</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let factor of FactoresCalidad; let id = index">
+                <td>{{ id + 1 }}</td>
+                <td>{{ factor.factor }}</td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarFactor(factor)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarFactor(factor)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

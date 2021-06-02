@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { LS_ULTIMA_RUTA } from '../config/config';
 import { map, retry } from 'rxjs/operators';
 import { Periodo } from '../interfaces/interfaces.interfaces';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,7 @@ export class GeneralService {
   private URL_AGENDASERVICIO = 'AgendaServicio';
   private URL_AGENDANUMEROCONTRATO = 'AgendaNumeroContrato';
   private URL_AGENDASSERVICIO = 'AgendasServicio';
+  private URL_AGENDAS_POR_PROGRAMA = 'AgendasPorPrograma';
   private URL_ESTADO_AGENDAS = 'EstadoAgendas';
   private URL_AGENDASPORPERIODO = 'AgendasPorPeriodo';
   private URL_DESASOCIAR_AGENDASSERVICIO = 'DesasociarAgenda';
@@ -93,6 +95,7 @@ export class GeneralService {
   private URL_LOGIN_USUARIO = 'LoginUsuario';
   private URL_PERFIL_DOCENTE = 'PerfilDocente';
   private URL_FACTORES_CALIDAD = 'factoresCalidad';
+  private URL_FACTOR_CALIDAD = 'factorCalidad';
   private URL_REQUISITOS = 'Requisitos';
   private URL_TIPOS_ACCION = 'TiposAccion';
   private URL_FUENTES = 'Fuentes';
@@ -109,6 +112,47 @@ export class GeneralService {
 
     this.token = '';
   }
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+      spellcheck: true,
+      height: '200px',
+      minHeight: '0',
+      maxHeight: 'auto',
+      width: 'auto',
+      minWidth: '0',
+      translate: 'yes',
+      enableToolbar: true,
+      showToolbar: true,
+      placeholder: 'Enter text here...',
+      defaultParagraphSeparator: '',
+      defaultFontName: '',
+      defaultFontSize: '',
+      fonts: [
+        {class: 'arial', name: 'Arial'},
+        {class: 'times-new-roman', name: 'Times New Roman'},
+        {class: 'calibri', name: 'Calibri'},
+        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
+      ],
+      customClasses: [
+      {
+        name: 'quote',
+        class: 'quote',
+      },
+      {
+        name: 'redText',
+        class: 'redText'
+      },
+      {
+        name: 'titleText',
+        class: 'titleText',
+        tag: 'h1',
+      },
+    ],
+    uploadUrl: 'v1/image',
+    sanitize: true,
+    toolbarPosition: 'top'
+};
 
   navegar(rutas: string[]) {
     this.router.navigate(rutas);
@@ -1000,6 +1044,12 @@ export class GeneralService {
     return this.http.get(url).pipe(retry(10));
   }
 
+  getAgendasPorPrograma(Periodo: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDAS_POR_PROGRAMA) + this.parametro(Periodo);
+
+    return this.http.get(url).pipe(retry(10));
+  }
+
   getEstadoAgendas(Periodo: string) {
     const url = this.dataSnap_Path(this.URL_ESTADO_AGENDAS) + this.parametro(Periodo);
 
@@ -1503,9 +1553,37 @@ export class GeneralService {
     return this.http.get(url).pipe(retry(10));
   }
 
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     Plan de Mejoramiento
+     Contiene todos los servicios para el plan de mejoramiento
+  =========================================================================================================================*/
   getFactoresCalidad() {
     const url = this.dataSnap_Path(this.URL_FACTORES_CALIDAD);
     return this.http.get(url);
+  }
+
+  postFactorCalidad(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FACTOR_CALIDAD);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(url, datos, {headers});
+  }
+
+  putFactorCalidad(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FACTOR_CALIDAD);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.put (url, datos, {headers});
+  }
+
+  deleteFactorCalidad(id: string) {
+    const url = this.dataSnap_Path(this.URL_FACTOR_CALIDAD) + this.parametro(id);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.delete(url, {headers}).pipe(retry(10));
   }
 
   getRequisitos() {

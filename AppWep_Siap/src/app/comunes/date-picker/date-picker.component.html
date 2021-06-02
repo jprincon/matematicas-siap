@@ -1,0 +1,17 @@
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <label class="input-group-text">Fecha</label>
+    </div>
+    <select class="custom-select" [(ngModel)]="dd" name="dd" (change)="formatearFecha()">
+    <option selected>Día...</option>
+    <option [value]="dia" *ngFor="let dia of Dias">{{ dia }}</option>
+  </select>
+    <select class="custom-select" [(ngModel)]="mm.id" name="id" (change)="formatearFecha()">
+    <option selected>Mes...</option>
+    <option [value]="mes.id" *ngFor="let mes of Meses">{{ mes.mes }}</option>
+  </select>
+    <select class="custom-select" [(ngModel)]="aa" name="aa" (change)="formatearFecha()">
+    <option selected>Año...</option>
+    <option [value]="ano" *ngFor="let ano of Anos">{{ ano }}</option>
+  </select>
+</div>

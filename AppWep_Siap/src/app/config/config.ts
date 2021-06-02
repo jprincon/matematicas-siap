@@ -46,3 +46,5 @@ export const RUTA_MANUAL_AYUDA = 'manual-ayuda';
 export const RUTA_GESTION_ERRORES = 'gestion-errores';
 export const RUTA_PLAN_MEJORAMIENTO = 'plan-mejoramiento';
 export const RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO = 'crear-editar-plan-mejoramiento';
+export const RUTA_INICIO = 'inicio';
+export const RUTA_FACTORES_CALIDAD = 'factores-calidad';

@@ -337,3 +337,55 @@ create table if not exists siap_favoritos(
        ruta text,
        frecuencia integer
 );
+
+/* Tabla para los factores de calidad */
+create table if not exists siap_factor_calidad_pm(
+	idfactorcalidad text primary key not null,
+	factor text,
+	orden integer
+);
+
+-- alter table siap_factor_calidad_pm add column orden integer
+
+/* Requisito para el plan de mejoramiento */
+create table if not exists siap_requisito_pm(
+	idrequisito text primary key not null,
+	requisito text
+);
+
+/* Tipo de Acción en el plan de mejoramiento */
+create table if not exists siap_tipo_accion_pm(
+	idtipoaccion text primary key not null,
+	tipo_accion text
+);
+
+/* Fuente de dónde proviene el plan de mejoramiento*/
+create table if not exists siap_fuente_pm(
+	idfuente text primary key not null,
+	fuente text
+);
+
+/* Tabla para el plan de mejoramiento */
+create table if not exists siap_plan_mejoramiento(
+	idplan text primary key  not null,
+	orden integer,
+	idfuente text references siap_fuente_pm(idfuente),
+	idfactorcalidad text references siap_factor_calidad_pm(idfactorcalidad),
+	idrequisito text references siap_requisito_pm(idrequisito),
+	descripcion_mejora text,
+	idtipoaccion text references siap_tipo_accion_pm(idtipoaccion),
+	causas_principales text,
+	metas text,
+	fecha_inicio date,
+	fecha_fin date,
+	actividades text,
+	responsable_ejecucion text,
+	responsable_seguimiento text,
+	indicador_meta text,
+	formula_indicador text,
+	resultado_indicador text,
+	avance_meta text,
+	seguimiento text,
+	observaciones text,
+	estado_actual_accion text	
+);

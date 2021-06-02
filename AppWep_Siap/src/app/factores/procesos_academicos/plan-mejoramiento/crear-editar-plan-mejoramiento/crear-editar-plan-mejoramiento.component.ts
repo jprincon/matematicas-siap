@@ -4,9 +4,11 @@ import { PlanMejoramiento } from 'src/app/interfaces/interfaces.interfaces';
 import { TransferService } from '../../../../services/transfer.service';
 import { FactorCalidad, Requisito, TipoAccion, Fuente } from '../../../../interfaces/interfaces.interfaces';
 import { GeneralService } from '../../../../services/general.service';
-import { access } from 'fs';
-import { RUTA_PLAN_MEJORAMIENTO } from '../../../../config/config';
+import { RUTA_PLAN_MEJORAMIENTO, RUTA_INICIO } from '../../../../config/config';
 import { DialogosService } from '../../../../services/dialogos.service';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
+import Quill from 'quill';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-crear-editar-plan-mejoramiento',
@@ -29,7 +31,9 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
     avance_meta: '',
     seguimiento: '',
     observaciones: '',
-    estado_actual_accion: ''
+    estado_actual_accion: '',
+    fecha_inicio: '1900-01-01',
+    fecha_fin: '1900-01-01'
   };
 
   FactoresCalidad: FactorCalidad[] = [];
@@ -42,7 +46,7 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private transfer: TransferService,
               private dlgService: DialogosService,
-              private genService: GeneralService) { }
+              public genService: GeneralService) { }
 
   ngOnInit() {
     this.obtenerParametros();
@@ -63,11 +67,16 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
       } else {
         this.transfer.enviarTituloAplicacion('Editando plan de mejoramiento ...');
         this.genService.getPlanMejoramiento(rParams.Id).subscribe((rPlan: PlanMejoramiento) => {
+          console.log(rPlan);
           this.planMejoramiento = rPlan;
           this.Accion = 'Editar';
         });
       }
     });
+  }
+
+  mostrar(e: any) {
+    console.log(e);
   }
 
   obtenerFactoresCalidad() {
@@ -109,8 +118,9 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
       });
     } else {
       this.genService.putPlanMejoramiento(datos).subscribe((rResp: any) => {
+        console.log(rResp);
         this.dlgService.mostrarSnackBar('SIAP dice ...', rResp.Respuesta);
-        this.genService.navegar([RUTA_PLAN_MEJORAMIENTO]);
+        this.genService.navegar([RUTA_PLAN_MEJORAMIENTO, RUTA_INICIO]);
       });
     }
   }

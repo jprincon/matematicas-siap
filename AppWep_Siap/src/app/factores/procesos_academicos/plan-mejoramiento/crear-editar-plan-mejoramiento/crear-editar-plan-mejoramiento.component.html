@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-4">
             <div class="form-group col-md-4">
                 <label class="font-weight-bold">Factor/Estándares de Calidad/Normatividad</label>
                 <select required class="custom-select" [(ngModel)]="planMejoramiento.idfactorcalidad" name="idfactorcalidad">
@@ -43,102 +43,96 @@
         <h3 class="text-info">Descripción</h3>
         <hr>
 
-        <div class="row">
-            <div class="form-group col-md-4">
-                <label class="font-weight-bold">Descripción de Oportunidad de Mejora <small>(Debilidad o Fortaleza a Consolidar)</small></label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.descripcion_mejora" name="descripcion_mejora"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Descripción de Oportunidad de Mejora</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.descripcion_mejora" name="descripcion_mejora"></angular-editor>
+        </div>
 
-            <div class="form-group col-md-4">
-                <label class="font-weight-bold">Causas Principales</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.causas_principales" name="causas_principales"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Causas Principales</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.causas_principales" name="causas_principales"></angular-editor>
+        </div>
 
-            <div class="form-group col-md-4">
-                <label class="font-weight-bold">Metas</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.metas" name="metas"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Metas</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.metas" name="metas"></angular-editor>
         </div>
 
         <h3 class="text-info">Presupuesto y Ejecución</h3>
         <hr>
 
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label class="font-weight-bold">Actividades</label>
-            <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.actividades" name="actividades"></textarea>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.actividades" name="actividades"></angular-editor>
         </div>
 
         <div class="row">
             <div class="form-group col-md-6">
                 <label class="font-weight-bold">Fecha de Inicio Programa</label>
-                <input class="form-control" required type="date" [(ngModel)]="planMejoramiento.fecha_inicio" name="fecha_inicio">
+                <app-date-picker [Fecha]="planMejoramiento.fecha_inicio" (CambioFecha)="planMejoramiento.fecha_inicio = $event"></app-date-picker>
             </div>
 
             <div class="form-group col-md-6">
                 <label class="font-weight-bold">Fecha de Finalización Programa</label>
-                <input class="form-control" required type="date" [(ngModel)]="planMejoramiento.fecha_fin" name="fecha_fin">
+                <app-date-picker [Fecha]="planMejoramiento.fecha_fin" (CambioFecha)="planMejoramiento.fecha_fin = $event"></app-date-picker>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="font-weight-bold">Presupuesto en Miles de $ u Otros Recursos</label>
-                <input class="form-control" required type="text">
+                <input class="form-control" type="text">
             </div>
 
             <div class="form-group col-md-4">
                 <label class="font-weight-bold">Responsable de la Ejecución Principal</label>
-                <input class="form-control" required type="text" [(ngModel)]="planMejoramiento.responsable_ejecucion" name="responsable_ejecucion">
+                <input class="form-control" type="text" [(ngModel)]="planMejoramiento.responsable_ejecucion" name="responsable_ejecucion">
             </div>
 
             <div class="form-group col-md-4">
                 <label class="font-weight-bold">Responsable del Seguimiento</label>
-                <input class="form-control" required type="text" [(ngModel)]="planMejoramiento.responsable_seguimiento" name="responsable_seguimiento">
+                <input class="form-control" type="text" [(ngModel)]="planMejoramiento.responsable_seguimiento" name="responsable_seguimiento">
             </div>
         </div>
 
         <h3 class="text-info">Observaciones y Avances</h3>
         <hr>
 
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label class="font-weight-bold">Indicador para la Meta (Cuantificable y Medible)</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.indicador_meta" name="indicador_meta"></textarea>
-            </div>
 
-            <div class="form-group col-md-3">
-                <label class="font-weight-bold">Fórmulas de Indicadores</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.formula_indicador" name="formula_indicador"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Indicador para la Meta (Cuantificable y Medible)</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.indicador_meta" name="indicador_meta"></angular-editor>
+        </div>
 
-            <div class="form-group col-md-3">
-                <label class="font-weight-bold">Resultado de los Indicadores</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.resultado_indicador" name="resultado_indicador"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Fórmulas de Indicadores</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.formula_indicador" name="formula_indicador"></angular-editor>
+        </div>
 
-            <div class="form-group col-md-3">
-                <label class="font-weight-bold">Avance por Metas (Acumulado)</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.avance_meta" name="resultado_inavance_metadicador"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Resultado de los Indicadores</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.resultado_indicador" name="resultado_indicador"></angular-editor>
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Avance por Metas (Acumulado)</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.avance_meta" name="avance_meta"></angular-editor>
         </div>
 
         <div class="form-group">
             <label class="font-weight-bold">Seguimiento</label>
-            <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.seguimiento" name="seguimiento"></textarea>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.seguimiento" name="seguimiento"></angular-editor>
         </div>
 
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label class="font-weight-bold">Observaciones/Verificación de la Eficacia</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.observaciones" name="observaciones"></textarea>
-            </div>
-
-            <div class="form-group col-md-6">
-                <label class="font-weight-bold">Estado Actual de la Acción</label>
-                <textarea class="form-control" required rows="7" [(ngModel)]="planMejoramiento.estado_actual_accion" name="estado_actual_accion"></textarea>
-            </div>
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Observaciones/Verificación de la Eficacia</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.observaciones" name="observaciones"></angular-editor>
         </div>
 
+        <div class="form-group mb-4">
+            <label class="font-weight-bold">Estado Actual de la Acción</label>
+            <angular-editor [placeholder]="" [config]="genService.editorConfig" [(ngModel)]="planMejoramiento.estado_actual_accion" name="estado_actual_accion"></angular-editor>
+        </div>
 
         <div class="modal-footer">
             <button class="btn btn-outline-success" type="submit"><img src="assets/Iconos/Guardar.png" style="width: 32px;"> Guardar</button>

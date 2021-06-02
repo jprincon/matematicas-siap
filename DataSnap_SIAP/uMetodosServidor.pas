@@ -384,6 +384,7 @@ type
       : TJSONObject;
     function acceptAgendaNumeroContrato(const token: string;
       const datos: TJSONObject): TJSONObject;
+    function AgendasPorPrograma(const Periodo: string): TJSONObject;
 
     { Configuracion }
     function updateConfiguracion(const token: string; const datos: TJSONObject)
@@ -525,6 +526,26 @@ type
 
     { Perfil del Docente }
     function PerfilDocente(idDocente: string): TJSONObject;
+
+    { Plan de Mejoramiento }
+    function factoresCalidad: TJSONObject;
+    function factorCalidad(ID: string): TJSONObject;
+    function updateFactorCalidad(factorCalidad: TJSONObject): TJSONObject;
+    function acceptFactorCalidad(factorCalidad: TJSONObject): TJSONObject;
+    function cancelFactorCalidad(idfactorcalidad: string): TJSONObject;
+
+    function Requisitos: TJSONObject;
+    function Requisito(ID: string): TJSONObject;
+    function TiposAccion: TJSONObject;
+    function TipoAccion(ID: string): TJSONObject;
+    function Fuentes: TJSONObject;
+    function Fuente(ID: string): TJSONObject;
+
+    function PlanesMejoramiento: TJSONObject;
+    function PlanMejoramiento(IdPlan: string): TJSONObject;
+    function updatePlanMejoramiento(PlanMejoramiento: TJSONObject): TJSONObject;
+    function acceptPlanMejoramiento(PlanMejoramiento: TJSONObject): TJSONObject;
+    function cancelPlanMejoramiento(IdPlan: string): TJSONObject;
 
   end;
 {$METHODINFO OFF}
@@ -1228,6 +1249,139 @@ begin
   Query.Free;
 end;
 
+function TMatematicas.updatePlanMejoramiento(PlanMejoramiento: TJSONObject)
+  : TJSONObject;
+var
+  QPlan: TFDQuery;
+  JsonResp: TJSONObject;
+begin
+  try
+    QPlan := TFDQuery.create(nil);
+    QPlan.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+
+    QPlan.Close;
+    QPlan.SQL.Clear;
+    QPlan.SQL.Add('INSERT INTO siap_plan_mejoramiento (');
+    QPlan.SQL.Add('idplan, ');
+    QPlan.SQL.Add('orden, ');
+    QPlan.SQL.Add('idfuente, ');
+    QPlan.SQL.Add('idfactorcalidad, ');
+    QPlan.SQL.Add('idrequisito, ');
+    QPlan.SQL.Add('descripcion_mejora, ');
+    QPlan.SQL.Add('idtipoaccion, ');
+    QPlan.SQL.Add('causas_principales, ');
+    QPlan.SQL.Add('metas, ');
+    QPlan.SQL.Add('fecha_inicio, ');
+    QPlan.SQL.Add('fecha_fin, ');
+    QPlan.SQL.Add('actividades, ');
+    QPlan.SQL.Add('responsable_ejecucion, ');
+    QPlan.SQL.Add('responsable_seguimiento, ');
+    QPlan.SQL.Add('indicador_meta, ');
+    QPlan.SQL.Add('formula_indicador, ');
+    QPlan.SQL.Add('resultado_indicador, ');
+    QPlan.SQL.Add('avance_meta, ');
+    QPlan.SQL.Add('seguimiento, ');
+    QPlan.SQL.Add('observaciones, ');
+    QPlan.SQL.Add('estado_actual_accion) VALUES (');
+
+    QPlan.SQL.Add(':idplan, ');
+    QPlan.SQL.Add(':orden, ');
+    QPlan.SQL.Add(':idfuente, ');
+    QPlan.SQL.Add(':idfactorcalidad, ');
+    QPlan.SQL.Add(':idrequisito, ');
+    QPlan.SQL.Add(':descripcion_mejora, ');
+    QPlan.SQL.Add(':idtipoaccion, ');
+    QPlan.SQL.Add(':causas_principales, ');
+    QPlan.SQL.Add(':metas, ');
+    QPlan.SQL.Add(':fecha_inicio, ');
+    QPlan.SQL.Add(':fecha_fin, ');
+    QPlan.SQL.Add(':actividades, ');
+    QPlan.SQL.Add(':responsable_ejecucion, ');
+    QPlan.SQL.Add(':responsable_seguimiento, ');
+    QPlan.SQL.Add(':indicador_meta, ');
+    QPlan.SQL.Add(':formula_indicador, ');
+    QPlan.SQL.Add(':resultado_indicador, ');
+    QPlan.SQL.Add(':avance_meta, ');
+    QPlan.SQL.Add(':seguimiento, ');
+    QPlan.SQL.Add(':observaciones, ');
+    QPlan.SQL.Add(':estado_actual_accion)');
+
+    QPlan.Params.ParamByName('idplan').Value := generarID;
+
+    QPlan.Params.ParamByName('orden').Value :=
+      StrToInt(PlanMejoramiento.GetValue('orden').Value);
+
+    QPlan.Params.ParamByName('idfuente').Value :=
+      PlanMejoramiento.GetValue('idfuente').Value;
+
+    QPlan.Params.ParamByName('idfactorcalidad').Value :=
+      PlanMejoramiento.GetValue('idfactorcalidad').Value;
+
+    QPlan.Params.ParamByName('idrequisito').Value :=
+      PlanMejoramiento.GetValue('idrequisito').Value;
+
+    QPlan.Params.ParamByName('descripcion_mejora').AsWideMemo :=
+      PlanMejoramiento.GetValue('descripcion_mejora').Value;
+
+    QPlan.Params.ParamByName('idtipoaccion').Value :=
+      PlanMejoramiento.GetValue('idtipoaccion').Value;
+
+    QPlan.Params.ParamByName('causas_principales').AsWideMemo :=
+      PlanMejoramiento.GetValue('causas_principales').Value;
+
+    QPlan.Params.ParamByName('metas').AsWideMemo :=
+      PlanMejoramiento.GetValue('metas').Value;
+
+    QPlan.Params.ParamByName('fecha_inicio').AsDate :=
+      FechaJS_To_FechaDelphi(PlanMejoramiento.GetValue('fecha_inicio').Value);
+
+    QPlan.Params.ParamByName('fecha_fin').AsDate :=
+      FechaJS_To_FechaDelphi(PlanMejoramiento.GetValue('fecha_fin').Value);
+
+    QPlan.Params.ParamByName('actividades').AsWideMemo :=
+      PlanMejoramiento.GetValue('actividades').Value;
+
+    QPlan.Params.ParamByName('responsable_ejecucion').Value :=
+      PlanMejoramiento.GetValue('responsable_ejecucion').Value;
+
+    QPlan.Params.ParamByName('responsable_seguimiento').Value :=
+      PlanMejoramiento.GetValue('responsable_seguimiento').Value;
+
+    QPlan.Params.ParamByName('indicador_meta').AsWideMemo :=
+      PlanMejoramiento.GetValue('indicador_meta').Value;
+
+    QPlan.Params.ParamByName('formula_indicador').AsWideMemo :=
+      PlanMejoramiento.GetValue('formula_indicador').Value;
+
+    QPlan.Params.ParamByName('resultado_indicador').AsWideMemo :=
+      PlanMejoramiento.GetValue('resultado_indicador').Value;
+
+    QPlan.Params.ParamByName('avance_meta').AsWideMemo :=
+      PlanMejoramiento.GetValue('avance_meta').Value;
+
+    QPlan.Params.ParamByName('seguimiento').AsWideMemo :=
+      PlanMejoramiento.GetValue('seguimiento').Value;
+
+    QPlan.Params.ParamByName('observaciones').AsWideMemo :=
+      PlanMejoramiento.GetValue('observaciones').Value;
+
+    QPlan.Params.ParamByName('estado_actual_accion').Value :=
+      PlanMejoramiento.GetValue('estado_actual_accion').Value;
+
+    QPlan.ExecSQL;
+
+    JsonResp.AddPair('Respuesta', 'El plan se creo correctamente');
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  QPlan.Free;
+end;
+
 { Método GET - Periodo }
 function TMatematicas.PerfilDocente(idDocente: string): TJSONObject;
 var
@@ -1445,6 +1599,34 @@ begin
   Query.Free;
 end;
 
+function TMatematicas.cancelPlanMejoramiento(IdPlan: string): TJSONObject;
+var
+  QPlan: TFDQuery;
+  JsonPlan: TJSONObject;
+  i: integer;
+begin
+  try
+    QPlan := TFDQuery.create(nil);
+    QPlan.Connection := Conexion;
+    JsonPlan := TJSONObject.create;
+
+    QPlan.Close;
+    QPlan.SQL.Text := 'DELETE FROM siap_plan_mejoramiento WHERE idplan=' + #39 +
+      IdPlan + #39;
+    QPlan.ExecSQL;
+
+    JsonPlan.AddPair('Respuesta', 'El plan se elimino correctamente');
+
+  except
+    on E: Exception do
+      JsonPlan.AddPair('Error', E.Message);
+
+  end;
+
+  Result := JsonPlan;
+  QPlan.Free;
+end;
+
 { Método UPDATE - Periodo }
 function TMatematicas.acceptPeriodo(const token: string;
   const datos: TJSONObject): TJSONObject;
@@ -1494,6 +1676,118 @@ begin
   Result := Json;
   escribirMensaje('updatePeriodo', Json.toString);
   Query.Free;
+end;
+
+function TMatematicas.acceptPlanMejoramiento(PlanMejoramiento: TJSONObject)
+  : TJSONObject;
+var
+  QPlan: TFDQuery;
+  JsonResp: TJSONObject;
+  IdPlan: string;
+begin
+  try
+    QPlan := TFDQuery.create(nil);
+    QPlan.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+
+    IdPlan := PlanMejoramiento.GetValue('idplan').Value;
+
+    QPlan.Close;
+    QPlan.SQL.Clear;
+    QPlan.SQL.Add('UPDATE siap_plan_mejoramiento SET ');
+    QPlan.SQL.Add('orden=:orden, ');
+    QPlan.SQL.Add('idfuente=:idfuente, ');
+    QPlan.SQL.Add('idfactorcalidad=:idfactorcalidad, ');
+    QPlan.SQL.Add('idrequisito=:idrequisito, ');
+    QPlan.SQL.Add('descripcion_mejora=:descripcion_mejora, ');
+    QPlan.SQL.Add('idtipoaccion=:idtipoaccion, ');
+    QPlan.SQL.Add('causas_principales=:causas_principales, ');
+    QPlan.SQL.Add('metas=:metas, ');
+    QPlan.SQL.Add('fecha_inicio=:fecha_inicio, ');
+    QPlan.SQL.Add('fecha_fin=:fecha_fin, ');
+    QPlan.SQL.Add('actividades=:actividades, ');
+    QPlan.SQL.Add('responsable_ejecucion=:responsable_ejecucion, ');
+    QPlan.SQL.Add('responsable_seguimiento=:responsable_seguimiento, ');
+    QPlan.SQL.Add('indicador_meta=:indicador_meta, ');
+    QPlan.SQL.Add('formula_indicador=:formula_indicador, ');
+    QPlan.SQL.Add('resultado_indicador=:resultado_indicador, ');
+    QPlan.SQL.Add('avance_meta=:avance_meta, ');
+    QPlan.SQL.Add('seguimiento=:seguimiento, ');
+    QPlan.SQL.Add('observaciones=:observaciones, ');
+    QPlan.SQL.Add('estado_actual_accion=:estado_actual_accion WHERE idplan=' +
+      #39 + IdPlan + #39);
+
+    QPlan.Params.ParamByName('orden').Value :=
+      StrToInt(PlanMejoramiento.GetValue('orden').Value);
+
+    QPlan.Params.ParamByName('idfuente').Value :=
+      PlanMejoramiento.GetValue('idfuente').Value;
+
+    QPlan.Params.ParamByName('idfactorcalidad').Value :=
+      PlanMejoramiento.GetValue('idfactorcalidad').Value;
+
+    QPlan.Params.ParamByName('idrequisito').Value :=
+      PlanMejoramiento.GetValue('idrequisito').Value;
+
+    QPlan.Params.ParamByName('descripcion_mejora').AsWideMemo :=
+      PlanMejoramiento.GetValue('descripcion_mejora').Value;
+
+    QPlan.Params.ParamByName('idtipoaccion').Value :=
+      PlanMejoramiento.GetValue('idtipoaccion').Value;
+
+    QPlan.Params.ParamByName('causas_principales').AsWideMemo :=
+      PlanMejoramiento.GetValue('causas_principales').Value;
+
+    QPlan.Params.ParamByName('metas').AsWideMemo :=
+      PlanMejoramiento.GetValue('metas').Value;
+
+    QPlan.Params.ParamByName('fecha_inicio').AsDate :=
+      FechaJS_To_FechaDelphi(PlanMejoramiento.GetValue('fecha_inicio').Value);
+
+    QPlan.Params.ParamByName('fecha_fin').AsDate :=
+      FechaJS_To_FechaDelphi(PlanMejoramiento.GetValue('fecha_fin').Value);
+
+    QPlan.Params.ParamByName('actividades').AsWideMemo :=
+      PlanMejoramiento.GetValue('actividades').Value;
+
+    QPlan.Params.ParamByName('responsable_ejecucion').Value :=
+      PlanMejoramiento.GetValue('responsable_ejecucion').Value;
+
+    QPlan.Params.ParamByName('responsable_seguimiento').Value :=
+      PlanMejoramiento.GetValue('responsable_seguimiento').Value;
+
+    QPlan.Params.ParamByName('indicador_meta').AsWideMemo :=
+      PlanMejoramiento.GetValue('indicador_meta').Value;
+
+    QPlan.Params.ParamByName('formula_indicador').AsWideMemo :=
+      PlanMejoramiento.GetValue('formula_indicador').Value;
+
+    QPlan.Params.ParamByName('resultado_indicador').AsWideMemo :=
+      PlanMejoramiento.GetValue('resultado_indicador').Value;
+
+    QPlan.Params.ParamByName('avance_meta').AsWideMemo :=
+      PlanMejoramiento.GetValue('avance_meta').Value;
+
+    QPlan.Params.ParamByName('seguimiento').AsWideMemo :=
+      PlanMejoramiento.GetValue('seguimiento').Value;
+
+    QPlan.Params.ParamByName('observaciones').AsWideMemo :=
+      PlanMejoramiento.GetValue('observaciones').Value;
+
+    QPlan.Params.ParamByName('estado_actual_accion').Value :=
+      PlanMejoramiento.GetValue('estado_actual_accion').Value;
+
+    QPlan.ExecSQL;
+
+    JsonResp.AddPair('Respuesta', 'El plan se actualizo correctamente');
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  QPlan.Free;
 end;
 
 { Método INSERT - TrabajoGrado }
@@ -3856,6 +4150,76 @@ begin
 end;
 
 { Método GET - FuncionDocente }
+function TMatematicas.Fuente(ID: string): TJSONObject;
+var
+  Query: TFDQuery;
+  JsonResp: TJSONObject;
+  aFuentes: TJSONArray;
+  i: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+    aFuentes := TJSONArray.create;
+
+    Query.Close;
+    Query.SQL.Text := 'SELECT * FROM siap_fuente_pm WHERE idfuente=' + #39
+      + ID + #39;
+    Query.Open;
+
+    JsonResp.AddPair('idfuente', Query.FieldByName('idfuente').AsString);
+    JsonResp.AddPair('fuente', Query.FieldByName('fuente').AsString);
+
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  Query.Free;
+end;
+
+function TMatematicas.Fuentes: TJSONObject;
+var
+  QFuentes: TFDQuery;
+  JsonFuentes, JsonFuente: TJSONObject;
+  aFuentes: TJSONArray;
+  i: integer;
+begin
+  try
+    QFuentes := TFDQuery.create(nil);
+    QFuentes.Connection := Conexion;
+
+    JsonFuentes := TJSONObject.create;
+    aFuentes := TJSONArray.create;
+
+    QFuentes.Close;
+    QFuentes.SQL.Text := 'SELECT * FROM siap_fuente_pm ORDER BY fuente';
+    QFuentes.Open;
+    QFuentes.First;
+
+    for i := 1 to QFuentes.RecordCount do
+    begin
+      JsonFuente := TJSONObject.create;
+      JsonFuente.AddPair('idfuente', QFuentes.FieldByName('idfuente').AsString);
+      JsonFuente.AddPair('fuente', QFuentes.FieldByName('fuente').AsString);
+
+      aFuentes.AddElement(JsonFuente);
+      QFuentes.Next;
+    end;
+
+    JsonFuentes.AddPair('Fuentes', aFuentes);
+  except
+    on E: Exception do
+      JsonFuentes.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonFuentes;
+  QFuentes.Free;
+end;
+
 function TMatematicas.FuncionDocente(const ID: string): TJSONObject;
 var
   Json: TJSONObject;
@@ -4517,6 +4881,63 @@ begin
   Query.Free;
 end;
 
+function TMatematicas.AgendasPorPrograma(const Periodo: string): TJSONObject;
+var
+  Query: TFDQuery;
+  Json, JsonPrograma: TJSONObject;
+  Estadisticas: TJSONArray;
+  Programa: string;
+  cantidad: integer;
+  i: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+
+    Json := TJSONObject.create;
+
+    Query.Close;
+    Query.SQL.Text := 'SELECT * FROM siap_servicios_programas as sp INNER' +
+      ' JOIN siap_programas as prgm ON sp.idprograma=prgm.idprograma WHERE' +
+      ' sp.periodo=' + #39 + Periodo + #39 + ' ORDER BY prgm.programa';
+    Query.Open;
+    Query.First;
+
+    Programa := Query.FieldByName('programa').AsString;
+    cantidad := 1;
+    Query.Next;
+
+    Estadisticas := TJSONArray.create;
+    for i := 1 to Query.RecordCount - 1 do
+    begin
+      if Programa <> Query.FieldByName('programa').AsString then
+      begin
+        JsonPrograma := TJSONObject.create;
+        JsonPrograma.AddPair('Programa', Programa);
+        JsonPrograma.AddPair('Cantidad', IntToStr(cantidad));
+        Estadisticas.AddElement(JsonPrograma);
+
+        cantidad := 1;
+        Programa := Query.FieldByName('programa').AsString;
+      end
+      else
+      begin
+        Inc(cantidad);
+      end;
+
+      Query.Next;
+    end;
+
+    Json.AddPair('Estadisticas', Estadisticas);
+  except
+    on E: Exception do
+      Json.AddPair('Error', E.Message);
+  end;
+
+  Result := Json;
+  Query.Free;
+end;
+
 function TMatematicas.AgendasServicio(const idDocente: string;
   const Periodo: string): TJSONObject;
 var
@@ -4917,6 +5338,80 @@ begin
   Result := Json;
   escribirMensaje('cancelAgendaServicio', Json.toString);
   Query.Free;
+end;
+
+function TMatematicas.factorCalidad(ID: string): TJSONObject;
+var
+  Query: TFDQuery;
+  JsonResp: TJSONObject;
+  aFuentes: TJSONArray;
+  i: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+    aFuentes := TJSONArray.create;
+
+    Query.Close;
+    Query.SQL.Text :=
+      'SELECT * FROM siap_factor_calidad_pm WHERE idfactorcalidad=' + #39
+      + ID + #39;
+    Query.Open;
+
+    JsonResp.AddPair('idfactorcalidad', Query.FieldByName('idfuente').AsString);
+    JsonResp.AddPair('factor', Query.FieldByName('factor').AsString);
+    JsonResp.AddPair('orden', Query.FieldByName('orden').AsString);
+
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  Query.Free;
+end;
+
+function TMatematicas.factoresCalidad: TJSONObject;
+var
+  QFactores: TFDQuery;
+  JsonFactores, JsonFactor: TJSONObject;
+  Factores: TJSONArray;
+  i: integer;
+begin
+  try
+    QFactores := TFDQuery.create(nil);
+    QFactores.Connection := Conexion;
+
+    JsonFactores := TJSONObject.create;
+    Factores := TJSONArray.create;
+
+    QFactores.Close;
+    QFactores.SQL.Text := 'SELECT * FROM siap_factor_calidad_pm ORDER BY orden';
+    QFactores.Open;
+    QFactores.First;
+
+    for i := 1 to QFactores.RecordCount do
+    begin
+      JsonFactor := TJSONObject.create;
+      JsonFactor.AddPair('idfactorcalidad',
+        QFactores.FieldByName('idfactorcalidad').AsString);
+      JsonFactor.AddPair('factor', QFactores.FieldByName('factor').AsString);
+      JsonFactor.AddPair('orden', QFactores.FieldByName('orden').AsString);
+
+      Factores.AddElement(JsonFactor);
+      QFactores.Next;
+    end;
+
+    JsonFactores.AddPair('Factores', Factores);
+  except
+    on E: Exception do
+      JsonFactores.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonFactores;
+  QFactores.Free;
 end;
 
 { Método Delete - DesasociarAgenda }
@@ -5953,6 +6448,174 @@ begin
 end;
 
 { Método GET - Programa }
+function TMatematicas.PlanesMejoramiento: TJSONObject;
+var
+  QPlanes: TFDQuery;
+  JsonPlanes, JsonPlan: TJSONObject;
+  Planes: TJSONArray;
+  i: integer;
+  ID: string;
+begin
+  try
+    QPlanes := TFDQuery.create(nil);
+    QPlanes.Connection := Conexion;
+
+    JsonPlanes := TJSONObject.create;
+    Planes := TJSONArray.create;
+
+    QPlanes.Close;
+    QPlanes.SQL.Text := 'SELECT * FROM siap_plan_mejoramiento ORDER BY orden';
+    QPlanes.Open;
+    QPlanes.First;
+
+    for i := 1 to QPlanes.RecordCount do
+    begin
+      JsonPlan := TJSONObject.create;
+
+      JsonPlan.AddPair('idplan', QPlanes.FieldByName('idplan').AsString);
+      JsonPlan.AddPair('orden', QPlanes.FieldByName('orden').AsString);
+
+      ID := QPlanes.FieldByName('idfuente').AsString;
+      JsonPlan.AddPair('idfuente', ID);
+      JsonPlan.AddPair('fuente', Fuente(ID));
+
+      ID := QPlanes.FieldByName('idfactorcalidad').AsString;
+      JsonPlan.AddPair('idfactorcalidad', ID);
+      JsonPlan.AddPair('factorCalidad', factorCalidad(ID));
+
+      ID := QPlanes.FieldByName('idrequisito').AsString;
+      JsonPlan.AddPair('idrequisito', ID);
+      JsonPlan.AddPair('requisito', Requisito(ID));
+
+      ID := QPlanes.FieldByName('idtipoaccion').AsString;
+      JsonPlan.AddPair('idtipoaccion', ID);
+      JsonPlan.AddPair('tipoAccion', TipoAccion(ID));
+
+      JsonPlan.AddPair('descripcion_mejora',
+        QPlanes.FieldByName('descripcion_mejora').AsString);
+
+      JsonPlan.AddPair('causas_principales',
+        QPlanes.FieldByName('causas_principales').AsString);
+      JsonPlan.AddPair('metas', QPlanes.FieldByName('metas').AsString);
+
+      JsonPlan.AddPair('fecha_inicio',
+        FechaDelphi_To_FechaJS(QPlanes.FieldByName('fecha_inicio').AsString));
+      JsonPlan.AddPair('fecha_fin',
+        FechaDelphi_To_FechaJS(QPlanes.FieldByName('fecha_fin').AsString));
+
+      JsonPlan.AddPair('actividades', QPlanes.FieldByName('actividades')
+        .AsString);
+      JsonPlan.AddPair('responsable_ejecucion',
+        QPlanes.FieldByName('responsable_ejecucion').AsString);
+      JsonPlan.AddPair('responsable_seguimiento',
+        QPlanes.FieldByName('responsable_seguimiento').AsString);
+      JsonPlan.AddPair('indicador_meta', QPlanes.FieldByName('indicador_meta')
+        .AsString);
+      JsonPlan.AddPair('formula_indicador',
+        QPlanes.FieldByName('formula_indicador').AsString);
+      JsonPlan.AddPair('resultado_indicador',
+        QPlanes.FieldByName('resultado_indicador').AsString);
+      JsonPlan.AddPair('avance_meta', QPlanes.FieldByName('avance_meta')
+        .AsString);
+      JsonPlan.AddPair('seguimiento', QPlanes.FieldByName('seguimiento')
+        .AsString);
+      JsonPlan.AddPair('observaciones', QPlanes.FieldByName('observaciones')
+        .AsString);
+      JsonPlan.AddPair('estado_actual_accion',
+        QPlanes.FieldByName('estado_actual_accion').AsString);
+
+      Planes.AddElement(JsonPlan);
+      QPlanes.Next;
+    end;
+
+    JsonPlanes.AddPair('Planes', Planes);
+  except
+    on E: Exception do
+      JsonPlanes.AddPair('Error', E.Message);
+
+  end;
+
+  Result := JsonPlanes;
+  QPlanes.Free;
+end;
+
+function TMatematicas.PlanMejoramiento(IdPlan: string): TJSONObject;
+var
+  QPlan: TFDQuery;
+  JsonPlan: TJSONObject;
+  i: integer;
+  ID: string;
+begin
+  try
+    QPlan := TFDQuery.create(nil);
+    QPlan.Connection := Conexion;
+
+    QPlan.Close;
+    QPlan.SQL.Text := 'SELECT * FROM siap_plan_mejoramiento WHERE idplan=' + #39
+      + IdPlan + #39;
+    QPlan.Open;
+
+    JsonPlan := TJSONObject.create;
+
+    JsonPlan.AddPair('idplan', QPlan.FieldByName('idplan').AsString);
+    JsonPlan.AddPair('orden', QPlan.FieldByName('orden').AsString);
+
+    ID := QPlan.FieldByName('idfuente').AsString;
+    JsonPlan.AddPair('idfuente', ID);
+    JsonPlan.AddPair('fuente', Fuente(ID));
+
+    ID := QPlan.FieldByName('idfactorcalidad').AsString;
+    JsonPlan.AddPair('idfactorcalidad', ID);
+    JsonPlan.AddPair('factorCalidad', factorCalidad(ID));
+
+    ID := QPlan.FieldByName('idrequisito').AsString;
+    JsonPlan.AddPair('idrequisito', ID);
+    JsonPlan.AddPair('requisito', Requisito(ID));
+
+    ID := QPlan.FieldByName('idtipoaccion').AsString;
+    JsonPlan.AddPair('idtipoaccion', ID);
+    JsonPlan.AddPair('tipoAccion', TipoAccion(ID));
+
+    JsonPlan.AddPair('descripcion_mejora',
+      QPlan.FieldByName('descripcion_mejora').AsString);
+
+    JsonPlan.AddPair('causas_principales',
+      QPlan.FieldByName('causas_principales').AsString);
+    JsonPlan.AddPair('metas', QPlan.FieldByName('metas').AsString);
+
+    JsonPlan.AddPair('fecha_inicio',
+      FechaDelphi_To_FechaJS(QPlan.FieldByName('fecha_inicio').AsString));
+    JsonPlan.AddPair('fecha_fin',
+      FechaDelphi_To_FechaJS(QPlan.FieldByName('fecha_fin').AsString));
+
+    JsonPlan.AddPair('actividades', QPlan.FieldByName('actividades').AsString);
+    JsonPlan.AddPair('responsable_ejecucion',
+      QPlan.FieldByName('responsable_ejecucion').AsString);
+    JsonPlan.AddPair('responsable_seguimiento',
+      QPlan.FieldByName('responsable_seguimiento').AsString);
+    JsonPlan.AddPair('indicador_meta', QPlan.FieldByName('indicador_meta')
+      .AsString);
+    JsonPlan.AddPair('formula_indicador', QPlan.FieldByName('formula_indicador')
+      .AsString);
+    JsonPlan.AddPair('resultado_indicador',
+      QPlan.FieldByName('resultado_indicador').AsString);
+    JsonPlan.AddPair('avance_meta', QPlan.FieldByName('avance_meta').AsString);
+    JsonPlan.AddPair('seguimiento', QPlan.FieldByName('seguimiento').AsString);
+    JsonPlan.AddPair('observaciones', QPlan.FieldByName('observaciones')
+      .AsString);
+    JsonPlan.AddPair('estado_actual_accion',
+      QPlan.FieldByName('estado_actual_accion').AsString);
+
+  except
+    on E: Exception do
+      JsonPlan.AddPair('Error', E.Message);
+
+  end;
+
+  Result := JsonPlan;
+  QPlan.Free;
+end;
+
 function TMatematicas.Programa(const ID: string): TJSONObject;
 var
   Json: TJSONObject;
@@ -6133,6 +6796,47 @@ begin
 end;
 
 { Método INSERT - Facultad }
+function TMatematicas.updateFactorCalidad(factorCalidad: TJSONObject)
+  : TJSONObject;
+var
+  QFactorCalidad: TFDQuery;
+  JsonResp: TJSONObject;
+begin
+  try
+    QFactorCalidad := TFDQuery.create(nil);
+    QFactorCalidad.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+
+    QFactorCalidad.Close;
+    QFactorCalidad.SQL.Clear;
+    QFactorCalidad.SQL.Add('INSERT INTO siap_factor_calidad_pm (');
+    QFactorCalidad.SQL.Add('factor, ');
+    QFactorCalidad.SQL.Add('orden, ');
+    QFactorCalidad.SQL.Add('idfactorcalidad) VALUES (');
+
+    QFactorCalidad.SQL.Add(':factor, ');
+    QFactorCalidad.SQL.Add(':orden, ');
+    QFactorCalidad.SQL.Add(':idfactorcalidad)');
+
+    QFactorCalidad.Params.ParamByName('factor').Value :=
+      factorCalidad.GetValue('factor').Value;
+    QFactorCalidad.Params.ParamByName('orden').Value :=
+      StrToInt(factorCalidad.GetValue('orden').Value);
+    QFactorCalidad.Params.ParamByName('idfactorcalidad').Value := generarID;
+
+    QFactorCalidad.ExecSQL;
+
+    JsonResp.AddPair('Respuesta', 'El FactorCalidad se creo correctamente');
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  QFactorCalidad.Free;
+end;
+
 function TMatematicas.updateFacultad(const token: string;
   const datos: TJSONObject): TJSONObject;
 var
@@ -6262,6 +6966,35 @@ begin
 end;
 
 { Método DELETE - Facultad }
+function TMatematicas.cancelFactorCalidad(idfactorcalidad: string): TJSONObject;
+var
+  QFactorCalidad: TFDQuery;
+  JsonFactorCalidad: TJSONObject;
+  i: integer;
+begin
+  try
+    QFactorCalidad := TFDQuery.create(nil);
+    QFactorCalidad.Connection := Conexion;
+    JsonFactorCalidad := TJSONObject.create;
+
+    QFactorCalidad.Close;
+    QFactorCalidad.SQL.Text :=
+      'DELETE FROM siap_factor_calidad_pm WHERE idfactorcalidad=' + #39 +
+      idfactorcalidad + #39;
+    QFactorCalidad.ExecSQL;
+
+    JsonFactorCalidad.AddPair('Respuesta',
+      'El FactorCalidad se elimino correctamente');
+
+  except
+    on E: Exception do
+      JsonFactorCalidad.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonFactorCalidad;
+  QFactorCalidad.Free;
+end;
+
 function TMatematicas.cancelFacultad(const token, ID: string): TJSONObject;
 var
   Json: TJSONObject;
@@ -6299,6 +7032,52 @@ begin
 end;
 
 { Método UPDATE - Facultad }
+function TMatematicas.acceptFactorCalidad(factorCalidad: TJSONObject)
+  : TJSONObject;
+var
+  QFactorCalidad: TFDQuery;
+  JsonResp: TJSONObject;
+  idfactorcalidad: string;
+begin
+  try
+    QFactorCalidad := TFDQuery.create(nil);
+    QFactorCalidad.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+
+    idfactorcalidad := factorCalidad.GetValue('idfactorcalidad').Value;
+
+    QFactorCalidad.Close;
+    QFactorCalidad.SQL.Clear;
+    QFactorCalidad.SQL.Add('UPDATE siap_factor_calidad_pm SET ');
+    QFactorCalidad.SQL.Add('factor=:factor, ');
+    QFactorCalidad.SQL.Add('orden=:orden, ');
+    QFactorCalidad.SQL.Add('idfactorcalidad=:idfactorcalidad ');
+    QFactorCalidad.SQL.Add(' WHERE idfactorcalidad=' + #39 +
+      idfactorcalidad + #39);
+
+    QFactorCalidad.Params.ParamByName('factor').Value :=
+      factorCalidad.GetValue('factor').Value;
+
+    QFactorCalidad.Params.ParamByName('idfactorcalidad').Value :=
+      factorCalidad.GetValue('idfactorcalidad').Value;
+
+    QFactorCalidad.Params.ParamByName('orden').Value :=
+      StrToInt(factorCalidad.GetValue('orden').Value);
+
+    QFactorCalidad.ExecSQL;
+
+    JsonResp.AddPair('Respuesta',
+      'El FactorCalidad se actualizo correctamente');
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  QFactorCalidad.Free;
+end;
+
 function TMatematicas.acceptFacultad(const token: string;
   const datos: TJSONObject): TJSONObject;
 var
@@ -7353,6 +8132,38 @@ begin
 end;
 
 { Método GET - TipoContrato }
+function TMatematicas.TipoAccion(ID: string): TJSONObject;
+var
+  Query: TFDQuery;
+  JsonResp: TJSONObject;
+  aFuentes: TJSONArray;
+  i: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+    aFuentes := TJSONArray.create;
+
+    Query.Close;
+    Query.SQL.Text := 'SELECT * FROM siap_tipo_accion_pm WHERE idtipoaccion=' +
+      #39 + ID + #39;
+    Query.Open;
+
+    JsonResp.AddPair('idtipoaccion', Query.FieldByName('idtipoaccion')
+      .AsString);
+    JsonResp.AddPair('tipo_accion', Query.FieldByName('tipo_accion').AsString);
+
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  Query.Free;
+end;
+
 function TMatematicas.TipoContrato(const ID: string): TJSONObject;
 var
   Json: TJSONObject;
@@ -7389,6 +8200,48 @@ begin
 end;
 
 { Método GET-ALL - TipoContrato }
+function TMatematicas.TiposAccion: TJSONObject;
+var
+  QTiposAccion: TFDQuery;
+  JsonTiposAccion, JsonTipoAccion: TJSONObject;
+  aTiposAccion: TJSONArray;
+  i: integer;
+begin
+  try
+    QTiposAccion := TFDQuery.create(nil);
+    QTiposAccion.Connection := Conexion;
+
+    JsonTiposAccion := TJSONObject.create;
+    aTiposAccion := TJSONArray.create;
+
+    QTiposAccion.Close;
+    QTiposAccion.SQL.Text :=
+      'SELECT * FROM siap_tipo_accion_pm ORDER BY tipo_accion';
+    QTiposAccion.Open;
+    QTiposAccion.First;
+
+    for i := 1 to QTiposAccion.RecordCount do
+    begin
+      JsonTipoAccion := TJSONObject.create;
+      JsonTipoAccion.AddPair('idtipoaccion',
+        QTiposAccion.FieldByName('idtipoaccion').AsString);
+      JsonTipoAccion.AddPair('tipo_accion',
+        QTiposAccion.FieldByName('tipo_accion').AsString);
+
+      aTiposAccion.AddElement(JsonTipoAccion);
+      QTiposAccion.Next;
+    end;
+
+    JsonTiposAccion.AddPair('TiposAccion', aTiposAccion);
+  except
+    on E: Exception do
+      JsonTiposAccion.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonTiposAccion;
+  QTiposAccion.Free;
+end;
+
 function TMatematicas.TiposContrato: TJSONObject;
 var
   Json: TJSONObject;
@@ -8029,6 +8882,79 @@ begin
   Result := Json;
   escribirMensaje('AgendaServicio', Json.toString);
   Query.Free;
+end;
+
+function TMatematicas.Requisito(ID: string): TJSONObject;
+var
+  Query: TFDQuery;
+  JsonResp: TJSONObject;
+  aFuentes: TJSONArray;
+  i: integer;
+begin
+  try
+    Query := TFDQuery.create(nil);
+    Query.Connection := Conexion;
+
+    JsonResp := TJSONObject.create;
+    aFuentes := TJSONArray.create;
+
+    Query.Close;
+    Query.SQL.Text := 'SELECT * FROM siap_requisito_pm WHERE idrequisito=' + #39
+      + ID + #39;
+    Query.Open;
+
+    JsonResp.AddPair('idrequisito', Query.FieldByName('idrequisito').AsString);
+    JsonResp.AddPair('requisito', Query.FieldByName('requisito').AsString);
+
+  except
+    on E: Exception do
+      JsonResp.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonResp;
+  Query.Free;
+end;
+
+function TMatematicas.Requisitos: TJSONObject;
+var
+  QRequisitos: TFDQuery;
+  JsonRequisitos, JsonRequisito: TJSONObject;
+  aRequisitos: TJSONArray;
+  i: integer;
+begin
+  try
+    QRequisitos := TFDQuery.create(nil);
+    QRequisitos.Connection := Conexion;
+
+    JsonRequisitos := TJSONObject.create;
+    aRequisitos := TJSONArray.create;
+
+    QRequisitos.Close;
+    QRequisitos.SQL.Text :=
+      'SELECT * FROM siap_requisito_pm ORDER BY requisito';
+    QRequisitos.Open;
+    QRequisitos.First;
+
+    for i := 1 to QRequisitos.RecordCount do
+    begin
+      JsonRequisito := TJSONObject.create;
+      JsonRequisito.AddPair('idrequisito',
+        QRequisitos.FieldByName('idrequisito').AsString);
+      JsonRequisito.AddPair('requisito', QRequisitos.FieldByName('requisito')
+        .AsString);
+
+      aRequisitos.AddElement(JsonRequisito);
+      QRequisitos.Next;
+    end;
+
+    JsonRequisitos.AddPair('Requisitos', aRequisitos);
+  except
+    on E: Exception do
+      JsonRequisitos.AddPair('Error', E.Message);
+  end;
+
+  Result := JsonRequisitos;
+  QRequisitos.Free;
 end;
 
 function TMatematicas.updatereferenciaResumen(const token: string;

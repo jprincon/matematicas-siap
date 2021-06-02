@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../../../services/transfer.service';
 import { GeneralService } from '../../../services/general.service';
-import { RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO } from '../../../config/config';
+import { RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO, RUTA_FACTORES_CALIDAD, RUTA_PLAN_MEJORAMIENTO } from '../../../config/config';
 import { PlanMejoramiento } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
+import { Menu } from '../../../general/menu/menu.component';
 
 @Component({
   selector: 'app-plan-mejoramiento',
@@ -12,46 +13,25 @@ import { DialogosService } from '../../../services/dialogos.service';
 })
 export class PlanMejoramientoComponent implements OnInit {
 
-  PlanesMejoramiento: PlanMejoramiento[] = [];
+  Menus: Menu[] = [
+    {
+      nombre: 'Factores de Calidad',
+      ruta: RUTA_FACTORES_CALIDAD,
+      descripcion: 'Muestra la lista de los factores de calidad para el plan de mejoramiento',
+      imagen: 'assets/Iconos/pendiente.png'
+    }
+  ];
 
-  constructor(private transfer: TransferService,
-              private genService: GeneralService,
-              private dlgService: DialogosService) { }
+  constructor(private genService: GeneralService) {
+
+  }
 
   ngOnInit() {
-    this.transfer.enviarTituloAplicacion('Plan de Mejoramiento');
 
-    this.obtenerPlanesMejoramiento();
   }
 
-  obtenerPlanesMejoramiento() {
-    this.genService.getPlanesMejoramiento().subscribe((rPlanes: any) => {
-      console.log(rPlanes);
-      this.PlanesMejoramiento = rPlanes.Planes;
-    });
-  }
-
-  agregarPlanMejoramiento() {
-    this.genService.navegar([RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO, 'crear']);
-  }
-
-  verPlan(plan: PlanMejoramiento) {
-    this.dlgService.mostrarPlanMejoramiento(plan);
-  }
-
-  editarPlan(plan: PlanMejoramiento) {
-    this.genService.navegar([RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO, plan.idplan]);
-  }
-
-  eliminarPlan(plan: PlanMejoramiento) {
-    this.dlgService.confirmacion('¿Está seguro de eliminar éste plan de mejoramiento?').subscribe((rEliminar: boolean) => {
-      if (rEliminar) {
-        this.genService.deletePlanMejoramiento(plan.idplan).subscribe((rResp: any) => {
-          this.dlgService.mostrarSnackBar('SIAP dice ...', rResp.Respuesta);
-          this.obtenerPlanesMejoramiento();
-        });
-      }
-    });
+  abrirRuta(menu: Menu) {
+    this.genService.navegar([RUTA_PLAN_MEJORAMIENTO, menu.ruta]);
   }
 
 }

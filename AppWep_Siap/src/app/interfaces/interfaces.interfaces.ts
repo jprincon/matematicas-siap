@@ -493,6 +493,7 @@ export interface Tema {
 export interface FactorCalidad {
   idfactorcalidad?: string;
   factor?: string;
+  orden?: number;
 }
 
 export interface Requisito {
@@ -524,8 +525,8 @@ export interface PlanMejoramiento {
   tipoAccion?: TipoAccion;
   causas_principales?: string;
   metas?: string;
-  fecha_inicio?: Date;
-  fecha_fin?: Date;
+  fecha_inicio?: string;
+  fecha_fin?: string;
   actividades?: string;
   responsable_ejecucion?: string;
   responsable_seguimiento?: string;
@@ -536,6 +537,11 @@ export interface PlanMejoramiento {
   seguimiento?: string;
   observaciones?: string;
   estado_actual_accion?: string;
+}
+
+export interface EstadisticaPrograma {
+  Programa?: string;
+  Cantidad?: number;
 }
 
 

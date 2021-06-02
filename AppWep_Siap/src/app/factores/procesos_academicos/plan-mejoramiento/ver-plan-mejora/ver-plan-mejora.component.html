@@ -20,7 +20,7 @@
 
         <tr>
             <th>Descripción Oportunidad de Mejora (Debilidad o Fortaleza a Consolidar)</th>
-            <td>{{ planMejoramiento.descripcion_mejora }}</td>
+            <td [innerHTML]="planMejoramiento.descripcion_mejora"></td>
         </tr>
 
         <tr>
@@ -50,7 +50,7 @@
 
         <tr>
             <th>Actividades</th>
-            <td>{{ planMejoramiento.actividades }}</td>
+            <td [innerHTML]="planMejoramiento.actividades"></td>
         </tr>
 
         <tr>
@@ -70,7 +70,7 @@
 
         <tr>
             <th>Indicador para la Meta</th>
-            <td>{{ planMejoramiento.indicador_meta }}</td>
+            <td [innerHTML]="planMejoramiento.indicador_meta"></td>
         </tr>
 
         <tr>
@@ -90,12 +90,12 @@
 
         <tr>
             <th>Seguimiento</th>
-            <td>{{ planMejoramiento.seguimiento }}</td>
+            <td [innerHTML]="planMejoramiento.seguimiento"></td>
         </tr>
 
         <tr>
             <th>Observaciones/Verificación de la Eficacia</th>
-            <td>{{ planMejoramiento.observaciones }}</td>
+            <td [innerHTML]="planMejoramiento.observaciones"></td>
         </tr>
 
         <tr>

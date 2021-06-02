@@ -1,0 +1,31 @@
+<div class="m-3">
+    <button class="btn btn-outline-success mb-3" (click)="agregarPlanMejoramiento()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Plan Mejoramiento</button>
+
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Descripción de la Oportunidad de Mejora</th>
+                <th>Ver Más ...</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let plan of PlanesMejoramiento">
+                <td>{{ plan.orden }}</td>
+                <td [innerHTML]="plan.descripcion_mejora"></td>
+                <td>
+                    <img src="assets/Iconos/Ver.png" style="height: 32px;" (click)="verPlan(plan)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarPlan(plan)">
+                </td>
+                <td>
+                    <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarPlan(plan)">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

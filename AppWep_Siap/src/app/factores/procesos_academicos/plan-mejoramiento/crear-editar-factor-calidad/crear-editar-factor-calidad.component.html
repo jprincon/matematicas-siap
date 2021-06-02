@@ -1,0 +1,17 @@
+<app-titulo-dialogo [Titulo]="'Creando/Editando Factor de Calidad ...'"></app-titulo-dialogo>
+
+<form ngNativeValidated (ngSubmit)="guardar()">
+    <div class="form-group">
+        <label class="font-weight-bold">Factor</label>
+        <input class="form-control" required type="text" [(ngModel)]="factorCalidad.factor" name="factor">
+    </div>
+
+    <div class="form-group">
+        <label class="font-weight-bold">Orden</label>
+        <input class="form-control" required type="text" [(ngModel)]="factorCalidad.orden" name="orden">
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-outline-success" type="submit"><img src="assets/Iconos/Guardar.png" style="width: 32px;"> Guardar</button>
+    </div>
+</form>

@@ -21,6 +21,9 @@
                         <button class="btn btn-outline-success input-group-append" (click)="borrarBusqueda()">...</button>
                     </div>
 
+                    <button class="btn btn-outline-success mb-2 btn-block" (click)="vista = [true, false]">Tablas</button>
+                    <button class="btn btn-outline-success mb-2 btn-block" (click)="vista = [false, true]">Gráficas</button>
+
                     <div class="list-group list-group-flush">
                         <a *ngFor="let programa of bProgramas" (click)="seleccionarPrograma(programa)" class="puntero-manito list-group-item list-group-item-action">{{ programa.programa | capitalizado }}</a>
                     </div>
@@ -31,51 +34,81 @@
         <!-- %%%%%%% Reporte del Programa %%%%%%% -->
         <div class="col-md-9">
 
-            <button [value]="nombreExcel" class="btn btn-outline-success m-3" onclick="crearExcel('reporte-servicios-programas', value)">Exportar como Excel</button>
-            <button [value]="nombreDoc" class="btn btn-outline-success m-3" onclick="crearWord('reporte-word', value)">Exportar como Word</button>
+            <div *ngIf="vista[0]">
+                <button [value]="nombreExcel" class="btn btn-outline-success m-3" onclick="crearExcel('reporte-servicios-programas', value)">Exportar como Excel</button>
+                <button [value]="nombreDoc" class="btn btn-outline-success m-3" onclick="crearWord('reporte-word', value)">Exportar como Word</button>
 
-            <div id="reporte-word">
-                <table class="table table-bordered" id="reporte-servicios-programas">
-                    <thead style="background-color: $999999;">
+                <div id="reporte-word">
+                    <table class="table table-bordered" id="reporte-servicios-programas">
+                        <thead style="background-color: $999999;">
+                            <tr>
+                                <th>No</th>
+                                <th>Asignatura</th>
+                                <th>I/H</th>
+                                <th>I/S</th>
+                                <th>Grupo</th>
+                                <th>Profesor</th>
+                            </tr>
+                        </thead>
+
+                        <tbody *ngFor="let servicio of ReportesServicios; let id = index">
+                            <tr>
+                                <td rowspan="6">{{ id + 1 }}</td>
+                                <td class="font-weight-bold">{{ servicio.asignatura | capitalizado }}</td>
+                                <td rowspan="6">{{ servicio.horas }}</td>
+                                <td rowspan="6">{{ servicio.horsem }}</td>
+                                <td rowspan="6">{{ servicio.grupo }}</td>
+                                <td>{{ servicio.nombre | capitalizado }}</td>
+                            </tr>
+
+                            <tr>
+                                <td rowspan="5">({{ servicio.tipo | capitalizado }})</td>
+                                <td>{{ servicio.contrato }} ({{ servicio.categoria }})</td>
+                            </tr>
+
+                            <tr>
+                                <td>CC {{ servicio.iddocente }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="font-weight-bold">Número de contrato {{ servicio.numerocontrato }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ servicio.correo }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tel. {{ servicio.telefono }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div *ngIf="vista[1]">
+                <div style="display: block;">
+                    <canvas baseChart [datasets]="datosGeneral" [colors]="generalChartColors" [labels]="lbDatosGeneral" [options]="generalChartOptions" [legend]="generalChartLegend" [chartType]="generalChartType">
+                </canvas>
+                </div>
+
+                <button [value]="'Estadisticas-Servicios-Por-Programa.xls'" class="btn btn-outline-success m-3" onclick="crearExcel('reporte-estadistica-programas', value)">Exportar como Excel</button>
+                <button [value]="'Estadisticas-Servicios-Por-Programa.doc'" class="btn btn-outline-success m-3" onclick="crearWord('reporte-estadistica-programas', value)">Exportar como Word</button>
+
+                <table class="table table-hover" id="reporte-estadistica-programas">
+                    <thead class="table-dark">
                         <tr>
                             <th>No</th>
-                            <th>Asignatura</th>
-                            <th>I/H</th>
-                            <th>I/S</th>
-                            <th>Grupo</th>
-                            <th>Profesor</th>
+                            <th>Programa</th>
+                            <th>Cantidad de Servicios</th>
                         </tr>
                     </thead>
 
-                    <tbody *ngFor="let servicio of ReportesServicios; let id = index">
-                        <tr>
-                            <td rowspan="6">{{ id + 1 }}</td>
-                            <td class="font-weight-bold">{{ servicio.asignatura | capitalizado }}</td>
-                            <td rowspan="6">{{ servicio.horas }}</td>
-                            <td rowspan="6">{{ servicio.horsem }}</td>
-                            <td rowspan="6">{{ servicio.grupo }}</td>
-                            <td>{{ servicio.nombre | capitalizado }}</td>
-                        </tr>
-
-                        <tr>
-                            <td rowspan="5">({{ servicio.tipo | capitalizado }})</td>
-                            <td>{{ servicio.contrato }} ({{ servicio.categoria }})</td>
-                        </tr>
-
-                        <tr>
-                            <td>CC {{ servicio.iddocente }}</td>
-                        </tr>
-
-                        <tr>
-                            <td class="font-weight-bold">Número de contrato {{ servicio.numerocontrato }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>{{ servicio.correo }}</td>
-                        </tr>
-
-                        <tr>
-                            <td>Tel. {{ servicio.telefono }}</td>
+                    <tbody>
+                        <tr *ngFor="let estd of EstadisticasPrograma; let id = index">
+                            <td>{{ id + 1 }}</td>
+                            <td>{{ estd.Programa | capitalizado }}</td>
+                            <td>{{ estd.Cantidad}}</td>
                         </tr>
                     </tbody>
                 </table>

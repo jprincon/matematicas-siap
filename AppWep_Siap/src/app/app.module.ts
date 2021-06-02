@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // %%%%%%% Material Angular %%%%%%%
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -10,6 +10,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -142,6 +145,13 @@ import { AcercaComponent } from './acerca/acerca.component';
 import { PlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/plan-mejoramiento.component';
 import { CrearEditarPlanMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/crear-editar-plan-mejoramiento/crear-editar-plan-mejoramiento.component';
 import { VerPlanMejoraComponent } from './factores/procesos_academicos/plan-mejoramiento/ver-plan-mejora/ver-plan-mejora.component';
+import { PlanesMejoramientoComponent } from './factores/procesos_academicos/plan-mejoramiento/planes-mejoramiento/planes-mejoramiento.component';
+import { FactoresCalidadComponent } from './factores/procesos_academicos/plan-mejoramiento/factores-calidad/factores-calidad.component';
+import { CrearEditarFactorCalidadComponent } from './factores/procesos_academicos/plan-mejoramiento/crear-editar-factor-calidad/crear-editar-factor-calidad.component';
+import { DatePickerComponent } from './comunes/date-picker/date-picker.component';
+import Counter from './counter';
+import { EditorHtmlComponent } from './comunes/editor-html/editor-html.component';
+
 
 
 
@@ -335,6 +345,16 @@ import { VerPlanMejoraComponent } from './factores/procesos_academicos/plan-mejo
 
     VerPlanMejoraComponent,
 
+    PlanesMejoramientoComponent,
+
+    FactoresCalidadComponent,
+
+    CrearEditarFactorCalidadComponent,
+
+    DatePickerComponent,
+
+    EditorHtmlComponent,
+
 
   ],
   imports: [
@@ -348,7 +368,9 @@ import { VerPlanMejoraComponent } from './factores/procesos_academicos/plan-mejo
     MatMenuModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    ChartsModule
+    ChartsModule,
+    MatFormFieldModule,
+    AngularEditorModule
   ],
   providers: [],
   entryComponents: [
@@ -381,7 +403,8 @@ import { VerPlanMejoraComponent } from './factores/procesos_academicos/plan-mejo
     GraficaEstadisticaComponent,
     ActaProgramaComponent,
     CrearDirectorJuradoComponent,
-    VerPlanMejoraComponent
+    VerPlanMejoraComponent,
+    CrearEditarFactorCalidadComponent
   ],
   bootstrap: [AppComponent]
 })
