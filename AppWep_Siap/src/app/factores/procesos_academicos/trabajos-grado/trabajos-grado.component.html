@@ -11,6 +11,63 @@
 
         <div class="card shadow mb-3">
             <div class="card-header bg-dark text-white">
+                <h3 class="card-title">Opciones de Búsqueda</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Título</label>
+                    <input (keydown.enter)="buscarTrabajosGrado_porTitulo()" class="form-control" [(ngModel)]="tituloTrabajo" name="tituloTrabajo">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Director</label>
+                    <input (keydown.enter)="buscarTrabajosGrado_porDirector()" class="form-control" [(ngModel)]="nombreDirector" name="nombreDirector">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Jurado</label>
+                    <input (keydown.enter)="buscarTrabajosGrado_porJurado()" class="form-control" [(ngModel)]="nombreDocente" name="nombreDocente">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Estudiante</label>
+                    <input (keydown.enter)="buscarTrabajosGrado_porNombreEstudiante()" class="form-control" [(ngModel)]="nombreEstudiante" name="nombreEstudiante">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Filtrar por Estado del Trabajo de Grado</label>
+                    <select (change)="buscarTrabajosGrado_porEstadoProyecto()" [(ngModel)]="estadoTrabajo" name="estadoTrabajo" class="custom-select">
+                      <option value="proceso">En Proceso</option>
+                      <option value="terminado">Terminado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Modalidad</label>
+                    <select (change)="buscarTrabajosGrado_porModalidad()" [(ngModel)]="modalidad.nombre" name="modalidad" class="custom-select">
+                      <option [value]="modalidad.nombre" *ngFor="let modalidad of Modalidades">{{ modalidad.nombre }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Área de Profundización</label>
+                    <select (change)="buscarTrabajosGrado_porAreaProfundizacion()" [(ngModel)]="areaProfundizacion.nombre" name="areaProfundizacion" class="custom-select">
+                      <option [value]="area.nombre" *ngFor="let area of AreasProfundizacion">{{ area.nombre }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold text-info">Grupo de Investigación</label>
+                    <select (change)="buscarTrabajosGrado_porGrupoInvestigacion()" [(ngModel)]="grupoInvestigacion.nombre" name="grupoInvestigacion" class="custom-select">
+                      <option [value]="grupo.nombre" *ngFor="let grupo of GruposInvestigacion">{{ grupo.nombre }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow mb-3">
+            <div class="card-header bg-dark text-white">
                 <h3 class="card-title">Menú</h3>
             </div>
 
@@ -28,19 +85,6 @@
                 </ul>
             </div>
         </div>
-
-        <div class="card shadow">
-            <div class="card-header bg-dark text-white">
-                <h3 class="card-title">Opciones de Búsqueda</h3>
-            </div>
-
-            <div class="card-body">
-                <div class="form-group">
-                    <label class="font-weight-bold text-info">Título</label>
-                    <input (keydown.enter)="buscarTrabajosGrado_porTitulo()" class="form-control" [(ngModel)]="trabajogrado.titulo" name="titulo">
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="col-md-9">
@@ -50,9 +94,12 @@
                 <button class="btn btn-outline-success" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Crear Trabajo Grado</button>
             </div>
 
+            <h2 class="text-info">Se encontraron {{ bTrabajosGrado.length }} resultados.</h2>
+            <hr>
+
             <ul class="list-group" *ngIf="verDescripciones">
-                <li class="list-group-item list-group-item-action" *ngFor="let trabajogrado of TrabajosGrado; let id = index">
-                    <div class="media">
+                <li class="list-group-item list-group-item-action m-3" *ngFor="let trabajogrado of bTrabajosGrado; let id = index">
+                    <div class="media m-3">
                         <img class="mr-3" src="assets/Iconos/trabajosgrado.png" style="height: 64px;">
                         <div class="media-body">
                             <h4 class="text-info">{{ trabajogrado.titulo | capitalizado }}</h4>
@@ -124,8 +171,9 @@
                             </div>
 
                             <div class="modal-footer">
-                                <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
-                                <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTrabajoGrado(trabajogrado)">
+                                <button class="btn btn-outline-info" (click)="verTrabajoGrado(trabajogrado)"><img src="assets/Iconos/Ver.png" style="height: 32px;" > Ver</button>
+                                <button class="btn btn-outline-success" (click)="editarTrabajoGrado(trabajogrado)"><img src="assets/Iconos/Editar.png" style="height: 32px;" > Editar</button>
+                                <button class="btn btn-outline-danger" (click)="eliminarTrabajoGrado(trabajogrado)"><img src="assets/Iconos/Eliminar.png" style="height: 32px;"> Eliminar</button>
                             </div>
 
 
@@ -134,52 +182,103 @@
                 </li>
             </ul>
 
-            <table class="table table-hover puntero-manito" *ngIf="verLista">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Título</th>
-                        <th>Estudiantes</th>
-                        <th>Modalidad</th>
-                        <th>Fecha Sustentación</th>
-                        <th>Calificación Final</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
+            <div *ngIf="verLista">
+                <div class="modal-footer">
+                    <button [value]="'Trabajos_de_Grado_con_Filtro_.xls'" class="input-group-append btn btn-outline-success" onclick="crearExcel('trabajos-grado', value)"><img class="mr-3" src="assets/Iconos/Excel.png" style="width: 32px;">  Descargar en Excel</button>
+                </div>
 
-                <tbody>
-                    <tr *ngFor="let trabajogrado of TrabajosGrado; let id = index">
-                        <td>{{ id + 1 }}</td>
-                        <td>{{ trabajogrado.titulo | capitalizado }}</td>
-                        <td>
-                            <ul>
-                                <li>{{ trabajogrado.estudiante1 | capitalizado}}</li>
-                                <li *ngIf="trabajogrado.estudiante2.length > 0">{{ trabajogrado.estudiante2 | capitalizado}}</li>
-                                <li *ngIf="trabajogrado.estudiante3.length > 0">{{ trabajogrado.estudiante3 | capitalizado}}</li>
-                            </ul>
-                        </td>
-                        <td>{{ trabajogrado.modalidad.nombre | capitalizado }}</td>
-                        <td>{{ trabajogrado.fechasustentacion }}</td>
-                        <td>{{ trabajogrado.calificacionfinal | capitalizado }}</td>
-                        <td>
-                            <img src="assets/Iconos/Editar.png" style="height: 32px;" (click)="editarTrabajoGrado(trabajogrado)">
-                        </td>
-                        <td>
-                            <img src="assets/Iconos/Eliminar.png" style="height: 32px;" (click)="eliminarTrabajoGrado(trabajogrado)">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table table-hover table-responsive puntero-manito" id="trabajos-grado">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Título</th>
+                            <th>Estudiante(s)</th>
+                            <th>Director</th>
+                            <th>Codirector (Si Aplica)</th>
+                            <th>Ver</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                            <th>Acta de la Propuesta</th>
+                            <th>Jurado (Revisor)</th>
+                            <th>Jurado 2</th>
+                            <th>Jurado 3</th>
+                            <th>Modalidad</th>
+                            <th>Área de Profundización</th>
+                            <th>Grupo de Investigación</th>
+                            <th>Evaluación Prpuesta</th>
+                            <th>Evaluación Trabajo Escrito</th>
+                            <th>Evaluación Sustentación</th>
+                            <th>Calificación Final</th>
+                            <th>Fecha de Inicio Ejecución</th>
+                            <th>Fecha de Sustentación</th>
+                            <th>Estado del Trabajo de Grado</th>
+                            <th>Meses en Ejecución</th>
+                            <th>Se ceden los derechos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let trabajo of bTrabajosGrado; let id = index">
+                            <td>{{ id + 1 }}</td>
+                            <td>{{ trabajo.titulo | capitalizado }}</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td *ngIf="trabajo.estudiante1">{{ trabajo.estudiante1 | capitalizado }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td *ngIf="trabajo.estudiante2">{{ trabajo.estudiante2 | capitalizado }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td *ngIf="trabajo.estudiante3">{{ trabajo.estudiante3 | capitalizado }}</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>{{ trabajo.director.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.codirector.nombre | capitalizado }}</td>
+                            <td>
+                                <button class="btn btn-outline-info" (click)="verTrabajoGrado(trabajogrado)"><img src="assets/Iconos/Ver.png" style="height: 32px;" > Ver</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-success" (click)="editarTrabajoGrado(trabajogrado)">
+                              <img src="assets/Iconos/Editar.png" style="height: 32px;"> Editar
+                            </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-danger" (click)="eliminarTrabajoGrado(trabajogrado)">
+                              <img src="assets/Iconos/Eliminar.png" style="height: 32px;" > Eliminar
+                            </button>
+                            </td>
+                            <td>{{ trabajo.actapropuesta | capitalizado }}</td>
+                            <td>{{ trabajo.jurado1.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.jurado2.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.jurado3.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.modalidad.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.areaProfundizacion.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.grupoInvestigacion.nombre | capitalizado }}</td>
+                            <td>{{ trabajo.evaluacionpropuesta | capitalizado }}</td>
+                            <td>{{ trabajo.evaluaciontrabajoescrito | capitalizado }}</td>
+                            <td>{{ trabajo.evaluacionsustentacion | capitalizado }}</td>
+                            <td>{{ trabajo.calificacionfinal | capitalizado }}</td>
+                            <td>{{ trabajo.fechainicioejecucion | capitalizado }}</td>
+                            <td>{{ trabajo.fechasustentacion | capitalizado }}</td>
+                            <td>{{ trabajo.estadoproyecto | capitalizado }}</td>
+                            <td>{{ trabajo.cantidadsemestresejecucion.Meses | capitalizado }}</td>
+                            <td>{{ trabajo.estudiantecedederechos | capitalizado }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="row" *ngIf="verTarjetas">
-                <div style="width: 25%;" *ngFor="let trabajogrado of TrabajosGrado">
-                    <div class="card shadow m-3">
-                        <div class="card-header text-white bg-dark">
+                <div style="width: 300px;" *ngFor="let trabajogrado of bTrabajosGrado">
+                    <div class="card shadow m-3 puntero-manito" (click)="verTrabajoGrado(trabajogrado)">
+                        <div class="card-header text-white bg-dark" style="height: 90px;">
                             <h4 class="card-title text-center">{{ trabajogrado.modalidad.nombre | capitalizado }}</h4>
                         </div>
-                        <div class="card-body">
-                            <h2 class="text-info text-center">{{ trabajogrado.titulo | reducirTexto:'150' | capitalizado}}</h2>
+                        <div class="card-body" style="height: 430px;">
+                            <h2 class="text-info text-center">{{ trabajogrado.titulo | reducirTexto:'50' | capitalizado}}</h2>
                             <hr>
                             <ul>
                                 <li>{{ trabajogrado.estudiante1 | capitalizado}}</li>

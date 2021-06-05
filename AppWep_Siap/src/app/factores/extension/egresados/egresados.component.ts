@@ -44,7 +44,7 @@ export class EgresadosComponent implements OnInit {
 
   editarEgresado(egresado: Egresado) {
     this.dlgService.DlgEgresado('Editar', egresado.idegresado).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerEgresados();
     });
   }
@@ -54,7 +54,7 @@ export class EgresadosComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteEgresado(egresado.idegresado).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerEgresados();
         });
       }

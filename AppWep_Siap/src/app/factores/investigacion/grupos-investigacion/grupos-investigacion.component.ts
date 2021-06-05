@@ -44,7 +44,7 @@ export class GruposInvestigacionComponent implements OnInit {
 
   editarGrupoInvestigacion(grupoinvestigacion: GrupoInvestigacion) {
     this.dlgService.DlgGrupoInvestigacion('Editar', grupoinvestigacion.idgrupoinvestigacion).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerGruposInvestigacion();
     });
   }
@@ -54,7 +54,7 @@ export class GruposInvestigacionComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteGrupoInvestigacion(grupoinvestigacion.idgrupoinvestigacion).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerGruposInvestigacion();
         });
       }

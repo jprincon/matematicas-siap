@@ -76,7 +76,6 @@ export class EfdServiciosProgramaComponent implements OnInit {
 
   obtenerAgendasPorPrograma() {
     this.genService.getAgendasPorPrograma(this.periodo).subscribe((rEstadistica: any) => {
-      console.log(rEstadistica);
       this.EstadisticasPrograma = rEstadistica.Estadisticas;
       const datos: number[] = [];
       this.lbDatosGeneral = [];
@@ -108,8 +107,6 @@ export class EfdServiciosProgramaComponent implements OnInit {
 
   obtenerProgramas() {
     this.genService.getProgramas().subscribe((rProgramas: any) => {
-
-      console.log(rProgramas);
 
       this.Programas = rProgramas.Programas;
       this.bProgramas = this.Programas;

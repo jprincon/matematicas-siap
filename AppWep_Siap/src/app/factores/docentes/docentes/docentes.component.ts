@@ -134,7 +134,7 @@ export class DocentesComponent implements OnInit {
 
   agregarDocente() {
     this.dlgService.DlgDocente('Crear', '').subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerDocentes();
     });
   }
@@ -145,7 +145,7 @@ export class DocentesComponent implements OnInit {
 
   editarDocente(docente: Docente) {
     this.dlgService.DlgDocente('Editar', docente.iddocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerDocentes();
     });
   }
@@ -160,8 +160,8 @@ export class DocentesComponent implements OnInit {
 
   borrarDocente(id: string) {
     this.genService.deleteDocente(id).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerDocentes();
     });
   }

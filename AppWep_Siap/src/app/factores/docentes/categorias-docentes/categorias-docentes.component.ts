@@ -60,7 +60,7 @@ export class CategoriasDocentesComponent implements OnInit {
   borrarCategoriaDocente(id: string) {
     this.genService.deleteCategoriaDocente(id).subscribe((rRespuesta: any) => {
 
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerCategoriasDocente();
     });
   }

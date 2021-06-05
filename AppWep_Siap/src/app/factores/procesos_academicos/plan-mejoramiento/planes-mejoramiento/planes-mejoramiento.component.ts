@@ -26,7 +26,7 @@ export class PlanesMejoramientoComponent implements OnInit {
 
   obtenerPlanesMejoramiento() {
     this.genService.getPlanesMejoramiento().subscribe((rPlanes: any) => {
-      console.log(rPlanes);
+
       this.PlanesMejoramiento = rPlanes.Planes;
     });
   }
@@ -47,7 +47,7 @@ export class PlanesMejoramientoComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar éste plan de mejoramiento?').subscribe((rEliminar: boolean) => {
       if (rEliminar) {
         this.genService.deletePlanMejoramiento(plan.idplan).subscribe((rResp: any) => {
-          this.dlgService.mostrarSnackBar('SIAP dice ...', rResp.Respuesta);
+          this.dlgService.mostrarSnackBar(rResp.Respuesta);
           this.obtenerPlanesMejoramiento();
         });
       }

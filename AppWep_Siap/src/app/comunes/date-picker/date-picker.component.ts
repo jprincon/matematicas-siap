@@ -45,15 +45,13 @@ export class DatePickerComponent implements OnInit, OnChanges {
   }
 
   formatearFecha() {
-    console.log(this.mm);
 
     this.Fecha = this.aa + '-' + this.mm.id + '-' + this.dd;
-    console.log(this.Fecha);
+
     this.CambioFecha.emit(this.Fecha);
   }
 
   ngOnChanges(changes: { [property: string]: SimpleChange }) {
-    console.log(this.Meses);
 
     this.Fecha = changes.Fecha.currentValue;
     const datos: string[] = this.Fecha.split('-');
@@ -62,7 +60,6 @@ export class DatePickerComponent implements OnInit, OnChanges {
     for (const mes of this.Meses) {
       if (mes.id === datos[1]) {
         this.mm = mes;
-        console.log(this.mm);
       }
     }
 

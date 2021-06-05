@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GeneralService } from '../../../../services/general.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoriaDocente, TipoContrato, Docente } from '../../../../interfaces/interfaces.interfaces';
+import { SnackBarComponent } from '../../../../dialogos/snack-bar/snack-bar.component';
 
 @Component({
   selector: 'app-crear-director-jurado',
@@ -75,8 +76,6 @@ export class CrearDirectorJuradoComponent implements OnInit {
 
   guardarDocente() {
 
-    console.log(this.docente);
-
     this.guardando = true;
 
     if (this.accion === 'Crear') {
@@ -84,18 +83,23 @@ export class CrearDirectorJuradoComponent implements OnInit {
       this.docente.iddocente = this.docente.documento;
       const datos = JSON.stringify(this.docente);
       this.genService.postDocente(datos).subscribe((rRespuesta: any) => {
-
-        return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
+        this.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
+        return this.dialogRef.close(this.docente);
       });
     } else {
 
       const datos = JSON.stringify(this.docente);
-
       this.genService.putDocente(datos).subscribe((rRespuesta: any) => {
-
-        return this.dialogRef.close(rRespuesta.Respuesta || rRespuesta.Error);
+        this.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
+        return this.dialogRef.close(this.docente);
       });
     }
+  }
+
+  mostrarSnackBar(msg: string) {
+      this.snackBar.openFromComponent(SnackBarComponent, {
+        data: {Titulo: 'SIAP dice ...', Mensaje: msg}, duration: 5000
+      });
   }
 
 }

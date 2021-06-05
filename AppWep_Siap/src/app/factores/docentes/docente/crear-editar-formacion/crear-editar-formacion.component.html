@@ -1,0 +1,38 @@
+<h1>Crear/Editar Formación</h1>
+<hr>
+
+<div class="text-center" style="margin: 20px;" *ngIf="guardando">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Guardando Perfil de Docente ...</h3>
+</div>
+
+<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+    <h3>Leyendo Docente ...</h3>
+</div>
+
+<form *ngIf="!guardando && !leyendo" ngNativeValidate (ngSubmit)="guardar()">
+
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Título</label>
+        <input type="text" class="form-control" required [(ngModel)]="formacion.titulo" name="titulo">
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Fecha de Inicio</label>
+        <app-date-picker [Fecha]="formacion.fechainicio" (CambioFecha)="formacion.fechainicio = $event"></app-date-picker>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Fecha de Finalización</label>
+        <app-date-picker [Fecha]="formacion.fechafin" (CambioFecha)="formacion.fechafin = $event"></app-date-picker>
+    </div>
+
+    <div class="form-group">
+        <label style="font-weight: bold;">Institución</label>
+        <input type="text" class="form-control" [(ngModel)]="formacion.institucion" name="institucion">
+    </div>
+
+    <button type="submit" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
+</form>

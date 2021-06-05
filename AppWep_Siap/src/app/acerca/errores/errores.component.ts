@@ -48,7 +48,7 @@ export class ErroresComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar los Errores?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteErrorPorMensaje(error.mensaje).subscribe((rRespuesta: any) => {
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerErrores();
         });
       }
@@ -58,7 +58,7 @@ export class ErroresComponent implements OnInit {
   borrarError(id: string) {
     this.genService.deleteError(id).subscribe((rRespuesta: any) => {
 
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerErrores();
     });
   }

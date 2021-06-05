@@ -63,7 +63,7 @@ export class TiposContratoComponent implements OnInit {
   borrarTipoContrato(id: string) {
     this.genService.deleteTipoContrato(id).subscribe((rRespuesta: any) => {
 
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerTiposContrato();
     }, error => {
        this.borrarTipoContrato(id);

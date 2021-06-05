@@ -44,7 +44,7 @@ export class ConfiguracionesComponent implements OnInit {
   guardarConfiguracion() {
     const datos = JSON.stringify(this.configuracion);
     this.genService.putConfiguracion(datos).subscribe((rConfiguracion: any) => {
-      this.dlgService.mostrarSnackBar('Información', rConfiguracion.Respuesta || rConfiguracion.Error);
+      this.dlgService.mostrarSnackBar(rConfiguracion.Respuesta || rConfiguracion.Error);
     });
   }
 

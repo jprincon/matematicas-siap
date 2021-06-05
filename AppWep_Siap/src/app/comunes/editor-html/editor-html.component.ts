@@ -17,7 +17,7 @@ export class EditorHtmlComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { [property: string]: SimpleChange }) {
-    console.log(changes);
+
   }
 
 }

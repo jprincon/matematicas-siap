@@ -4,6 +4,13 @@ export const LS_USUARIO = 'usuario';
 export const LS_CLAVE = 'clave';
 export const LS_ULTIMA_RUTA = 'ultima-ruta';
 
+// %%%%%%% Identificadores productos %%%%%%%
+export const ID_LIBRO = 'Libro';
+export const ID_ARTICULO = 'Artículo';
+export const ID_SOFTWARE = 'Software';
+export const ID_PROYECTO_INVESTIGACION = 'Proyecto de Investigación';
+export const ID_PROYECTO_EXTENSION = 'Proyecto de Extensión';
+
 // %%%%%%% Rutas Predefinidas %%%%%%%
 
 export const RUTA_FACTOR_DOCENTES = 'factor-docentes';
@@ -48,3 +55,15 @@ export const RUTA_PLAN_MEJORAMIENTO = 'plan-mejoramiento';
 export const RUTA_CREAR_EDITAR_PLAN_MEJORAMIENTO = 'crear-editar-plan-mejoramiento';
 export const RUTA_INICIO = 'inicio';
 export const RUTA_FACTORES_CALIDAD = 'factores-calidad';
+export const RUTA_ADMIN_USUARIO = 'usuario';
+export const RUTA_ADMIN_WORKSHOP_EMEM = 'workshop-emem';
+export const RUTA_ADMIN_CONFIGURACIONES = 'configuraciones';
+export const RUTA_ADMIN_PRUEBAS = 'pruebas';
+export const RUTA_RESUMENES_EMEM = 'resumenes-emem';
+export const RUTA_LISTA_POSTERS = 'lista-posters';
+export const RUTA_PARTICIPANTES_EMEM = 'participantes-emem';
+export const RUTA_ADMIN_EDITAR_USUARIO = 'editar-usuario';
+export const RUTA_ADMIN_TIPO_PRODUCCION = 'tipos-produccion';
+export const RUTA_VER_TRABAJO_GRADO = 'ver-trabajo-grado';
+export const RUTA_EXPORTAR_TRABAJOS_GRADO = 'exportar-trabajos-grados';
+export const RUTA_DOCENTES_DIRECCION_TRABAJOS_GRADO = 'reporte-trabajos-grado';

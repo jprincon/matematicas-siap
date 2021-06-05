@@ -6,9 +6,6 @@ import { FactorCalidad, Requisito, TipoAccion, Fuente } from '../../../../interf
 import { GeneralService } from '../../../../services/general.service';
 import { RUTA_PLAN_MEJORAMIENTO, RUTA_INICIO } from '../../../../config/config';
 import { DialogosService } from '../../../../services/dialogos.service';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
-import Quill from 'quill';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-crear-editar-plan-mejoramiento',
@@ -59,7 +56,6 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
 
   obtenerParametros() {
     this.activatedRoute.params.subscribe((rParams: any) => {
-      console.log(rParams);
 
       if (rParams.Id === 'crear') {
         this.transfer.enviarTituloAplicacion('Creando plan de mejoramiento ...');
@@ -67,7 +63,7 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
       } else {
         this.transfer.enviarTituloAplicacion('Editando plan de mejoramiento ...');
         this.genService.getPlanMejoramiento(rParams.Id).subscribe((rPlan: PlanMejoramiento) => {
-          console.log(rPlan);
+
           this.planMejoramiento = rPlan;
           this.Accion = 'Editar';
         });
@@ -76,33 +72,33 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
   }
 
   mostrar(e: any) {
-    console.log(e);
+
   }
 
   obtenerFactoresCalidad() {
     this.genService.getFactoresCalidad().subscribe((rFactores: any) => {
-      console.log(rFactores);
+
       this.FactoresCalidad = rFactores.Factores;
     });
   }
 
   obtenerRequisitos() {
     this.genService.getRequisitos().subscribe((rRequisitos: any) => {
-      console.log(rRequisitos);
+
       this.Requisitos = rRequisitos.Requisitos;
     });
   }
 
   obtenerTiposAccion() {
     this.genService.getTiposAccion().subscribe((rTiposAccion: any) => {
-      console.log(rTiposAccion);
+
       this.TiposAccion = rTiposAccion.TiposAccion;
     });
   }
 
   obtenerFuentes() {
     this.genService.getFuentes().subscribe((rFuentes: any) => {
-      console.log(rFuentes);
+
       this.Fuentes = rFuentes.Fuentes;
     });
   }
@@ -112,14 +108,14 @@ export class CrearEditarPlanMejoramientoComponent implements OnInit {
 
     if (this.Accion === 'Crear') {
       this.genService.postPlanMejoramiento(datos).subscribe((rResp: any) => {
-        console.log(rResp);
-        this.dlgService.mostrarSnackBar('SIAP dice ...', rResp.Respuesta);
+
+        this.dlgService.mostrarSnackBar(rResp.Respuesta);
         this.genService.navegar([RUTA_PLAN_MEJORAMIENTO]);
       });
     } else {
       this.genService.putPlanMejoramiento(datos).subscribe((rResp: any) => {
-        console.log(rResp);
-        this.dlgService.mostrarSnackBar('SIAP dice ...', rResp.Respuesta);
+
+        this.dlgService.mostrarSnackBar(rResp.Respuesta);
         this.genService.navegar([RUTA_PLAN_MEJORAMIENTO, RUTA_INICIO]);
       });
     }

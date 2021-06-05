@@ -15,7 +15,7 @@ export class ManualDesarrolloComponent implements OnInit {
 
   ngOnInit() {
     this.genService.getManualAyuda().subscribe((rManual: any) => {
-      console.log(rManual);
+
       this.Temas = rManual.Temas;
     });
   }

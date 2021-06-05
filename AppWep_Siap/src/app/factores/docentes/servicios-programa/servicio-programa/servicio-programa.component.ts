@@ -137,7 +137,7 @@ export class ServicioProgramaComponent implements OnInit {
   editarHorarioServicio(horarioservicio: HorarioServicio) {
 
     this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma, this.jornada).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerHorarios();
     });
   }
@@ -146,7 +146,7 @@ export class ServicioProgramaComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Horario?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteHorarioServicio(horarioservicio.idhorarioservicio).subscribe((rRespuesta: any) => {
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerHorarios();
         });
       }

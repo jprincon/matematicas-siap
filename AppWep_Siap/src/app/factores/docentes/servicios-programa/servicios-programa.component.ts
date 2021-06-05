@@ -135,7 +135,7 @@ export class ServiciosProgramaComponent implements OnInit {
 
   editarServicioPrograma(servicioprograma: ServicioPrograma) {
     this.dlgService.DlgServicioPrograma('Editar', servicioprograma.idservicioprograma).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerServiciosPrograma();
     });
   }
@@ -145,7 +145,7 @@ export class ServiciosProgramaComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteServicioPrograma(servicioprograma.idservicioprograma).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerServiciosPrograma();
         });
       }
@@ -155,7 +155,7 @@ export class ServiciosProgramaComponent implements OnInit {
   editarHorarioServicio(horarioservicio: HorarioServicio) {
 
     this.dlgService.DlgHorarioServicio('Editar', horarioservicio.idhorarioservicio, horarioservicio.idservicioprograma, '').subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerServiciosPrograma();
     });
   }
@@ -165,7 +165,7 @@ export class ServiciosProgramaComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteHorarioServicio(horarioservicio.idhorarioservicio).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerServiciosPrograma();
         });
       }

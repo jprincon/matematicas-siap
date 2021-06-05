@@ -29,8 +29,7 @@ export class FactoresCalidadComponent implements OnInit {
 
   agregarFactorCalidad() {
     this.dlgService.crearEditarFactorCalidad(null).subscribe((Resp: any) => {
-      this.dlgService.mostrarSnackBar('SIAP dice ...', Resp.Respuesta);
-      console.log(Resp);
+      this.dlgService.mostrarSnackBar(Resp.Respuesta);
 
       this.obtenerFactoresCalidad();
     });
@@ -38,8 +37,8 @@ export class FactoresCalidadComponent implements OnInit {
 
   editarFactor(factor: FactorCalidad) {
     this.dlgService.crearEditarFactorCalidad(factor).subscribe((Resp: any) => {
-      console.log(Resp);
-      this.dlgService.mostrarSnackBar('SIAP dice ...', Resp.Respuesta);
+
+      this.dlgService.mostrarSnackBar(Resp.Respuesta);
       this.obtenerFactoresCalidad();
     });
   }
@@ -48,7 +47,7 @@ export class FactoresCalidadComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar éste factor?').subscribe((rEliminar: boolean) => {
       if (rEliminar) {
         this.genService.deleteFactorCalidad(factor.idfactorcalidad).subscribe((rFactor: any) => {
-          this.dlgService.mostrarSnackBar('SIAP dice ...', rFactor.Respuesta);
+          this.dlgService.mostrarSnackBar(rFactor.Respuesta);
 
           this.obtenerFactoresCalidad();
         });

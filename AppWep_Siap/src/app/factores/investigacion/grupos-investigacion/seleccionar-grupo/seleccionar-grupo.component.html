@@ -1,0 +1,22 @@
+<h1>Seleccione un grupo de investigación ...</h1>
+<hr>
+
+<table class="table-hover table">
+    <thead class="table-dark">
+        <tr>
+            <th>No</th>
+            <th>Nombre del Grupo</th>
+            <th>Seleccionar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let grupo of gruposInvestigacion; let id = index">
+            <td>{{ id + 1 }}</td>
+            <td>{{ grupo.nombre }}</td>
+            <td>
+                <button class="btn btn-outline-success" (click)="seleccionar(grupo)"><img src="assets/Iconos/Aceptar.png" style="width: 32px;"> Seleccionar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

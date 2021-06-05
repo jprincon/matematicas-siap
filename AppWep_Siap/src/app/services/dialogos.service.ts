@@ -11,7 +11,7 @@ import { EsperaComponent } from '../dialogos/espera/espera.component';
 import { MostrarParticipanteComponent } from '../dialogos/mostrar-participante/mostrar-participante.component';
 import { EvaluarResumenEmemComponent } from '../dialogos/evaluar-resumen-emem/evaluar-resumen-emem.component';
 import { SnackBarComponent } from '../dialogos/snack-bar/snack-bar.component';
-import { Usuario, Resumen, ActaConsejoCurricular, PlanMejoramiento, FactorCalidad } from '../interfaces/interfaces.interfaces';
+import { Usuario, Resumen, ActaConsejoCurricular, PlanMejoramiento, FactorCalidad, Formacion, Docente, TipoProduccion, Producto } from '../interfaces/interfaces.interfaces';
 import { DlgTipoContratoComponent } from '../factores/docentes/tipos-contrato/dlg-tipo-contrato/dlg-tipo-contrato.component';
 import { DlgCategoriaDocenteComponent } from '../factores/docentes/categorias-docentes/dlg-categoria-docente/dlg-categoria-docente.component';
 import { DlgDocenteComponent } from '../factores/docentes/docentes/dlg-docente/dlg-docente.component';
@@ -38,6 +38,10 @@ import { ActaProgramaComponent } from '../factores/procesos_academicos/trabajos-
 import { CrearDirectorJuradoComponent } from '../factores/docentes/docentes/crear-director-jurado/crear-director-jurado.component';
 import { VerPlanMejoraComponent } from '../factores/procesos_academicos/plan-mejoramiento/ver-plan-mejora/ver-plan-mejora.component';
 import { CrearEditarFactorCalidadComponent } from '../factores/procesos_academicos/plan-mejoramiento/crear-editar-factor-calidad/crear-editar-factor-calidad.component';
+import { CrearEditarFormacionComponent } from '../factores/docentes/docente/crear-editar-formacion/crear-editar-formacion.component';
+import { SeleccionarGrupoComponent } from '../factores/investigacion/grupos-investigacion/seleccionar-grupo/seleccionar-grupo.component';
+import { CrearEditarTipoProduccionComponent } from '../administrador/admin-tipos-produccion/crear-editar-tipo-produccion/crear-editar-tipo-produccion.component';
+import { CrearEditarProductoComponent } from '../factores/docentes/docente/crear-editar-producto/crear-editar-producto.component';
 
 @Injectable({
   providedIn: 'root'
@@ -106,9 +110,9 @@ export class DialogosService {
     return dialogRef.afterClosed();
   }
 
-  mostrarSnackBar(titulo: string, msg: string) {
+  mostrarSnackBar(msg: string) {
     this.snackBar.openFromComponent(SnackBarComponent, {
-      data: {Titulo: titulo, Mensaje: msg}, duration: 5000
+      data: {Mensaje: msg}, duration: 5000
     });
   }
 
@@ -317,6 +321,42 @@ export class DialogosService {
     const dialogRef = this.dialog.open(CrearEditarFactorCalidadComponent, {
       width: '60%',
       data: {factorCalidad}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  crearEditarFormacion(formacion: Formacion, docente: Docente) {
+    const dialogRef = this.dialog.open(CrearEditarFormacionComponent, {
+      width: '60%',
+      data: {formacion, docente}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  seleccionarGrupoInvestigacion() {
+    const dialogRef = this.dialog.open(SeleccionarGrupoComponent, {
+      width: '60%', height: '60%',
+      data: {}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  crearEditarTipoProduccion(tipoProduccion: TipoProduccion) {
+    const dialogRef = this.dialog.open(CrearEditarTipoProduccionComponent, {
+      width: '60%',
+      data: {tipoProduccion}
+    });
+
+    return dialogRef.afterClosed();
+  }
+
+  crearEditarProducto(producto: Producto) {
+    const dialogRef = this.dialog.open(CrearEditarProductoComponent, {
+      width: '90%', height: '80%',
+      data: {producto}
     });
 
     return dialogRef.afterClosed();

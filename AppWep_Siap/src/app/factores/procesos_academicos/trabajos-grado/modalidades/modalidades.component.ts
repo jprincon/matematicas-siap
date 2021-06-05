@@ -44,7 +44,7 @@ export class ModalidadesComponent implements OnInit {
 
   editarModalidad(modalidad: Modalidad) {
     this.dlgService.DlgModalidad('Editar', modalidad.idmodalidad).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerModalidades();
     });
   }
@@ -54,7 +54,7 @@ export class ModalidadesComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteModalidad(modalidad.idmodalidad).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerModalidades();
         });
       }

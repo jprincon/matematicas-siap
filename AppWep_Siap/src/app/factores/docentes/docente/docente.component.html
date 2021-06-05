@@ -1,172 +1,346 @@
-<div class="text-center" style="margin: 20px;" *ngIf="guardando">
-    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
-    <h3>Guardando Perfil de Docente ...</h3>
-</div>
+<div class="m-4">
+    <div class="text-center" style="margin: 20px;" *ngIf="guardando">
+        <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+        <h3>Guardando Perfil de Docente ...</h3>
+    </div>
 
-<div class="text-center" style="margin: 20px;" *ngIf="leyendo">
-    <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
-    <h3>Leyendo Docente ...</h3>
-</div>
+    <div class="text-center" style="margin: 20px;" *ngIf="leyendo">
+        <i class="fas fa-sync fa-10x text-success fa fa-spin"></i>
+        <h3>Leyendo Docente ...</h3>
+    </div>
 
-<form *ngIf="!guardando && !leyendo">
+    <form *ngIf="!guardando && !leyendo">
 
-    <!-- %%%%%%% Datos Básicos del Docente %%%%%%% -->
-    <h3>Datos Básicos</h3>
-    <hr>
+        <!-- %%%%%%% Datos Básicos del Docente %%%%%%% -->
+        <h3>Datos Básicos</h3>
+        <hr>
 
-    <div class="row">
+        <div class="row">
 
-        <div style="width: 25%;">
-            <div class="card card-shadow">
-                <div class="card-body">
-                    <div class="circular-landscape" align="center" style="width: 250px; height: 250px;">
-                        <img [src]="docente.foto | noImagen">
-                    </div>
+            <div style="width: 25%;">
+                <div class="card card-shadow">
+                    <div class="card-body">
+                        <div class="circular-landscape" align="center" style="width: 250px; height: 250px;">
+                            <img [src]="docente.foto | noImagen">
+                        </div>
 
-                    <h3 class="text-center">{{ docente.nombre | capitalizado }}</h3>
+                        <h3 class="text-center">{{ docente.nombre | capitalizado }}</h3>
 
-                    <div class="form-group">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" (change)="seleccionImagen($event.target.files[0])">
-                            <label class="custom-file-label">Cambiar Foto ...</label>
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" (change)="seleccionImagen($event.target.files[0])">
+                                <label class="custom-file-label">Cambiar Foto ...</label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-9">
-            <div class="form-group">
-                <label style="font-weight: bold;">Documento de Identidad</label>
-                <input type="text" class="form-control" [(ngModel)]="docente.documento" name="iddocente">
-            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Documento de Identidad</label>
+                    <input type="text" class="form-control" [(ngModel)]="docente.documento" name="iddocente">
+                </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Nombre</label>
-                <input type="text" class="form-control" [(ngModel)]="docente.nombre" name="nombre">
-            </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Nombre</label>
+                    <input type="text" class="form-control" [(ngModel)]="docente.nombre" name="nombre">
+                </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Teléfono</label>
-                <input type="text" class="form-control" [(ngModel)]="docente.telefono" name="telefono">
-            </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Teléfono</label>
+                    <input type="text" class="form-control" [(ngModel)]="docente.telefono" name="telefono">
+                </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Correo</label>
-                <input type="text" class="form-control" [(ngModel)]="docente.correo" name="correo">
-            </div>
+                <div class="form-group">
+                    <label style="font-weight: bold;">Correo</label>
+                    <input type="text" class="form-control" [(ngModel)]="docente.correo" name="correo">
+                </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Categoría Docente</label>
-                <select class="custom-select" [(ngModel)]="docente.idcategoriadocente" name="idcategoriadocente">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Categoría Docente</label>
+                    <select class="custom-select" [(ngModel)]="docente.idcategoriadocente" name="idcategoriadocente">
                   <option [value]="''">Seleccione una categoría docente ...</option>
                   <option [value]="categoria.idcategoriadocente" *ngFor="let categoria of Categorias" >{{ categoria.categoria | capitalizado }}</option>
                 </select>
-            </div>
+                </div>
 
-            <div class="form-group">
-                <label style="font-weight: bold;">Tipo Contrato</label>
-                <select class="custom-select" [(ngModel)]="docente.idtipocontrato" name="idtipocontrato">
+                <div class="form-group">
+                    <label style="font-weight: bold;">Tipo Contrato</label>
+                    <select class="custom-select" [(ngModel)]="docente.idtipocontrato" name="idtipocontrato">
                   <option [value]="''">Seleccione un tipo de contrato ...</option>
                   <option [value]="tipo.idtipocontrato" *ngFor="let tipo of TiposContrato" >{{ tipo.contrato | capitalizado }}</option>
                 </select>
+                </div>
+
+                <button (click)="guardarDocente()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
             </div>
-
-            <button (click)="guardarDocente()" class="btn btn-outline-success float-right"><img src="assets/Iconos/Guardar.png" style="height: 32px;"> Guardar</button>
         </div>
-    </div>
 
-    <mat-accordion>
+        <mat-accordion>
 
-        <!-- %%%%%%% Formación %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Formación</h3>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel>
+            <!-- %%%%%%% Formación %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Formación</h3>
+                </mat-expansion-panel-header>
 
-        <!-- %%%%%%% Grupo de Investigación %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Grupo de Investigación</h3>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" (click)="agregarFormacion()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Formación</button>
+                </div>
 
-        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Trabajos de Grado Dirigidos</h3>
-            </mat-expansion-panel-header>
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="font-size-24">No</th>
+                            <th class="font-size-24">Título</th>
+                            <th class="font-size-24">Fecha de Inicio</th>
+                            <th class="font-size-24">Fecha de Finalización</th>
+                            <th class="font-size-24">Institución</th>
+                            <th class="font-size-24">Editar</th>
+                            <td class="font-size-24">Eliminar</td>
+                        </tr>
+                    </thead>
 
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="font-size-24">No</th>
-                        <th class="font-size-24">Título</th>
-                        <th class="font-size-24">Estudiantes</th>
-                    </tr>
-                </thead>
+                    <tbody>
+                        <tr *ngFor="let formacion of Formaciones; let id = index">
+                            <td class="font-size-24">{{ id + 1 }}</td>
+                            <td class="font-size-24">{{ formacion.titulo | capitalizado }}</td>
+                            <td class="font-size-24">{{ formacion.fechainicio}}</td>
+                            <td class="font-size-24">{{ formacion.fechafin}}</td>
+                            <td class="font-size-24">{{ formacion.institucion | capitalizado}}</td>
+                            <td class="font-size-24">
+                                <button class="btn btn-outline-success" (click)="editarFormacion(formacion)"><img src="assets/Iconos/Editar2.png" style="width: 32px;"> Editar</button>
+                            </td>
+                            <td class="font-size-24">
+                                <button class="btn btn-outline-danger" (click)="eliminarFormacion(formacion)"><img src="assets/Iconos/Eliminar.png" style="width: 32px;"> Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
 
-                <tbody>
-                    <tr *ngFor="let trabajoGrado of perfilDocente.DirectorTrabajosGrado; let id = index">
-                        <td class="font-size-24">{{ id + 1 }}</td>
-                        <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
-                        <td class="font-size-24">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </mat-expansion-panel>
+            <!-- %%%%%%% Grupo de Investigación %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Grupos de Investigación</h3>
+                </mat-expansion-panel-header>
 
-        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Trabajos de Grado Evaluados</h3>
-            </mat-expansion-panel-header>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-success" (click)="agregarGrupoInvestigacion()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Grupo</button>
+                </div>
 
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="font-size-24">No</th>
-                        <th class="font-size-24">Título</th>
-                        <th class="font-size-24">Estudiantes</th>
-                    </tr>
-                </thead>
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="font-size-24">No</th>
+                            <th class="font-size-24">Nombre del Grupo</th>
+                            <th class="font-size-24">Sigla</th>
+                            <th class="font-size-24">Desvincular</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr *ngFor="let trabajoGrado of perfilDocente.JuradoTrabajosGrado; let id = index">
-                        <td class="font-size-24">{{ id + 1 }}</td>
-                        <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
-                        <td class="font-size-24">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
-                                <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </mat-expansion-panel>
+                    <tbody>
+                        <tr *ngFor="let grupo of GruposInvestigacion; let id = index">
+                            <td class="font-size-24">{{ id + 1 }}</td>
+                            <td class="font-size-24">{{ grupo.nombre | capitalizado }}</td>
+                            <td class="font-size-24">{{ grupo.sigla | uppercase}}</td>
+                            <td class="font-size-24">
+                                <button class="btn btn-outline-danger" (click)="desvincularGrupo(grupo)"><img src="assets/Iconos/Eliminar.png" style="width: 32px;"> Desvincular</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
 
-        <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Producción</h3>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel>
+            <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Trabajos de Grado Dirigidos</h3>
+                </mat-expansion-panel-header>
 
-        <!-- %%%%%%% Histórico de Agendas %%%%%%% -->
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <h3>Histórico de Agendas</h3>
-            </mat-expansion-panel-header>
-        </mat-expansion-panel>
-    </mat-accordion>
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="font-size-24">No</th>
+                            <th class="font-size-24">Título</th>
+                            <th class="font-size-24">Estudiantes</th>
+                        </tr>
+                    </thead>
 
-</form>
+                    <tbody>
+                        <tr *ngFor="let trabajoGrado of perfilDocente.DirectorTrabajosGrado; let id = index">
+                            <td class="font-size-24">{{ id + 1 }}</td>
+                            <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
+                            <td class="font-size-24">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
+
+            <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Trabajos de Grado Evaluados</h3>
+                </mat-expansion-panel-header>
+
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="font-size-24">No</th>
+                            <th class="font-size-24">Título</th>
+                            <th class="font-size-24">Estudiantes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let trabajoGrado of perfilDocente.JuradoTrabajosGrado; let id = index">
+                            <td class="font-size-24">{{ id + 1 }}</td>
+                            <td class="font-size-24">{{ trabajoGrado.Titulo | capitalizado }}</td>
+                            <td class="font-size-24">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante1">{{ trabajoGrado.Estudiante1 | capitalizado}}</li>
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante2">{{ trabajoGrado.Estudiante2 | capitalizado}}</li>
+                                    <li class="list-group-item list-group-item-action" *ngIf="trabajoGrado.Estudiante3">{{ trabajoGrado.Estudiante3 | capitalizado}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-expansion-panel>
+
+            <!-- %%%%%%% Trabajos de Grado %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Producción</h3>
+                </mat-expansion-panel-header>
+
+                <div class="modal-footer">
+                    <div class="btn btn-outline-success" (click)="agregarProducto()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Producto</div>
+                </div>
+
+                <div *ngFor="let tipo of TiposProduccion">
+                    <h3 class="text-info">{{ tipo.tipo | capitalizado }}</h3>
+                    <hr>
+
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="font-size-24">No</th>
+                                <th class="font-size-24">Título</th>
+                                <th class="font-size-24">Fecha</th>
+                                <th class="font-size-24">Editar</th>
+                                <td class="font-size-24">Eliminar</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let producto of tipo.Prodcutos; let id = index">
+                                <td class="font-size-24">{{ id + 1 }}</td>
+                                <td class="font-size-24">{{ producto.titulo | capitalizado }}</td>
+                                <td class="font-size-24">{{ producto.fecha}}</td>
+                                <td class="font-size-24">
+                                    <button class="btn btn-outline-success" (click)="editarProducto(producto)"><img src="assets/Iconos/Editar2.png" style="width: 32px;"> Editar</button>
+                                </td>
+                                <td class="font-size-24">
+                                    <button class="btn btn-outline-danger" (click)="eliminarProducto(producto)"><img src="assets/Iconos/Eliminar.png" style="width: 32px;"> Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- %%%%%%% Histórico de Agendas %%%%%%% -->
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <h3>Histórico de Agendas</h3>
+                </mat-expansion-panel-header>
+
+                <div class="card mb-5" *ngFor="let historico of HistoricoAgendas">
+                    <div class="card-header text-white bg-dark">
+                        <h3 class="card-title">Periodo {{ historico.periodo }}</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="font-size-24">No</th>
+                                    <th class="font-size-24">Asignatura y Detalles</th>
+                                    <th class="font-size-24">Programa</th>
+                                    <th class="font-size-24">Aspectos Legales</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let agenda of historico.Agendas; let id = index">
+                                    <td class="font-size-24">{{ id + 1 }}</td>
+                                    <td class="font-size-24">{{ agenda.programa | capitalizado }}</td>
+                                    <td class="font-size-24">
+                                        <table class="table table-borderless table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Asignatura</th>
+                                                    <td>{{ agenda.asignatura | capitalizado }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Aulas</th>
+                                                    <td>{{ agenda.aulas }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Grupo</th>
+                                                    <td>{{ agenda.grupo }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Horas</th>
+                                                    <td>{{ agenda.horas }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Jornada</th>
+                                                    <td>{{ agenda.jornada | capitalizado }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td class="font-size-24">
+                                        <table class="table table-borderless table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Acta de Facultad</th>
+                                                    <td>{{ agenda.actafacultad | capitalizado }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Acta de Programa</th>
+                                                    <td>{{ agenda.actaprograma | capitalizado }}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Número de Contrato</th>
+                                                    <td>{{ agenda.numerocontrato | capitalizado }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </form>
+
+</div>

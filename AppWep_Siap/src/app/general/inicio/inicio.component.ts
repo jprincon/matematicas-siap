@@ -35,7 +35,7 @@ export class InicioComponent implements OnInit {
       if (RespLogin.Respuesta === 'Acceso-Correcto') {
         this.genService.navegar([RUTA_FACTORES]);
       } else {
-        this.dlgService.mostrarSnackBar('Siap', RespLogin.Respuesta || RespLogin.Error);
+        this.dlgService.mostrarSnackBar(RespLogin.Respuesta || RespLogin.Error);
       }
     });
   }

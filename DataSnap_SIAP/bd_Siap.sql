@@ -282,6 +282,9 @@ create table if not exists siap_trabajosgrado(
        estudiante1 text,
        estudiante2 text,
        estudiante3 text,
+	   estudiante1_tm text,
+	   estudiante1_tm text,
+	   estudiante1_tm text,
        idjurado1 integer references siap_docentes(iddocente),
        idjurado2 integer references siap_docentes(iddocente),
        idjurado3 integer references siap_docentes(iddocente),
@@ -300,7 +303,7 @@ create table if not exists siap_trabajosgrado(
        estudiantecedederechos text,
 	   fechainicioejecucion text,
 	   cantidadsemestresejecucion integer,
-	   estadoavance integer
+	   estadoproyecto text
 );
 
 /*Tabla para Periodo*/
@@ -389,3 +392,41 @@ create table if not exists siap_plan_mejoramiento(
 	observaciones text,
 	estado_actual_accion text	
 );
+
+create table if not exists siap_grupos_docente(
+	idgrupodocente text primary key not null,
+	iddocente integer references siap_docentes(iddocente),
+	idgrupoinvestigacion text references siap_gruposinvestigacion(idgrupoinvestigacion),
+	fechaingreso text
+);
+
+create table if not exists siap_tipo_produccion(
+	idtipo text primary key not null,
+	tipo text
+);
+
+create table if not exists siap_produccion_docente(
+	idproduccion text primary key not null,
+	idtipo text references siap_tipo_produccion(idtipo),
+	titulo text,
+	isbn text,
+	issn text,
+	editorial text,
+	revista text,
+	fecha date,
+	ciudad text,
+	volumen text,
+	numero text,
+	registro text,
+	fecha_inicio date,
+	fecha_fin date,
+	institucion text,
+	iddocente integer references siap_docentes(iddocente)
+);
+
+
+
+
+
+
+

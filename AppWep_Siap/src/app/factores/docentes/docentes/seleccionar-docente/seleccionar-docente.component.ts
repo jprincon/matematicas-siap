@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { GeneralService } from '../../../../services/general.service';
 import { Docente } from '../../../../interfaces/interfaces.interfaces';
+import { DlgDocenteComponent } from '../dlg-docente/dlg-docente.component';
+import { CrearDirectorJuradoComponent } from '../crear-director-jurado/crear-director-jurado.component';
 
 @Component({
   selector: 'app-seleccionar-docente',
@@ -17,7 +19,8 @@ export class SeleccionarDocenteComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<SeleccionarDocenteComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private genService: GeneralService) { }
+              private genService: GeneralService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.obtenerDocentes();
@@ -26,7 +29,7 @@ export class SeleccionarDocenteComponent implements OnInit {
   obtenerDocentes() {
     this.leyendo = true;
     this.genService.getDirectoresJurados().subscribe((RespDocentes: any) => {
-      console.log(RespDocentes);
+
       this.Docentes = RespDocentes.Docentes;
       this.bDocentes = this.Docentes;
       this.leyendo = false;
@@ -34,7 +37,7 @@ export class SeleccionarDocenteComponent implements OnInit {
   }
 
   seleccionar(docente: Docente) {
-    console.log(docente);
+
     this.dialogRef.close(docente);
   }
 
@@ -46,6 +49,21 @@ export class SeleccionarDocenteComponent implements OnInit {
         this.bDocentes.push(docente);
       }
     }
+  }
+
+  agregarJuradoDirector() {
+    const accion = 'Crear';
+    const docente = null;
+
+    const dialogRef = this.dialog.open(CrearDirectorJuradoComponent, {
+      width: '60%',
+      data: {accion, docente}
+    });
+
+    dialogRef.afterClosed().subscribe((rDocente: Docente) => {
+
+      this.dialogRef.close(rDocente);
+    });
   }
 
 }

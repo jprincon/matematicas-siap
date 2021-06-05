@@ -115,7 +115,7 @@ export class AgendasComponent implements OnInit {
 
   eliminarAgendaServicio(agenda: AgendaServicio) {
     this.genService.deleteAgendaServicio(agenda.idagendaservicio).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerAgendasServicio();
     });
   }
@@ -187,7 +187,7 @@ export class AgendasComponent implements OnInit {
 
     this.genService.putAgendaNumeroContrato(datos).subscribe((rRespuesta: any) => {
 
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta);
     });
   }
 
@@ -260,7 +260,7 @@ export class AgendasComponent implements OnInit {
   editarDocente(docente: Docente) {
     this.posDoc = this.Docentes.indexOf(this.docenteSeleccionado);
     this.dlgService.DlgDocente('Editar', docente.iddocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerDocentes();
     });
   }
@@ -285,7 +285,7 @@ export class AgendasComponent implements OnInit {
 
   editarServicioPrograma(IdServicio: string) {
     this.dlgService.DlgServicioPrograma('Editar', IdServicio).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.seleccionarDocente(this.docenteSeleccionado);
     });
   }

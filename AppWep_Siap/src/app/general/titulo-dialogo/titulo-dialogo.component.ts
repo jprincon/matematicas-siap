@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TituloDialogoComponent implements OnInit {
 
-  @Input() Titulo: string;
+  @Input() Titulo = '';
+  @Input() Descripcion = '';
 
   constructor() { }
 

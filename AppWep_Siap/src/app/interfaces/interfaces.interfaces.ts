@@ -143,6 +143,8 @@ export interface Docente {
   activo?: string;
   institucion?: string;
   vinculacion?: string;
+  Terminados?: TrabajoGrado[];
+  noTerminados?: TrabajoGrado[];
 }
 
 export interface Error {
@@ -311,12 +313,22 @@ export interface AreaProfundizacion {
   nombre?: string;
 }
 
+export interface TiempoTrabajoGrado {
+  Dias?: string;
+  Meses?: string;
+  Semestres?: string;
+  Anos?: string;
+}
+
 export interface TrabajoGrado {
   titulo?: string;
   idtrabajogrado?: string;
   estudiante1?: string;
   estudiante2?: string;
   estudiante3?: string;
+  estudiante1_tm?: string;
+  estudiante2_tm?: string;
+  estudiante3_tm?: string;
   idjurado1?: string;
   jurado1?: Docente;
   idjurado2?: string;
@@ -342,8 +354,8 @@ export interface TrabajoGrado {
   calificacionfinal?: string;
   estudiantecedederechos?: string;
 	fechainicioejecucion?: string;
-	cantidadsemestresejecucion?: number;
-  estadoavance?: number;
+	cantidadsemestresejecucion?: TiempoTrabajoGrado;
+  estadoproyecto?: string;
 }
 
 export interface Periodo {
@@ -542,6 +554,90 @@ export interface PlanMejoramiento {
 export interface EstadisticaPrograma {
   Programa?: string;
   Cantidad?: number;
+}
+
+export interface AgendaHistorico {
+  actafacultad?: string;
+  actaprograma?: string;
+  asignatura?: string;
+  aulas?: string;
+  concertada?: string;
+  grupo?: string;
+  horas?: string;
+  idagendaservicio?: string;
+  iddocente?: string;
+  idfacultad?: string;
+  idprograma?: string;
+  idservicioprograma?: string;
+  jornada?: string;
+  numerocontrato?: string;
+  periodo?: string;
+  programa?: string;
+
+}
+
+export interface HistoricoAgenda {
+ Agendas?: AgendaHistorico[];
+ hormaxcarrera?: string;
+ hormaxcatedratico?: string;
+ hormaxcontrato?: string;
+ idperiodo?: string;
+ periodo?: string;
+}
+
+export interface Formacion {
+  idformacion?: string;
+  titulo?: string;
+  fechainicio?: string;
+  fechafin?: string;
+  institucion?: string;
+  iddocente?: string;
+}
+
+export interface GrupoDocente {
+  idgrupodocente?: string;
+  iddocente?: string;
+  idgrupoinvestigacion?: string;
+  fechaingreso?: string;
+  nombre?: string;
+  sigla?: string;
+  iddirector?: string;
+  mision?: string;
+  vision?: string;
+}
+
+export interface TipoProduccion {
+  idtipo?: string;
+  tipo?: string;
+  identificador?: string;
+  Prodcutos?: Producto[];
+}
+
+export interface Producto {
+  idproduccion?: string;
+  idtipo?: string;
+  titulo?: string;
+  isbn?: string;
+  issn?: string;
+  editorial?: string;
+  revista?: string;
+  fecha?: string;
+  ciudad?: string;
+  volumen?: string;
+  numero?: string;
+  registro?: string;
+  fecha_inicio?: string;
+  fecha_fin?: string;
+  institucion?: string;
+  iddocente?: string;
+}
+
+
+
+export interface ReporteTrabajoGrado {
+  contrato?: string;
+  idtipocontrato?: string;
+  Docentes?: Docente[];
 }
 
 

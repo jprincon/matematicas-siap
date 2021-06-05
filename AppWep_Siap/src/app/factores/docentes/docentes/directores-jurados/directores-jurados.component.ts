@@ -71,14 +71,13 @@ export class DirectoresJuradosComponent implements OnInit {
 
   agregarDocente() {
     this.dlgService.crearEditarDirectorJurado('Crear', '').subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
       this.leerDocentes();
     });
   }
 
   editarDocente(docente: Docente) {
     this.dlgService.crearEditarDirectorJurado('Editar', docente.iddocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerDocentes();
     });
   }
@@ -91,7 +90,7 @@ export class DirectoresJuradosComponent implements OnInit {
     this.dlgService.confirmacion('¿Está seguro de eliminar este Director o Jurado?').subscribe((rConfirmacion: any) => {
       if (rConfirmacion) {
         this.genService.deleteDocente(docente.iddocente).subscribe((rRespuesta: any) => {
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerDocentes();
         });
       }

@@ -69,7 +69,7 @@ export class FuncionesDocenteComponent implements OnInit {
 
   editarFuncionDocente(funciondocente: FuncionDocente) {
     this.dlgService.DlgFuncionDocente('Editar', funciondocente.idfunciondocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerFuncionesDocente();
     });
   }
@@ -79,7 +79,7 @@ export class FuncionesDocenteComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteFuncionDocente(funciondocente.idfunciondocente).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerFuncionesDocente();
         });
       }
@@ -110,7 +110,7 @@ export class FuncionesDocenteComponent implements OnInit {
 
   editarActividadDocente(actividaddocente: ActividadDocente) {
     this.dlgService.DlgActividadDocente('Editar', actividaddocente.idactividaddocente, actividaddocente.idfunciondocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerActividadesDocente(this.IdFuncionDocente);
     });
   }
@@ -120,7 +120,7 @@ export class FuncionesDocenteComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteActividadDocente(actividaddocente.idactividaddocente).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerActividadesDocente(this.IdFuncionDocente);
         });
       }
@@ -151,7 +151,7 @@ export class FuncionesDocenteComponent implements OnInit {
 
   editarSubactividadDocente(subactividaddocente: SubactividadDocente) {
     this.dlgService.DlgSubactividadDocente('Editar', subactividaddocente.idsubactividaddocente, this.IdActividadDocente).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerSubactividadesDocente();
     });
   }
@@ -161,7 +161,7 @@ export class FuncionesDocenteComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteSubactividadDocente(subactividaddocente.idsubactividaddocente).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerSubactividadesDocente();
         });
       }

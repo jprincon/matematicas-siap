@@ -44,7 +44,7 @@ export class AreasProfundizacionComponent implements OnInit {
 
   editarAreaProfundizacion(areaprofundizacion: AreaProfundizacion) {
     this.dlgService.DlgAreaProfundizacion('Editar', areaprofundizacion.idareaprofundizacion).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerAreasProfundizacion();
     });
   }
@@ -54,7 +54,7 @@ export class AreasProfundizacionComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteAreaProfundizacion(areaprofundizacion.idareaprofundizacion).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerAreasProfundizacion();
         });
       }

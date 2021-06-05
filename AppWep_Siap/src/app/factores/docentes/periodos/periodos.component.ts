@@ -45,7 +45,7 @@ export class PeriodosComponent implements OnInit {
 
   editarPeriodo(periodo: Periodo) {
     this.dlgService.DlgPeriodo('Editar', periodo.idperiodo).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerPeriodos();
     });
   }
@@ -55,7 +55,7 @@ export class PeriodosComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deletePeriodo(periodo.idperiodo).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerPeriodos();
         });
       }

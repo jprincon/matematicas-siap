@@ -1,0 +1,11 @@
+<app-titulo-dialogo [Titulo]="Titulo" [Descripcion]="Descripcion"></app-titulo-dialogo>
+<form ngNativeValidated (ngSubmit)="guardarTipoProduccion()">
+    <div class="form-group">
+        <label class="font-weight-bold">Tipo de Producción</label>
+        <input class="form-control" required type="text" [(ngModel)]="tipoProduccion.tipo" name="tipo">
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-outline-success"><img src="assets/Iconos/Guardar.png" style="width: 32px;"> Guardar</button>
+    </div>
+</form>

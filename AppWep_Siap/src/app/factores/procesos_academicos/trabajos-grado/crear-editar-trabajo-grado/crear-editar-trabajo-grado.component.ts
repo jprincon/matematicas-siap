@@ -25,6 +25,9 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       estudiante1: '',
       estudiante2: '',
       estudiante3: '',
+      estudiante1_tm: 'no',
+      estudiante2_tm: 'no',
+      estudiante3_tm: 'no',
       idjurado1: '',
       jurado1: {nombre: ''},
       jurado2: {nombre: ''},
@@ -50,8 +53,13 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       calificacionfinal: '',
       estudiantecedederechos: '',
 	    fechainicioejecucion: '2020-08-20',
-	    cantidadsemestresejecucion: 0,
-      estadoavance: 0
+	    cantidadsemestresejecucion: {
+        Dias: '',
+        Meses: '',
+        Anos: '',
+        Semestres: ''
+      },
+      estadoproyecto: ''
   };
 
   actanombramientojurados = '';
@@ -129,11 +137,12 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
         }
       }
     });
+
+    this.leerDocenteNoAplica();
   }
 
   obtenerParametros() {
     this.activatedRoute.params.subscribe((rParams: any) => {
-      console.log(rParams);
 
       this.id = rParams.Id;
 
@@ -145,7 +154,7 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 
   leerModalidades() {
     this.genService.getModalidades().subscribe((RespModalidades: any) => {
-      console.log(RespModalidades);
+
       this.Modalidades = RespModalidades.Modalidades;
       this.estadoLectura++;
       this.bsLecturaTerminada.next(this.estadoLectura === 3);
@@ -154,7 +163,7 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 
   leerAreasProfundizacion() {
     this.genService.getAreasProfundizacion().subscribe((RespAreasProfundizacion: any) => {
-      console.log(RespAreasProfundizacion);
+
       this.AreasProfundizacion = RespAreasProfundizacion.AreasProfundizacion;
       this.estadoLectura++;
       this.bsLecturaTerminada.next(this.estadoLectura === 3);
@@ -163,7 +172,7 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 
   leerGruposInvestigacion() {
     this.genService.getGruposInvestigacion().subscribe((RespGruposInvestigacion: any) => {
-      console.log(RespGruposInvestigacion);
+
       this.GruposInvestigacion = RespGruposInvestigacion.GruposInvestigacion;
       this.estadoLectura++;
       this.bsLecturaTerminada.next(this.estadoLectura === 3);
@@ -175,7 +184,6 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     this.genService.getTrabajoGrado(this.id).subscribe((rTrabajoGrado: TrabajoGrado) => {
       console.log(rTrabajoGrado);
       this.trabajogrado = rTrabajoGrado;
-
       this.verCamposEstudiantes[1] = this.trabajogrado.estudiante2.length > 0;
       this.verCamposEstudiantes[2] = this.trabajogrado.estudiante3.length > 0;
       this.leyendo = false;
@@ -184,13 +192,22 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
 
   generarActa() {
     this.dlgService.mostrarAcc(this.trabajogrado.actanombramientojurados).subscribe((rActa: string) => {
-      console.log(rActa);
+
       this.trabajogrado.actanombramientojurados = rActa;
       this.actanombramientojurados = rActa;
     });
   }
 
   guardarTrabajoGrado() {
+
+    console.log(this.trabajogrado);
+
+    // Validación de Jurados, Director y Codirector
+    if (!this.validarJurados_y_Director()) {
+      this.dlgService.mostrarMensaje('Revise los jurados, director o codirector. No pueden tener varios roles en el trabajo de grado.', 'info');
+      this.guardando = false;
+      return;
+    }
 
     this.guardando = true;
 
@@ -234,7 +251,7 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       const datos = JSON.stringify(this.trabajogrado);
       this.genService.postTrabajoGrado(datos).subscribe((rRespuesta: any) => {
 
-        this.dlgService.mostrarSnackBar('Siap dice ...', rRespuesta.Respuesta || rRespuesta.Error);
+        this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
         this.genService.navegar([RUTA_TRABAJOSGRADO]);
       });
     } else {
@@ -249,12 +266,10 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
       this.trabajogrado.areaProfundizacion = {};
 
       const datos = JSON.stringify(this.trabajogrado);
-
-      console.log(this.trabajogrado);
       this.genService.putTrabajoGrado(datos).subscribe((rRespuesta: any) => {
 
         this.guardando = false;
-        this.dlgService.mostrarSnackBar('Siap dice ...', rRespuesta.Respuesta || rRespuesta.Error);
+        this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
         this.genService.navegar([RUTA_TRABAJOSGRADO]);
       });
     }
@@ -266,6 +281,14 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     });
   }
 
+  leerDocenteNoAplica() {
+    this.genService.getDocente('314159265').subscribe((rDocente: Docente) => {
+
+      this.trabajogrado.idcodirector = rDocente.iddocente;
+      this.trabajogrado.codirector = rDocente;
+    });
+  }
+
   SeleccionarDocente(nJurado: number) {
     const dialogRef = this.dialog.open(SeleccionarDocenteComponent, {
       width: '60%px', height: '600px',
@@ -273,31 +296,33 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((RespDocente: Docente) => {
-      console.log(RespDocente);
-      if (nJurado === 1) {
-        this.trabajogrado.idjurado1 = RespDocente.iddocente;
-        this.trabajogrado.jurado1 = RespDocente;
-        this.jurado1 = this.trabajogrado.jurado1.nombre;
-      }
-      if (nJurado === 2) {
-        this.trabajogrado.idjurado2 = RespDocente.iddocente;
-        this.trabajogrado.jurado2 = RespDocente;
-        this.jurado2 = this.trabajogrado.jurado2.nombre;
-      }
-      if (nJurado === 3) {
-        this.trabajogrado.idjurado3 = RespDocente.iddocente;
-        this.trabajogrado.jurado3 = RespDocente;
-        this.jurado3 = this.trabajogrado.jurado3.nombre;
-      }
-      if (nJurado === 4) {
-        this.trabajogrado.iddirector = RespDocente.iddocente;
-        this.trabajogrado.director = RespDocente;
-        this.director = this.trabajogrado.director.nombre;
-      }
-      if (nJurado === 5) {
-        this.trabajogrado.idcodirector = RespDocente.iddocente;
-        this.trabajogrado.codirector = RespDocente;
-        this.codirector = this.trabajogrado.codirector.nombre;
+
+      if (RespDocente) {
+        if (nJurado === 1) {
+          this.trabajogrado.idjurado1 = RespDocente.iddocente;
+          this.trabajogrado.jurado1 = RespDocente;
+          this.jurado1 = this.trabajogrado.jurado1.nombre;
+        }
+        if (nJurado === 2) {
+          this.trabajogrado.idjurado2 = RespDocente.iddocente;
+          this.trabajogrado.jurado2 = RespDocente;
+          this.jurado2 = this.trabajogrado.jurado2.nombre;
+        }
+        if (nJurado === 3) {
+          this.trabajogrado.idjurado3 = RespDocente.iddocente;
+          this.trabajogrado.jurado3 = RespDocente;
+          this.jurado3 = this.trabajogrado.jurado3.nombre;
+        }
+        if (nJurado === 4) {
+          this.trabajogrado.iddirector = RespDocente.iddocente;
+          this.trabajogrado.director = RespDocente;
+          this.director = this.trabajogrado.director.nombre;
+        }
+        if (nJurado === 5) {
+          this.trabajogrado.idcodirector = RespDocente.iddocente;
+          this.trabajogrado.codirector = RespDocente;
+          this.codirector = this.trabajogrado.codirector.nombre;
+        }
       }
     });
   }
@@ -320,6 +345,22 @@ export class CrearEditarTrabajoGradoComponent implements OnInit {
     for (let i = 0; i < this.estudiantes; i++) {
       this.verCamposEstudiantes[i] = true;
     }
+  }
+
+  validarJurados_y_Director(): boolean {
+    let valido = true;
+    valido = valido && (this.trabajogrado.iddirector !== this.trabajogrado.idcodirector)
+                    && (this.trabajogrado.iddirector !== this.trabajogrado.idjurado1)
+                    && (this.trabajogrado.iddirector !== this.trabajogrado.idjurado2)
+                    && (this.trabajogrado.iddirector !== this.trabajogrado.idjurado3)
+                    && (this.trabajogrado.idcodirector !== this.trabajogrado.idjurado1)
+                    && (this.trabajogrado.idcodirector !== this.trabajogrado.idjurado2)
+                    && (this.trabajogrado.idcodirector !== this.trabajogrado.idjurado3)
+                    && (this.trabajogrado.idjurado1 !== this.trabajogrado.idjurado2)
+                    && (this.trabajogrado.idjurado1 !== this.trabajogrado.idjurado3)
+                    && (this.trabajogrado.idjurado2 !== this.trabajogrado.idjurado3);
+
+    return valido;
   }
 
 }

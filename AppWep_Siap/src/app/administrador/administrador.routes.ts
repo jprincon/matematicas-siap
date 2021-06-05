@@ -8,17 +8,20 @@ import { ParticpantesEmemComponent } from './menu-workshop-emem/particpantes-eme
 import { PruebasComponent } from './pruebas/pruebas.component';
 import { ListaPostersComponent } from './menu-workshop-emem/lista-posters/lista-posters.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
+import { RUTA_ADMIN_USUARIO, RUTA_ADMIN_WORKSHOP_EMEM, RUTA_ADMIN_CONFIGURACIONES, RUTA_ADMIN_PRUEBAS, RUTA_RESUMENES_EMEM, RUTA_LISTA_POSTERS, RUTA_PARTICIPANTES_EMEM, RUTA_ADMIN_EDITAR_USUARIO, RUTA_INICIO, RUTA_ADMIN_TIPO_PRODUCCION } from '../config/config';
+import { AdminTiposProduccionComponent } from './admin-tipos-produccion/admin-tipos-produccion.component';
 
 
 export const RUTAS_ADMINISTRADOR: Routes = [
-  {path: 'inicio', component: AdminInicioComponent},
-  {path: 'usuario', component: AdminUsuarioComponent},
-  {path: 'pruebas', component: PruebasComponent},
-  {path: 'resumenes-emem', component: ResumenesEmemComponent},
-  {path: 'lista-posters', component: ListaPostersComponent},
-  {path: 'workshop-emem', component: MenuWorkshopEmemComponent},
-  {path: 'configuraciones', component: ConfiguracionesComponent},
-  {path: 'participantes-emem', component: ParticpantesEmemComponent},
-  {path: 'editar-usuario/:id', component: AdminEditarusuarioComponent},
-  {path: '**', pathMatch: 'full', redirectTo: 'inicio'}
+  {path: RUTA_INICIO, component: AdminInicioComponent},
+  {path: RUTA_ADMIN_USUARIO, component: AdminUsuarioComponent},
+  {path: RUTA_ADMIN_PRUEBAS, component: PruebasComponent},
+  {path: RUTA_RESUMENES_EMEM, component: ResumenesEmemComponent},
+  {path: RUTA_LISTA_POSTERS, component: ListaPostersComponent},
+  {path: RUTA_ADMIN_WORKSHOP_EMEM, component: MenuWorkshopEmemComponent},
+  {path: RUTA_ADMIN_CONFIGURACIONES, component: ConfiguracionesComponent},
+  {path: RUTA_PARTICIPANTES_EMEM, component: ParticpantesEmemComponent},
+  {path: RUTA_ADMIN_EDITAR_USUARIO + '/:id', component: AdminEditarusuarioComponent},
+  {path: RUTA_ADMIN_TIPO_PRODUCCION, component: AdminTiposProduccionComponent},
+  {path: '**', pathMatch: 'full', redirectTo: RUTA_INICIO}
 ];

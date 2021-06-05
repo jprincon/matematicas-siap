@@ -44,7 +44,7 @@ export class ProgramasComponent implements OnInit {
 
   editarPrograma(programa: Programa) {
     this.dlgService.DlgPrograma('Editar', programa.idprograma).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerProgramas();
     });
   }
@@ -60,7 +60,7 @@ export class ProgramasComponent implements OnInit {
   borrarPrograma(id: string) {
     this.genService.deletePrograma(id).subscribe((rRespuesta: any) => {
 
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerProgramas();
     });
   }

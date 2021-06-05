@@ -41,7 +41,7 @@ export class FacultadesComponent implements OnInit {
 
   editarFacultad(facultad: Facultad) {
     this.dlgService.DlgFacultad('Editar', facultad.idfacultad).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta);
+      this.dlgService.mostrarSnackBar(rRespuesta);
       this.leerFacultades();
     });
   }
@@ -56,7 +56,7 @@ export class FacultadesComponent implements OnInit {
 
   borrarFacultad(id: string) {
     this.genService.deleteFacultad(id).subscribe((rRespuesta: any) => {
-      this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+      this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
       this.leerFacultades();
     });
   }

@@ -63,6 +63,7 @@ export class GeneralService {
   private URL_AGENDANUMEROCONTRATO = 'AgendaNumeroContrato';
   private URL_AGENDASSERVICIO = 'AgendasServicio';
   private URL_AGENDAS_POR_PROGRAMA = 'AgendasPorPrograma';
+  private URL_AGENDAS_POR_DOCENTE = 'AgendasPorDocente';
   private URL_ESTADO_AGENDAS = 'EstadoAgendas';
   private URL_AGENDASPORPERIODO = 'AgendasPorPeriodo';
   private URL_DESASOCIAR_AGENDASSERVICIO = 'DesasociarAgenda';
@@ -84,6 +85,7 @@ export class GeneralService {
   private URL_AREASPROFUNDIZACION = 'AreasProfundizacion';
   private URL_TRABAJOGRADO = 'TrabajoGrado';
   private URL_TRABAJOSGRADO = 'TrabajosGrado';
+  private URL_DIRECTORES_TRABAJOS_GRADO = 'DirectoresTrabajosGrado';
   private URL_PERIODO = 'Periodo';
   private URL_PERIODOS = 'Periodos';
   private URL_ACTIVIDADFUNCIONDOCENTE = 'ActividadFuncionDocente';
@@ -101,6 +103,14 @@ export class GeneralService {
   private URL_FUENTES = 'Fuentes';
   private URL_PLAN_MEJORAMIENTO = 'PlanMejoramiento';
   private URL_PLANES_MEJORAMIENTO = 'PlanesMejoramiento';
+  private URL_FORMACION = 'formacion';
+  private URL_FORMACIONES = 'formaciones';
+  private URL_GRUPOINV_DOCENTE = 'GrupoInvDocente';
+  private URL_TIPO_PRODUCCION = 'TipoProduccion';
+  private URL_TIPOS_PRODUCCION = 'TiposProduccion';
+  private URL_PRODUCTO = 'Producto';
+  private URL_PRODUCTOS_DOCENTE = 'ProductosDocente';
+  private URL_PRODUCTOS = 'Productos';
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -1050,6 +1060,12 @@ export class GeneralService {
     return this.http.get(url).pipe(retry(10));
   }
 
+  getAgendasPorPeriodoDocente(IdDocente: string) {
+    const url = this.dataSnap_Path(this.URL_AGENDAS_POR_DOCENTE) + this.parametro(IdDocente);
+
+    return this.http.get(url).pipe(retry(10));
+  }
+
   getEstadoAgendas(Periodo: string) {
     const url = this.dataSnap_Path(this.URL_ESTADO_AGENDAS) + this.parametro(Periodo);
 
@@ -1409,6 +1425,12 @@ export class GeneralService {
     return this.http.get(url).pipe(retry(10));
   }
 
+  getDirectoresTrabajosGrado() {
+    const url = this.dataSnap_Path(this.URL_DIRECTORES_TRABAJOS_GRADO);
+    const headers = this.headers;
+    return this.http.get(url, {headers}).pipe(retry(10));
+  }
+
   getTrabajoGrado(id: string) {
     const url = this.dataSnap_Path(this.URL_TRABAJOGRADO) + this.parametro(id);
     return this.http.get(url).pipe(retry(10));
@@ -1632,6 +1654,138 @@ export class GeneralService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
+    return this.http.put(url, datos, {headers});
+  }
+
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     CRUD
+     Formación del Docente
+  =========================================================================================================================*/
+
+  getFormaciones() {
+    const url = this.dataSnap_Path(this.URL_FORMACIONES);
+    return this.http.get(url);
+  }
+
+  getFormacion(IdDocente: string) {
+    const url = this.dataSnap_Path(this.URL_FORMACION) + this.parametro(IdDocente);
+    return this.http.get(url);
+  }
+
+  deleteFormacion(IdPlan: string) {
+    const url = this.dataSnap_Path(this.URL_FORMACION) + this.parametro(IdPlan);
+    const headers = this.headers;
+    return this.http.delete(url,  {headers});
+  }
+
+  postFormacion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FORMACION);
+    const headers = this.headers;
+    return this.http.post(url, datos, {headers});
+  }
+
+  putFormacion(datos: string) {
+    const url = this.dataSnap_Path(this.URL_FORMACION);
+    const headers = this.headers;
+    return this.http.put(url, datos, {headers});
+  }
+
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     CRUD
+     Grupos de Investigación Docente
+  =========================================================================================================================*/
+
+  getGruposInvestigacionDocente(IdDocente: string) {
+    const url = this.dataSnap_Path(this.URL_GRUPOINV_DOCENTE) + this.parametro(IdDocente);
+    const headers = this.headers;
+    return this.http.get(url, {headers});
+  }
+
+  deleteGrupoInvestigacionDocente(IdGrupoDocente: string) {
+    const url = this.dataSnap_Path(this.URL_GRUPOINV_DOCENTE) + this.parametro(IdGrupoDocente);
+    const headers = this.headers;
+    return this.http.delete(url,  {headers});
+  }
+
+  postGrupoInvestigacionDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_GRUPOINV_DOCENTE);
+    const headers = this.headers;
+    return this.http.post(url, datos, {headers});
+  }
+
+  putGrupoInvestigacionDocente(datos: string) {
+    const url = this.dataSnap_Path(this.URL_GRUPOINV_DOCENTE);
+    const headers = this.headers;
+    return this.http.put(url, datos, {headers});
+  }
+
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     CRUD
+     Tipos de Producción
+  =========================================================================================================================*/
+
+  getTiposProduccion() {
+    const url = this.dataSnap_Path(this.URL_TIPOS_PRODUCCION);
+    const headers = this.headers;
+    return this.http.get(url, {headers});
+  }
+
+  getTipoProduccion(IdTipo: string) {
+    const url = this.dataSnap_Path(this.URL_TIPO_PRODUCCION) + this.parametro(IdTipo);
+    const headers = this.headers;
+    return this.http.get(url, {headers});
+  }
+
+  deleteTipoProduccio(IdPlan: string) {
+    const url = this.dataSnap_Path(this.URL_TIPO_PRODUCCION) + this.parametro(IdPlan);
+    const headers = this.headers;
+    return this.http.delete(url,  {headers});
+  }
+
+  postTipoProduccio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_TIPO_PRODUCCION);
+    const headers = this.headers;
+    return this.http.post(url, datos, {headers});
+  }
+
+  putTipoProduccio(datos: string) {
+    const url = this.dataSnap_Path(this.URL_TIPO_PRODUCCION);
+    const headers = this.headers;
+    return this.http.put(url, datos, {headers});
+  }
+
+  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     CRUD
+     Productos
+  =========================================================================================================================*/
+
+  getProductos() {
+    const url = this.dataSnap_Path(this.URL_PRODUCTOS);
+    const headers = this.headers;
+    return this.http.get(url, {headers});
+  }
+
+  getProductosPorDocente(IdDocente: string) {
+    const url = this.dataSnap_Path(this.URL_PRODUCTOS_DOCENTE) + this.parametro(IdDocente);
+    const headers = this.headers;
+    return this.http.get(url, {headers});
+  }
+
+  deleteProducto(IdPlan: string) {
+    const url = this.dataSnap_Path(this.URL_PRODUCTO) + this.parametro(IdPlan);
+    const headers = this.headers;
+    return this.http.delete(url,  {headers});
+  }
+
+  postProducto(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PRODUCTO);
+    const headers = this.headers;
+    return this.http.post(url, datos, {headers});
+  }
+
+  putProducto(datos: string) {
+    const url = this.dataSnap_Path(this.URL_PRODUCTO);
+    const headers = this.headers;
     return this.http.put(url, datos, {headers});
   }
 }

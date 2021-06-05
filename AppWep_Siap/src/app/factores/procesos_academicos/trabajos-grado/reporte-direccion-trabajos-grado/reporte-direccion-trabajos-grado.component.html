@@ -1,0 +1,144 @@
+<div class="m-4">
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card shadow">
+                <div class="card-header bg-dark">
+                    <h3 class="text-white text-center card-title">Opciones</h3>
+                </div>
+
+                <div class="card-body">
+                    <ul class="list-group-flush list-group">
+                        <li class="list-group-item-action list-group-item puntero-manito" (click)="verMenu(menu)" *ngFor="let menu of Menus">
+                            <div class="media">
+                                <img src="assets/Iconos/pendiente.png" style="width: 32px;">
+                                <div class="media-body">
+                                    <h5>{{ menu.nombre | capitalizado }}</h5>
+                                    <p class="text-justify">{{ menu.descripcion }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div *ngIf="Vistas[0]">
+                <div class="card shadow mb-4" *ngFor="let contrato of ReportesTrabajosGrado; let id = index">
+                    <div class="card-body">
+                        <h1 class="text-info">{{ contrato.contrato | capitalizado }}</h1>
+
+                        <div class="modal-footer">
+                            <button onclick="crearExcel(value, value)" [value]="'Reporte_Trabajos_de_Grado_' + contrato.contrato + '.xls'" class="btn btn-outline-success"><img src="assets/Iconos/Excel.png" style="width: 32px;"> Exportar a Excel</button>
+                        </div>
+
+                        <table class="table table-hover puntero-manito" [attr.id]="'Reporte_Trabajos_de_Grado_' + contrato.contrato + '.xls'">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Documento</th>
+                                    <th>Nombre del Docente</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th>Trabajos</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let docente of contrato.Docentes; let id = index">
+                                    <td>{{ id + 1 }}</td>
+                                    <td>{{ docente.documento }}</td>
+                                    <td>{{ docente.nombre | capitalizado }}</td>
+                                    <td>{{ docente.telefono }}</td>
+                                    <td>{{ docente.correo }}</td>
+                                    <td>
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Trabajos de Grado Terminados</th>
+                                                </tr>
+                                            </tbody>
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Título</th>
+                                                    <th>Acta de la Propuesta</th>
+                                                    <th>Estudiantes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let terminado of docente.Terminados; let id = index">
+                                                    <td>{{ id + 1}}</td>
+                                                    <td>{{ terminado.titulo | capitalizado}}</td>
+                                                    <td>{{ terminado.actapropuesta | capitalizado}}</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li *ngIf="terminado.estudiante1">{{ terminado.estudiante1 | capitalizado }}</li>
+                                                            <li *ngIf="terminado.estudiante2">{{ terminado.estudiante2 | capitalizado }}</li>
+                                                            <li *ngIf="terminado.estudiante3">{{ terminado.estudiante3 | capitalizado }}</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Trabajos de Grado No Terminados</th>
+                                                </tr>
+                                            </tbody>
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Título</th>
+                                                    <th>Acta de la Propuesta</th>
+                                                    <th>Estudiantes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let terminado of docente.noTerminados; let id = index">
+                                                    <td>{{ id + 1}}</td>
+                                                    <td>{{ terminado.titulo | capitalizado}}</td>
+                                                    <td>{{ terminado.actapropuesta | capitalizado}}</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li *ngIf="terminado.estudiante1">{{ terminado.estudiante1 | capitalizado }}</li>
+                                                            <li *ngIf="terminado.estudiante2">{{ terminado.estudiante2 | capitalizado }}</li>
+                                                            <li *ngIf="terminado.estudiante3">{{ terminado.estudiante3 | capitalizado }}</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="Vistas[1]">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2 class="text-info">Docentes dirigiendo trabajos de grado</h2>
+                        <hr>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action" *ngFor="let director of Directores">{{ director.nombre | capitalizado }} ({{ director.noTerminados.length }} Trabajos) </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h2 class="text-info">Docentes que no estan dirigiendo trabajos de grado</h2>
+                        <hr>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action" *ngFor="let noDirector of noDirectores">{{ noDirector.nombre | capitalizado }}</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

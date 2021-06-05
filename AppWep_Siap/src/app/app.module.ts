@@ -151,6 +151,14 @@ import { CrearEditarFactorCalidadComponent } from './factores/procesos_academico
 import { DatePickerComponent } from './comunes/date-picker/date-picker.component';
 import Counter from './counter';
 import { EditorHtmlComponent } from './comunes/editor-html/editor-html.component';
+import { CrearEditarFormacionComponent } from './factores/docentes/docente/crear-editar-formacion/crear-editar-formacion.component';
+import { SeleccionarGrupoComponent } from './factores/investigacion/grupos-investigacion/seleccionar-grupo/seleccionar-grupo.component';
+import { AdminTiposProduccionComponent } from './administrador/admin-tipos-produccion/admin-tipos-produccion.component';
+import { CrearEditarTipoProduccionComponent } from './administrador/admin-tipos-produccion/crear-editar-tipo-produccion/crear-editar-tipo-produccion.component';
+import { CrearEditarProductoComponent } from './factores/docentes/docente/crear-editar-producto/crear-editar-producto.component';
+import { VerTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/ver-trabajo-grado/ver-trabajo-grado.component';
+import { ExportarTrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/exportar-trabajos-grado/exportar-trabajos-grado.component';
+import { ReporteDireccionTrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/reporte-direccion-trabajos-grado/reporte-direccion-trabajos-grado.component';
 
 
 
@@ -355,6 +363,22 @@ import { EditorHtmlComponent } from './comunes/editor-html/editor-html.component
 
     EditorHtmlComponent,
 
+    CrearEditarFormacionComponent,
+
+    SeleccionarGrupoComponent,
+
+    AdminTiposProduccionComponent,
+
+    CrearEditarTipoProduccionComponent,
+
+    CrearEditarProductoComponent,
+
+    VerTrabajoGradoComponent,
+
+    ExportarTrabajosGradoComponent,
+
+    ReporteDireccionTrabajosGradoComponent,
+
 
   ],
   imports: [
@@ -404,7 +428,11 @@ import { EditorHtmlComponent } from './comunes/editor-html/editor-html.component
     ActaProgramaComponent,
     CrearDirectorJuradoComponent,
     VerPlanMejoraComponent,
-    CrearEditarFactorCalidadComponent
+    CrearEditarFactorCalidadComponent,
+    CrearEditarFormacionComponent,
+    SeleccionarGrupoComponent,
+    CrearEditarTipoProduccionComponent,
+    CrearEditarProductoComponent
   ],
   bootstrap: [AppComponent]
 })

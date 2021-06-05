@@ -1,9 +1,9 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
-import { TrabajoGrado } from '../../../interfaces/interfaces.interfaces';
+import { TrabajoGrado, Modalidad, AreaProfundizacion, GrupoInvestigacion } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { TransferService } from '../../../services/transfer.service';
-import { RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_GRUPOSINVESTIGACION, RUTA_FACTOR_DOCENTES, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO } from '../../../config/config';
+import { RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_GRUPOSINVESTIGACION, RUTA_FACTOR_DOCENTES, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, RUTA_VER_TRABAJO_GRADO, RUTA_EXPORTAR_TRABAJOS_GRADO, RUTA_DOCENTES_DIRECCION_TRABAJOS_GRADO } from '../../../config/config';
 import { Menu } from '../../../general/menu/menu.component';
 
 @Component({
@@ -49,15 +49,51 @@ export class TrabajosGradoComponent implements OnInit {
     calificacionfinal: '',
     estudiantecedederechos: '',
     fechainicioejecucion: '',
-    cantidadsemestresejecucion: 0,
-    estadoavance: 0
+    cantidadsemestresejecucion: {
+      Dias: '',
+      Meses: '',
+      Semestres: '',
+      Anos: ''
+    },
+    estadoproyecto: ''
+  };
+
+  estadoTrabajo = '';
+  tituloTrabajo = '';
+  nombreDocente = '';
+  nombreDirector = '';
+  nombreEstudiante = '';
+  modalidad: Modalidad = {
+    nombre: ''
+  };
+  areaProfundizacion: AreaProfundizacion = {
+    nombre: ''
+  };
+  grupoInvestigacion: GrupoInvestigacion = {
+    nombre: ''
   };
 
   verLista = true;
   verTarjetas = false;
   verDescripciones = false;
 
+  Modalidades: Modalidad[] = [];
+  AreasProfundizacion: AreaProfundizacion[] = [];
+  GruposInvestigacion: GrupoInvestigacion[] = [];
+
   Menus: Menu[] = [
+    {
+      nombre: 'Exportar',
+      ruta: 'exportar-trabajos',
+      imagen: 'assets/Iconos/Excel.png',
+      descripcion: 'Permite exportar los trabajos de grado a formato Excel'
+    },
+    {
+      nombre: 'Reporte Docentes con Dirección de Trabajos de Grado',
+      ruta: 'reporte-trabajos-grado',
+      imagen: 'assets/Iconos/Ver.png',
+      descripcion: 'Genera un reporte de los trabajos de grado que esta dirigiendo cada docente'
+    },
     {
       nombre: 'Ver Lista',
       ruta: 'ver-lista',
@@ -110,6 +146,10 @@ export class TrabajosGradoComponent implements OnInit {
 
   ngOnInit() {
     this.leerTrabajosGrado();
+
+    this.leerGruposInvestigacion();
+    this.leerModalidades();
+    this.leerAreasProfundizacion();
   }
 
   abrirMenu(menu: Menu) {
@@ -117,9 +157,16 @@ export class TrabajosGradoComponent implements OnInit {
       this.genService.navegar([RUTA_MODALIDADES]);
     }
 
+    if (menu.ruta === 'exportar-trabajos') {
+      this.genService.navegar([RUTA_EXPORTAR_TRABAJOS_GRADO]);
+    }
 
     if (menu.ruta === 'ver-areas-profundizacion') {
       this.genService.navegar([RUTA_AREASPROFUNDIZACION]);
+    }
+
+    if (menu.ruta === 'reporte-trabajos-grado') {
+      this.genService.navegar([RUTA_DOCENTES_DIRECCION_TRABAJOS_GRADO]);
     }
 
     if (menu.ruta === 'ver-grupos-investigacion') {
@@ -156,14 +203,30 @@ export class TrabajosGradoComponent implements OnInit {
     this.genService.getTrabajosGrado().subscribe((rTrabajosGrado: any) => {
       this.TrabajosGrado = rTrabajosGrado.TrabajosGrado;
       this.bTrabajosGrado = this.TrabajosGrado;
-      console.log(this.TrabajosGrado);
 
       this.leyendo = false;
     });
   }
 
-  buscarTrabajosGrado() {
-    console.log(this.trabajogrado);
+  leerModalidades() {
+    this.genService.getModalidades().subscribe((rModalidades: any) => {
+      console.log(rModalidades);
+      this.Modalidades = rModalidades.Modalidades;
+    });
+  }
+
+  leerAreasProfundizacion() {
+    this.genService.getAreasProfundizacion().subscribe((rAreasProfundizacion: any) => {
+      console.log(rAreasProfundizacion);
+      this.AreasProfundizacion = rAreasProfundizacion.AreasProfundizacion;
+    });
+  }
+
+  leerGruposInvestigacion() {
+    this.genService.getGruposInvestigacion().subscribe((rGruposInvestigacion: any) => {
+      console.log(rGruposInvestigacion);
+      this.GruposInvestigacion = rGruposInvestigacion.GruposInvestigacion;
+    });
   }
 
   agregarTrabajoGrado() {
@@ -179,16 +242,125 @@ export class TrabajosGradoComponent implements OnInit {
       if (rConfirmacion) {
         this.genService.deleteTrabajoGrado(trabajogrado.idtrabajogrado).subscribe((rRespuesta: any) => {
 
-          this.dlgService.mostrarSnackBar('Información', rRespuesta.Respuesta || rRespuesta.Error);
+          this.dlgService.mostrarSnackBar(rRespuesta.Respuesta || rRespuesta.Error);
           this.leerTrabajosGrado();
         });
       }
     });
   }
 
+  verTrabajoGrado(trabajoGrado: TrabajoGrado) {
+    this.genService.navegar([RUTA_VER_TRABAJO_GRADO, trabajoGrado.idtrabajogrado]);
+  }
+
+  buscarTrabajosGrado_porEstadoProyecto() {
+    this.bTrabajosGrado = [];
+    for (const trabajo of this.TrabajosGrado) {
+      if (trabajo.estadoproyecto === this.estadoTrabajo) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
   buscarTrabajosGrado_porTitulo() {
     this.bTrabajosGrado = [];
-
+    for (const trabajo of this.TrabajosGrado) {
+      const titulo = trabajo.titulo.toLowerCase();
+      this.tituloTrabajo = this.tituloTrabajo.toLowerCase();
+      if (titulo.indexOf(this.tituloTrabajo) >= 0) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
   }
+
+  buscarTrabajosGrado_porJurado() {
+    this.bTrabajosGrado = [];
+    this.nombreDocente = this.nombreDocente.toLowerCase();
+    for (const trabajo of this.TrabajosGrado) {
+
+      const jurado1 = trabajo.jurado1.nombre.toLowerCase();
+      const jurado2 = trabajo.jurado2.nombre.toLowerCase();
+      const jurado3 = trabajo.jurado3.nombre.toLowerCase();
+
+      console.log(jurado1, jurado2, jurado3);
+
+      const validacion = (jurado1.indexOf(this.nombreDocente) >= 0)
+                              || (jurado2.indexOf(this.nombreDocente) >= 0)
+                              || (jurado3.indexOf(this.nombreDocente) >= 0);
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+  buscarTrabajosGrado_porDirector() {
+    this.bTrabajosGrado = [];
+    for (const trabajo of this.TrabajosGrado) {
+      const director = trabajo.director.nombre.toLowerCase();
+      this.nombreDirector = this.nombreDirector.toLowerCase();
+
+      const validacion = (director.indexOf(this.nombreDirector) >= 0);
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+  buscarTrabajosGrado_porNombreEstudiante() {
+    this.bTrabajosGrado = [];
+
+    for (const trabajo of this.TrabajosGrado) {
+
+      const estudiante1 = trabajo.estudiante1.toLowerCase();
+      const estudiante2 = trabajo.estudiante2.toLowerCase();
+      const estudiante3 = trabajo.estudiante3.toLowerCase();
+
+      const validacion = (estudiante1.indexOf(this.nombreEstudiante) >= 0)
+                            || (estudiante2.indexOf(this.nombreEstudiante) >= 0)
+                            || (estudiante3.indexOf(this.nombreEstudiante) >= 0);
+
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+  buscarTrabajosGrado_porModalidad() {
+    this.bTrabajosGrado = [];
+    this.modalidad.nombre = this.modalidad.nombre.toLowerCase();
+    for (const trabajo of this.TrabajosGrado) {
+      const modalidad = trabajo.modalidad.nombre.toLowerCase();
+      const validacion = modalidad === this.modalidad.nombre;
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+  buscarTrabajosGrado_porAreaProfundizacion() {
+    this.bTrabajosGrado = [];
+    this.areaProfundizacion.nombre = this.areaProfundizacion.nombre.toLowerCase();
+    for (const trabajo of this.TrabajosGrado) {
+      const areaProfundizacion = trabajo.areaProfundizacion.nombre.toLowerCase();
+      const validacion = areaProfundizacion === this.areaProfundizacion.nombre;
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+  buscarTrabajosGrado_porGrupoInvestigacion() {
+    this.bTrabajosGrado = [];
+    this.grupoInvestigacion.nombre = this.grupoInvestigacion.nombre.toLowerCase();
+    for (const trabajo of this.TrabajosGrado) {
+      const grupoInvestigacion = trabajo.grupoInvestigacion.nombre.toLowerCase();
+      const validacion = grupoInvestigacion === this.grupoInvestigacion.nombre;
+      if (validacion) {
+        this.bTrabajosGrado.push(trabajo);
+      }
+    }
+  }
+
+
 
 }

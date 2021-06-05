@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TransferService } from '../services/transfer.service';
 import { MenuFactores, BotonMenu, Favorito } from '../interfaces/interfaces.interfaces';
 import { Utilidades } from '../utilidades/utilidades.class';
-import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_TRABAJOSGRADO, RUTA_ACERCA, RUTA_ACTUALIZACIONES, RUTA_MANUAL_AYUDA, RUTA_TAREAS_PENDIENTES, RUTA_GESTION_ERRORES, RUTA_PLAN_MEJORAMIENTO } from '../config/config';
+import { RUTA_FACTOR_DOCENTES, RUTA_DOCENTES, RUTA_SERVICIOSPROGRAMA, RUTA_PROGRAMAS, RUTA_AGENDAS, RUTA_FACULTADES, RUTA_PERIODOS, RUTA_FUNCIONESDOCENTE, RUTA_ESTADISTICAS_FACTOR_DOCENTES, RUTA_TRABAJOSGRADO, RUTA_ACERCA, RUTA_ACTUALIZACIONES, RUTA_MANUAL_AYUDA, RUTA_TAREAS_PENDIENTES, RUTA_GESTION_ERRORES, RUTA_PLAN_MEJORAMIENTO, RUTA_ADMINISTRADOR, RUTA_ADMIN_USUARIO, RUTA_ADMIN_CONFIGURACIONES, RUTA_ADMIN_TIPO_PRODUCCION } from '../config/config';
 
 @Component({
   selector: 'app-factores',
@@ -279,13 +279,19 @@ export class FactoresComponent implements OnInit {
         {
            Titulo: 'Usuarios',
            Icono: 'pendiente.png',
-           Ruta: [''],
+           Ruta: [RUTA_ADMINISTRADOR, RUTA_ADMIN_USUARIO],
            IdBoton: 'admin-usuarios'
         },
         {
           Titulo: 'Configuración General',
           Icono: 'pendiente.png',
-          Ruta: [''],
+          Ruta: [RUTA_ADMINISTRADOR, RUTA_ADMIN_CONFIGURACIONES],
+          IdBoton: 'admin-config-gen'
+        },
+        {
+          Titulo: 'Tipos de Producción',
+          Icono: 'pendiente.png',
+          Ruta: [RUTA_ADMINISTRADOR, RUTA_ADMIN_TIPO_PRODUCCION],
           IdBoton: 'admin-config-gen'
         }
       ]

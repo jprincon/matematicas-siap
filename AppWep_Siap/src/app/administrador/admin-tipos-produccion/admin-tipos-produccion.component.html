@@ -1,0 +1,27 @@
+<div class="modal-footer">
+    <button class="btn btn-outline-success" (click)="agregarTipoProduccion()"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Tipo de Producción</button>
+</div>
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>No</th>
+            <th>Tipo</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let tipo of Tipos; let id = index">
+            <td>{{ id + 1 }}</td>
+            <td>{{ tipo.tipo | capitalizado }}</td>
+            <td>
+                <button class="btn btn-outline-success" (click)="editarTipo(tipo)"><img src="assets/Iconos/Editar.png" style="width: 32px;"> Editar</button>
+            </td>
+            <td>
+                <button class="btn btn-outline-danger" (click)="eliminarTipo(tipo)"><img src="assets/Iconos/Eliminar.png" style="width: 32px;"> Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

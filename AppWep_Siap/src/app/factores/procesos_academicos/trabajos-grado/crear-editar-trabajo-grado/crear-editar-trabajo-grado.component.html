@@ -19,21 +19,51 @@
             </div>
 
             <!-- %%%%%%% 2 %%%%%%% -->
-            <div class="form-group">
-                <label style="font-weight: bold;">Nombre del Estudiante 1</label>
-                <input type="text" required class="form-control" [(ngModel)]="trabajogrado.estudiante1" name="estudiante1">
+            <div class="row">
+                <div class="form-group col-md-7">
+                    <label style="font-weight: bold;">Nombre del Estudiante 1</label>
+                    <input type="text" required class="form-control" [(ngModel)]="trabajogrado.estudiante1" name="estudiante1">
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label style="font-weight: bold;">¿Termino materias?</label>
+                    <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estudiante1_tm" name="estudiante1_tm">
+                      <option value="si">Si</option>
+                      <option value="no">No</option>
+                    </select>
+                </div>
             </div>
 
             <!-- %%%%%%% 3 %%%%%%% -->
-            <div class="form-group" *ngIf="verCamposEstudiantes[1]">
-                <label style="font-weight: bold;">Nombre del Estudiante 2</label>
-                <input type="text" class="form-control" [(ngModel)]="trabajogrado.estudiante2" name="estudiante2">
+            <div class="row" *ngIf="verCamposEstudiantes[1]">
+                <div class="form-group col-md-7">
+                    <label style="font-weight: bold;">Nombre del Estudiante 2</label>
+                    <input type="text" required class="form-control" [(ngModel)]="trabajogrado.estudiante2" name="estudiante2">
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label style="font-weight: bold;">¿Termino materias?</label>
+                    <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estudiante2_tm" name="estudiante2_tm">
+                      <option value="si">Si</option>
+                      <option value="no">No</option>
+                    </select>
+                </div>
             </div>
 
             <!-- %%%%%%% 4 %%%%%%% -->
-            <div class="form-group" *ngIf="verCamposEstudiantes[2]">
-                <label style="font-weight: bold;">Nombre del Estudiante 3</label>
-                <input type="text" class="form-control" [(ngModel)]="trabajogrado.estudiante3" name="estudiante3">
+            <div class="row" *ngIf="verCamposEstudiantes[2]">
+                <div class="form-group col-md-7">
+                    <label style="font-weight: bold;">Nombre del Estudiante 3</label>
+                    <input type="text" required class="form-control" [(ngModel)]="trabajogrado.estudiante3" name="estudiante3">
+                </div>
+
+                <div class="form-group col-md-5">
+                    <label style="font-weight: bold;">¿Termino materias?</label>
+                    <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estudiante3_tm" name="estudiante3_tm">
+                      <option value="si">Si</option>
+                      <option value="no">No</option>
+                    </select>
+                </div>
             </div>
 
             <button class="btn btn-outline-success mb-4" (click)="agregarEstudiante()" type="button"><img src="assets/Iconos/Agregar.png" style="width: 32px;"> Agregar Estudiante</button>
@@ -150,10 +180,11 @@
                     <!-- %%%%%%% 5 %%%%%%% -->
                     <div class="form-group">
                         <label style="font-weight: bold;">Evaluación de la Propuesta</label>
-                        <select type="text" required class="form-control" [(ngModel)]="trabajogrado.evaluacionpropuesta" name="idjurado3">
-                          <option value="Rechazado">Rechazado</option>
-                          <option value="Aplazado">Aplazado</option>
-                          <option value="Aprobado">Aprobado</option>
+                        <select type="text" class="form-control" [(ngModel)]="trabajogrado.evaluacionpropuesta" name="idjurado3">
+                          <option value="pendiente">Pendiente</option>
+                          <option value="rechazado">Rechazado</option>
+                          <option value="aplazado">Aplazado</option>
+                          <option value="aprobado">Aprobado</option>
                         </select>
                     </div>
                 </div>
@@ -162,10 +193,11 @@
                     <!-- %%%%%%% 5 %%%%%%% -->
                     <div class="form-group">
                         <label style="font-weight: bold;">Evaluación del Trabajo Escrito</label>
-                        <select type="text" required class="form-control" [(ngModel)]="trabajogrado.evaluaciontrabajoescrito" name="evaluaciontrabajoescrito">
-                          <option value="Rechazado">Rechazado</option>
-                          <option value="Aplazado">Aplazado</option>
-                          <option value="Aprobado">Aprobado</option>
+                        <select type="text" class="form-control" [(ngModel)]="trabajogrado.evaluaciontrabajoescrito" name="evaluaciontrabajoescrito">
+                          <option value="pendiente">Pendiente</option>
+                          <option value="rechazado">Rechazado</option>
+                          <option value="aplazado">Aplazado</option>
+                          <option value="aprobado">Aprobado</option>
                         </select>
                     </div>
                 </div>
@@ -174,10 +206,11 @@
                     <!-- %%%%%%% 5 %%%%%%% -->
                     <div class="form-group">
                         <label style="font-weight: bold;">Evaluación de la Sustentación</label>
-                        <select type="text" required class="form-control" [(ngModel)]="trabajogrado.evaluacionsustentacion" name="evaluacionsustentacion">
-                          <option value="Rechazado">Rechazado</option>
-                          <option value="Aplazado">Aplazado</option>
-                          <option value="Aprobado">Aprobado</option>
+                        <select type="text" class="form-control" [(ngModel)]="trabajogrado.evaluacionsustentacion" name="evaluacionsustentacion">
+                          <option value="pendiente">Pendiente</option>
+                          <option value="rechazado">Rechazado</option>
+                          <option value="aplazado">Aplazado</option>
+                          <option value="aprobado">Aprobado</option>
                         </select>
                     </div>
                 </div>
@@ -186,50 +219,70 @@
             <!-- %%%%%%% 8 %%%%%%% -->
             <div class="form-group">
                 <label style="font-weight: bold;">Calificación Final</label>
-                <select type="text" required class="form-control" [(ngModel)]="trabajogrado.calificacionfinal" name="calificacionfinal">
-                <option value="Rechazado">Aprobado</option>
-                <option value="Aplazado">Aprobado Meritorio</option>
-                <option value="Aprobado">Aprobado Laureado</option>
-              </select>
+                <select type="text" class="form-control" [(ngModel)]="trabajogrado.calificacionfinal" name="calificacionfinal">
+                  <option value="pendiente">Pendiente</option>
+                  <option value="aprobado">Aprobado</option>
+                  <option value="aprobado meritorio">Aprobado Meritorio</option>
+                  <option value="aprobado laureado">Aprobado Laureado</option>
+                </select>
             </div>
 
             <h3 class="text-info mt-3">Estado del Proyecto</h3>
             <hr>
 
             <div class="row">
-                <div class="col-md-3">
-                    <!-- %%%%%%% 9 %%%%%%% -->
-                    <div class="form-group">
-                        <label style="font-weight: bold;">Fecha de Inicio del Trabajo de Grado</label>
-                        <input type="date" class="form-control" required [(ngModel)]="trabajogrado.actapropuesta" name="actapropuesta">
-                    </div>
-                </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <!-- %%%%%%% 6 %%%%%%% -->
                     <div class="form-group">
                         <label style="font-weight: bold;">Fecha de Inicio de Ejecución</label>
-                        <input type="text" type="date" required class="form-control" [(ngModel)]="trabajogrado.fechainicioejecucion" name="fechainicioejecucion">
+                        <app-date-picker [Fecha]="trabajogrado.fechainicioejecucion" (CambioFecha)="trabajogrado.fechainicioejecucion = $event"></app-date-picker>
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <!-- %%%%%%% 10 %%%%%%% -->
                     <div class="form-group">
                         <label style="font-weight: bold;">Fecha de Sustentación</label>
-                        <input type="text" type="date" required class="form-control" [(ngModel)]="trabajogrado.fechasustentacion" name="fechasustentacion">
+                        <app-date-picker [Fecha]="trabajogrado.fechasustentacion" (CambioFecha)="trabajogrado.fechasustentacion = $event"></app-date-picker>
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <!-- %%%%%%% 2 %%%%%%% -->
+                <div class="col-md-4">
                     <div class="form-group">
-                        <label style="font-weight: bold;">Cantidad de semestres en ejecución</label>
-                        <input type="text" type="number" disabled class="form-control" [(ngModel)]="trabajogrado.cantidadsemestresejecucion" name="cantidadsemestresejecucion">
+                        <label style="font-weight: bold;">¿Cuál es el estado del proyecto?</label>
+                        <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estadoproyecto" name="estadoproyecto">
+                          <option value="proceso">En Proceso</option>
+                          <option value="terminado">Terminado</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
+            <div class="form-group">
+                <label style="font-weight: bold;">Tiempo de Ejecución (Se cálcula únicamente cuando se guarda)</label>
+                <table class="table table-hover">
+                    <tr>
+                        <th>Días</th>
+                        <td>{{ trabajogrado.cantidadsemestresejecucion.Dias }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Meses</th>
+                        <td>{{ trabajogrado.cantidadsemestresejecucion.Meses }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Semestres</th>
+                        <td>{{ trabajogrado.cantidadsemestresejecucion.Semestres }}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Años</th>
+                        <td>{{ trabajogrado.cantidadsemestresejecucion.Anos }}</td>
+                    </tr>
+                </table>
+            </div>
 
             <h3 class="text-info mt-3">Aspectos Informativos</h3>
             <hr>
@@ -237,15 +290,6 @@
             <!-- %%%%%%% 1 %%%%%%% -->
             <div class="form-group">
                 <label style="font-weight: bold;">¿El estudiante cede los derechos?</label>
-                <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estudiantecedederechos" name="estudiantecedederechos">
-                  <option value="si">Si</option>
-                  <option value="no">No</option>
-                </select>
-            </div>
-
-            <!-- %%%%%%% 1 %%%%%%% -->
-            <div class="form-group">
-                <label style="font-weight: bold;">¿El estudiante termino materias?</label>
                 <select type="text" type="number" required class="form-control" [(ngModel)]="trabajogrado.estudiantecedederechos" name="estudiantecedederechos">
                   <option value="si">Si</option>
                   <option value="no">No</option>

@@ -1,0 +1,81 @@
+<app-titulo-dialogo [Titulo]="Titulo" [Descripcion]="Descripcion"></app-titulo-dialogo>
+
+<form ngNativeValidated (ngSubmit)="guardarProducto()">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header text-white text-center bg-dark">
+                    <h3 class="card-title">Tipo de Producción</h3>
+                </div>
+
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action" (click)="seleccionarTipo(tipo)" *ngFor="let tipo of TiposProducto">
+                            <div class="media">
+                                <img src="assets/Iconos/pendiente.png" style="width: 48px;">
+                                <div class="media-body">
+                                    <h5>{{ tipo.tipo | capitalizado }}</h5>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <!-- %%%%%%% Para Libros %%%%%%% -->
+            <div *ngIf="TipoSeleccionado.identificador === _ID_LIBRO">
+                <h3 class="text-info">Edicación de Libros ...</h3>
+                <div class="form-group">
+                    <label class="font-weight-bold">Título</label>
+                    <textarea class="form-control" type="text" [(ngModel)]="producto.titulo" name="titulo"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">ISBN</label>
+                    <input class="form-control" type="text" [(ngModel)]="producto.isbn" name="isbn">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Editorial</label>
+                    <input class="form-control" type="text" [(ngModel)]="producto.isbn" name="isbn">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Fecha (Publicación)</label>
+                    <app-date-picker [Fecha]="producto.fecha" (CambioFecha)="producto.fecha = $event"></app-date-picker>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Ciudad</label>
+                    <input class="form-control" type="text" [(ngModel)]="producto.ciudad" name="ciudad">
+                </div>
+            </div>
+
+            <!-- %%%%%%% Para Artículos %%%%%%% -->
+            <div *ngIf="TipoSeleccionado.identificador === _ID_ARTICULO">
+
+            </div>
+
+            <!-- %%%%%%% Para Software %%%%%%% -->
+            <div *ngIf="TipoSeleccionado.identificador === _ID_SOFTWARE">
+
+            </div>
+
+            <!-- %%%%%%% Para Proyectos de Investigación %%%%%%% -->
+            <div *ngIf="TipoSeleccionado.identificador === _ID_PROYECTO_INVESTIGACION">
+
+            </div>
+
+            <!-- %%%%%%% Para Proyectos de Extensión %%%%%%% -->
+            <div *ngIf="TipoSeleccionado.identificador === _ID_PROYECTO_EXTENSION">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-outline-success"><img src="assets/Iconos/Guardar.png" style="width: 32px;"> Guardar</button>
+    </div>
+</form>

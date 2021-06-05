@@ -156,7 +156,6 @@ export class EfdHorasFacultadesComponent implements OnInit {
   obtenerReporteHorasFacultad() {
     this.leyendo = true;
     this.genService.getReporteHorasFacultad('2021-1').subscribe((rReporte: any) => {
-      console.log(rReporte);
 
       this.Contratos = rReporte.Contratos;
 
@@ -256,7 +255,6 @@ export class EfdHorasFacultadesComponent implements OnInit {
         this.lbDatosGeneral.push(contrato.Contrato.toUpperCase());
       }
       this.datosGeneral.push({data: datos, label: 'Horas de docencia sin factor'});
-      console.log(this.datosGeneral);
     }
 
     // %%%%%%% Número de Horas por ejes misionales %%%%%%%
