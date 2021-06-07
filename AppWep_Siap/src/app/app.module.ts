@@ -150,7 +150,6 @@ import { FactoresCalidadComponent } from './factores/procesos_academicos/plan-me
 import { CrearEditarFactorCalidadComponent } from './factores/procesos_academicos/plan-mejoramiento/crear-editar-factor-calidad/crear-editar-factor-calidad.component';
 import { DatePickerComponent } from './comunes/date-picker/date-picker.component';
 import Counter from './counter';
-import { EditorHtmlComponent } from './comunes/editor-html/editor-html.component';
 import { CrearEditarFormacionComponent } from './factores/docentes/docente/crear-editar-formacion/crear-editar-formacion.component';
 import { SeleccionarGrupoComponent } from './factores/investigacion/grupos-investigacion/seleccionar-grupo/seleccionar-grupo.component';
 import { AdminTiposProduccionComponent } from './administrador/admin-tipos-produccion/admin-tipos-produccion.component';
@@ -159,6 +158,7 @@ import { CrearEditarProductoComponent } from './factores/docentes/docente/crear-
 import { VerTrabajoGradoComponent } from './factores/procesos_academicos/trabajos-grado/ver-trabajo-grado/ver-trabajo-grado.component';
 import { ExportarTrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/exportar-trabajos-grado/exportar-trabajos-grado.component';
 import { ReporteDireccionTrabajosGradoComponent } from './factores/procesos_academicos/trabajos-grado/reporte-direccion-trabajos-grado/reporte-direccion-trabajos-grado.component';
+import { VisorGraficaComponent } from './comunes/visor-grafica/visor-grafica.component';
 
 
 
@@ -361,7 +361,7 @@ import { ReporteDireccionTrabajosGradoComponent } from './factores/procesos_acad
 
     DatePickerComponent,
 
-    EditorHtmlComponent,
+    VisorGraficaComponent,
 
     CrearEditarFormacionComponent,
 

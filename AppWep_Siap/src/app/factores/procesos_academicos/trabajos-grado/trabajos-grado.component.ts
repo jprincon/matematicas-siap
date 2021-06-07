@@ -1,6 +1,6 @@
 import { GeneralService } from './../../../services/general.service';
 import { Component, OnInit } from '@angular/core';
-import { TrabajoGrado, Modalidad, AreaProfundizacion, GrupoInvestigacion } from '../../../interfaces/interfaces.interfaces';
+import { TrabajoGrado, Modalidad, AreaProfundizacion, GrupoInvestigacion, Paginacion } from '../../../interfaces/interfaces.interfaces';
 import { DialogosService } from '../../../services/dialogos.service';
 import { TransferService } from '../../../services/transfer.service';
 import { RUTA_CREAR_EDITAR_TRABAJO_GRADO, RUTA_MODALIDADES, RUTA_AREASPROFUNDIZACION, RUTA_GRUPOSINVESTIGACION, RUTA_FACTOR_DOCENTES, RUTA_DIRECTORES_JURADOS_TRABAJO_GRADO, RUTA_VER_TRABAJO_GRADO, RUTA_EXPORTAR_TRABAJOS_GRADO, RUTA_DOCENTES_DIRECCION_TRABAJOS_GRADO } from '../../../config/config';
@@ -140,6 +140,14 @@ export class TrabajosGradoComponent implements OnInit {
 
   bTitulo = '';
 
+  paginacion: Paginacion = {
+    desde: 1,
+    cantidad: 5,
+    resultado: '',
+    todos: 'no',
+    ordenarPor: 'fechainicioejecucion',
+  };
+
   constructor(private genService: GeneralService,
               private dlgService: DialogosService,
               private transfer: TransferService) { }
@@ -200,12 +208,22 @@ export class TrabajosGradoComponent implements OnInit {
 
     this.leyendo = true;
 
-    this.genService.getTrabajosGrado().subscribe((rTrabajosGrado: any) => {
-      this.TrabajosGrado = rTrabajosGrado.TrabajosGrado;
+    const datos = JSON.stringify(this.paginacion);
+
+    this.genService.getTrabajosGrado(datos).subscribe((ResultPaginacion: Paginacion) => {
+      console.log(ResultPaginacion);
+      this.paginacion = ResultPaginacion;
+      this.TrabajosGrado = ResultPaginacion.contenido;
       this.bTrabajosGrado = this.TrabajosGrado;
 
       this.leyendo = false;
     });
+  }
+
+  cambiarPagina(delta: number) {
+    this.paginacion.desde = Number(this.paginacion.desde) + Number(this.paginacion.cantidad) * delta;
+    console.log(this.paginacion);
+    this.leerTrabajosGrado();
   }
 
   leerModalidades() {
@@ -360,7 +378,4 @@ export class TrabajosGradoComponent implements OnInit {
       }
     }
   }
-
-
-
 }

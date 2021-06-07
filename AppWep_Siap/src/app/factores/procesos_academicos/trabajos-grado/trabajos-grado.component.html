@@ -94,8 +94,27 @@
                 <button class="btn btn-outline-success" (click)="agregarTrabajoGrado()" style="margin: 5px;"><img src="assets/Iconos/Agregar.png" style="height: 32px;"> Crear Trabajo Grado</button>
             </div>
 
-            <h2 class="text-info">Se encontraron {{ bTrabajosGrado.length }} resultados.</h2>
+            <h2 class="text-info">Se encontraron {{ bTrabajosGrado.length }} resultados de {{ paginacion.total }}</h2>
             <hr>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-success" (click)="cambiarPagina(-1)">Anterior</button>
+                </div>
+                <input [value]="paginacion.resultado" disabled class="form-control">
+                <select class="custom-select" [(ngModel)]="paginacion.cantidad" (change)="leerTrabajosGrado()">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option [value]="paginacion.total">{{ paginacion.total}}</option>
+                </select>
+                <select class="custom-select" [(ngModel)]="paginacion.ordenarPor" name="ordenarPor" (change)="leerTrabajosGrado()">
+                  <option [value]="orden" *ngFor="let orden of paginacion.attrOrdenar">{{ orden }}</option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" (click)="cambiarPagina(1)">Siguiente</button>
+                </div>
+            </div>
 
             <ul class="list-group" *ngIf="verDescripciones">
                 <li class="list-group-item list-group-item-action m-3" *ngFor="let trabajogrado of bTrabajosGrado; let id = index">

@@ -1,0 +1,15 @@
+<h1 class="text-info text-center">{{ Titulo | capitalizado }}</h1>
+<hr>
+
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Tipo de Gráfica</span>
+    </div>
+    <select class="custom-select" [(ngModel)]="tipo" (change)="cambiarTipoGrafica()">
+      <option [value]="tipo" *ngFor="let tipo of tiposGrafica">{{ tipo }}</option>
+    </select>
+</div>
+
+<div style="display: block">
+    <canvas baseChart [datasets]="Datos" [labels]="Etiquetas" [colors]="Colores" [options]="opciones" [legend]="leyendas" [chartType]="tipo">
+</canvas>

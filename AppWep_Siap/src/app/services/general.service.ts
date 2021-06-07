@@ -86,6 +86,7 @@ export class GeneralService {
   private URL_TRABAJOGRADO = 'TrabajoGrado';
   private URL_TRABAJOSGRADO = 'TrabajosGrado';
   private URL_DIRECTORES_TRABAJOS_GRADO = 'DirectoresTrabajosGrado';
+  private URL_EVALUADORES_TRABAJOS_GRADO = 'EvaluadoresTrabajosGrado';
   private URL_PERIODO = 'Periodo';
   private URL_PERIODOS = 'Periodos';
   private URL_ACTIVIDADFUNCIONDOCENTE = 'ActividadFuncionDocente';
@@ -1420,13 +1421,20 @@ export class GeneralService {
     return this.http.post(url, datos, {headers});
   }
 
-  getTrabajosGrado() {
+  getTrabajosGrado(paginacion: string) {
     const url = this.dataSnap_Path(this.URL_TRABAJOSGRADO);
-    return this.http.get(url).pipe(retry(10));
+    const headers = this.headers;
+    return this.http.post(url, paginacion, {headers}).pipe(retry(10));
   }
 
   getDirectoresTrabajosGrado() {
     const url = this.dataSnap_Path(this.URL_DIRECTORES_TRABAJOS_GRADO);
+    const headers = this.headers;
+    return this.http.get(url, {headers}).pipe(retry(10));
+  }
+
+  getEvaluadoresTrabajosGrado() {
+    const url = this.dataSnap_Path(this.URL_EVALUADORES_TRABAJOS_GRADO);
     const headers = this.headers;
     return this.http.get(url, {headers}).pipe(retry(10));
   }

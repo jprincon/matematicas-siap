@@ -486,6 +486,8 @@ export interface PerfilDocenteTrabajoGrado {
   EvaluacionSustentacion?: string;
   EvaluacionTrabajoEscrito?: string;
   Titulo?: string;
+  FechaInicio?: string;
+  FechaSustentacion?: string;
 }
 
 export interface PerfilDocente {
@@ -638,6 +640,17 @@ export interface ReporteTrabajoGrado {
   contrato?: string;
   idtipocontrato?: string;
   Docentes?: Docente[];
+}
+
+export interface Paginacion {
+  desde?: number;
+  cantidad?: number;
+  total?: number;
+  resultado?: string;
+  ordenarPor?: string;
+  contenido?: any[];
+  attrOrdenar?: string[];
+  todos?: string;
 }
 
 
